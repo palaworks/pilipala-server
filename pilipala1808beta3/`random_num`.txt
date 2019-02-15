@@ -1,0 +1,5 @@
+CREATE DEFINER=`root`@`localhost` FUNCTION `random_num`( start_num INTEGER, end_num INTEGER ) RETURNS int(11)
+BEGIN
+/* 在指定范围内抓取一个整数随机数并返回 */
+RETURN FLOOR( start_num + RAND( ) * ( end_num - start_num + 1 ) );
+END

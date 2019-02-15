@@ -1,0 +1,1784 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StdLibx</name>
+    </assembly>
+    <members>
+        <member name="T:StdLib.LogicHandler.Encryptor">
+            <summary>
+            加密算法类
+            </summary>
+        </member>
+        <member name="M:StdLib.LogicHandler.Encryptor.md5(System.String)">
+            <summary>
+            MD5方法
+            </summary>
+            <param name="str">被加密的字符串</param>
+            <returns>通常返回MD5加密结果，报错则返回错误信息</returns>
+        </member>
+        <member name="M:StdLib.LogicHandler.Encryptor.hash(System.String)">
+            <summary>
+            散列方法
+            </summary>
+            <param name="str">被加密的字符串</param>
+            <returns>通常返回散列加密结果，报错则返回错误信息</returns>
+        </member>
+        <member name="T:StdLib.LogicHandler.ArrayAlgorithm">
+            <summary>
+            矩阵算法类
+            </summary>
+        </member>
+        <member name="F:StdLib.LogicHandler.ArrayAlgorithm.NumArray">
+            <summary>
+            存放生成的矩阵
+            </summary>
+        </member>
+        <member name="P:StdLib.LogicHandler.ArrayAlgorithm.numArray">
+            <summary>
+            矩阵的引用访问器
+            </summary>
+        </member>
+        <member name="M:StdLib.LogicHandler.ArrayAlgorithm.getIndex(System.Int32[],System.Int32[],System.Int32[])">
+            <summary>
+            提取矩阵有效信息索引的方法
+            </summary>
+            <param name="psw">密码(int):共10个整数</param>
+            <param name="dic">int[] dic = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };:字典集，一共10个字符</param>
+            <param name="num">int[] num = { 8, 4, 5, 5, 5, 3, 7, 9, 2, 9 };:被加密的10个整数</param>
+            <returns>通常返回索引数组，报错则返回null</returns>
+        </member>
+        <member name="T:StdLib.LogicHandler.PixelGraphic">
+            <summary>
+            PixelGraphic转码类
+            </summary>
+        </member>
+        <member name="M:StdLib.LogicHandler.PixelGraphic.dePixels(System.String)">
+            <summary>
+            PixelGraphic解码方法
+            </summary>
+            <param name="stream">文件流指定</param>
+            <returns>通常返回解码结果，报错则返回"StdLibError ec4580"</returns>
+        </member>
+        <member name="M:StdLib.LogicHandler.PixelGraphic.toPixels(System.String,System.String)">
+            <summary>
+            PixelGraphic加密方法:(重载一)注意hex至少由4个16进制字符组成
+            </summary>
+            <param name="hex">被加密的16进制text(不带空格)</param>
+            <param name="stream">bmp模板流</param>
+            <returns>通常返回编译后的bmp，报错则返回null</returns>
+        </member>
+        <member name="M:StdLib.LogicHandler.PixelGraphic.toPixels(System.Object,System.String,System.String)">
+            <summary>
+            PixelGraphic加密方法:(重载二)注意hex至少由4个16进制字符组成
+            </summary>
+            <param name="obj">被加密的16进制obj:text(不带空格)或者_hex(带空格)或者str[,](hex矩阵)/</param>
+            <param name="stream">bmp模板流</param>
+            <param name="type"></param>
+            <returns>通常返回编译后的bmp，报错则返回null</returns>
+        </member>
+        <member name="M:StdLib.LogicHandler.PixelGraphic.de(System.String)">
+            <summary>
+            解码ANSW图像
+            </summary>
+            <param name="stream">包含待解码BMP图像的物理路径</param>
+            <returns>返回解码后的16进制数据，报错则返回null</returns>
+        </member>
+        <member name="M:StdLib.LogicHandler.PixelGraphic.allToBMP(System.Object,System.String,System.String)">
+            <summary>
+            通过选择根据方式来编译ANSW
+            </summary>
+            <param name="obj">含有16进制数据的实例</param>
+            <param name="stream">初始BMP图片模板的物理路径</param>
+            <param name="type">编译类型，可选填项有："hex"（根据不带空格的16进制文本编译ANSW）、"_hex"（根据带有空格的16进制文本编译ANSW）、"array"（根据16进制文本数据矩阵编译ANSW）</param>
+            <returns>返回Bitmap实例，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.LogicHandler.PixelGraphic.hexToBMP(System.String,System.String)">
+            <summary>
+            根据不带空格的16进制文本编译ANSW
+            </summary>
+            <param name="hex">不带空格的16进制文本</param>
+            <param name="stream">初始BMP图片模板的物理路径</param>
+            <returns>返回Bitmap实例，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.LogicHandler.PixelGraphic._hexToBMP(System.String,System.String)">
+            <summary>
+            根据带有空格的16进制文本编译ANSW
+            </summary>
+            <param name="_hex">带有空格的16进制文本</param>
+            <param name="stream">初始BMP图片模板的物理路径</param>
+            <returns>返回Bitmap实例，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.LogicHandler.PixelGraphic.arrayToBMP(System.String[0:,0:],System.String)">
+            <summary>
+            根据16进制文本数据矩阵编译ANSW
+            </summary>
+            <param name="hexArray">16进制文本数据矩阵</param>
+            <param name="stream">初始BMP图片模板的物理路径</param>
+            <returns>返回Bitmap实例，错误则返回null</returns>
+        </member>
+        <member name="T:StdLib.LogicHandler.Sorter">
+            <summary>
+            排序算法类
+            </summary>
+        </member>
+        <member name="M:StdLib.LogicHandler.Sorter.easySort``1(``0[])">
+            <summary>
+            排序方法
+            </summary>
+            <param name="array">被排序的数组</param>
+            <returns>通常返回有序数组(由小到大)，报错则返回null</returns>
+        </member>
+        <member name="T:StdLib.LogicHandler.Searcher">
+            <summary>
+            检索类
+            </summary>
+        </member>
+        <member name="M:StdLib.LogicHandler.Searcher.binarySearch(System.Int32,System.Int32[])">
+            <summary>
+            二分法检索(重载一),适用于整型检索
+            </summary>
+            <param name="value">被检索值</param>
+            <param name="array">数组,顺序由小到大</param>
+            <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
+        </member>
+        <member name="M:StdLib.LogicHandler.Searcher.binarySearch(System.Double,System.Double[])">
+            <summary>
+            二分法检索(重载二),适用于双精度浮点检索
+            </summary>
+            <param name="value">被检索值</param>
+            <param name="array">数组，顺序由小到大</param>
+            <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
+        </member>
+        <member name="T:StdLib.FrameHandler.IStdLibFrame">
+            <summary>
+            版本控制限定
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.IStdLibFrame.projectVer">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.IStdLibFrame.projectMoniker">
+            <summary>
+            版本名字对象
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.IStdLibFrame.editionType">
+            <summary>
+            版本类型
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.IStdLibFrame.stepping">
+            <summary>
+            步进
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.IStdLibFrame.targetFramework">
+            <summary>
+            目标框架
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.IStdLibFrame.targetFrameworkMoniker">
+            <summary>
+            目标框架名字对象
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.IStdLibFrame.compat">
+            <summary>
+            对最近一次pub版本的全局兼容性
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.IStdLibFrame.platform">
+            <summary>
+            适用平台
+            </summary>
+        </member>
+        <member name="T:StdLib.FrameHandler.LibInformation">
+            <summary>
+            用于获取类库信息的类
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.projectVer">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.projectMoniker">
+            <summary>
+            版本名字对象
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.editionType">
+            <summary>
+            版本类型
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.stepping">
+            <summary>
+            步进
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.targetFramework">
+            <summary>
+            类库的目标框架
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.targetFrameworkMoniker">
+            <summary>
+            类库的目标框架名字对象
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.compat">
+            <summary>
+            针对最近一次发行版的全局兼容性
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.platform">
+            <summary>
+            适用平台
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.isNewVer">
+            <summary>
+            是否为最新pub版本
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.newVerDownloadURL">
+            <summary>
+            最新pub版本下载URL
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.thisVerDownloadURL">
+            <summary>
+            当前版本下载URL
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.HlinfURL">
+            <summary>
+            内置于当前版本的Hlinf信息获取URL
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.logo">
+            <summary>
+            获取到像素化的StdLib_logo
+            </summary>
+        </member>
+        <member name="M:StdLib.FrameHandler.LibInformation.#ctor(System.String)">
+            <summary>
+            初始化LibInformation
+            </summary>
+            <param name="spareInfUrl">必须的值：用于内置联网信息获取Url失效时进行替补的Url</param>
+        </member>
+        <member name="T:StdLib.FrameHandler.LibInformation.OWebClient">
+            <summary>
+            被重写的WebClient
+            </summary>
+        </member>
+        <member name="P:StdLib.FrameHandler.LibInformation.OWebClient.timeOut">
+            <summary>
+            WebRequest请求访问的超时时间
+            </summary>
+        </member>
+        <member name="M:StdLib.FrameHandler.LibInformation.OWebClient.GetWebRequest(System.Uri)">
+            <summary>
+            得到WebRwquest请求实例并附加超时时间的方法
+            </summary>
+            <param name="uri">统一资源标识符对象</param>
+            <returns>返回WebRequests实例(注意！该部分代码尚不安全，因为它没有建立报错处理机制)</returns>
+        </member>
+        <member name="M:StdLib.FrameHandler.LibInformation.getStreamReader(System.String)">
+            <summary>
+            获取url指定的OWebClient所赋值的StreamReader对象（重载一）（UTF8编码模式）
+            </summary>
+            <param name="url">被OWebClient指定的url</param>
+            <returns>返回StreamReader，报错返回null</returns>
+        </member>
+        <member name="M:StdLib.FrameHandler.LibInformation.getStreamReader(System.String,System.String)">
+            <summary>
+            获取url指定的OWebClient所赋值的StreamReader对象（重载二）
+            </summary>
+            <param name="url">被OWebClient指定的url</param>
+            <param name="encodingType">使用的编码模式</param>
+            <returns>返回StreamReader，报错返回null</returns>
+        </member>
+        <member name="M:StdLib.FrameHandler.LibInformation.getHtmlLibInformation">
+            <summary>
+            获取联网信息
+            （注意：一旦取到空值，该方法将自动返回自定义URL所取得的信息（重载二被执行））
+            </summary>
+            <returns>返回获得的信息，报错返回null</returns>
+        </member>
+        <member name="M:StdLib.FrameHandler.LibInformation.getHtmlLibInformation(System.String)">
+            <summary>
+            获取联网信息（重载二）
+            </summary>
+            <param name="url">信息所在的URL地址</param>
+            <returns>返回获得的信息，报错返回“string[] { "null", "null" }”数组</returns>
+        </member>
+        <member name="M:StdLib.FrameHandler.LibInformation.getJsonLibInformation(System.String)">
+             <summary>
+             通过json文件获得类库信息（重载一）
+             </summary>
+            <param name="url">json文件所在url</param>
+             <returns>返回存有类库信息的JlinfObject，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.FrameHandler.LibInformation.getJsonLibInformation(System.String,System.Int32,System.Boolean)">
+            <summary>
+            通过json文件获得类库信息（重载二）
+            </summary>
+            <param name="filePath">json文件所在的本地物理路径</param>
+            <param name="bufferSize">文件流缓冲区大小，默认值可填4096</param>
+            <param name="useAsync">使用异步初始化文件流，缺乏设计的异步调用会慢于串行调用</param>
+            <returns>返回存有类库信息的JlinfObject，错误则返回null</returns>
+        </member>
+        <member name="T:StdLib.DataHandler.FileHandler">
+            <summary>
+            文件控制器
+            </summary>
+        </member>
+        <member name="M:StdLib.DataHandler.FileHandler.runEXE(System.String)">
+            <summary>
+            启动一个EXE文件
+            </summary>
+            <param name="filePath">文件所在本机物理地址</param>
+            <returns>启动成功返回true</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.FileHandler.fileToStr(System.String)">
+            <summary>
+            以字符串形式输出文件（重载一）（UTF8编码模式）
+            </summary>
+            <param name="url">文件所在的本地网络路径</param>
+            <returns>返回字符串</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.FileHandler.fileToStr(System.String,System.String)">
+            <summary>
+            以字符串形式输出文件（重载二）
+            </summary>
+            <param name="url">文件所在的本地网络路径</param>
+            /// <param name="encodingType">解析文件所用的编码模式</param>
+            <returns>返回字符串</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.FileHandler.fileToStr(System.String,System.Int32,System.Boolean)">
+            <summary>
+            以字符串形式输出文件（重载三）（UTF8编码模式）
+            </summary>
+            <param name="filePath">文件所在的本地物理路径</param>
+            <param name="bufferSize">文件流缓冲区大小，默认值可填4096</param>
+            <param name="useAsync">使用异步初始化文件流，缺乏设计的异步调用会慢于串行调用</param>
+            <returns>返回字符串</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.FileHandler.fileToStr(System.String,System.Int32,System.Boolean,System.String)">
+            <summary>
+            以字符串形式输出文件（重载四）
+            </summary>
+            <param name="filePath">文件所在的本地物理路径</param>
+            <param name="bufferSize">文件流缓冲区大小，默认值可填4096</param>
+            <param name="useAsync">使用异步初始化文件流，缺乏设计的异步调用会慢于串行调用</param>
+            <param name="encodingType">解析文件所用的编码模式</param>
+            <returns>返回字符串</returns>
+        </member>
+        <member name="T:StdLib.DataHandler.XmlHandler">
+            <summary>
+            XML文件读写类
+            </summary>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.reStream(System.String)">
+            <summary>
+            指定流的方法
+            </summary>
+            <param name="xStream">文件流地址</param>
+            <returns>通常返回true，报错则返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.createXml(System.String,System.String,System.String)">
+            <summary>
+            创建Xml文档的方法（重载一）
+            </summary>
+            <param name="fileName">Xml文档被创建的目录</param>
+            <param name="xmlName">Xml文档名</param>
+            <param name="rootName">根节点名</param>
+            <returns>通常返回true，报错则返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.createXml(StdLib.xmlStr)">
+            <summary>
+            创建Xml文档的方法（重载二）
+            </summary>
+            <param name="xmlStr">Xml文档信息通用结构体</param>
+            <returns>通常返回true，报错则返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.addRealNode(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            添加实节点的方法（重载一）
+            </summary>
+            <param name="path">被指定的父节点</param>
+            <param name="nodeName">新建的节点名</param>
+            <param name="attName">节点的属性</param>
+            <param name="attValue">节点的属性值</param>
+            <param name="innerText">节点的子文本</param>
+            <returns>通常返回true，报错则返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.addRealNode(StdLib.xmlStr)">
+            <summary>
+            添加实节点的方法（重载二）
+            </summary>
+            <param name="xmlStr">Xml文档信息通用结构体</param>
+            <returns>通常返回true，报错则返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.addEmptyNode(System.String,System.String)">
+            <summary>
+            添加空节点的方法（重载一）
+            </summary>
+            <param name="path">被指定的父节点</param>
+            <param name="nodeName">新建的空节点名</param>
+            <returns>通常返回true，报错则返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.addEmptyNode(StdLib.xmlStr)">
+            <summary>
+            添加空节点的方法（重载二）
+            </summary>
+            <param name="xmlStr">Xml文档信息通用结构体</param>
+            <returns>通常返回true，报错则返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.removeNode(System.String,System.String)">
+            <summary>
+            删除被指定的父节点下子节点的方法（重载一）
+            </summary>
+            <param name="path">被指定的父节点</param>
+            <param name="nodeName">被删的子节点名</param>
+            <returns>通常返回true，报错则返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.removeNode(StdLib.xmlStr)">
+            <summary>
+            删除被指定的父节点下子节点的方法（重载二）
+            </summary>
+            <param name="xmlStr">Xml文档信息通用结构体</param>
+            <returns>通常返回true，报错则返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.readInformation(System.String,System.String)">
+            <summary>
+            读取被指定的实节点的信息的方法（重载一）
+            </summary>
+            <param name="path">被指定的实节点</param>
+            <param name="type">被读取的信息类型</param>
+            <returns>通常返回被读取的信息，传递未知的type返回"UnknownReadingType"，报错则返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.readInformation(StdLib.xmlStr)">
+            <summary>
+            读取被指定的实节点的信息的方法（重载二）
+            </summary>
+            <param name="xmlStr">Xml文档信息通用结构体</param>
+            <returns>通常返回被读取的信息，传递未知的type返回"UnknownReadingType"，报错则返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.readAttribute(System.String,System.String)">
+            <summary>
+            读取被指定的实节点的属性值的方法（重载一）
+            </summary>
+            <param name="path">被指定的实节点</param>
+            <param name="attName">被读值的属性名</param>
+            <returns>通常返回被读取属性的值，报错则返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.XmlHandler.readAttribute(StdLib.xmlStr)">
+            <summary>
+            读取被指定的实节点的属性值的方法（重载二）
+            </summary>
+            <param name="xmlStr">Xml文档信息通用结构体</param>
+            <returns>通常返回被读取属性的值，报错则返回null</returns>
+        </member>
+        <member name="T:StdLib.DataHandler.MySqlConnectionHandler">
+            <summary>
+            MySql数据库管理器
+            </summary>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.HConnection_Close">
+            <summary>
+            close主连接
+            </summary>
+            <returns>成功返回ture，反之或报错返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.HConnection_Dispose">
+            <summary>
+            dispose主连接
+            </summary>
+            <returns>成功返回ture，反之或报错返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.HConnection_null">
+            <summary>
+            将主连接设置为null值
+            </summary>
+            <returns>成功返回ture，反之或报错返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.HConnection_restart">
+            <summary>
+            重启主连接（须以主连接定义完成为前提）
+            </summary>
+            <returns>成功返回ture，反之或报错返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.HCommand_Dispose">
+            <summary>
+            dispose主命令行
+            </summary>
+            <returns>成功返回ture，反之或报错返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.HCommand_null">
+            <summary>
+            将主命令行设置为null值
+            </summary>
+            <returns>成功返回ture，反之或报错返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.HCommand_set(MySql.Data.MySqlClient.MySqlConnection,System.String)">
+            <summary>
+            设置主命令行的sql语句（重载一）（注意：此方法可能会引起未知的ACID问题，建议仅供调试使用）
+            </summary>
+            <param name="MySqlConnection">要求主命令行执行的MySqlConnection连接实例</param>
+            <param name="sql">被设置的sql语句</param>
+            <returns>成功返回ture，反之或报错返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.HCommand_set(System.String)">
+            <summary>
+            设置主命令行的sql语句（重载二：HConnection介入）（注意：此方法可能会引起未知的ACID问题，建议仅供调试使用）
+            </summary>
+            <param name="sql">被设置的sql语句</param>
+            <returns>成功返回ture，反之或报错返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.start(System.String,System.String,System.String,System.String)">
+            <summary>
+            启动连接（重载一：HConnection介入）
+            </summary>
+            <param name="dataSource">数据源</param>
+            <param name="port">端口</param>
+            <param name="userName">用户名</param>
+            <param name="password">密码</param>
+            <returns>返回true，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.start(StdLib.connStr)">
+            <summary>
+            启动连接（重载二：HConnection介入）
+            </summary>
+            <param name="connStr">用于参与连接数据库的文本结构</param>
+            <returns>返回true，错误则返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.start(MySql.Data.MySqlClient.MySqlConnection)">
+            <summary>
+            启动连接（重载三）
+            </summary>
+            <param name="MySqlConnection">MySqlConnection连接实例</param>
+            <returns>返回true，错误则返回false</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getRow(MySql.Data.MySqlClient.MySqlConnection,System.String)">
+            <summary>
+            获得数据行（重载一）
+            </summary>
+            <param name="MySqlConnection">MySqlConnection连接实例</param>
+            <param name="sql">SQL语句</param>
+            <returns>返回查询结果</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getRow(MySql.Data.MySqlClient.MySqlConnection,MySql.Data.MySqlClient.MySqlCommand)">
+            <summary>
+            获得数据行（重载二）（适用于参数化查询）
+            </summary>
+            <param name="MySqlConnection">MySqlConnection连接实例</param>
+            <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+            <returns>返回查询结果</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getRow(System.String)">
+            <summary>
+            获得数据行（重载三：HConnection介入）
+            </summary>
+            <param name="sql">SQL语句</param>
+            <returns>返回查询结果</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getRow(MySql.Data.MySqlClient.MySqlCommand)">
+            <summary>
+            获得数据行（重载四：HConnection介入）（适用于参数化查询）
+            </summary>
+            <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+            <returns>返回查询结果</returns>
+            
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getRow(System.Data.DataTable,System.String,System.Object)">
+            <summary>
+            获得数据行（重载五：通过键值匹配，从数据表中获取数据行）
+            </summary>
+            <param name="DataTable">数据表实例</param>
+            <param name="keyName">键名</param>
+            <param name="keyValue">键值</param>
+            <returns>返回获得的DataRow数据行实例，未检索到返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getConnection(System.String,System.String,System.String,System.String)">
+            <summary>
+            抛出一个MySql连接（重载一）
+            </summary>
+            <param name="dataSource">数据源</param>
+            <param name="port">端口</param>
+            <param name="userName">用户名</param>
+            <param name="password">密码</param>
+            <returns>返回一个MySqlConnection对象，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getConnection(StdLib.connStr)">
+            <summary>
+            抛出一个MySql连接（重载二）
+            </summary>
+            <param name="connStr">用于参与连接数据库的文本结构</param>
+            <returns>返回一个MySqlConnection对象，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getTable(MySql.Data.MySqlClient.MySqlConnection,System.String)">
+            <summary>
+            获取一张数据表（重载一）
+            </summary>
+            <param name="MySqlConnection">MySqlConnection连接实例</param>
+            <param name="sql">用于查询数据表的SQL语句</param>
+            <returns>返回一个DataTable对象，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getTable(MySql.Data.MySqlClient.MySqlConnection,MySql.Data.MySqlClient.MySqlCommand)">
+            <summary>
+            获取一张数据表（重载二）（适用于参数化查询）
+            </summary>
+            <param name="MySqlConnection">MySqlConnection连接实例</param>
+            <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+            <returns>返回一个DataTable对象，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getTable(System.String)">
+            <summary>
+            获取一张数据表（重载三：HConnection介入）
+            </summary>
+            <param name="sql">SQL语句，用于查询数据表</param>
+            <returns>返回一个DataTable对象，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getTable(MySql.Data.MySqlClient.MySqlCommand)">
+            <summary>
+            获取一张数据表（重载四：HConnection介入）（适用于参数化查询）
+            </summary>
+            <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+            <returns>返回一个DataTable对象，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getColumn(System.Data.DataTable,System.String)">
+            <summary>
+            从数据表中提取取数据列
+            </summary>
+            <param name="DataTable">数据表实例</param>
+            <param name="columnName">列名</param>
+            <returns>返回非泛型List{object}实例，错误则返回null</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.setColumnValue(MySql.Data.MySqlClient.MySqlConnection,StdLib.locateStr,System.String,System.String)">
+            <summary>
+            设置(替换)一个行的列值（字符串匹配）
+            </summary>
+            <param name="MySqlConnection">数据库连接实例，用于承担该操作</param>
+            <param name="locateStr">用于定位行和列的结构体</param>
+            <param name="whereColumnValue">定位列的列值</param>
+            <param name="targetColumnValue">被改列的改值</param>
+            <returns>操作成功返回true</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.setColumnValue(StdLib.locateStr,System.String,System.String)">
+            <summary>
+            设置(替换)一个行的列值（重载二：HConnection介入）（字符串匹配）
+            </summary>
+            <param name="locateStr">用于定位行和列的结构体</param>
+            <param name="whereColumnValue">定位列的列值</param>
+            <param name="targetColumnValue">被改列的改值</param>
+            <returns>操作成功返回true</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getColumnValue(MySql.Data.MySqlClient.MySqlConnection,StdLib.locateStr,System.String)">
+            <summary>
+            获得一个行的列值（字符串匹配）（重载一）,如果查询到多个行，则只返回第一行的数据
+            </summary>
+            <param name="MySqlConnection">数据库连接实例，用于承担该操作</param>
+            <param name="locateStr">用于定位行和列的结构体</param>
+            <param name="whereColumnValue">定位列的列值</param>
+            <returns>操作成功返回true</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.getColumnValue(StdLib.locateStr,System.String)">
+            <summary>
+            获得一个行的列值（字符串匹配）（重载二：HConnection介入）,如果查询到多个行，则只返回第一行的数据
+            </summary>
+            <param name="locateStr">用于定位行和列的结构体</param>
+            <param name="whereColumnValue">定位列的列值</param>
+            <returns>操作成功返回true</returns>
+        </member>
+        <member name="M:StdLib.DataHandler.MySqlConnectionHandler.paraQueryCmd(System.String,System.Collections.Generic.List{StdLib.para})">
+            <summary>
+            建立参数化查询cmd对象
+            </summary>
+            <param name="sql">携带查询参数的SQL语句</param>
+            <param name="paraList">查询参数列表</param>
+            <returns>返回建立的参数化查询cmd对象</returns>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.Ipala.dataBaseName">
+            <summary>
+            规定内置数据库名访问器
+            </summary>
+        </member>
+        <member name="T:StdLib.ViewHandler.pilipala.palaRoot">
+            <summary>
+            啪啦元数据
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaRoot.palaDataBase">
+            <summary>
+            啪啦数据库
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaRoot.Plan_Table">
+            <summary>
+            计划表
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaRoot.Post_Table">
+            <summary>
+            文章表
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaRoot.User_Table">
+            <summary>
+            用户表
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaRoot.pluPost_Table">
+            <summary>
+            文章拓展表
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaRoot.pluPage_Table">
+            <summary>
+            页面拓展表
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaRoot.listOfPost_View">
+            <summary>
+            文章列表视图（comn位置）
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaRoot.listOfPage_View">
+            <summary>
+            页面列表视图
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaRoot.listOfPost_comn_View">
+            <summary>
+            文章列表视图（comn位置）
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaRoot.listOfPost_top_View">
+            <summary>
+            文章列表视图（top位置）
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaRoot.defaultSet">
+            <summary>
+            以默认值定义所有名
+            </summary>
+        </member>
+        <member name="T:StdLib.ViewHandler.pilipala.palaPlan">
+            <summary>
+            啪啦计划
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaPlan.dataBaseName">
+            <summary>
+            内置数据库名访问器
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaPlan.plan_id">
+            <summary>
+            计划名
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaPlan.site_url">
+            <summary>
+            站点地址
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaPlan.site_status">
+            <summary>
+            站点状态
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaPlan.#ctor(System.Int32,StdLib.DataHandler.MySqlConnectionHandler,System.String)">
+            <summary>
+            初始化对象（第一构造重载）
+            </summary>
+            <param name="MySqlConnectionHandler">数据库管理器实例</param>
+            <param name="plan_id">计划id，用于指定被操作的计划</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaPlan.#ctor(System.Int32,StdLib.connStr,System.String)">
+            <summary>
+            初始化对象（第二构造重载）
+            </summary>
+            <param name="connStr">连接文本结构体,用于创建数据库管理器实例</param>
+            <param name="plan_id">计划id，用于指定被操作的计划</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaPlan.start(System.Int32)">
+            <summary>
+            获得pilipala站点计划
+            </summary>
+            <param name="plan_id">计划id，用于指定被操作的计划</param>
+        </member>
+        <member name="T:StdLib.ViewHandler.pilipala.palaUser">
+            <summary>
+            啪啦用户
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaUser.dataBaseName">
+            <summary>
+            内置数据库名访问器
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUser.#ctor(StdLib.DataHandler.MySqlConnectionHandler,System.String)">
+            <summary>
+            初始化对象（第一构造重载）
+            </summary>
+            <param name="MySqlConnectionHandler">数据库管理器实例，用于获取文章</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUser.#ctor(StdLib.connStr,System.String)">
+            <summary>
+            初始化对象（第二构造重载）
+            </summary>
+            <param name="connStr">连接文本结构体,用于创建数据库管理器实例</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaUser.user_id">
+            <summary>
+            用户id
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaUser.user_level">
+            <summary>
+            用户权限级
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaUser.user_name">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaUser.user_word">
+            <summary>
+            用户签名
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUser.#ctor(System.Int32,StdLib.DataHandler.MySqlConnectionHandler,System.String)">
+            <summary>
+            初始化对象（第一构造重载）
+            </summary>
+            <param name="MySqlConnectionHandler">数据库管理器实例</param>
+            <param name="user_id">计划id，用于指定被操作的计划</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUser.#ctor(System.Int32,StdLib.connStr,System.String)">
+            <summary>
+            初始化对象（第二构造重载）
+            </summary>
+            <param name="connStr">连接文本结构体,用于创建数据库管理器实例</param>
+            <param name="user_id">计划id，用于指定被操作的计划</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUser.start(System.Int32)">
+            <summary>
+            获得pilipala用户数据
+            </summary>
+            <param name="user_id">用户id，用于指定被操作的用户</param>
+        </member>
+        <member name="T:StdLib.ViewHandler.pilipala.palaFunction">
+            <summary>
+            啪啦函数
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaFunction.dataBaseName">
+            <summary>
+            内置数据库名访问器
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaFunction.#ctor(StdLib.DataHandler.MySqlConnectionHandler,System.String)">
+            <summary>
+            初始化对象（第一构造重载）
+            </summary>
+            <param name="MySqlConnectionHandler">数据库管理器实例，用于获取文章</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaFunction.#ctor(StdLib.connStr,System.String)">
+            <summary>
+            初始化对象（第二构造重载）
+            </summary>
+            <param name="connStr">连接文本结构体,用于创建数据库管理器实例</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="T:StdLib.ViewHandler.pilipala.palaUI.palaList">
+            <summary>
+            pala列表对象
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaUI.palaList.dataBaseName">
+            <summary>
+            内置数据库名访问器
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaList.#ctor(StdLib.DataHandler.MySqlConnectionHandler,System.String)">
+            <summary>
+            初始化对象（第一构造重载）
+            </summary>
+            <param name="MySqlConnectionHandler">数据库管理器实例</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaList.#ctor(StdLib.connStr,System.String)">
+            <summary>
+            初始化对象（第二构造重载）
+            </summary>
+            <param name="connStr">连接文本结构体,用于创建数据库管理器实例</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaList.listOfPost_View(System.String)">
+            <summary>
+            listOfPost视图位置类型转换
+            </summary>
+            <param name="positionType">位置字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaList.postL">
+            <summary>
+            获取文章列表（重载一）
+            </summary>
+            <returns>返回文章列表</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaList.postL(System.String)">
+            <summary>
+            获取文章列表（重载二：从限定的文章布局位置获取列表）
+            </summary>
+            <param name="position">位置类型，用于指定文章的所处布局位置</param>
+            <returns>返回文章列表</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaList.postL(System.Int32,System.Int32)">
+            <summary>
+            推进式获取获取文章列表（重载三）
+            </summary>
+            <param name="beginPlace">第一个被获取的位置，用于指定从该位置（包括该位置）起，开始获取行。起始位置为0</param>
+            <param name="length">推进提取长度（推进间隔），用于指定获取的行数</param>
+            <returns>返回文章列表</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaList.postL(System.Int32,System.Int32,System.String)">
+            <summary>
+            推进式获取获取文章列表（重载四：从限定的文章布局位置获取列表）
+            </summary>
+            <param name="beginPlace">第一个被获取的位置，用于指定从该位置（包括该位置）起，开始获取行。起始位置为0</param>
+            <param name="length">推进提取长度（推进间隔），用于指定获取的行数</param>
+            <param name="position">位置类型，用于指定文章的所处布局位置</param>
+            <returns>返回文章列表</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaList.pageL">
+            <summary>
+            获取页面列表
+            </summary>
+            <returns>返回页面List post</returns>
+        </member>
+        <member name="T:StdLib.ViewHandler.pilipala.palaUI.palaPost">
+            <summary>
+            pala文章对象
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaUI.palaPost.dataBaseName">
+            <summary>
+            内置数据库名访问器
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPost.#ctor(StdLib.DataHandler.MySqlConnectionHandler,System.String)">
+            <summary>
+            初始化对象（第一构造重载）
+            </summary>
+            <param name="MySqlConnectionHandler">数据库管理器实例</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPost.#ctor(StdLib.connStr,System.String)">
+            <summary>
+            初始化对象（第二构造重载）
+            </summary>
+            <param name="connStr">连接文本结构体,用于创建数据库管理器实例</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPost.random_post(System.String)">
+            <summary>
+            random_post存储过程位置类型转换
+            </summary>
+            <param name="positionType">位置字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPost.post(System.Int32)">
+            <summary>
+            获取文章数据
+            </summary>
+            <param name="post_id">文章序列号，用以指定被操作的文章</param>
+            <returns>返回文章数据</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPost.pluPaPost(System.Int32)">
+            <summary>
+            获得文章插件数据
+            </summary>
+            <param name="post_id">文章序列号，用以指定被操作的文章</param>
+            <returns>返回文章插件数据</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPost.randomPost(System.Int32)">
+            <summary>
+            从全部位置随机一个文章（不包含文章内容）
+            </summary>
+            <param name="post_id">被排除随机的文章序列号</param>
+            <returns>返回文章数据（不包含文章内容）</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPost.randomPost(System.Int32,System.String)">
+            <summary>
+            从指定位置随机一个文章（不包含文章内容）
+            </summary>
+            <param name="post_id">被排除随机的文章序列号</param>
+            <param name="position">随机取得文章的范围代码</param>
+            <returns>返回文章数据（不包含文章内容）</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPost.SET_count_read(System.Int32,System.Int32)">
+            <summary>
+            重设浏览计数
+            </summary>
+            <param name="post_id">文章序列号，用于确定是哪一篇文章被修改</param>
+            <param name="value">计数被重设的值</param>
+            <returns>操作成功返回true，失败则false</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPost.SET_count_like(System.Int32,System.Int32)">
+            <summary>
+            重设点赞计数
+            </summary>
+            <param name="post_id">文章序列号，用于确定是哪一篇文章被修改</param>
+            <param name="value">计数被重设的值</param>
+            <returns>操作成功返回true，失败则false</returns>
+        </member>
+        <member name="T:StdLib.ViewHandler.pilipala.palaUI.palaPage">
+            <summary>
+            pala页面对象
+            </summary>
+        </member>
+        <member name="P:StdLib.ViewHandler.pilipala.palaUI.palaPage.dataBaseName">
+            <summary>
+            内置数据库名访问器
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPage.#ctor(StdLib.DataHandler.MySqlConnectionHandler,System.String)">
+            <summary>
+            初始化对象（第一构造重载）
+            </summary>
+            <param name="MySqlConnectionHandler">数据库管理器实例</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPage.#ctor(StdLib.connStr,System.String)">
+            <summary>
+            初始化对象（第二构造重载）
+            </summary>
+            <param name="connStr">连接文本结构体,用于创建数据库管理器实例</param>
+            <param name="dataBaseName">pilipala数据库名</param>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPage.page(System.Int32)">
+            <summary>
+            获取页面数据
+            </summary>
+            <param name="page_id">页面序列号，用以指定被操作的页面</param>
+            <returns>返回页面数据</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPage.pluPaPage(System.Int32)">
+            <summary>
+            获得页面插件数据
+            </summary>
+            <param name="page_id">页面序列号，用以指定被操作的页面</param>
+            <returns>返回页面插件数据</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPage.randomPage(System.Int32)">
+            <summary>
+            随机获取页面数据（不包含页面内容）
+            </summary>
+            <param name="page_id">被排除随机的页面序列号</param>
+            <returns>返回页面数据（不包含页面内容）</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPage.SET_count_read(System.Int32,System.Int32)">
+            <summary>
+            重设浏览计数
+            </summary>
+            <param name="page_id">文章序列号，用于确定是哪一篇文章被修改</param>
+            <param name="value">计数被重设的值</param>
+            <returns>操作成功返回true，失败则false</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.palaPage.SET_count_like(System.Int32,System.Int32)">
+            <summary>
+            重设点赞计数
+            </summary>
+            <param name="page_id">文章序列号，用于确定是哪一篇文章被修改</param>
+            <param name="value">计数被重设的值</param>
+            <returns>操作成功返回true，失败则false</returns>
+        </member>
+        <member name="T:StdLib.ViewHandler.pilipala.palaUI.Button">
+            <summary>
+            pala按钮对象
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.Button.goTop">
+            <summary>
+            返回顶部
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.palaUI.Button.goHome">
+            <summary>
+            返回首页
+            </summary>
+        </member>
+        <member name="T:StdLib.ViewHandler.pilipala.CookieHandler">
+            <summary>
+            Cookie控制器
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.CookieHandler.isCookiesExist(System.String)">
+            <summary>
+            判断Cookie对象是否存在
+            </summary>
+            <param name="CookieName">被判断Cookie对象的名称</param>
+            <returns>存在返回true，反之false</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.CookieHandler.isCookiesExist(System.String,System.String)">
+            <summary>
+            判断Cookie对象是否存在（重载二：判断索引是否存在）
+            </summary>
+            <param name="CookieName">被判断Cookie对象的名称</param>
+            <param name="keyName">索引名，属于被判断的Cookie</param>
+            <returns>存在返回true，反之false</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.CookieHandler.cookie``1(System.String)">
+            <summary>
+            读取Cookie对象到指定类型
+            </summary>
+            <typeparam name="T">指定泛型</typeparam>
+            <param name="CookieName">被读取Cookie对象名</param>
+            <returns>返回泛型值，读取失败则返回泛型默认值</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.CookieHandler.cookie``1(System.String,System.String)">
+            <summary>
+            读取Cookie对象的指定索引值到指定类型
+            </summary>
+            <typeparam name="T">指定泛型</typeparam>
+            <param name="CookieName">被读取Cookie对象名</param>
+            <param name="keyName">索引名，属于当前Cookie对象</param>
+            <returns>返回泛型值，读取失败则返回泛型默认值</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.CookieHandler.setCookie(System.String,System.Object)">
+            <summary>
+            设置Cookie值
+            </summary>
+            <param name="CookieName">Cookie名，承担该操作</param>
+            <param name="value">设置值</param>
+            <returns>设置成功返回true，反之false</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.CookieHandler.setCookie(System.String,System.String,System.Object)">
+            <summary>
+            设置Cookie值（重载二：索引设置）
+            </summary>
+            <param name="CookieName">Cookie名，承担该操作</param>
+            <param name="keyName">索引名，属于承担该操作的Cookie</param>
+            <param name="value">设置值</param>
+            <returns>设置成功返回true，反之false</returns>
+        </member>
+        <member name="T:StdLib.ViewHandler.pilipala.SessionHandler">
+            <summary>
+            Session控制器
+            </summary>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.SessionHandler.session``1(System.String)">
+            <summary>
+            读取Session对象到指定类型
+            </summary>
+            <typeparam name="T">指定泛型</typeparam>
+            <param name="varName">变量名，属于Session对象，承担该操作</param>
+            <returns>返回泛型值，读取失败则返回泛型默认值</returns>
+        </member>
+        <member name="M:StdLib.ViewHandler.pilipala.SessionHandler.setSession(System.String,System.Object)">
+            <summary>
+            设置Session对象的变量值
+            </summary>
+            <param name="varName">变量名，属于Session对象，承担该操作</param>
+            <param name="value">设置值</param>
+            <returns>设置成功返回true，反之false</returns>
+        </member>
+        <member name="T:StdLib.connStr">
+            <summary>
+            连接数据库，structspace
+            </summary>
+        </member>
+        <member name="P:StdLib.connStr.dataSource">
+            <summary>
+            被连接的数据源
+            </summary>
+        </member>
+        <member name="P:StdLib.connStr.port">
+            <summary>
+            被连接的端口
+            </summary>
+        </member>
+        <member name="P:StdLib.connStr.userName">
+            <summary>
+            连接所使用的用户名
+            </summary>
+        </member>
+        <member name="P:StdLib.connStr.password">
+            <summary>
+            连接所使用的密码
+            </summary>
+        </member>
+        <member name="T:StdLib.xmlStr">
+            <summary>
+            操作xml文件，structspace
+            </summary>
+        </member>
+        <member name="P:StdLib.xmlStr.path">
+            <summary>
+            节点地址，如父节点、实节点、子节点的地址，用于XmlCreater类中除reStream、CreateXml方法外的所有方法
+            </summary>
+        </member>
+        <member name="P:StdLib.xmlStr.fileName">
+            <summary>
+            被创建的Xml文档的文件地址，用于XmlCreater类的CreateXml方法
+            </summary>
+        </member>
+        <member name="P:StdLib.xmlStr.xmlName">
+            <summary>
+            被创建的Xml文档的文件名，用于XmlCreater类的CreateXml方法
+            </summary>
+        </member>
+        <member name="P:StdLib.xmlStr.rootName">
+            <summary>
+            被创建的Xml文档的根元素名，用于XmlCreater类的CreateXml方法
+            </summary>
+        </member>
+        <member name="P:StdLib.xmlStr.nodeName">
+            <summary>
+            节点名，可表示子节点、父节点、新建空\实节点名，用于XmlCreater类的AddRealNode、AddEmptyNode、RemoveNode方法
+            </summary>
+        </member>
+        <member name="P:StdLib.xmlStr.attName">
+            <summary>
+            节点的属性名，用于XmlCreater类的AddRealNode、ReadAtt方法
+            </summary>
+        </member>
+        <member name="P:StdLib.xmlStr.attValue">
+            <summary>
+            节点的属性值，用于XmlCreater类的AddRealNode方法
+            </summary>
+        </member>
+        <member name="P:StdLib.xmlStr.innerText">
+            <summary>
+            节点的子文本，用于XmlCreater类的AddRealNode方法
+            </summary>
+        </member>
+        <member name="P:StdLib.xmlStr.type">
+            <summary>
+            读取类型，可选值有"_name"、"_value"，用于XmlCreater类的ReadNode方法
+            </summary>
+        </member>
+        <member name="T:StdLib.locateStr">
+            <summary>
+            查询位置，structspace
+            </summary>
+        </member>
+        <member name="P:StdLib.locateStr.dataBaseName">
+            <summary>
+            被操作表所在数据库名
+            </summary>
+        </member>
+        <member name="P:StdLib.locateStr.tableName">
+            <summary>
+            被操作表名
+            </summary>
+        </member>
+        <member name="P:StdLib.locateStr.whereColumnName">
+            <summary>
+            定位列的列名
+            </summary>
+        </member>
+        <member name="P:StdLib.locateStr.targetColumnName">
+            <summary>
+            目标列的列名，目标列承担读取/更改操作
+            </summary>
+        </member>
+        <member name="T:StdLib.JlinfObject">
+            <summary>
+            Json本库信息，structspace
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.projectVer">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.projectMoniker">
+            <summary>
+            版本名字对象
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.editionType">
+            <summary>
+            版本类型
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.stepping">
+            <summary>
+            步进
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.targetFramework">
+            <summary>
+            类库的目标框架
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.targetFrameworkMoniker">
+            <summary>
+            类库的目标框架名字对象
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.compat">
+            <summary>
+            针对最近一次发行版的全局兼容性
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.platform">
+            <summary>
+            适用平台
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.architecture">
+            <summary>
+            架构名
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.developmentCode">
+            <summary>
+            开发代号
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.summary">
+            <summary>
+            版本概要
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.isNewVer">
+            <summary>
+            是否为最新pub版本
+            </summary>
+        </member>
+        <member name="P:StdLib.JlinfObject.newVerURL">
+            <summary>
+            最新pub版本下载URL
+            </summary>
+        </member>
+        <member name="T:StdLib.para">
+            <summary>
+            参数单元（用于参数化查询添加参数），structspace
+            </summary>
+        </member>
+        <member name="P:StdLib.para.paraName">
+            <summary>
+            参数名
+            </summary>
+        </member>
+        <member name="P:StdLib.para.paraValue">
+            <summary>
+            参数值
+            </summary>
+        </member>
+        <member name="T:StdLib.IpaPost">
+            <summary>
+            pala文章接口
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.post_id">
+            <summary>
+            文章序列号
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.post_title">
+            <summary>
+            文章标题
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.post_summary">
+            <summary>
+            文章概要
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.post_content">
+            <summary>
+            文章内容
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.post_archive">
+            <summary>
+            文章归档
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.post_isShow">
+            <summary>
+            文章展示状态
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.post_type">
+            <summary>
+            文章类型
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.post_author">
+            <summary>
+            文章作者序列号
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.post_isReadOnly">
+            <summary>
+            文章只读状态
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.date_created">
+            <summary>
+            创建日期
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.date_changed">
+            <summary>
+            更改日期
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPost.path_cover">
+            <summary>
+            文章列表封面图片地址
+            </summary>
+        </member>
+        <member name="T:StdLib.IpaPage">
+            <summary>
+            pala页面接口
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.page_id">
+            <summary>
+            文章序列号
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.page_title">
+            <summary>
+            文章标题
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.page_summary">
+            <summary>
+            文章概要
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.page_content">
+            <summary>
+            文章内容
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.page_archive">
+            <summary>
+            文章归档
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.page_isShow">
+            <summary>
+            文章展示状态
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.page_type">
+            <summary>
+            文章类型
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.page_author">
+            <summary>
+            文章作者序列号
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.page_isReadOnly">
+            <summary>
+            文章只读状态
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.date_created">
+            <summary>
+            创建日期
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.date_changed">
+            <summary>
+            更改日期
+            </summary>
+        </member>
+        <member name="P:StdLib.IpaPage.path_cover">
+            <summary>
+            文章列表封面图片地址
+            </summary>
+        </member>
+        <member name="T:StdLib.paPost">
+            <summary>
+            文章基本数据，structspace
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.post_id">
+            <summary>
+            文章序列号
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.post_title">
+            <summary>
+            文章标题
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.post_summary">
+            <summary>
+            文章概要
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.post_content">
+            <summary>
+            文章内容
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.post_archive">
+            <summary>
+            文章归档
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.post_isShow">
+            <summary>
+            文章展示状态
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.post_type">
+            <summary>
+            文章类型
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.post_author">
+            <summary>
+            文章作者序列号
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.post_isReadOnly">
+            <summary>
+            文章只读状态
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.date_created">
+            <summary>
+            创建日期
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.date_changed">
+            <summary>
+            更改日期
+            </summary>
+        </member>
+        <member name="P:StdLib.paPost.path_cover">
+            <summary>
+            文章列表封面图片地址
+            </summary>
+        </member>
+        <member name="T:StdLib.paPage">
+            <summary>
+            文章拓展数据
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.page_id">
+            <summary>
+            文章序列号
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.page_title">
+            <summary>
+            文章标题
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.page_summary">
+            <summary>
+            文章概要
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.page_content">
+            <summary>
+            文章内容
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.page_archive">
+            <summary>
+            文章归档
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.page_isShow">
+            <summary>
+            文章展示状态
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.page_type">
+            <summary>
+            文章类型
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.page_author">
+            <summary>
+            文章作者
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.page_isReadOnly">
+            <summary>
+            文章只读状态
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.date_created">
+            <summary>
+            创建日期
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.date_changed">
+            <summary>
+            更改日期
+            </summary>
+        </member>
+        <member name="P:StdLib.paPage.path_cover">
+            <summary>
+            文章列表封面图片地址
+            </summary>
+        </member>
+        <member name="T:StdLib.pluPaPost">
+            <summary>
+            文章拓展数据，structspace
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPost.post_id">
+            <summary>
+            文章序列号
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPost.count_read">
+            <summary>
+            阅读计数
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPost.count_review">
+            <summary>
+            评论计数
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPost.count_like">
+            <summary>
+            点赞计数
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPost.tagA">
+            <summary>
+            特征A
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPost.tagB">
+            <summary>
+            特征B
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPost.tagC">
+            <summary>
+            特征C
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPost.color_strip">
+            <summary>
+            文章列表条带颜色
+            </summary>
+        </member>
+        <member name="T:StdLib.pluPaPage">
+            <summary>
+            页面拓展数据
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPage.post_id">
+            <summary>
+            文章序列号
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPage.count_read">
+            <summary>
+            阅读计数
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPage.count_review">
+            <summary>
+            评论计数
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPage.count_like">
+            <summary>
+            点赞计数
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPage.tagA">
+            <summary>
+            特征A
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPage.tagB">
+            <summary>
+            特征B
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPage.tagC">
+            <summary>
+            特征C
+            </summary>
+        </member>
+        <member name="P:StdLib.pluPaPage.color_strip">
+            <summary>
+            文章列表条带颜色
+            </summary>
+        </member>
+        <member name="T:StdLib.paUser">
+            <summary>
+            用户数据
+            </summary>
+        </member>
+        <member name="P:StdLib.paUser.user_id">
+            <summary>
+            用户id
+            </summary>
+        </member>
+        <member name="P:StdLib.paUser.user_level">
+            <summary>
+            用户权限级
+            </summary>
+        </member>
+        <member name="P:StdLib.paUser.user_name">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:StdLib.paUser.user_word">
+            <summary>
+            用户签名
+            </summary>
+        </member>
+        <member name="T:StdLibx.Resource1">
+            <summary>
+              一个强类型的资源类，用于查找本地化的字符串等。
+            </summary>
+        </member>
+        <member name="P:StdLibx.Resource1.ResourceManager">
+            <summary>
+              返回此类使用的缓存的 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:StdLibx.Resource1.Culture">
+            <summary>
+              使用此强类型资源类，为所有资源查找
+              重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <member name="P:StdLibx.Resource1.StdLib_logo">
+            <summary>
+              查找 System.Drawing.Bitmap 类型的本地化资源。
+            </summary>
+        </member>
+    </members>
+</doc>
