@@ -1,0 +1,21 @@
+#GoUpBtn {
+    width: 100%;
+    background-color: #7F7F7F;
+    margin-top: 24%;
+    margin-right: 0%;
+    margin-left: 0%;
+    margin-bottom: 0%;
+    padding-top: 2%;
+    padding-right: 0%;
+    padding-left: 0%;
+    padding-bottom: 2%;
+    border-radius: 10px;
+}
+#GoUpBtn:hover {
+    background-color: #9B8484;
+}
+#GoUpBtn_icon {
+    width: 26px;
+    height: 26px;
+margin: auto;	
+}
