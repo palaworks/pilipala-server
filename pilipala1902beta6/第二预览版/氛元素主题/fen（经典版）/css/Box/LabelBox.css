@@ -1,0 +1,52 @@
+.LabelTxt {
+    color: #999999;
+    font-family: 'LabelBoxFont';
+    font-size: 12px;
+}
+.LabelBox {
+    width: 100%;
+    position: relative;
+    padding-bottom: 1%;
+    margin-top: 1%;
+}
+.LabelContent {
+    width: 90%;
+    margin: auto;
+    position: relative;
+}
+.LabelContent>.LBL {
+    padding-top: 2px;
+    width: 20%;
+    float: left;
+    margin-top: 1%;
+    margin-left: 5%;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    text-align: center;
+}
+.LabelContent>.LBL:before {
+    padding-right: 4%;
+}
+.LBL_file:hover, .LBL_time:hover, .LBL_pv:hover, .LBL_tag:hover, .LBL_comment:hover, .LBL_like:hover {
+ color: #6E6E6E;
+ transition-duration: 0.2s;
+ transition-timing-function: ease;
+}
+.LBL_file:before {
+    content: '\e3001';
+}
+.LBL_comment:before {
+    content: '\e3003';
+}
+.LBL_like:before {
+    content: '\e3002';
+}
+.LBL_time:before {
+    content: '\e3007';
+}
+.LBL_pv:before {
+    content: '\e3008';
+}
+.LBL_tag:before {
+    content: '\e3006';
+}
