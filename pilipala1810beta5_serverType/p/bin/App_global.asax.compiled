@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="8" virtualPath="/pilipala工程/global.asax" hash="ffffffff82b78076" filehash="266e51d92ba1" flags="150000" assembly="App_global.asax" type="ASP.global_asax">
+    <filedeps>
+        <filedep name="/pilipala工程/global.asax" />
+    </filedeps>
+</preserve>
