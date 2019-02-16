@@ -1,0 +1,63 @@
+<manifest alg="2" build="2018.1.0.386" opt="false" iceEnabled="true" iceMarkupVersion="2" iceEnabledOptions="link,responsive,cachebuster,textStyling" exportTarget="other" domain="www.thaumy.cn" resolutions="1x" timestamp="1535608963461">
+  <folder name="css">
+    <file name="site_global.css" crc="3779080292"/>
+    <file name="index.css" crc="154016243" ref="index"/>
+    <file name="post.css" crc="198587534" ref="post"/>
+  </folder>
+  <folder name="fonts">
+    <file name="sourcehansanscn-normal1.woff" crc="43382600"/>
+    <file name="sourcehansanscn-normal.eot" crc="4039335070"/>
+    <file name="sourcehansanscn-normal.svg" crc="3807044498"/>
+    <file name="sourcehansanscn-medium.woff" crc="4270710781"/>
+    <file name="sourcehansanscn-medium.eot" crc="4238172862"/>
+    <file name="sourcehansanscn-medium.svg" crc="141838264"/>
+    <file name="pstlst_btn.woff" crc="850432"/>
+    <file name="pstlst_btn.eot" crc="112708070"/>
+    <file name="pstlst_btn.svg" crc="4172687870"/>
+  </folder>
+  <folder name="scripts">
+    <file name="jquery-1.8.3.min.js" crc="209076791" ref="index:post"/>
+    <file name="museutils.js" crc="340535759" ref="index:post"/>
+    <file name="whatinput.js" crc="86476730" ref="index:post"/>
+    <file name="museconfig.js" crc="4286661555" ref="index:post"/>
+    <file name="jquery.musepolyfill.bgsize.js" crc="4260645839" ref="index:post"/>
+    <file name="jquery.watch.js" crc="51536988" ref="index:post"/>
+    <file name="require.js" crc="7928878" ref="index:post"/>
+  </folder>
+  <folder name="images">
+    <file name="index-favicon.ico" crc="306704876" ref="index"/>
+    <file name="128back.png" crc="381481760" ref="index:post">
+      <caption webpage="index" alt=""/>
+      <caption webpage="post" alt=""/>
+    </file>
+    <file name="blank.gif" crc="4208392903" ref="index:post"/>
+    <file name="arrow_right.svg" crc="4197244498" ref="index:post"/>
+    <file name="arrow_right_poster_u10121.png" crc="4142778936" ref="index:post"/>
+    <file name="arrow_up.svg" crc="3778754956" ref="index:post"/>
+    <file name="arrow_up_poster_u10106.png" crc="18976162" ref="index:post"/>
+    <file name="pstlst_topcover.jpg" crc="4279219815" ref="index">
+      <caption webpage="index" alt=""/>
+    </file>
+    <file name="strip_blk.svg" crc="3960528801" ref="index:post"/>
+    <file name="strip_blk_poster_u10081.png" crc="4288764295" ref="index:post"/>
+    <file name="pstlst_bg_typeb.jpg" crc="3901740563" ref="index:post">
+      <caption webpage="index" alt=""/>
+      <caption webpage="post" alt=""/>
+      <caption webpage="post" alt=""/>
+      <caption webpage="post" alt=""/>
+      <caption webpage="post" alt=""/>
+    </file>
+    <file name="arrow_down.svg" crc="3806826918" ref="index"/>
+    <file name="arrow_down_poster_u10168.png" crc="4081056735" ref="index"/>
+    <file name="post-favicon.ico" crc="306704876" ref="post"/>
+    <file name="read_only.svg" crc="320890261" ref="post"/>
+    <file name="read_only_poster_u8352.png" crc="4003824141" ref="post"/>
+    <file name="pinn.jpg" crc="327430199" ref="post">
+      <caption webpage="post" alt=""/>
+    </file>
+    <file name="beta_edi.svg" crc="3956733161" ref="post"/>
+    <file name="beta_edi_poster_u8719.png" crc="449012722" ref="post"/>
+  </folder>
+  <file name="index.html" crc="275751489" seo="true" mt="1535149638231" redirect="true"/>
+  <file name="post.html" crc="272854104" seo="true" mt="1535167018949" redirect="true"/>
+</manifest>
