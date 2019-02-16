@@ -1,0 +1,44 @@
+.Btn_like:before {
+    padding-right: 4%;
+    content: '\e3002';
+}
+.Btn_like {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    width: 20%;
+    float: left;
+    margin-top: 6px;
+    margin-bottom: 2px;
+    margin-left: 5%;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    text-align: center;
+    color: #FFFFFF;
+    background: rgba(255,185,58,1.00);
+}
+.Btn_like:hover {
+    color: #6E6E6E;
+    background: rgba(255,185,58,0.40);
+}
+.Btn_comment:before {
+    padding-right: 4%;
+    content: '\e3003';
+}
+.Btn_comment {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    width: 20%;
+    float: left;
+    margin-top: 6px;
+    margin-bottom: 2px;
+    margin-left: 5%;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    text-align: center;
+    color: #FFFFFF;
+    background: rgba(40, 200, 225,1.00);
+}
+.Btn_comment:hover {
+    color: #6E6E6E;
+    background: rgba(40, 200, 225,0.40);
+}
