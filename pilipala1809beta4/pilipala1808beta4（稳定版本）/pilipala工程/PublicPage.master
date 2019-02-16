@@ -1,0 +1,36 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="PublicPage.master.cs" Inherits="PublicPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta name="generator" content="2018.1.0.386" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title></title>
+
+    <!-- 私有头内容 -->
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+    
+    <!-- 公有CSS -->
+    <link rel="stylesheet" type="text/css" href="css/site_global.css?crc=417639259" />
+
+
+</head>
+<body>
+    <form runat="server">
+        <!-- 私有内容开始前的部分 -->
+        <asp:ContentPlaceHolder ID="PrivateContentBefore" runat="server"></asp:ContentPlaceHolder>
+
+        <!-- 私有内容位 -->
+        <div class="clearfix borderbox" id="page">
+            <asp:ContentPlaceHolder ID="PrivateContent" runat="server"></asp:ContentPlaceHolder>
+        </div>
+
+        <!-- 私有内容结束后的部分 -->
+        <asp:ContentPlaceHolder ID="PrivateContentAfter" runat="server"></asp:ContentPlaceHolder>
+
+    </form>
+</body>
+</html>

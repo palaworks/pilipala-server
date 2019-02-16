@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+此文件由 Web 项目的发布/打包过程使用。可以通过编辑此 MSBuild 文件
+自定义此过程的行为。为了解与此相关的更多内容，请访问 https://go.microsoft.com/fwlink/?LinkID=208121。 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\Administrator\Desktop\public</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/App_Web_50kntfhv.dll">
+      <publishTime>02/13/2019 23:54:49</publishTime>
+    </File>
+    <File Include="bin/App_Web_m0e5dbgr.dll">
+      <publishTime>02/13/2019 23:54:50</publishTime>
+    </File>
+    <File Include="bin/App_Web_mxnv3hfa.dll">
+      <publishTime>02/13/2019 23:54:50</publishTime>
+    </File>
+    <File Include="bin/default.aspx.cdcab7d2.compiled">
+      <publishTime>02/13/2019 23:54:50</publishTime>
+    </File>
+    <File Include="bin/index.aspx.a319aba8.compiled">
+      <publishTime>02/13/2019 23:54:50</publishTime>
+    </File>
+    <File Include="bin/index.master.b501d27d.compiled">
+      <publishTime>02/13/2019 23:54:49</publishTime>
+    </File>
+    <File Include="bin/indexserv.asmx.1911e728.compiled">
+      <publishTime>02/13/2019 23:54:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/mysql.data.dll">
+      <publishTime>04/19/2018 04:09:15</publishTime>
+    </File>
+    <File Include="bin/PILIPALA.dll">
+      <publishTime>02/13/2019 23:54:46</publishTime>
+    </File>
+    <File Include="bin/PILIPALA.pdb">
+      <publishTime>02/13/2019 23:54:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe.config">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.rsp">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.exe">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.rsp">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.Scripting.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.Scripting.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.amd64.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.x86.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.VisualBasic.Core.targets">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.AppContext.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Collections.Immutable.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Diagnostics.StackTrace.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.Primitives.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Reflection.Metadata.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe.config">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.rsp">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe.config">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/sls.asmx.a2de7516.compiled">
+      <publishTime>02/13/2019 23:54:50</publishTime>
+    </File>
+    <File Include="bin/StudioLibrary.dll">
+      <publishTime>02/10/2019 06:49:38</publishTime>
+    </File>
+    <File Include="bin/StudioLibrary.pdb">
+      <publishTime>02/10/2019 06:49:38</publishTime>
+    </File>
+    <File Include="Default.aspx">
+      <publishTime>02/13/2019 23:54:50</publishTime>
+    </File>
+    <File Include="index.Master">
+      <publishTime>02/09/2019 06:52:41</publishTime>
+    </File>
+    <File Include="pala_content/themes/fen/index.aspx">
+      <publishTime>02/13/2019 23:54:50</publishTime>
+    </File>
+    <File Include="pala_content/themes/fen/index.html">
+      <publishTime>02/11/2019 10:30:56</publishTime>
+    </File>
+    <File Include="pala_content/themes/fen/js/index.js">
+      <publishTime>02/13/2019 23:52:31</publishTime>
+    </File>
+    <File Include="pala_content/themes/fen/services/indexServ.asmx">
+      <publishTime>02/13/2019 23:54:51</publishTime>
+    </File>
+    <File Include="pala_services/SLS.asmx">
+      <publishTime>02/13/2019 23:54:51</publishTime>
+    </File>
+    <File Include="PrecompiledApp.config">
+      <publishTime>02/13/2019 23:54:47</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>02/13/2019 23:54:47</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

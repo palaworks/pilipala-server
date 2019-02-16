@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="backTopBtn" xml:space="preserve">
+    <value>&lt;div class="clearfix grpelem" id="pu8290"&gt;
+            &lt;!-- group --&gt;
+            &lt;div id="u8290-wrapper"&gt;
+                &lt;a class="nonblock nontext anim_swing transition rounded-corners" id="u8290" href="index.aspx#top"&gt;
+                    &lt;!-- simple frame --&gt;
+                &lt;/a&gt;
+            &lt;/div&gt;
+            &lt;div id="u10103-wrapper"&gt;
+                &lt;a class="nonblock nontext anim_swing museBGSize" id="u10103" href="index.aspx#top"&gt;
+                    &lt;!-- content --&gt;
+                    &lt;div class="fluid_height_spacer"&gt;&lt;/div&gt;
+                &lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;</value>
+  </data>
+  <data name="bodyScript" xml:space="preserve">
+    <value>&lt;!-- Other scripts --&gt;
+    &lt;script type="text/javascript"&gt;
+        // Decide whether to suppress missing file error or not based on preference setting
+        var suppressMissingFileError = false
+    &lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
+        window.Muse.assets.check = function (c) {
+            if (!window.Muse.assets.checked) {
+                window.Muse.assets.checked = !0; var b = {}, d = function (a, b) { if (window.getComputedStyle) { var c = window.getComputedStyle(a, null); return c &amp;&amp; c.getPropertyValue(b) || c &amp;&amp; c[b] || "" } if (document.documentElement.currentStyle) return (c = a.currentStyle) &amp;&amp; c[b] || a.style &amp;&amp; a.style[b] || ""; return "" }, a = function (a) {
+                    if (a.match(/^rgb/)) return a = a.replace(/\s+/g, "").match(/([\d\,]+)/gi)[0].split(","), (parseInt(a[0]) &lt;&lt; 16) + (parseInt(a[1]) &lt;&lt; 8) + parseInt(a[2]); if (a.match(/^\#/)) return parseInt(a.substr(1),
+                 16); return 0
+                }, f = function (f) {
+                    for (var g = document.getElementsByTagName("link"), j = 0; j &lt; g.length; j++) if ("text/css" == g[j].type) { var l = (g[j].href || "").match(/\/?css\/([\w\-]+\.css)\?crc=(\d+)/); if (!l || !l[1] || !l[2]) break; b[l[1]] = l[2] } g = document.createElement("div"); g.className = "version"; g.style.cssText = "display:none; width:1px; height:1px;"; document.getElementsByTagName("body")[0].appendChild(g); for (j = 0; j &lt; Muse.assets.required.length;) {
+                        var l = Muse.assets.required[j], k = l.match(/([\w\-\.]+)\.(\w+)$/), i = k &amp;&amp; k[1] ?
+                        k[1] : null, k = k &amp;&amp; k[2] ? k[2] : null; switch (k.toLowerCase()) { case "css": i = i.replace(/\W/gi, "_").replace(/^([^a-z])/gi, "_$1"); g.className += " " + i; i = a(d(g, "color")); k = a(d(g, "backgroundColor")); i != 0 || k != 0 ? (Muse.assets.required.splice(j, 1), "undefined" != typeof b[l] &amp;&amp; (i != b[l] &gt;&gt;&gt; 24 || k != (b[l] &amp; 16777215)) &amp;&amp; Muse.assets.outOfDate.push(l)) : j++; g.className = "version"; break; case "js": j++; break; default: throw Error("Unsupported file type: " + k); }
+                    } c ? c().jquery != "1.8.3" &amp;&amp; Muse.assets.outOfDate.push("jquery-1.8.3.min.js") : Muse.assets.required.push("jquery-1.8.3.min.js");
+                    g.parentNode.removeChild(g); if (Muse.assets.outOfDate.length || Muse.assets.required.length) g = "服务器上的某些文件可能缺失或不正确。请在清除浏览器高速缓存后重试。如果问题仍然存在，请联系网站作者。", f &amp;&amp; Muse.assets.outOfDate.length &amp;&amp; (g += "\nOut of date: " + Muse.assets.outOfDate.join(",")), f &amp;&amp; Muse.assets.required.length &amp;&amp; (g += "\nMissing: " + Muse.assets.required.join(",")), suppressMissingFileError ? (g += "\nUse SuppressMissingFileError key in AppPrefs.xml to show missing file error pop up.", console.log(g)) : alert(g)
+                }; location &amp;&amp; location.search &amp;&amp; location.search.match &amp;&amp; location.search.match(/muse_debug/gi) ?
+                setTimeout(function () { f(!0) }, 5E3) : f()
+            }
+        };
+        var muse_init = function () {
+            require.config({ baseUrl: "" }); require(["jquery", "museutils", "whatinput", "jquery.musepolyfill.bgsize", "jquery.watch"], function (c) {
+                var $ = c; $(document).ready(function () {
+                    try {
+                        window.Muse.assets.check($);/* body */
+                        Muse.Utils.transformMarkupToFixBrowserProblemsPreInit();/* body */
+                        Muse.Utils.prepHyperlinks(true);/* body */
+                        Muse.Utils.makeButtonsVisibleAfterSettingMinWidth();/* body */
+                        Muse.Utils.fullPage('#page');/* 100% height page */
+                        Muse.Utils.showWidgetsWhenReady();/* body */
+                        Muse.Utils.transformMarkupToFixBrowserProblems();/* body */
+                    } catch (b) { if (b &amp;&amp; "function" == typeof b.notify ? b.notify() : Muse.Assert.fail("Error calling selector function: " + b), false) throw b; }
+                })
+            })
+        };
+    &lt;/script&gt;
+    &lt;!-- RequireJS script --&gt;
+    &lt;script src="scripts/require.js?crc=7928878" type="text/javascript" async data-main="scripts/museconfig.js?crc=4286661555" onload="if (requirejs) requirejs.onError = function(requireType, requireModule) { if (requireType &amp;&amp; requireType.toString &amp;&amp; requireType.toString().indexOf &amp;&amp; 0 &lt;= requireType.toString().indexOf('#scripterror')) window.Muse.assets.check(); }" onerror="window.Muse.assets.check();"&gt;&lt;/script&gt;</value>
+  </data>
+  <data name="headScript" xml:space="preserve">
+    <value>&lt;script type="text/javascript"&gt;
+        // Update the 'nojs'/'js' class on the html node
+        document.documentElement.className = document.documentElement.className.replace(/\bnojs\b/g, 'js');
+
+        // Check that all required assets are uploaded and up-to-date
+        if (typeof Muse == "undefined") window.Muse = {}; window.Muse.assets = { "required": ["museutils.js", "museconfig.js", "jquery.musepolyfill.bgsize.js", "jquery.watch.js", "require.js", "index.css"], "outOfDate": [] };
+    &lt;/script&gt;</value>
+  </data>
+  <data name="index_comnPstLst" xml:space="preserve">
+    <value>&lt;div class="shadow rounded-corners clearfix colelem" id="u8284"&gt;
+    &lt;!-- column --&gt;
+    &lt;div class="clearfix colelem" id="pu8278-4"&gt;
+        &lt;!-- group --&gt;
+        &lt;!-- 设置comn文章标题与链接 --&gt;
+        &lt;div class="clearfix grpelem" id="u8278-4"&gt;
+            &lt;!-- content --&gt;
+            &lt;a &lt;!-- post_title_href --&gt;&gt;
+                &lt;p&gt;&lt;!-- post_title --&gt;&lt;/p&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 设置comn文章条带样式 --&gt;
+        &lt;div class="museBGSize grpelem" id="u9244" &lt;!-- stripStyle --&gt;&gt;
+            &lt;!-- content --&gt;
+            &lt;div class="fluid_height_spacer"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+    &lt;div class="clearfix colelem" id="u8287-4"&gt;
+        &lt;!-- content --&gt;
+        &lt;p&gt;&lt;!-- post_summary --&gt;&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="clearfix colelem" id="pu8294"&gt;
+    &lt;!-- group --&gt;
+    &lt;div class="shadow rounded-corners grpelem" id="u8294"&gt;
+        &lt;!-- content --&gt;
+        &lt;div class="fluid_height_spacer"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="clearfix grpelem" id="u8283-5"&gt;
+        &lt;!-- content --&gt;
+        &lt;ul class="list0 nls-None" id="u8283-3"&gt;
+            &lt;li&gt;&lt;!-- post_archive --&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class="clearfix grpelem" id="u8279-5"&gt;
+        &lt;!-- content --&gt;
+        &lt;ul class="list0 nls-None" id="u8279-3"&gt;
+            &lt;li&gt;&lt;!-- count_review --&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class="clearfix grpelem" id="u8293-5"&gt;
+        &lt;!-- content --&gt;
+        &lt;ul class="list0 nls-None" id="u8293-3"&gt;
+            &lt;li&gt;&lt;!-- count_like --&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class="clearfix grpelem" id="u8299-5"&gt;
+        &lt;!-- content --&gt;
+        &lt;ul class="list0 nls-None" id="u8299-3"&gt;
+            &lt;li&gt;&lt;!-- tagA --&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class="clearfix grpelem" id="u8286-5"&gt;
+        &lt;!-- content --&gt;
+        &lt;ul class="list0 nls-None" id="u8286-3"&gt;
+            &lt;li&gt;&lt;!-- date_created --&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class="clearfix grpelem" id="u8292-5"&gt;
+        &lt;!-- content --&gt;
+        &lt;ul class="list0 nls-None" id="u8292-3"&gt;
+            &lt;li&gt;阅读&lt;!-- count_read --&gt;次&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class="clearfix grpelem" id="u8308-5"&gt;
+        &lt;!-- content --&gt;
+        &lt;ul class="list0 nls-None" id="u8308-3"&gt;
+            &lt;li&gt;&lt;!-- tagB --&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class="clearfix grpelem" id="u8296-5"&gt;
+        &lt;!-- content --&gt;
+        &lt;ul class="list0 nls-None" id="u8296-3"&gt;
+            &lt;li&gt;&lt;!-- tagC --&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</value>
+  </data>
+</root>
