@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/pala_content/themes/fen/services/indexServ.asmx" hash="fffffffff3c9419c" filehash="ffffe153f62dab23" flags="130000" assembly="PILIPALA" type="PILIPALA.pala_content.themes.fen.services.indexServ">
+    <filedeps>
+        <filedep name="/pala_content/themes/fen/services/indexServ.asmx" />
+    </filedeps>
+</preserve>
