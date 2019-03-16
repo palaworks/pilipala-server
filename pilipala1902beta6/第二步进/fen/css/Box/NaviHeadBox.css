@@ -1,0 +1,95 @@
+
+@media only screen and (min-width: 1025px) {
+.NaviCol {
+    width: 302px;
+    position: fixed;
+}
+.NaviHead {
+    width: 100%;
+    padding-top: 14%;
+    padding-right: inherit;
+    padding-bottom: 0%;
+    position: relative;
+    background: linear-gradient(to top, rgba(73,73,73,0.90), rgba(73,73,73,0.8) 50%);
+}
+.SiteSummary {
+    background-color: transparent;
+    line-height: 24px;
+    font-size: 20px;
+    text-align: center;
+    color: #FFFFFF;
+    width: 88%;
+    margin-top: 14%;
+    margin-left: auto;
+    margin-bottom: 0%;
+    position: relative;
+    margin-right: auto;
+}
+.UsrMto {
+    background-color: rgba(120,120,120,0.86);
+    width: 100%;
+    padding-bottom: 7%;
+    line-height: 18px;
+    font-size: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: 300;
+    position: relative;
+    margin-top: 12%;
+    padding-top: 7%;
+}
+}
+
+@media only screen and (max-width: 1024px) {
+.NaviBoxCol {
+    width: 100%;
+}
+.NaviHead {
+    width: 100%;
+    padding-top: 6%;
+    padding-right: inherit;
+    padding-bottom: 0%;
+    position: relative;
+    background: linear-gradient(to top, rgba(73,73,73,0.90), rgba(73,73,73,0.8) 50%);
+}
+.SiteSummary {
+    background-color: transparent;
+    line-height: 24px;
+    font-size: 20px;
+    text-align: center;
+    color: #FFFFFF;
+    width: 88%;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-bottom: 0%;
+    position: relative;
+    margin-right: auto;
+}
+.UsrMto {
+    background-color: rgba(127,127,127,0.86);
+    width: 100%;
+    padding-bottom: 22px;
+    line-height: 18px;
+    font-size: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: 300;
+    position: relative;
+    margin-top: 4%;
+    padding-top: 22px;
+}
+}
+.UsrPic {
+    border-radius: 64px;
+    width: 128px;
+    height: 128px;
+    margin-right: auto;
+    margin-left: auto;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+}
+.UsrPic:hover {
+    box-shadow: 0px 0px 100px rgba(255, 255, 255, 0.3), 0px 0px 0px rgba(255, 255, 255, 0.3);
+    transition-duration: 0.1s;
+    transition-timing-function: ease;
+}
