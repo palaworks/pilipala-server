@@ -1,0 +1,56 @@
+.LabelTxt {
+    color: #999999;
+    font-family: 'LabelBoxFont';
+    font-size: 12px;
+    font-weight: 400;
+}
+.LabelBox {
+    width: 100%;
+    position: relative;
+    padding-bottom: 6px;
+	background: rgba(255,255,255,0.60);
+}
+.LabelCntnt {
+    width: 90%;
+    margin: auto;
+    position: relative;
+}
+.LBL_class, .LBL_time, .LBL_pv, .LBL_tag, .LBL_comment, .LBL_like {
+    width: 20%;
+    float: left;
+    margin-top: 6px;
+    margin-bottom: 2px;
+    margin-left: 5%;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    text-align: center;
+}
+.LBL_class:hover, .LBL_time:hover, .LBL_pv:hover, .LBL_tag:hover, .LBL_comment:hover, .LBL_like:hover {
+    color: rgba(100,100,100,1.00);
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+}
+.LBL_class:before {
+    padding-right: 4%;
+    content: '\e3001';
+}
+.LBL_comment:before {
+    padding-right: 4%;
+    content: '\e3003';
+}
+.LBL_like:before {
+    padding-right: 4%;
+    content: '\e3002';
+}
+.LBL_time:before {
+    padding-right: 4%;
+    content: '\e3007';
+}
+.LBL_pv:before {
+    padding-right: 4%;
+    content: '\e3008';
+}
+.LBL_tag:before {
+    padding-right: 4%;
+    content: '\e3006';
+}
