@@ -1,0 +1,15 @@
+.RandomBtn {
+    text-align: center;
+    font-size: 26px;
+    color: #FFFFFF;
+    background-color: rgba(110,110,110,0.70);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    float: left;
+    width: 100%;
+}
+.RandomBtn:hover {
+    color: #FFFFFF;
+    background-color: rgba(138,138,138,0.70);
+}
