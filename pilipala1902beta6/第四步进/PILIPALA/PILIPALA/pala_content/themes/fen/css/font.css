@@ -1,0 +1,6 @@
+@import url('https://fonts.font.im/css?family=Open+Sans:300,400,600,700');
+@import url('https://fonts.font.im/css?family=Ubuntu+Mono');
+@font-face {
+    font-family: 'Labelico';
+    src: url('../FONT/LabelBox/LabelBoxFont.eot'), url('../FONT/LabelBox/LabelBoxFont.woff'), url('../FONT/LabelBox/LabelBoxFont.svg');
+}
