@@ -1,0 +1,73 @@
+a.mk-linked {
+    color: #FFFFFF;
+}
+a.mk-linked:link {
+    background: rgba(40,200,225,1.00);
+    padding-left: 1%;
+    padding-right: 1%;
+    border-radius: 4px;
+    text-decoration: inherit;
+}
+a.mk-linked:hover {
+    color: #2200FF;
+    background: rgba(40,200,225,0.40);
+    text-decoration: inherit;
+}
+.mk-blabla {
+    padding-left: 1%;
+    padding-right: 1%;
+    border-radius: 4px;
+    color: rgba(73,73,73,1.00);
+    background: rgba(73,73,73,1.00);
+}
+.mk-blabla:hover {
+    color: #FFFFFF;
+}
+.mk-bug {
+    background: rgba(205,21,84,1.00);
+}
+.mk-dbg {
+    background: rgba(119,220,48,1.00);
+}
+.mk-dt {
+	font-family: 'Ubuntu Mono', monospace;
+    color: #FFFFFF;
+    border-radius: 6px;
+    font-size: 16px;
+    padding-left: 5px;
+	margin-right: 4px;
+    background: rgba(70,70,70,1.00);
+}
+.mk-updt {
+    background: rgba(12,193,185,1.00);
+}
+.mk-mtn {
+    background: rgba(236,146,17,1.00);
+}
+.mk-none {
+    background: rgba(170,170,170,1.00);
+}
+.mk-none, .mk-bug, .mk-dbg, .mk-updt, .mk-mtn {
+	font-family: 'Ubuntu Mono', monospace;
+    color: #FFFFFF;
+    border-radius: 5px;
+    margin-left: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 16px;
+}
+.mk-none::before {
+    content: "…";
+}
+.mk-bug::before {
+    content: "!";
+}
+.mk-dbg::before {
+    content: "DBG";
+}
+.mk-updt::before {
+    content: "UPDT";
+}
+.mk-mtn::before {
+    content: "MTN";
+}
