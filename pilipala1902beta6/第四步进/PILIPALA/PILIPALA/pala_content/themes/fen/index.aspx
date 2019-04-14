@@ -44,7 +44,6 @@
     </asp:ScriptManager>
     <!-- ScriptManager -->
 
-
     <div class="main">
 
         <%if (Request.QueryString["guide"] == "1")
@@ -73,78 +72,81 @@
                     Thaumy的博客©2016-2019保留所有权利<br>
                     基于pilipala开发<br>
                     based on pilipala<br>
+                    <!-- CNZZ -->
+                    <script type="text/javascript" src="https://s19.cnzz.com/z_stat.php?id=1262285427&web_id=1262285427"></script>
+                    <!-- CNZZ -->
                 </div>
             </div>
-        </div>
+            </div>
         <%} %>
 
 
-        <div class="TxtCol">
-            <%if (Request.QueryString["text"] == "1")
-                { %>
+            <div class="TxtCol">
+                <%if (Request.QueryString["text"] == "1")
+                    { %>
 
-            <%if (List_text_index_post != null)
-                {
-                    foreach (LibStructs.PaText idxPaText in List_text_index_post)
-                    {%>
+                <%if (List_text_index_post != null)
+                    {
+                        foreach (LibStructs.PaText idxPaText in List_text_index_post)
+                        {%>
 
-            <%LibStructs.PaText PaText = new LibStructs.PaText();
-                PaText = SLS.fill(SLS.getTextMain(idxPaText.text_id), SLS.getTextSub(idxPaText.text_id));%>
+                <%LibStructs.PaText PaText = new LibStructs.PaText();
+                    PaText = SLS.fill(SLS.getTextMain(idxPaText.text_id), SLS.getTextSub(idxPaText.text_id));%>
 
 
-            <div class="TxtBox Shadow fltL RdiuB RdiuT MagnB">
-                <%if (PaText.cover_url != "")
-                    {  %>
-                <a onclick="showTxt(<%Response.Write(PaText.text_id); %>)">
-                    <img alt="" class="RdiuT TxtImg" src="<%Response.Write(PaText.cover_url); %>" />
+                <div class="TxtBox Shadow fltL RdiuB RdiuT MagnB">
+                    <%if (PaText.cover_url != "")
+                        {  %>
+                    <a onclick="showTxt(<%Response.Write(PaText.text_id); %>)">
+                        <img alt="" class="RdiuT TxtImg" src="<%Response.Write(PaText.cover_url); %>" />
+                    </a>
+                    <%} %>
+                    <div class="Strip <%Response.Write(indexServ.stripStyle(PaText.strip_color)); %>"></div>
+                    <div class="TxtBoxCntnt">
+                        <a onclick="showTxt(<%Response.Write(PaText.text_id); %>)">
+                            <div onclick="GoUp()" class="TxtTitle cur"><%Response.Write(PaText.text_title); %></div>
+                            <div class="TxtSummary"><%Response.Write(PaText.text_summary); %></div>
+                        </a>
+                    </div>
+                    <div class="fltL LabelBox LabelTxt RdiuT RdiuB">
+                        <div class="TimeLabel"><%Response.Write(indexServ.extime(PaText.date_created)); %></div>
+                        <div class="PvLabel">阅读<%Response.Write(PaText.count_pv); %></div>
+                        <div class="CommentLabel RdiuB RdiuT">评论<%Response.Write(PaText.count_comment); %></div>
+                        <div class="LikeLabel RdiuB RdiuT"><%Response.Write(PaText.count_like);%></div>
+                        <div class="ClassLabel"><%Response.Write(PaText.text_class); %></div>
+                        <%foreach (string tag in indexServ.extags(PaText.tags))
+                            { %>
+                        <div class="TagLabel"><%Response.Write(tag); %></div>
+                        <%} %>
+                    </div>
+                </div>
+
+                <%} %>
+                <a onclick="loadTxt()" class="LoadPostBtn cur Shadow fltL Tran RdiuB RdiuT">
+                    <div class="arrowDn"></div>
                 </a>
                 <%} %>
-                <div class="Strip <%Response.Write(indexServ.stripStyle(PaText.strip_color)); %>"></div>
-                <div class="TxtBoxCntnt">
-                    <a onclick="showTxt(<%Response.Write(PaText.text_id); %>)">
-                        <div onclick="GoUp()" class="TxtTitle cur"><%Response.Write(PaText.text_title); %></div>
-                        <div class="TxtSummary"><%Response.Write(PaText.text_summary); %></div>
-                    </a>
-                </div>
-                <div class="fltL LabelBox LabelTxt RdiuT RdiuB">
-                    <div class="TimeLabel"><%Response.Write(indexServ.extime(PaText.date_created)); %></div>
-                    <div class="PvLabel">阅读<%Response.Write(PaText.count_pv); %></div>
-                    <div class="CommentLabel RdiuB RdiuT">评论<%Response.Write(PaText.count_comment); %></div>
-                    <div class="LikeLabel RdiuB RdiuT"><%Response.Write(PaText.count_like);%></div>
-                    <div class="ClassLabel"><%Response.Write(PaText.text_class); %></div>
-                    <%foreach (string tag in indexServ.extags(PaText.tags))
-                        { %>
-                    <div class="TagLabel"><%Response.Write(tag); %></div>
-                    <%} %>
-                </div>
-            </div>
-
-            <%} %>
-            <a onclick="loadTxt()" class="LoadPostBtn cur Shadow fltL Tran RdiuB RdiuT">
-                <div class="arrowDn"></div>
-            </a>
-            <%} %>
 
 
 
-            <% if (List_text_index_post == null)
-                {%>
-            <div class="TxtBox Shadow fltL RdiuB RdiuT MagnB">
-                <%if (PaText.cover_url != "")
+                <% if (List_text_index_post == null)
                     {%>
-                <img alt="" class="RdiuT TxtImg" src="<%Response.Write(PaText.cover_url); %>" />
-                <%} %>
+                <div class="TxtBox Shadow fltL RdiuB RdiuT MagnB">
+                    <%if (PaText.cover_url != "")
+                        {%>
+                    <img alt="" class="RdiuT TxtImg" src="<%Response.Write(PaText.cover_url); %>" />
+                    <%} %>
 
-                <div class="BoxStrip <%Response.Write(indexServ.stripStyle(PaText.strip_color)); %>"></div>
-                <div class="TxtBoxCntnt">
-                    <div class="TxtTitle"><%Response.Write(PaText.text_title); %></div>
-                    <div class="TxtSummary"><%Response.Write(PaText.text_summary); %></div>
-                    <div class="TxtContent"><%Response.Write(PaText.text_content); %></div>
-                    <!-- markdown字符转换脚本 -->
-                    <script>mkdConvert($(".TxtContent").html());</script>
+                    <div class="BoxStrip <%Response.Write(indexServ.stripStyle(PaText.strip_color)); %>"></div>
+                    <div class="TxtBoxCntnt">
+                        <div class="TxtTitle"><%Response.Write(PaText.text_title); %></div>
+                        <div class="TxtSummary"><%Response.Write(PaText.text_summary); %></div>
+                        <div class="TxtContent"><%Response.Write(PaText.text_content); %></div>
+                        <!-- markdown字符转换脚本 -->
+                        <script>mkdConvert($(".TxtContent").html());</script>
+                    </div>
+
                 </div>
-
-            </div>
             <div class="AttriBox Shadow fltL RdiuT RdiuB MagnB">
                 <div class="CopBox fltL RdiuT">
                     <div class="CopTime">此文本由 <%Response.Write(PaText.text_editor); %> 最后维护于 <%Response.Write(indexServ.extime(PaText.date_changed)); %></div>
