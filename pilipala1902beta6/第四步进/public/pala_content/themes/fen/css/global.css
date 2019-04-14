@@ -9,8 +9,8 @@
     margin-right: auto;
     width: 1024px;
 }
-body, .mohu::before {
-    background: url("../img/background/pc.jpg")fixed;
+body{
+    background: url("http://i1.bvimg.com/683679/bde9c1853436f392.jpg")fixed;
 }
 }
 
@@ -24,22 +24,18 @@ body, .mohu::before {
     margin-right: auto;
     width: 98%;
 }
-body, .mohu::before {
-    background: url("../img/background/mobile.jpg")fixed;
+body{
+    background: url("http://i1.bvimg.com/683679/71cdeb00320b1ede.jpg")fixed;
 }
 }
 html::-webkit-scrollbar {
     display: none;
 }
 body {
-	background-size:cover;
+	background-size: cover;
     margin: 0px;
 	font-family: 'Open Sans', sans-serif;
     font-weight: 300;
-}
-img {
-    width: 100%;
-    height: auto;
 }
 footer {
     position: fixed;
