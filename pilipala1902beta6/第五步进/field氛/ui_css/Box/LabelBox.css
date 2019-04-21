@@ -1,0 +1,64 @@
+.LabelBox {
+	font-family: 'labelico';
+    color: #999999;
+    width: 100%;
+    padding-bottom: 6px;
+    font-size: 12px;
+    font-weight: 300;
+}
+.ClassLabel, .DateLabel, .PvLabel, .TagLabel, .CommentLabel, .LikeLabel, .LikeBtn, .CommentBtn,.TimeLabel {
+    width: 20%;
+    float: left;
+    margin-top: 6px;
+    margin-bottom: 2px;
+    margin-left: 2%;
+    margin-right: 2%;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    text-align: center;
+}
+.ClassLabel:hover, .DateLabel:hover, .PvLabel:hover, .TagLabel:hover,.TimeLabel:hover{
+    color: rgba(100,100,100,1.00);
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+}
+
+@media only screen and (min-width: 1025px) {
+.CommentLabel, .LikeLabel {
+    background: rgba(230,230,230,1.00);
+}
+}
+
+@media only screen and (max-width: 1024px) {
+.CommentLabel, .LikeLabel {
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    padding-left: 2.4%;
+    padding-right: 2.4%;
+    background: rgba(230,230,230,1.00);
+}
+}
+.ClassLabel:before, .CommentLabel:before, .LikeLabel:before, .DateLabel:before, .PvLabel:before, .TagLabel:before, .LikeBtn:before, .CommentBtn:before ,.TimeLabel:before{
+    padding-right: 4%;
+}
+.CommentLabel:before, .CommentBtn:before {
+    content: '\e3003';
+}
+.LikeLabel:before, .LikeBtn:before {
+    content: '\e3002';
+}
+.ClassLabel:before {
+    content: '\e3001';
+}
+.DateLabel:before {
+    content: '\e3007';
+}
+.PvLabel:before {
+    content: '\e3008';
+}
+.TagLabel:before {
+    content: '\e3006';
+}
+.TimeLabel:before {
+    content: '\e3004';
+}
