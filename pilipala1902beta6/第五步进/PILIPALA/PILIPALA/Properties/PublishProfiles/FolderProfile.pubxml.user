@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+此文件由 Web 项目的发布/打包过程使用。可以通过编辑此 MSBuild 文件
+自定义此过程的行为。为了解与此相关的更多内容，请访问 https://go.microsoft.com/fwlink/?LinkID=208121。 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\Administrator\Desktop\public</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/App_Web_0bxqd40b.dll">
+      <publishTime>04/14/2019 09:16:04</publishTime>
+    </File>
+    <File Include="bin/App_Web_0bzbx40h.dll">
+      <publishTime>02/17/2019 09:27:46</publishTime>
+    </File>
+    <File Include="bin/App_Web_0cxns3od.dll">
+      <publishTime>04/05/2019 17:50:38</publishTime>
+    </File>
+    <File Include="bin/App_Web_11xaxmnf.dll">
+      <publishTime>02/17/2019 09:27:46</publishTime>
+    </File>
+    <File Include="bin/App_Web_2bap51kv.dll">
+      <publishTime>03/31/2019 08:57:34</publishTime>
+    </File>
+    <File Include="bin/App_Web_3futv4me.dll">
+      <publishTime>02/17/2019 09:27:31</publishTime>
+    </File>
+    <File Include="bin/App_Web_4dipgg5p.dll">
+      <publishTime>03/16/2019 15:36:32</publishTime>
+    </File>
+    <File Include="bin/App_Web_50kntfhv.dll">
+      <publishTime>02/13/2019 23:54:49</publishTime>
+    </File>
+    <File Include="bin/App_Web_acrfe4xh.dll">
+      <publishTime>03/10/2019 09:25:37</publishTime>
+    </File>
+    <File Include="bin/App_Web_aplharkh.dll">
+      <publishTime>04/21/2019 09:34:49</publishTime>
+    </File>
+    <File Include="bin/App_Web_bmms1yih.dll">
+      <publishTime>03/31/2019 08:57:33</publishTime>
+    </File>
+    <File Include="bin/App_Web_dkof5p05.dll">
+      <publishTime>03/16/2019 15:46:28</publishTime>
+    </File>
+    <File Include="bin/App_Web_e2a23s30.dll">
+      <publishTime>03/30/2019 20:16:31</publishTime>
+    </File>
+    <File Include="bin/App_Web_e2w2gmj5.dll">
+      <publishTime>03/30/2019 20:16:30</publishTime>
+    </File>
+    <File Include="bin/App_Web_f1axcy0d.dll">
+      <publishTime>04/21/2019 09:34:50</publishTime>
+    </File>
+    <File Include="bin/App_Web_fb5r0ye4.dll">
+      <publishTime>02/17/2019 08:22:36</publishTime>
+    </File>
+    <File Include="bin/App_Web_fguimbzc.dll">
+      <publishTime>03/31/2019 08:57:33</publishTime>
+    </File>
+    <File Include="bin/App_Web_h5khgcgs.dll">
+      <publishTime>04/05/2019 17:50:38</publishTime>
+    </File>
+    <File Include="bin/App_Web_hz02sybr.dll">
+      <publishTime>04/21/2019 09:32:00</publishTime>
+    </File>
+    <File Include="bin/App_Web_iaeuvlzm.dll">
+      <publishTime>03/16/2019 15:46:27</publishTime>
+    </File>
+    <File Include="bin/App_Web_ijeemjqq.dll">
+      <publishTime>03/31/2019 08:53:19</publishTime>
+    </File>
+    <File Include="bin/App_Web_iyesrveo.dll">
+      <publishTime>04/21/2019 09:32:01</publishTime>
+    </File>
+    <File Include="bin/App_Web_iziatr5w.dll">
+      <publishTime>02/17/2019 09:27:31</publishTime>
+    </File>
+    <File Include="bin/App_Web_jrvrx2no.dll">
+      <publishTime>03/31/2019 08:53:20</publishTime>
+    </File>
+    <File Include="bin/App_Web_keyqex22.dll">
+      <publishTime>03/10/2019 09:25:23</publishTime>
+    </File>
+    <File Include="bin/App_Web_klwfi2k2.dll">
+      <publishTime>03/10/2019 09:25:23</publishTime>
+    </File>
+    <File Include="bin/App_Web_kmjy0lcn.dll">
+      <publishTime>03/10/2019 00:06:32</publishTime>
+    </File>
+    <File Include="bin/App_Web_lgrytlpc.dll">
+      <publishTime>04/21/2019 09:33:06</publishTime>
+    </File>
+    <File Include="bin/App_Web_lv2es3n3.dll">
+      <publishTime>03/10/2019 09:46:28</publishTime>
+    </File>
+    <File Include="bin/App_Web_lw3iejwt.dll">
+      <publishTime>02/17/2019 08:22:36</publishTime>
+    </File>
+    <File Include="bin/App_Web_lw4ealze.dll">
+      <publishTime>04/21/2019 09:33:06</publishTime>
+    </File>
+    <File Include="bin/App_Web_m0e5dbgr.dll">
+      <publishTime>02/13/2019 23:54:50</publishTime>
+    </File>
+    <File Include="bin/App_Web_m1ulfamx.dll">
+      <publishTime>03/16/2019 15:46:27</publishTime>
+    </File>
+    <File Include="bin/App_Web_mxnv3hfa.dll">
+      <publishTime>02/13/2019 23:54:50</publishTime>
+    </File>
+    <File Include="bin/App_Web_n20rfzlr.dll">
+      <publishTime>03/10/2019 09:46:27</publishTime>
+    </File>
+    <File Include="bin/App_Web_n5d3i4fi.dll">
+      <publishTime>04/21/2019 09:32:01</publishTime>
+    </File>
+    <File Include="bin/App_Web_nhesrojy.dll">
+      <publishTime>03/10/2019 09:25:37</publishTime>
+    </File>
+    <File Include="bin/App_Web_nmpykprg.dll">
+      <publishTime>02/17/2019 09:27:46</publishTime>
+    </File>
+    <File Include="bin/App_Web_nnxonnh0.dll">
+      <publishTime>04/14/2019 09:16:03</publishTime>
+    </File>
+    <File Include="bin/App_Web_nuleaaap.dll">
+      <publishTime>04/14/2019 09:16:04</publishTime>
+    </File>
+    <File Include="bin/App_Web_o2sltiws.dll">
+      <publishTime>03/30/2019 20:16:30</publishTime>
+    </File>
+    <File Include="bin/App_Web_ogbk31nm.dll">
+      <publishTime>03/10/2019 09:46:28</publishTime>
+    </File>
+    <File Include="bin/App_Web_opfkjhml.dll">
+      <publishTime>03/16/2019 15:36:33</publishTime>
+    </File>
+    <File Include="bin/App_Web_pqmvhxk4.dll">
+      <publishTime>03/10/2019 09:25:23</publishTime>
+    </File>
+    <File Include="bin/App_Web_qykdis5m.dll">
+      <publishTime>04/21/2019 09:33:05</publishTime>
+    </File>
+    <File Include="bin/App_Web_rjcnodxo.dll">
+      <publishTime>04/21/2019 09:34:49</publishTime>
+    </File>
+    <File Include="bin/App_Web_syl5kehv.dll">
+      <publishTime>03/31/2019 08:47:06</publishTime>
+    </File>
+    <File Include="bin/App_Web_t2qbekey.dll">
+      <publishTime>03/10/2019 00:06:33</publishTime>
+    </File>
+    <File Include="bin/App_Web_uwoe5xzw.dll">
+      <publishTime>03/31/2019 08:59:37</publishTime>
+    </File>
+    <File Include="bin/App_Web_v0lzjdnw.dll">
+      <publishTime>03/16/2019 15:36:33</publishTime>
+    </File>
+    <File Include="bin/App_Web_vdartcb1.dll">
+      <publishTime>02/17/2019 08:22:37</publishTime>
+    </File>
+    <File Include="bin/App_Web_vg2gvctl.dll">
+      <publishTime>03/31/2019 08:47:06</publishTime>
+    </File>
+    <File Include="bin/App_Web_vlgvdw2c.dll">
+      <publishTime>03/31/2019 08:59:38</publishTime>
+    </File>
+    <File Include="bin/App_Web_vzl5srie.dll">
+      <publishTime>03/31/2019 08:53:19</publishTime>
+    </File>
+    <File Include="bin/App_Web_w40pyuad.dll">
+      <publishTime>04/05/2019 17:50:39</publishTime>
+    </File>
+    <File Include="bin/App_Web_wdrhovgw.dll">
+      <publishTime>03/31/2019 08:59:38</publishTime>
+    </File>
+    <File Include="bin/App_Web_xjlbrgue.dll">
+      <publishTime>03/10/2019 09:25:36</publishTime>
+    </File>
+    <File Include="bin/App_Web_z5lq1gph.dll">
+      <publishTime>03/31/2019 08:47:07</publishTime>
+    </File>
+    <File Include="bin/App_Web_zwdyw0nf.dll">
+      <publishTime>03/10/2019 00:06:32</publishTime>
+    </File>
+    <File Include="bin/App_Web_zwwn2n5m.dll">
+      <publishTime>02/17/2019 09:27:31</publishTime>
+    </File>
+    <File Include="bin/default.aspx.cdcab7d2.compiled">
+      <publishTime>04/21/2019 09:34:50</publishTime>
+    </File>
+    <File Include="bin/index.aspx.a319aba8.compiled">
+      <publishTime>04/14/2019 09:16:04</publishTime>
+    </File>
+    <File Include="bin/index.aspx.f62c914.compiled">
+      <publishTime>04/21/2019 09:34:49</publishTime>
+    </File>
+    <File Include="bin/index.master.b501d27d.compiled">
+      <publishTime>04/21/2019 09:34:49</publishTime>
+    </File>
+    <File Include="bin/indexserv.asmx.1911e728.compiled">
+      <publishTime>04/14/2019 09:16:02</publishTime>
+    </File>
+    <File Include="bin/indexserv.asmx.40c60ab7.compiled">
+      <publishTime>04/21/2019 09:34:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/mysql.data.dll">
+      <publishTime>04/19/2018 04:09:15</publishTime>
+    </File>
+    <File Include="bin/PILIPALA.dll">
+      <publishTime>04/21/2019 09:34:46</publishTime>
+    </File>
+    <File Include="bin/PILIPALA.pdb">
+      <publishTime>04/21/2019 09:34:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe.config">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.rsp">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.exe">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.rsp">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.Scripting.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.Scripting.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.amd64.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.x86.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.VisualBasic.Core.targets">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.AppContext.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Collections.Immutable.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Diagnostics.StackTrace.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.Primitives.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Reflection.Metadata.dll">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe.config">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.rsp">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe.config">
+      <publishTime>05/24/2018 13:38:22</publishTime>
+    </File>
+    <File Include="bin/sls.asmx.a2de7516.compiled">
+      <publishTime>04/21/2019 09:34:50</publishTime>
+    </File>
+    <File Include="bin/StudioLibrary.dll">
+      <publishTime>03/10/2019 08:20:37</publishTime>
+    </File>
+    <File Include="bin/StudioLibrary.pdb">
+      <publishTime>03/10/2019 08:20:37</publishTime>
+    </File>
+    <File Include="Default.aspx">
+      <publishTime>04/21/2019 09:34:50</publishTime>
+    </File>
+    <File Include="index.Master">
+      <publishTime>02/09/2019 06:52:41</publishTime>
+    </File>
+    <File Include="pala_content/themes/fen/index.aspx">
+      <publishTime>04/14/2019 09:16:04</publishTime>
+    </File>
+    <File Include="pala_content/themes/fen/index.html">
+      <publishTime>04/14/2019 08:58:55</publishTime>
+    </File>
+    <File Include="pala_content/themes/fen/js/index.js">
+      <publishTime>03/30/2019 19:44:57</publishTime>
+    </File>
+    <File Include="pala_content/themes/fen/services/indexServ.asmx">
+      <publishTime>04/14/2019 09:16:04</publishTime>
+    </File>
+    <File Include="pala_content/themes/field/field_js/index.js">
+      <publishTime>04/21/2019 08:57:44</publishTime>
+    </File>
+    <File Include="pala_content/themes/field/field_service/indexServ.asmx">
+      <publishTime>04/21/2019 09:34:50</publishTime>
+    </File>
+    <File Include="pala_content/themes/field/index.aspx">
+      <publishTime>04/21/2019 09:34:50</publishTime>
+    </File>
+    <File Include="pala_content/themes/field/index.html">
+      <publishTime>04/21/2019 08:49:04</publishTime>
+    </File>
+    <File Include="pala_services/SLS.asmx">
+      <publishTime>04/21/2019 09:34:50</publishTime>
+    </File>
+    <File Include="PrecompiledApp.config">
+      <publishTime>04/21/2019 09:34:47</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>04/21/2019 09:33:02</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

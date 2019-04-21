@@ -1,0 +1,22 @@
+.LikeBtn, .CommentBtn {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    padding-left: 2.4%;
+    padding-right: 2.4%;
+    color: #FFFFFF;
+}
+
+.LikeBtn {
+    background:rgba(236,146,17,1.00);}
+.LikeBtn:hover {
+    color: #6E6E6E;
+    background: rgba(236,146,17,0.40);
+}
+.CommentBtn {
+    background:rgba(12,193,185,1.00);}
+.CommentBtn:hover {
+    color: #6E6E6E;
+    background: rgba(12,193,185,0.40);
+}

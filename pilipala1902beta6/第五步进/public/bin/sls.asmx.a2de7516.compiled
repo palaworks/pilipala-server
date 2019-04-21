@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/pala_services/SLS.asmx" hash="fffffffff9d57aef" filehash="3ec2c3a94798" flags="130000" assembly="PILIPALA" type="PILIPALA.pala_services.SLS">
+    <filedeps>
+        <filedep name="/pala_services/SLS.asmx" />
+    </filedeps>
+</preserve>
