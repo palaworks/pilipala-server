@@ -1,0 +1,40 @@
+.arrowUp {
+    text-align: center;
+}
+.arrowDn {
+    transform: rotate(180deg);
+    text-align: center;
+}
+.arrowUp::before, .arrowDn::before {
+    font-family: "labelico";
+    margin-left: auto;
+    margin-right: auto;
+    color: #FFFFFF;
+    content: '\e3005';
+}
+.OrgQian::before,.BluQian::before,.PrpQian::before {
+    font-family: 'labelico';
+	content: '\e3009';
+    font-size: 30px;
+    position: relative;
+    float: right;
+    background-position: top;
+    background-size: contain;
+    margin-right: 30px;
+    margin-top: 0px;
+}
+.OrgQian::before {
+    color: rgba(236,146,17,1.00);
+}
+.BluQian::before {
+    color: rgba(12,193,185,1.00);
+}
+.PrpQian::before {
+    color: purple;
+}
+.UsrPic {
+    background: transparent url("../ui_img/p256.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}

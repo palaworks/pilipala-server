@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="3" virtualPath="/pala_content/index.Master" hash="ffffffff7a0f745b" filehash="4416c3e5f32e" flags="110000" assembly="App_Web_aplharkh" type="ASP.pala_content_index_master">
+    <filedeps>
+        <filedep name="/pala_content/index.Master" />
+    </filedeps>
+</preserve>

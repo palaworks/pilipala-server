@@ -1,0 +1,60 @@
+
+@media only screen and (min-width: 1025px) {
+.TxtCol {
+    margin-right: 0%;
+    float: right;
+    width: 708px;
+}
+}
+
+@media only screen and (max-width: 1024px) {
+.TxtCol {
+    margin-right: 0%;
+    width: 100%;
+}
+}
+.TxtTitle {
+    width: 98%;
+    margin-left: 8px;
+	margin-top: 10px;
+    line-height: 30px;
+    font-size: 24px;
+    position: relative;
+}
+.TxtBox {
+    background: rgba(230,230,230,1.00);
+    width: 100%;
+    position: relative;
+}
+.TxtBox>.LabelBox {
+    background:rgba(214,214,214,1.00);
+}
+.TxtSummary {
+    width: 98%;
+    margin-left: 14px;
+	margin-top: 4px;
+    font-size: 14px;
+    position: relative;
+    color: rgba(60,60,60,1.00);
+}
+.TxtBoxCntnt {
+    width: 98%;
+    word-break: break-all;
+    position: relative;
+    margin-top: 10px;
+    margin-left: 6px;
+    margin-right: 6px;
+    margin-bottom: 10px;
+}
+.TxtContent {
+    margin-top: 1%;
+    margin-right: 0%;
+    margin-left: 0%;
+    margin-bottom: 0%;
+    font-size: 16px;
+	line-height: 26px;
+}
+.TxtImg {
+    width: 100%;
+    display: block;
+}
