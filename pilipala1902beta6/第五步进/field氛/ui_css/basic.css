@@ -20,16 +20,16 @@
     margin-bottom: 8px;
 }
 }
-.Shadow {
+.bSha {
     box-shadow: 0px 0px 3px 0.2px rgba(0,0,0,0.4);
 }
 .RdiuT {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 .RdiuB {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 .fltL {
     float: left;
@@ -58,4 +58,20 @@ a:visited {
 }
 .cur {
     cursor: pointer;
+}
+.pic-m{
+	width: 40%;
+}
+.pic-l{
+	width: 60%;
+}
+.pic-max{
+	width: 100%;
+}
+.pSha img{
+	border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+	box-shadow: 0px 0px 6px 0.3px rgba(0,0,0,0.3);
 }

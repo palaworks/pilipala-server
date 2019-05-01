@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/pala_content/themes/field/field_service/indexServ.asmx" hash="fffffffff9d57aef" filehash="ffffbcb68f2dfb69" flags="130000" assembly="PILIPALA" type="PILIPALA.pala_content.themes.field.field_service.indexServ">
+<preserve resultType="2" virtualPath="/pala_content/themes/field/field_service/indexServ.asmx" hash="fffffffff9d57aef" filehash="ffffe0ed4926e70f" flags="130000" assembly="PILIPALA" type="PILIPALA.pala_content.themes.field.field_service.indexServ">
     <filedeps>
         <filedep name="/pala_content/themes/field/field_service/indexServ.asmx" />
     </filedeps>

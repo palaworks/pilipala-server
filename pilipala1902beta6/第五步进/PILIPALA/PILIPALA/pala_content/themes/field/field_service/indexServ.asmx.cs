@@ -78,7 +78,7 @@ namespace PILIPALA.pala_content.themes.field.field_service
         /// </summary>
         /// <returns></returns>
         [WebMethod]
-        public string exstring(string url)
+        public string trsString(string url)
         {
             FileHandler FH = new FileHandler();
             return FH.fileToStr(Server.MapPath("") + url);
@@ -89,10 +89,34 @@ namespace PILIPALA.pala_content.themes.field.field_service
         /// <param name="DateTime">时间对象</param>
         /// <returns></returns>
         [WebMethod]
-        public static string extime(DateTime DateTime)
+        public static string trsDate(DateTime DateTime)
         {
             //年份只取后二位：2099=>99
-            return Convert.ToString(DateTime.Year).Substring(2, 2) + "/" + DateTime.Month + "/" + DateTime.Day + " " + DateTime.Hour + ":" + DateTime.Minute;
+            return Convert.ToString(DateTime.Year).Substring(2, 2) + "/" + DateTime.Month + "/" + DateTime.Day;
+        }
+        /// <summary>
+        /// 时间转换
+        /// </summary>
+        /// <param name="DateTime">时间对象</param>
+        /// <returns></returns>
+        [WebMethod]
+        public static string trsTime(DateTime DateTime)
+        {
+            //年份只取后二位：2099=>99
+            string DayInShort = "ERROR";
+            switch (DateTime.DayOfWeek.ToString())
+            {
+                case "Monday": DayInShort = "Mon"; break;
+                case "Tuesday": DayInShort = "Tues"; break;
+                case "Wednesday": DayInShort = "Wed"; break;
+                case "Thursday": DayInShort = "Thurs"; break;
+                case "Friday": DayInShort = "Fri"; break;
+                case "Saturday": DayInShort = "Sat"; break;
+                case "Sunday": DayInShort = "Sun"; break;
+
+                default: break;
+            }
+            return DayInShort + " " + DateTime.Hour + ":" + DateTime.Minute;
         }
         /// <summary>
         /// 条带颜色样式
@@ -100,13 +124,13 @@ namespace PILIPALA.pala_content.themes.field.field_service
         /// <param name="color">颜色代码</param>
         /// <returns></returns>
         [WebMethod]
-        public static string stripStyle(string strip_color)
+        public static string qianStyle(string strip_color)
         {
             switch (strip_color)
             {
-                case "org": return "OrgQian";
-                case "blu": return "BluQian";
-                case "prp": return "PrpQian";
+                case "org": return "OrgStrip";
+                case "blu": return "BluStrip";
+                case "prp": return "PrpStrip";
                 default: return null;
             }
         }
@@ -116,7 +140,7 @@ namespace PILIPALA.pala_content.themes.field.field_service
         /// <param name="tags">标签文本</param>
         /// <returns></returns>
         [WebMethod]
-        public static List<string> extags(string tags)
+        public static List<string> trsTags(string tags)
         {
             List<string> list_tags = new List<string>();
             foreach (string tag in tags.Split('$'))

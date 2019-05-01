@@ -1,4 +1,5 @@
 .GoUpBtn {
+	width: 80px;
 	font-size: 24px;
 	line-height: 28px;
     display: none;
@@ -13,7 +14,6 @@
 }
 @media only screen and (min-width: 1025px) {
 .GoUpBtn {
-    width: 100px;
     padding-top: 12px;
     padding-bottom: 12px;
     right: 6%;
@@ -22,7 +22,6 @@
 
 @media only screen and (max-width: 1024px) {
 .GoUpBtn {
-    width: 90px;
     padding-top: 10px;
     padding-bottom: 10px;
     left: 2%;

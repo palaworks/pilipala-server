@@ -2,7 +2,7 @@
     width: 100%;
 }
 .AttriBox>.LabelBox{
-	background:rgba(230,230,230,1.00);
+	background: rgba(236,236,236,1.00);
 }
 .CopBox {
     width: 100%;
@@ -45,5 +45,5 @@
     padding-bottom: 20px;
     position: relative;
 	margin-bottom: 200px;
-    background: rgba(255,255,255,1);
+    background: rgba(236,236,236,1.00);
 }

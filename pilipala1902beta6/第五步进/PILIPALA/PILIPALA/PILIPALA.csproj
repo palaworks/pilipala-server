@@ -46,11 +46,11 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="mysql.data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\StudioLibrary\StudioLibrary\bin\Debug\mysql.data.dll</HintPath>
+      <HintPath>..\..\StudioLibrary\StudioLibrary\bin\Release\mysql.data.dll</HintPath>
     </Reference>
-    <Reference Include="StudioLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="StudioLibrary, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\StudioLibrary\StudioLibrary\bin\Debug\StudioLibrary.dll</HintPath>
+      <HintPath>..\..\StudioLibrary\StudioLibrary\bin\Release\StudioLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
