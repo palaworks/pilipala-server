@@ -22,12 +22,12 @@
     position: relative;
 }
 .TxtBox {
-    background: rgba(230,230,230,1.00);
+    background: rgba(236,236,236,1.00);
     width: 100%;
     position: relative;
 }
 .TxtBox>.LabelBox {
-    background:rgba(214,214,214,1.00);
+    background:rgba(216,216,216,1.00);
 }
 .TxtSummary {
     width: 98%;
@@ -37,8 +37,7 @@
     position: relative;
     color: rgba(60,60,60,1.00);
 }
-.TxtBoxCntnt {
-    width: 98%;
+.TxtBoxFrame {
     word-break: break-all;
     position: relative;
     margin-top: 10px;
@@ -53,8 +52,4 @@
     margin-bottom: 0%;
     font-size: 16px;
 	line-height: 26px;
-}
-.TxtImg {
-    width: 100%;
-    display: block;
 }

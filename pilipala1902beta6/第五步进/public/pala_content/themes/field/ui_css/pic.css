@@ -12,7 +12,7 @@
     color: #FFFFFF;
     content: '\e3005';
 }
-.OrgQian::before,.BluQian::before,.PrpQian::before {
+.OrgStrip::before,.BluStrip::before,.PrpStrip::before {
     font-family: 'labelico';
 	content: '\e3009';
     font-size: 30px;
@@ -23,13 +23,13 @@
     margin-right: 30px;
     margin-top: 0px;
 }
-.OrgQian::before {
+.OrgStrip::before {
     color: rgba(236,146,17,1.00);
 }
-.BluQian::before {
+.BluStrip::before {
     color: rgba(12,193,185,1.00);
 }
-.PrpQian::before {
+.PrpStrip::before {
     color: purple;
 }
 .UsrPic {

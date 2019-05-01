@@ -50,7 +50,7 @@
         <%if (Request.QueryString["guide"] == "1")
             {%>
         <div class="NaviCol RdiuT RdiuB">
-            <div class="NaviHead Shadow fltL">
+            <div class="NaviHead bSha fltL">
                 <div class="ShowNaviBtn Tran cur">
                     <div class="arrowDn"></div>
                 </div>
@@ -60,7 +60,7 @@
                 </a>
                 <div class="UsrMto">“坐而言不如起而行”</div>
             </div>
-            <div class="NaviCardBox Shadow fltL">
+            <div class="NaviCardBox bSha fltL">
 
                 <%foreach (LibStructs.PaText PaText in List_text_index_page)
                     {
@@ -97,28 +97,26 @@
                 PaText = SLS.fill(SLS.getTextMain(idxPaText.text_id), SLS.getTextSub(idxPaText.text_id));%>
 
 
-            <div class="TxtBox Shadow fltL RdiuB RdiuT MagnB">
+            <div class="TxtBox pSha bSha fltL RdiuB RdiuT MagnB">
                 <%if (PaText.cover_url != "")
                     {  %>
-                <a onclick="showTxt(<%Response.Write(PaText.text_id); %>)">
-                    <img alt="" class="RdiuT TxtImg" src="<%Response.Write(PaText.cover_url); %>" />
-                </a>
+                    <img onclick="showTxt(<%Response.Write(PaText.text_id); %>)" class="RdiuT pic-max" src="<%Response.Write(PaText.cover_url); %>" />
                 <%} %>
-                <div class="<%Response.Write(indexServ.stripStyle(PaText.strip_color)); %>"></div>
-                <div class="TxtBoxCntnt">
+                <div class="<%Response.Write(indexServ.qianStyle(PaText.strip_color)); %>"></div>
+                <div class="TxtBoxFrame">
                     <a onclick="showTxt(<%Response.Write(PaText.text_id); %>)">
                         <div onclick="GoUp()" class="TxtTitle cur"><%Response.Write(PaText.text_title); %></div>
                         <div class="TxtSummary"><%Response.Write(PaText.text_summary); %></div>
                     </a>
                 </div>
                 <div class="fltL LabelBox LabelTxt RdiuT RdiuB">
-                    <div class="DateLabel"><%Response.Write(indexServ.extime(PaText.date_created)); %></div>
+                    <div class="DateLabel"><%Response.Write(indexServ.trsDate(PaText.date_created)); %></div>
                     <div class="PvLabel">阅读 <%Response.Write(PaText.count_pv); %></div>
                     <div class="CommentLabel RdiuB RdiuT">评论 <%Response.Write(PaText.count_comment); %></div>
                     <div onclick="refre_count_like(<%Response.Write(PaText.text_id); %>)" class="LikeLabel RdiuB RdiuT cur"><%Response.Write(PaText.count_like); %></div>
-                    <div class="TimeLabel"><%Response.Write(indexServ.extime(PaText.date_created)); %></div>
+                    <div class="TimeLabel"><%Response.Write(indexServ.trsTime(PaText.date_created)); %></div>
                     <div class="ClassLabel"><%Response.Write(PaText.text_class); %></div>
-                    <%foreach (string tag in indexServ.extags(PaText.tags))
+                    <%foreach (string tag in indexServ.trsTags(PaText.tags))
                         {  %>
                     <div class="TagLabel"><%Response.Write(tag); %></div>
                     <%} %>
@@ -126,7 +124,7 @@
             </div>
 
             <%} %>
-            <a onclick="loadTxt()" class="LoadPostBtn cur Shadow fltL Tran RdiuB RdiuT">
+            <a onclick="loadTxt()" class="LoadPostBtn cur bSha fltL Tran RdiuB RdiuT">
                 <div class="arrowDn"></div>
             </a>
             <%} %>
@@ -135,36 +133,36 @@
 
             <% if (List_text_index_post == null)
                 {%>
-            <div class="TxtBox Shadow fltL RdiuB RdiuT MagnB">
+            <div class="TxtBox pSha bSha fltL RdiuB RdiuT MagnB">
                 <%if (PaText.cover_url != "")
                     {%>
-                <img alt="" class="RdiuT TxtImg" src="<%Response.Write(PaText.cover_url); %>" />
+                <img alt="" class="RdiuT pic-max" src="<%Response.Write(PaText.cover_url); %>" />
                 <%} %>
 
-                <div class="<%Response.Write(indexServ.stripStyle(PaText.strip_color)); %>"></div>
-                <div class="TxtBoxCntnt">
+                <div class="<%Response.Write(indexServ.qianStyle(PaText.strip_color)); %>"></div>
+                <div class="TxtBoxFrame">
                     <div class="TxtTitle"><%Response.Write(PaText.text_title); %></div>
                     <div class="TxtSummary"><%Response.Write(PaText.text_summary); %></div>
-                    <div class="TxtContent"><%Response.Write(PaText.text_content); %></div>
+                    <div class="TxtContent pSha"><%Response.Write(PaText.text_content); %></div>
                     <!-- markdown字符转换脚本 -->
                     <script>mkdConvert($(".TxtContent").html());</script>
                 </div>
 
             </div>
-            <div class="AttriBox Shadow fltL RdiuT RdiuB MagnB">
+            <div class="AttriBox bSha fltL RdiuT RdiuB MagnB">
                 <div class="CopBox fltL RdiuT">
-                    <div class="CopTime">此文本由 <%Response.Write(PaText.text_editor); %> 最后维护于 <%Response.Write(indexServ.extime(PaText.date_changed)); %></div>
+                    <div class="CopTime">此文本由 <%Response.Write(PaText.text_editor); %> 最后维护于 <%Response.Write(indexServ.trsDate(PaText.date_changed)); %></div>
                     <div class="CopId">文本序列号：<%Response.Write(PaText.text_id); %></div>
                 </div>
                 <div class="LabelBox fltL LabelTxt LabelBg RdiuB">
 
-                    <div class="DateLabel"><%Response.Write(indexServ.extime(PaText.date_created)); %></div>
+                    <div class="DateLabel"><%Response.Write(indexServ.trsDate(PaText.date_created)); %></div>
                     <div class="PvLabel">阅读 <%Response.Write(PaText.count_pv); %></div>
                     <div class="CommentBtn RdiuB RdiuT">评论 <%Response.Write(PaText.count_comment); %></div>
                     <a onclick="refre_count_like(<%Response.Write(PaText.text_id); %>)" class="LikeBtn RdiuB RdiuT cur"><%Response.Write(PaText.count_like); %></a>
-                    <div class="TimeLabel"><%Response.Write(indexServ.extime(PaText.date_created)); %></div>
+                    <div class="TimeLabel"><%Response.Write(indexServ.trsTime(PaText.date_created)); %></div>
                     <div class="ClassLabel"><%Response.Write(PaText.text_class); %></div>
-                    <%foreach (string tag in indexServ.extags(PaText.tags))
+                    <%foreach (string tag in indexServ.trsTags(PaText.tags))
                         {  %>
                     <div class="TagLabel"><%Response.Write(tag); %></div>
                     <%} %>
@@ -173,12 +171,12 @@
             <div>
                 <!-- 推荐文章按钮 -->
                 <%LibStructs.PaText rdmPaText = SLS.getTextMain(SLS.rdmTextIndex(rqst_text_id, "post").text_id);%>
-                <a onclick="GoUp();showTxt(<%Response.Write(rdmPaText.text_id); %>)" class="RandomBtn cur Shadow Tran RdiuB RdiuT MagnB">
+                <a onclick="GoUp();showTxt(<%Response.Write(rdmPaText.text_id); %>)" class="RandomBtn cur bSha Tran RdiuB RdiuT MagnB">
                     <%Response.Write(rdmPaText.text_title); %>
 
                 </a>
                 <!-- 评论区 -->
-                <div class="CommentBox Shadow fltL RdiuB RdiuT MagnB">评论将于BETA测试结束后开放</div>
+                <div class="CommentBox bSha fltL RdiuB RdiuT MagnB">评论将于BETA测试结束后开放</div>
             </div>
             <%}%>
         </div>
@@ -187,7 +185,7 @@
     <%} %>
 
 
-    <div onclick="GoUp()" class="GoUpBtn cur Shadow fltL">
+    <div onclick="GoUp()" class="GoUpBtn cur bSha fltL">
         <div class="arrowUp"></div>
     </div>
     <script>

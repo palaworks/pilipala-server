@@ -26,7 +26,7 @@
 <body>
 <div class="main">
   <div class="NaviCol RdiuT RdiuB">
-    <div class="NaviHead Shadow fltL">
+    <div class="NaviHead bSha fltL">
       <div class="ShowNaviBtn Tran cur">
         <div class="arrowDn"></div>
       </div>
@@ -34,7 +34,7 @@
       <div onclick="GoUp()" class="SiteSummary cur">THAUMY的博客</div>
       <div class="UsrMto">“坐而言不如起而行”</div>
     </div>
-    <div class="NaviCardBox Shadow fltL"> <a onclick="GoUp()" class="NaviCard cur RdiuT RdiuB flx">
+    <div class="NaviCardBox bSha fltL"> <a onclick="GoUp()" class="NaviCard cur RdiuT RdiuB flx">
       <div class="NaviCardTitle flxC">页面标题</div>
       </a><a onclick="GoUp()" class="NaviCard cur RdiuT RdiuB flx">
       <div class="NaviCardTitle flxC">页面标题</div>
@@ -50,9 +50,9 @@
     </div>
   </div>
   <div class="TxtCol">
-    <div class="TxtBox Shadow fltL RdiuB RdiuT MagnB">
-      <div class="Qian OrgQian"></div>
-      <div class="TxtBoxCntnt"> <a>
+    <div class="TxtBox pSha bSha fltL RdiuB RdiuT MagnB">
+      <div class="OrgStrip"></div>
+      <div class="TxtBoxFrame"> <a>
         <div onclick="GoUp()" class="TxtTitle cur">文章标题</div>
         <div class="TxtSummary">艺术家的高度概括</div>
         </a> </div>
@@ -67,28 +67,33 @@
         <div class="TagLabel">标签</div>
       </div>
     </div>
-    <div class="TxtBox Shadow fltL RdiuB RdiuT MagnB"> <img alt="" class="RdiuT TxtImg" src="http://i2.bvimg.com/683679/18e817a8f7417df0s.png"/>
-      <div class="BoxStrip OrgStrip"></div>
-      <div class="TxtBoxCntnt">
+    <div class="TxtBox pSha bSha fltL RdiuB RdiuT MagnB">
+		<img alt="" class="RdiuT pic-max" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg"/>
+      	<div class="TxtBoxFrame">
+		<div class="OrgStrip"></div>
         <div class="TxtTitle">文章标题</div>
         <div class="TxtSummary">艺术家的高度概括</div>
-        <div class="TxtContent">
+        <div class="TxtContent pSha">
 		  ———标准文本测试———<br>
           宇宙虽有其起源，却没有终结——无限。星球虽也有起源，却因其自身之力走向毁灭——有限。拥有睿智之才是最为愚蠢者，历史上不胜枚举... 
           这也可以说是给那些抵抗者们的，神的最后通牒。
           ——《命运石之门》
           <br>———mk标签测试———
-          <br><span class="mk-blabla">你知道的太多了</span>文字/A文字/A文字/A
+          <br><span class="mk-heimu">你知道的太多了</span>文字/A文字/A文字/A
           <br><a class="mk-linked" href="www.www.www">超链接样式</a>文字/A文字/A文字/A
           <br><span class="mk-dt">2019.12.31<span class="mk-bug"></span></span>文字/A文字/A文字/A
           <br><span class="mk-dt">2019.12.31<span class="mk-dbg"></span></span>文字/A文字/A文字/A
           <br><span class="mk-dt">2019.12.31<span class="mk-updt"></span></span>文字/A文字/A文字/A
           <br><span class="mk-dt">2019.12.31<span class="mk-mtn"></span></span>文字/A文字/A文字/A
           <br><span class="mk-dt">2019.12.31<span class="mk-none"></span></span>文字/A文字/A文字/A
+			<br>
+			<p><img alt="中图片测试" class="pic-m" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg"></p>
+			<img alt="大图片测试" class="pic-l" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg">
+			<img alt="最大图片测试" class="pic-max" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg">
         </div>
       </div>
     </div>
-    <div class="AttriBox Shadow fltL RdiuT RdiuB MagnB">
+    <div class="AttriBox bSha fltL RdiuT RdiuB MagnB">
       <div class="CopBox fltL RdiuT">
         <div class="CopTime">此文章由 ThaumyCheng 最后维护于 9999/99/99</div>
         <div class="CopId">文本序列号：99999</div>
@@ -104,13 +109,13 @@
         <div class="TagLabel">标签</div>
       </div>
     </div>
-    <div> <a onclick="GoUp()" class="RandomBtn  cur Shadow Tran RdiuB RdiuT MagnB">推荐文章</a>
-      <div class="CommentBox  Shadow fltL RdiuB RdiuT MagnB">评论将于BETA测试结束后开放</div>
+    <div> <a onclick="GoUp()" class="RandomBtn  cur bSha Tran RdiuB RdiuT MagnB">推荐文章</a>
+      <div class="CommentBox  bSha fltL RdiuB RdiuT MagnB">评论将于BETA测试结束后开放</div>
     </div>
-    <a class="LoadPostBtn  cur Shadow fltL Tran RdiuB RdiuT">
+    <a class="LoadPostBtn  cur bSha fltL Tran RdiuB RdiuT">
     <div class="arrowDn"></div>
     </a> </div>
-  <div onclick="GoUp()" class="GoUpBtn cur Shadow fltL">
+  <div onclick="GoUp()" class="GoUpBtn cur bSha fltL">
     <div class="arrowUp"></div>
   </div>
 </div>
@@ -131,7 +136,7 @@ $(".NaviCard").click(function () {
 });
 //返回顶部按钮淡入淡出
 $(window).scroll(function(){
-if ($(window).scrollTop()>400){ 
+if ($(window).scrollTop()>1600){ 
 	$(".GoUpBtn").fadeIn(350);
 }
 else
