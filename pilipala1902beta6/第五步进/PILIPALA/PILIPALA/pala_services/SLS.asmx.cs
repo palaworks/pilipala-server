@@ -33,13 +33,14 @@ namespace PILIPALA.pala_services
         {
             PalaDB.MySqlConnH = new MySqlConnH();
 
-            
+
             cS.user = "thaumy0tdymy";
             cS.password = "177BDE5";
             cS.dataSource = "localhost";
             cS.port = "3306";
             PalaDB.MySqlConnH.start(cS);
             PalaDB.dataBase = "thaumy0tdymy";
+
 
             /*
             cS.user = "pala_database_user";
@@ -49,6 +50,7 @@ namespace PILIPALA.pala_services
             PalaDB.MySqlConnH.start(cS);
             PalaDB.dataBase = "pala_database";
             */
+
 
             PalaDB.Tables = PalaRoot.defaultTables();/* 以默认值确定表名 */
             PalaDB.Views = PalaRoot.defaultViews();/* 以默认值确定视图名 */

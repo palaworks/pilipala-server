@@ -25,7 +25,7 @@
 
 @media only screen and (min-width: 1025px) {
 .CommentLabel, .LikeLabel {
-    background: rgba(230,230,230,1.00);
+    background: rgba(236,236,236,1.00);
 }
 }
 
@@ -35,7 +35,7 @@
     margin-right: 0.5%;
     padding-left: 2.4%;
     padding-right: 2.4%;
-    background: rgba(230,230,230,1.00);
+    background: rgba(236,236,236,1.00);
 }
 }
 .ClassLabel:before, .CommentLabel:before, .LikeLabel:before, .DateLabel:before, .PvLabel:before, .TagLabel:before, .LikeBtn:before, .CommentBtn:before ,.TimeLabel:before{

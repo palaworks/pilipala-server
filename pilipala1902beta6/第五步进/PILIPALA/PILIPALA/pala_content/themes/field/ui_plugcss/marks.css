@@ -13,14 +13,14 @@ a.mk-linked:hover {
     background: rgba(12,193,185,0.60);
     text-decoration: inherit;
 }
-.mk-blabla {
+.mk-heimu {
     padding-left: 1%;
     padding-right: 1%;
     border-radius: 4px;
     color: rgba(73,73,73,1.00);
     background: rgba(73,73,73,1.00);
 }
-.mk-blabla:hover {
+.mk-heimu:hover {
     color: #FFFFFF;
 }
 .mk-bug {

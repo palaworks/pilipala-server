@@ -10,7 +10,7 @@
     width: 1024px;
 }
 body {
-    background: url("http://i1.bvimg.com/683679/bde9c1853436f392.jpg") fixed;
+    background: url("http://thblog-img.test.upcdn.net/ui-background/pc.jpg") fixed;
 	background-size: cover;
 }
 }
@@ -26,7 +26,7 @@ body {
     width: 98%;
 }
 body {
-    background: url("http://i1.bvimg.com/683679/71cdeb00320b1ede.jpg") fixed;
+    background: url("http://thblog-img.test.upcdn.net/ui-background/mobile.jpg") fixed;
 	background-size: contain;
 }
 }
