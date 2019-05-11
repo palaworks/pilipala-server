@@ -33,7 +33,7 @@ namespace PILIPALA.pala_services
         {
             PalaDB.MySqlConnH = new MySqlConnH();
 
-
+            
             cS.user = "thaumy0tdymy";
             cS.password = "177BDE5";
             cS.dataSource = "localhost";
