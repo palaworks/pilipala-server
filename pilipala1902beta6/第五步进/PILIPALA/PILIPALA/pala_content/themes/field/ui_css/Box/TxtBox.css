@@ -22,12 +22,12 @@
     position: relative;
 }
 .TxtBox {
-    background: rgba(236,236,236,1.00);
+    background: rgba(240,240,240,1.00);
     width: 100%;
     position: relative;
 }
 .TxtBox>.LabelBox {
-    background:rgba(216,216,216,1.00);
+    background:rgba(220,220,220,1.00);
 }
 .TxtSummary {
     width: 98%;
