@@ -1,6 +1,6 @@
 .LabelBox {
 	font-family: 'labelico';
-    color: #999999;
+    color: rgba(120,120,120,1.00);
     width: 100%;
     padding-bottom: 6px;
     font-size: 12px;
@@ -18,14 +18,14 @@
     text-align: center;
 }
 .ClassLabel:hover, .DateLabel:hover, .PvLabel:hover, .TagLabel:hover,.TimeLabel:hover{
-    color: rgba(100,100,100,1.00);
+    color:rgba(230,8,110,1.00);
     transition-duration: 0.2s;
     transition-timing-function: ease;
 }
 
 @media only screen and (min-width: 1025px) {
 .CommentLabel, .LikeLabel {
-    background: rgba(236,236,236,1.00);
+    background: rgba(240,240,240,1.00);
 }
 }
 
