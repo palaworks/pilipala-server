@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="3" virtualPath="/pala_content/themes/field/index.aspx" hash="fffffffe227ad988" filehash="be97e972089a868d" flags="110000" assembly="App_Web_iyesrveo" type="ASP.pala_content_themes_field_index_aspx">
+    <filedeps>
+        <filedep name="/pala_content/index.Master" />
+        <filedep name="/pala_content/themes/field/index.aspx" />
+    </filedeps>
+</preserve>

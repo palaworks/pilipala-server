@@ -1,0 +1,79 @@
+
+@media only screen and (min-width: 1025px) {
+.NaviCardBox {
+	z-index: -1;
+    width: 100%;
+	background: rgba(57,57,57,1.00);
+    padding-bottom: 14px;
+    position: relative;
+	padding-top: 10px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+.CoMark {
+    line-height: 20px;
+    font-size: 12px;
+    margin-top: 5%;
+}
+.NaviCard {
+	background: linear-gradient(to right, rgba(57,57,57,1.00) , rgba(41,41,41,1.00));
+    width: 94%;
+    position: relative;
+    margin-bottom: 8px;
+    height: 54px;
+    margin-left: auto;
+    margin-right: auto;
+}
+}
+
+@media only screen and (max-width: 1024px) {
+.NaviCardBox {
+display: none;
+	width: 70%;
+    background-color: rgba(57,57,57,1.00);
+    z-index: 1;
+    position: fixed;
+    border-radius: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 8px;
+	top: 12px;
+	right: 12px;
+    padding-top: 20%;
+}
+.CoMark {
+    line-height: 16px;
+    font-size: 12px;
+    margin-top: 6%;
+    padding: 2%;
+}
+.NaviCard {
+	background: linear-gradient(to right, rgba(57,57,57,1.00) , rgba(41,41,41,1.00));
+    width: 96%;
+    position: relative;
+    margin-bottom: 6px;
+    height: 54px;
+    margin-left: auto;
+    margin-right: auto;
+}
+}
+.NaviCard:hover {
+    background: linear-gradient(to right, rgba(41,41,41,1.00) , rgba(41,41,41,1.00));
+}
+.NaviCardTitle {
+    line-height: 18px;
+    font-size: 16px;
+    color: #FFFFFF;
+    float: left;
+    margin-right: auto;
+    margin-left: 5%;
+	text-align: center;
+}
+.CoMark {
+    width: 88%;
+    position: relative;
+    text-align: center;
+    color: #FFFFFF;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 0%;
+}
