@@ -15,6 +15,8 @@
  @import url("ui_css/font.css");
  @import url("ui_css/Box/Box.css");
  @import url("ui_css/Btn/Btn.css");
+ @import url("ui_css/mrks.css");
+ @import url("ui_css/wrds.css");
 </style>
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
 <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js" type="text/javascript"></script>
@@ -33,7 +35,7 @@
       <div onclick="GoUp()" class="UsrPic cur"></div>
       <div onclick="GoUp()" class="SiteSummary cur">THAUMY的小破站</div>
       <div class="UsrMto"><span class="hiWord"></span></div>
-		<script src="ui_js/hiWord.js" type="text/javascript"></script>
+      <script src="ui_js/hiWord.js" type="text/javascript"></script> 
     </div>
     <div class="NaviCardBox bSha fltL"> <a onclick="GoUp()" class="NaviCard cur RdiuT RdiuB flx">
       <div class="NaviCardTitle flxC">页面标题</div>
@@ -56,8 +58,7 @@
       <div class="TxtBoxFrame"> <a>
         <div onclick="GoUp()" class="TxtTitle cur">文章标题</div>
         <div class="TxtSummary">艺术家的高度概括</div>
-        </a> 
-		</div>
+        </a> </div>
       <div class="LabelBox fltL LabelTxt RdiuB">
         <div class="DateLabel">2019/23/33</div>
         <div class="PvLabel">阅读 9999</div>
@@ -69,31 +70,24 @@
         <div class="TagLabel">标签</div>
       </div>
     </div>
-	  
-    <div class="TxtBox pSha bSha fltL RdiuB RdiuT MagnB">
-		<img alt="" class="RdiuT pic-max" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg"/>
-      	<div class="TxtBoxFrame">
-		<div class="OrgStrip"></div>
+    <div class="TxtBox pSha bSha fltL RdiuB RdiuT MagnB"> <img alt="" class="RdiuT pic-max" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg"/>
+      <div class="TxtBoxFrame">
+        <div class="OrgStrip"></div>
         <div class="TxtTitle">文章标题</div>
         <div class="TxtSummary">艺术家的高度概括</div>
-        <div class="TxtContent pSha">
-		  ———标准文本测试———<br>
+        <div class="TxtContent pSha"> ———标准文本测试———<br>
           宇宙虽有其起源，却没有终结——无限。星球虽也有起源，却因其自身之力走向毁灭——有限。拥有睿智之才是最为愚蠢者，历史上不胜枚举... 
           这也可以说是给那些抵抗者们的，神的最后通牒。
-          ——《命运石之门》
-          <br>———mk标签测试———
-          <br><span class="mk-heimu">你知道的太多了</span>文字/A文字/A文字/A
-          <br><a class="mk-linked" href="www.www.www">超链接样式</a>文字/A文字/A文字/A
-          <br><span class="mk-dt">2019.12.31<span class="mk-bug"></span></span>文字/A文字/A文字/A
-          <br><span class="mk-dt">2019.12.31<span class="mk-dbg"></span></span>文字/A文字/A文字/A
-          <br><span class="mk-dt">2019.12.31<span class="mk-updt"></span></span>文字/A文字/A文字/A
-          <br><span class="mk-dt">2019.12.31<span class="mk-mtn"></span></span>文字/A文字/A文字/A
-          <br><span class="mk-dt">2019.12.31<span class="mk-none"></span></span>文字/A文字/A文字/A
-			<br>
-			<p><img alt="中图片测试" class="pic-m" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg"></p>
-			<img alt="大图片测试" class="pic-l" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg">
-			<img alt="最大图片测试" class="pic-max" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg">
-        </div>
+          ——《命运石之门》 <br>
+          ———标签测试——— <br>
+          <span class="mk-heimu">你知道的太多了</span>文字/A文字/A文字/A <br>
+          <a class="mk-linked" href="www.www.www">超链接样式</a>文字/A文字/A文字/A <br>
+          <span class="wd-dt1">2019.12.31</span>文字/A文字/A文字/A <br>
+          <span class="wd-dt2">2019.12.31</span>文字/A文字/A文字/A <br>
+          <span class="wd-dt3">2019.12.31</span>文字/A文字/A文字/A <br>
+          <span class="wd-dt4">2019.12.31</span>文字/A文字/A文字/A <span class="mk-updt"></span> <span class="mk-w"></span>
+          <p><img alt="中图片测试" class="pic-m" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg"></p>
+          <img alt="大图片测试" class="pic-l" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg"> <img alt="最大图片测试" class="pic-max" src="http://thblog-img.test.upcdn.net/ui-background/example.jpg"> </div>
       </div>
     </div>
     <div class="AttriBox bSha fltL RdiuT RdiuB MagnB">
@@ -112,7 +106,7 @@
         <div class="TagLabel">标签</div>
       </div>
     </div>
-    <div> <a onclick="GoUp()" class="RandomBtn  cur bSha Tran RdiuB RdiuT MagnB">推荐文章</a>
+    <div> <a onclick="GoUp()" class="RandomBtn fltL cur bSha Tran RdiuB RdiuT MagnB">随机文章随机文章随机文章随机文章随机文章随机文章随机文章</a>
       <div class="CommentBox  bSha fltL RdiuB RdiuT MagnB">评论将于BETA测试结束后开放</div>
     </div>
     <a class="LoadPostBtn  cur bSha fltL Tran RdiuB RdiuT">

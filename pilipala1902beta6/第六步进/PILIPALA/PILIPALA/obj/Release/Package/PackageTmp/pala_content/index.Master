@@ -4,7 +4,7 @@
 
 <html>
 <head runat="server">
-    <title>Thaumy的博客|又一个码农的家</title>
+    <title>Thaumy的小破站|又一个码农的家</title>
     <!-- 文档头 -->
     <asp:ContentPlaceHolder ID="indexHead" runat="server"></asp:ContentPlaceHolder>
 </head>
