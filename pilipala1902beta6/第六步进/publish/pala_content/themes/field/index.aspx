@@ -58,7 +58,7 @@
                 </div>
                 <a onclick="GoUp();goHome()">
                     <div class="UsrPic cur"></div>
-                    <div onclick="GoUp()" class="SiteSummary cur">THAUMY的小破站</div>
+                    <div class="SiteSummary cur">THAUMY的小破站</div>
                     <div class="UsrMto"><span class="hiWord"></span></div>
                     <script src="ui_js/hiWord.js" type="text/javascript"></script>
                 </a>
@@ -179,7 +179,7 @@
             <div>
                 <!-- 推荐文章按钮 -->
                 <%LibStructs.PaText rdmPaText = SLS.getTextMain(SLS.rdmTextIndex(rqst_text_id, "post").text_id);%>
-                <a onclick="GoUp();showTxt(<%Response.Write(rdmPaText.text_id); %>)" class="RandomBtn cur bSha Tran RdiuB RdiuT MagnB">
+                <a onclick="GoUp();showTxt(<%Response.Write(rdmPaText.text_id); %>)" class="RandomBtn fltL cur bSha Tran RdiuB RdiuT MagnB">
                     <%Response.Write(rdmPaText.text_title); %>
 
                 </a>
