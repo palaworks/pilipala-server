@@ -1,7 +1,9 @@
 .GoUpBtn {
-	width: 80px;
-	font-size: 24px;
-	line-height: 28px;
+    width: 80px;
+    font-size: 24px;
+    line-height: 28px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     display: none;
     position: fixed;
     z-index: 1;
@@ -9,21 +11,18 @@
     background-color: rgba(57,57,57,1.00);
     border-radius: 30px;
 }
-.GoUpBtn>div{    
-	margin: auto;
+.GoUpBtn>div {
+    margin: auto;
 }
+
 @media only screen and (min-width: 1025px) {
 .GoUpBtn {
-    padding-top: 12px;
-    padding-bottom: 12px;
     right: 6%;
 }
 }
 
 @media only screen and (max-width: 1024px) {
 .GoUpBtn {
-    padding-top: 10px;
-    padding-bottom: 10px;
     left: 2%;
 }
 }

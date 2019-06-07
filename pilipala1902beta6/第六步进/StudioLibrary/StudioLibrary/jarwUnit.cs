@@ -242,7 +242,6 @@ namespace jarwUnit
                 /// <param name="text_type">自定义文本类型</param>
                 /// <returns></returns>
                 List<PaText> stepTextList(int row, int rowLength, string text_type);
-
             }
             /// <summary>
             /// 文本控制接口
@@ -263,13 +262,25 @@ namespace jarwUnit
                 PaText getTextSub(int text_id);
 
                 /// <summary>
+                /// 返回当前文本 text_id 的下一个文本 text_id
+                /// </summary>
+                /// <param name="current_text_id">当前文本序列号</param>
+                /// <returns>错误返回 -1</returns>
+                int nextTextID(int current_text_id);
+                /// <summary>
+                /// 返回当前文本 text_id 的上一个文本 text_id
+                /// </summary>
+                /// <param name="current_text_id">当前文本序列号</param>
+                /// <returns>错误返回 -1</returns>
+                int prviousTextID(int current_text_id);
+
+                /// <summary>
                 /// 随机获得文本索引表行
                 /// </summary>
                 /// <param name="excluded_text_id">不参与随机操作的文本ID</param>
                 /// <param name="text_type">自定义文本类型</param>
                 /// <returns></returns>
                 PaText rdmTextIndex(int excluded_text_id, string text_type);
-
             }
 
             /// <summary>
@@ -525,6 +536,49 @@ namespace jarwUnit
                         MySqlConnH.closeHConnection();
                         MySqlConnH.nullHCommand();
                         MySqlConnH.disposeHCommand();
+                    }
+                }
+
+                public int nextTextID(int current_text_id)
+                {
+                    /* 取得比当前 text_id 大的一行，实现对下一条数据的抓取 */
+                    /* text_mode='onshow' 文本显示开启，防止遍历到数据库内不公开的 text_id */
+                    string SQL = "SELECT * FROM " + dataBase + "`" + Tables.text_index + "`" + " WHERE text_id = " +
+                        "(SELECT min(text_id) FROM " + dataBase + "`" + Tables.text_index + "`" + " WHERE text_id> ?current_text_id and text_mode='onshow');";
+
+                    List<Para> List_Para = new List<Para>/* 为参数化查询添加元素 */
+                        {
+                            new Para() { paraName = "?current_text_id", paraValue = current_text_id }
+                        };
+
+                    using (MySqlCommand MySqlCommand = MySqlConnH.paraQueryCmd(SQL, List_Para))/* 参数化查询 */
+                    {
+                        foreach (DataRow Row in MySqlConnH.getTable(MySqlCommand).Rows)/* 遍历查询到的表以取得唯一的数据行 */
+                        {
+                            return Convert.ToInt32(Row["text_id"]);/* 直接返回该text_id */
+                        }
+                        return -1;/* 错误返回-1 */
+                    }
+                }
+                public int prviousTextID(int current_text_id)
+                {
+                    /* 取得比当前 text_id 小的一行，实现对上一条数据的抓取 */
+                    /* text_mode='onshow' 文本显示开启，防止遍历到数据库内不公开的 text_id */
+                    string SQL = "SELECT * FROM " + dataBase + "`" + Tables.text_index + "`" + " WHERE text_id = " +
+                        "(SELECT min(text_id) FROM " + dataBase + "`" + Tables.text_index + "`" + " WHERE text_id< ?current_text_id and text_mode='onshow');";
+
+                    List<Para> List_Para = new List<Para>/* 为参数化查询添加元素 */
+                        {
+                            new Para() { paraName = "?current_text_id", paraValue = current_text_id }
+                        };
+
+                    using (MySqlCommand MySqlCommand = MySqlConnH.paraQueryCmd(SQL, List_Para))/* 参数化查询 */
+                    {
+                        foreach (DataRow Row in MySqlConnH.getTable(MySqlCommand).Rows)/* 遍历查询到的表以取得唯一的数据行 */
+                        {
+                            return Convert.ToInt32(Row["text_id"]);/* 直接返回该text_id */
+                        }
+                        return -1;/* 错误返回-1 */
                     }
                 }
 

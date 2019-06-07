@@ -179,7 +179,7 @@
             <div>
                 <!-- 推荐文章按钮 -->
                 <%LibStructs.PaText rdmPaText = SLS.getTextMain(SLS.rdmTextIndex(rqst_text_id, "post").text_id);%>
-                <a onclick="GoUp();showTxt(<%Response.Write(rdmPaText.text_id); %>)" class="RandomBtn cur bSha Tran RdiuB RdiuT MagnB">
+                <a onclick="GoUp();showTxt(<%Response.Write(rdmPaText.text_id); %>)" class="RandomBtn fltL cur bSha Tran RdiuB RdiuT MagnB">
                     <%Response.Write(rdmPaText.text_title); %>
 
                 </a>
