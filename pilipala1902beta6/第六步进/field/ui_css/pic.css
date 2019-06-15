@@ -32,7 +32,7 @@
 .PrpStrip::before {
     color: purple;
 }
-.UsrPic {
+.Avatar {
     background: transparent url("../ui_img/p256.png");
     background-repeat: no-repeat;
     background-position: center;

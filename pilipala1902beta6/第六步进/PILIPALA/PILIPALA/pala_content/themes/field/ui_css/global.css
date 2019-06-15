@@ -11,7 +11,7 @@
 }
 body {
     background: url("http://thblog-img.test.upcdn.net/ui-background/pc.jpg") fixed;
-	background-size: cover;
+    background-size: cover;
 }
 }
 
@@ -27,15 +27,15 @@ body {
 }
 body {
     background: url("http://thblog-img.test.upcdn.net/ui-background/mobile.jpg") fixed;
-	background-size: contain;
+    background-size: contain;
 }
 }
 html::-webkit-scrollbar {
  display: none;
 }
 body {
-	background-repeat: repeat;
-	background-position: center;
+    background-repeat: repeat;
+    background-position: center;
     margin: 0px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
