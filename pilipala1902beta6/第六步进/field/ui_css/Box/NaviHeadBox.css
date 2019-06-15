@@ -1,3 +1,28 @@
+.SiteIntro::before {
+    margin-right: 6px;
+    font-family: "labelico";
+    content: '\e3010';
+    font-size: 12px;
+}
+.SiteIntro::after {
+    margin-left: 6px;
+    font-family: "labelico";
+    content: '\e3003';
+    font-size: 12px;
+}
+.SiteName {
+    background-color: transparent;
+    line-height: 24px;
+    font-size: 20px;
+    text-align: center;
+    color: #FFFFFF;
+}
+.SiteIntro {
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 16px;
+    line-height: 18px;
+}
 
 @media only screen and (min-width: 1025px) {
 .NaviCol {
@@ -10,35 +35,19 @@
     padding-top: 14%;
     padding-right: inherit;
     position: relative;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-    background:rgba(57,57,57,1.00);}
-.SiteSummary {
-    background-color: transparent;
-    line-height: 24px;
-    font-size: 20px;
-    text-align: center;
-    color: #FFFFFF;
+}
+.SiteName {
     width: 88%;
     margin-top: 14%;
     margin-left: auto;
     margin-bottom: 0%;
-    position: relative;
     margin-right: auto;
 }
-.UsrMto {
-    background-color: rgba(50,50,50,1.00);
+.SiteIntro {
     width: 100%;
-	margin-top: 7%;
-	margin-left: auto;
-	margin-right: auto;
-    padding-bottom: 6%;
-    line-height: 18px;
-    font-size: 16px;
-    text-align: center;
-    color: #FFFFFF;
-    position: relative;
-    padding-top: 6%;
+    margin-top: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 .ShowNaviBtn {
     display: none;
@@ -50,52 +59,41 @@
     width: 100%;
 }
 .NaviHead {
-	border-radius: 10px;
     width: 100%;
     padding-top: 6%;
-	background: rgba(57,57,57,1.00);
-	margin-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
-.SiteSummary {
-    background-color: transparent;
-    line-height: 24px;
-    font-size: 20px;
-    text-align: center;
-    color: #FFFFFF;
+.SiteName {
     width: 88%;
-    position: relative;
     margin: auto;
-	margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 5%;
+    margin-bottom: 1%;
 }
-.UsrMto {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    background-color:rgba(50,50,50,1.00);
+.SiteIntro {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
     width: 100%;
-    line-height: 18px;
-    font-size: 16px;
-    text-align: center;
-    color: #FFFFFF;
     padding-bottom: 16px;
     padding-top: 16px;
 }
 .ShowNaviBtn {
-	font-size: 20px;
-	width: 60px;
+    font-size: 20px;
+    width: 60px;
     height: 40px;
-	border-radius: 30px;
-	background-color:rgba(76,76,76,1.00);
-	box-shadow: 0px 0px 3px 0.2px rgba(0,0,0,0.4);
-	z-index: 2;
+    border-radius: 30px;
+    background-color: rgba(76,76,76,1.00);
+    box-shadow: 0px 0px 3px 0.2px rgba(0,0,0,0.4);
+    z-index: 2;
     position: fixed;
     float: right;
-	top: 32px;
+    top: 32px;
     right: 32px;
-	line-height: 38px;
+    line-height: 38px;
 }
 }
-.UsrPic {
+.Avatar {
     border-radius: 64px;
     width: 128px;
     height: 128px;
@@ -104,8 +102,8 @@
     transition-duration: 0.2s;
     transition-timing-function: ease;
 }
-.UsrPic:hover {
-    box-shadow: 0px 0px 80px rgba(255, 255, 255, 0.3), 0px 0px 0px rgba(255, 255, 255, 0.3);
+.Avatar:hover {
+    box-shadow: 0px 0px 64px rgba(245, 245, 245, 0.3), 0px 0px 0px rgba(245, 245, 245, 0.3);
     transition-duration: 0.1s;
     transition-timing-function: ease;
 }

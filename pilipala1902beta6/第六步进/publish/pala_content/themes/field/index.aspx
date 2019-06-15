@@ -52,18 +52,19 @@
         <%if (Request.QueryString["guide"] == "1")
             {%>
         <div class="NaviCol RdiuT RdiuB">
-            <div class="NaviHead bSha fltL">
-                <div class="ShowNaviBtn Tran cur">
-                    <div class="arrowDn"></div>
-                </div>
+            <div class="NaviHead blk50 RdiuT bSha fltL">
+                
                 <a onclick="GoUp();goHome()">
-                    <div class="UsrPic cur"></div>
-                    <div class="SiteSummary cur">THAUMY的小破站</div>
-                    <div class="UsrMto"><span class="hiWord"></span></div>
+                    <div class="Avatar bSha cur"></div>
+                    <div class="SiteName cur">THAUMY的小破站</div>
+                    <div class="SiteIntro"><span class="hiWord"></span></div>
                     <script src="ui_js/hiWord.js" type="text/javascript"></script>
                 </a>
             </div>
-            <div class="NaviCardBox bSha fltL">
+            <div class="ShowNaviBtn Tran cur">
+                    <div class="arrowDn"></div>
+                </div>
+            <div class="NaviCardBox bSha RdiuB fltL">
 
                 <%foreach (LibStructs.PaText PaText in List_text_index_page)
                     {
@@ -132,7 +133,7 @@
             </div>
 
             <%} %>
-            <a onclick="loadTxt()" class="LoadPostBtn cur bSha fltL Tran RdiuB RdiuT">
+            <a onclick="loadTxt()" class="LoadPostBtn blk50 cur bSha fltL Tran RdiuB RdiuT">
                 <div class="arrowDn"></div>
             </a>
             <%} %>
@@ -157,7 +158,7 @@
                 </div>
 
             </div>
-            <div class="AttriBox bSha fltL RdiuT RdiuB MagnB">
+            <div class="AttriBox blk50 bSha fltL RdiuT RdiuB MagnB">
                 <div class="CopBox fltL RdiuT">
                     <div class="CopTime">此文本由 <%Response.Write(PaText.text_editor); %> 最后维护于 <%Response.Write(indexServ.trsDate(PaText.date_changed)); %></div>
                     <div class="CopId">文本序列号：<%Response.Write(PaText.text_id); %></div>
@@ -179,7 +180,7 @@
             <div>
                 <!-- 推荐文章按钮 -->
                 <%LibStructs.PaText rdmPaText = SLS.getTextMain(SLS.rdmTextIndex(rqst_text_id, "post").text_id);%>
-                <a onclick="GoUp();showTxt(<%Response.Write(rdmPaText.text_id); %>)" class="RandomBtn fltL cur bSha Tran RdiuB RdiuT MagnB">
+                <a onclick="GoUp();showTxt(<%Response.Write(rdmPaText.text_id); %>)" class="RandomBtn blk50 fltL cur bSha Tran RdiuB RdiuT MagnB">
                     <%Response.Write(rdmPaText.text_title); %>
 
                 </a>
