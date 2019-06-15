@@ -53,7 +53,7 @@
             {%>
         <div class="NaviCol RdiuT RdiuB">
             <div class="NaviHead blk50 RdiuT bSha fltL">
-                
+
                 <a onclick="GoUp();goHome()">
                     <div class="Avatar bSha cur"></div>
                     <div class="SiteName cur">THAUMY的小破站</div>
@@ -61,10 +61,9 @@
                     <script src="ui_js/hiWord.js" type="text/javascript"></script>
                 </a>
             </div>
-            <div class="ShowNaviBtn Tran cur">
-                    <div class="arrowDn"></div>
-                </div>
-            <div class="NaviCardBox bSha RdiuB fltL">
+            <div class="ShowNaviBtn blk55 Tran cur">
+            </div>
+            <div class="NaviCardBox blk55 RdiuB bSha fltL">
 
                 <%foreach (LibStructs.PaText PaText in List_text_index_page)
                     {
@@ -77,11 +76,8 @@
 
                 <div class="CoMark">
                     Thaumy的博客©2016-2019保留所有权利<br>
-                    基于pilipala开发<br>
-                    based on pilipala<br>
-                    <!-- CNZZ -->
-                    <script type="text/javascript" src="https://s19.cnzz.com/z_stat.php?id=1262285427&web_id=1262285427"></script>
-                    <!-- CNZZ -->
+                    基于pilipala构建<br>
+                    Field Theme By Thaumy<br>
                 </div>
             </div>
         </div>
@@ -125,17 +121,12 @@
                         {  %>
                     <div class="TagLabel"><%Response.Write(tag); %></div>
                     <%} %>
-
-
-
                 </div>
 
             </div>
 
             <%} %>
-            <a onclick="loadTxt()" class="LoadPostBtn blk50 cur bSha fltL Tran RdiuB RdiuT">
-                <div class="arrowDn"></div>
-            </a>
+            <a onclick="loadTxt()" class="LoadPostBtn blk50 cur bSha fltL Tran RdiuB RdiuT"></a>
             <%} %>
 
 
@@ -182,7 +173,6 @@
                 <%LibStructs.PaText rdmPaText = SLS.getTextMain(SLS.rdmTextIndex(rqst_text_id, "post").text_id);%>
                 <a onclick="GoUp();showTxt(<%Response.Write(rdmPaText.text_id); %>)" class="RandomBtn blk50 fltL cur bSha Tran RdiuB RdiuT MagnB">
                     <%Response.Write(rdmPaText.text_title); %>
-
                 </a>
                 <!-- 评论区 -->
                 <div class="CommentBox bSha fltL RdiuB RdiuT MagnB">评论将于BETA测试结束后开放</div>
@@ -194,9 +184,8 @@
     <%} %>
 
 
-    <div onclick="GoUp()" class="GoUpBtn cur bSha fltL">
-        <div class="arrowUp"></div>
-    </div>
+    <div onclick="GoUp()" class="GoUpBtn blk55 cur bSha fltL"></div>
+
 
     <script>
         //ShowNaviCardBoxBtn点击事件

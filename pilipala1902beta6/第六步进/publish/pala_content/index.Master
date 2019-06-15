@@ -13,5 +13,10 @@
         <!-- 文档内容 -->
         <asp:ContentPlaceHolder ID="indexBody" runat="server"></asp:ContentPlaceHolder>
     </form>
+    <!-- CNZZ -->
+    <div style="display: none">
+        <script type="text/javascript" src="https://s19.cnzz.com/z_stat.php?id=1262285427&web_id=1262285427"></script>
+    </div>
+    <!-- CNZZ -->
 </body>
 </html>
