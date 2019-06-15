@@ -1,6 +1,6 @@
 .GoUpBtn {
     width: 80px;
-    font-size: 24px;
+    font-size: 22px;
     line-height: 28px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -8,13 +8,16 @@
     position: fixed;
     z-index: 1;
     bottom: 10%;
-    background-color: rgba(57,57,57,1.00);
     border-radius: 30px;
 }
-.GoUpBtn>div {
-    margin: auto;
+.GoUpBtn {
+	text-align: center;
 }
-
+.GoUpBtn::before {
+    font-family: 'labelico';
+	color: #FFFFFF;
+	content: "\e3005";
+}
 @media only screen and (min-width: 1025px) {
 .GoUpBtn {
     right: 6%;

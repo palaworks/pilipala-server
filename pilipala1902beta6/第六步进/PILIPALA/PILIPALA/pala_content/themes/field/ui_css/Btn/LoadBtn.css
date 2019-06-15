@@ -8,8 +8,13 @@
     position: relative;
     padding-top: 14px;
 }
-.LoadPostBtn>div {
-margin: auto;
+.LoadPostBtn {
+text-align: center;
+}
+.LoadPostBtn::before {
+	font-family: 'labelico';
+	color: #FFFFFF;
+	content: "\e3011"
 }
 .LoadPostBtn:hover {
     background-color: rgba(76,76,76,1.00);

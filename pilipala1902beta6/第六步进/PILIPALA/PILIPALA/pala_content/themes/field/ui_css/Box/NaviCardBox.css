@@ -1,22 +1,45 @@
-
+.NaviCard:hover {
+    background: rgba(41,41,41,1.00);
+	transition-duration: 0.2s;
+    transition-timing-function:ease-in-out;
+}
+.NaviCardTitle {
+    line-height: 18px;
+    font-size: 15.5px;
+    color: #FFFFFF;
+    float: left;
+    margin-right: auto;
+    margin-left: 5%;
+    text-align: center;
+}
+.CoMark {
+    width: 88%;
+    text-align: center;
+    color: #FFFFFF;
+    margin-right: auto;
+    margin-left: auto;
+	line-height: 17px;
+}
+.NaviCard::after {
+	align-self: center;
+	margin-right: 5px;
+	color: #FFFFFF;
+	font-family: "labelico";
+	content: '\e3013';
+}
 @media only screen and (min-width: 1025px) {
 .NaviCardBox {
     z-index: -1;
     width: 100%;
-    background: rgba(57,57,57,1.00);
     padding-bottom: 14px;
-    position: relative;
     padding-top: 10px;
 }
 .CoMark {
-    line-height: 18px;
     font-size: 12px;
     margin-top: 14px;
 }
 .NaviCard {
-    background: linear-gradient(to right, rgba(57,57,57,1.00), rgba(41,41,41,1.00));
     width: 92%;
-    position: relative;
     margin-bottom: 8px;
     height: 52px;
     margin-left: auto;
@@ -26,7 +49,6 @@
 
 @media only screen and (max-width: 1024px) {
 .NaviCardBox {
-	background: rgba(57,57,57,1.00);
 	padding-top: 20%;
     display: none;
     width: 70%;
@@ -36,38 +58,15 @@
     right: 12px;
 }
 .CoMark {
-    line-height: 16px;
     font-size: 12px;
     margin-top: 6%;
 	margin-bottom: 6%;
 }
 .NaviCard {
-    background: linear-gradient(to right, rgba(57,57,57,1.00), rgba(41,41,41,1.00));
     width: 96%;
-    position: relative;
     margin-bottom: 6px;
     height: 54px;
     margin-left: auto;
     margin-right: auto;
 }
-}
-.NaviCard:hover {
-    background: linear-gradient(to right, rgba(41,41,41,1.00), rgba(41,41,41,1.00));
-}
-.NaviCardTitle {
-    line-height: 18px;
-    font-size: 16px;
-    color: #FFFFFF;
-    float: left;
-    margin-right: auto;
-    margin-left: 5%;
-    text-align: center;
-}
-.CoMark {
-    width: 88%;
-    position: relative;
-    text-align: center;
-    color: #FFFFFF;
-    margin-right: auto;
-    margin-left: auto;
 }
