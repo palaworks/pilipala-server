@@ -13,14 +13,14 @@
 .SiteName {
     background-color: transparent;
     line-height: 24px;
-    font-size: 20px;
+    font-size: 19px;
     text-align: center;
     color: #FFFFFF;
 }
 .SiteIntro {
     color: #FFFFFF;
     text-align: center;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 18px;
 }
 
@@ -83,14 +83,21 @@
     width: 60px;
     height: 40px;
     border-radius: 30px;
-    background-color: rgba(76,76,76,1.00);
     box-shadow: 0px 0px 3px 0.2px rgba(0,0,0,0.4);
     z-index: 2;
     position: fixed;
     float: right;
     top: 32px;
     right: 32px;
-    line-height: 38px;
+	line-height: 42px;
+}
+.ShowNaviBtn {
+    text-align: center;
+}
+.ShowNaviBtn::before {
+    font-family: 'labelico';
+    color: #FFFFFF;
+    content: "\e3011";
 }
 }
 .Avatar {
