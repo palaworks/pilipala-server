@@ -1,26 +1,24 @@
 
 @media only screen and (min-width: 1025px) {
 .NaviCardBox {
-	z-index: -1;
+    z-index: -1;
     width: 100%;
-	background: rgba(57,57,57,1.00);
+    background: rgba(57,57,57,1.00);
     padding-bottom: 14px;
     position: relative;
-	padding-top: 10px;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
+    padding-top: 10px;
 }
 .CoMark {
-    line-height: 20px;
+    line-height: 18px;
     font-size: 12px;
-    margin-top: 5%;
+    margin-top: 14px;
 }
 .NaviCard {
-	background: linear-gradient(to right, rgba(57,57,57,1.00) , rgba(41,41,41,1.00));
-    width: 94%;
+    background: linear-gradient(to right, rgba(57,57,57,1.00), rgba(41,41,41,1.00));
+    width: 92%;
     position: relative;
     margin-bottom: 8px;
-    height: 54px;
+    height: 52px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -28,26 +26,23 @@
 
 @media only screen and (max-width: 1024px) {
 .NaviCardBox {
-display: none;
-	width: 70%;
-    background-color: rgba(57,57,57,1.00);
+	background: rgba(57,57,57,1.00);
+	padding-top: 20%;
+    display: none;
+    width: 70%;
     z-index: 1;
     position: fixed;
-    border-radius: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 8px;
-	top: 12px;
-	right: 12px;
-    padding-top: 20%;
+    top: 12px;
+    right: 12px;
 }
 .CoMark {
     line-height: 16px;
     font-size: 12px;
     margin-top: 6%;
-    padding: 2%;
+	margin-bottom: 6%;
 }
 .NaviCard {
-	background: linear-gradient(to right, rgba(57,57,57,1.00) , rgba(41,41,41,1.00));
+    background: linear-gradient(to right, rgba(57,57,57,1.00), rgba(41,41,41,1.00));
     width: 96%;
     position: relative;
     margin-bottom: 6px;
@@ -57,7 +52,7 @@ display: none;
 }
 }
 .NaviCard:hover {
-    background: linear-gradient(to right, rgba(41,41,41,1.00) , rgba(41,41,41,1.00));
+    background: linear-gradient(to right, rgba(41,41,41,1.00), rgba(41,41,41,1.00));
 }
 .NaviCardTitle {
     line-height: 18px;
@@ -66,7 +61,7 @@ display: none;
     float: left;
     margin-right: auto;
     margin-left: 5%;
-	text-align: center;
+    text-align: center;
 }
 .CoMark {
     width: 88%;
@@ -75,5 +70,4 @@ display: none;
     color: #FFFFFF;
     margin-right: auto;
     margin-left: auto;
-    margin-bottom: 0%;
 }
