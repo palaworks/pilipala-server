@@ -39,11 +39,11 @@
 
 <asp:Content ID="body" ContentPlaceHolderID="indexBody" runat="Server">
     <!-- ScriptManager -->
-    <asp:ScriptManager ID="indexScriptManager" runat="server">
+    <asp:scriptmanager id="indexScriptManager" runat="server">
         <Services>
             <asp:ServiceReference Path="~/pala_services/SLS.asmx" />
         </Services>
-    </asp:ScriptManager>
+    </asp:scriptmanager>
     <!-- ScriptManager -->
 
     <div class="main">
@@ -198,7 +198,7 @@
     <%} %>
 
 
-    <div onclick="GoUp()" class="GoUpBtn blk55 cur bSha L"></div>
+    <div onclick="GoUp()" class="GoUpBtn rB rT blk55 cur bSha L"></div>
 
 
     <script>
