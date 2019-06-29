@@ -1,0 +1,31 @@
+.GoUpBtn {
+    width: 60px;
+    font-size: 22px;
+    line-height: 28px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    bottom: 10%;
+}
+.GoUpBtn {
+    text-align: center;
+}
+.GoUpBtn::before {
+    font-family: 'labelico';
+    color: #FFFFFF;
+    content: "\e3005";
+}
+
+@media only screen and (min-width: 1025px) {
+.GoUpBtn {
+    right: 6%;
+}
+}
+
+@media only screen and (max-width: 1024px) {
+.GoUpBtn {
+    left: 2%;
+}
+}
