@@ -1,0 +1,43 @@
+.nxtBtn,
+.pvsBtn {
+
+    color: rgba(1, 153, 255, 1.00);
+    font-size: 17px;
+    line-height: 17px;
+
+    margin: 3px;
+    padding: 3px;
+
+    background: rgba(241, 241, 241, 1.00);
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+
+.nxtBtn {
+    padding-right: 6px;
+    padding-left: 0px;
+}
+
+.pvsBtn {
+    padding-left: 6px;
+    padding-right: 0px;
+}
+
+.nxtBtn::before,
+.pvsBtn::after {
+    font-family: 'labelico';
+    font-size: 14px;
+    color: rgba(1, 153, 255, 1.00);
+}
+
+.nxtBtn::before {
+    content: "\e3012";
+}
+
+.pvsBtn::after {
+    content: "\e3013";
+}

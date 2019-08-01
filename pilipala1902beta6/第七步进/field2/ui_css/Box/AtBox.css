@@ -1,0 +1,59 @@
+.AtBox {
+    width: 100%;
+
+    color: rgba(110, 110, 110, 1.00);
+}
+
+.AtBox>div {
+    width: 21%;
+    float: left;
+
+    text-align: center;
+    font-size: 14px;
+
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 3px;
+    margin-bottom: 1px;
+
+    border-radius: 4px;
+}
+
+.AtBox>div::before {
+    font-family: 'labelico';
+    padding-right: 6px;
+}
+
+.AtBox>.Comment,
+.AtBox>.Star {
+    background: rgba(241, 241, 241, 1.00);
+}
+
+.AtBox>.Date::before {
+    content: "\e3007";
+}
+
+.AtBox>.Pv::before {
+    content: "\e3008";
+}
+
+.AtBox>.Comment::before {
+    content: "\e3010";
+}
+
+.AtBox>.Star::before {
+
+    content: "\e3014";
+}
+
+.AtBox>.Time::before {
+    content: "\e3004";
+}
+
+.AtBox>.Archive::before {
+    content: "\e3001";
+}
+
+.AtBox>.Tag::before {
+    content: "\e3006";
+}

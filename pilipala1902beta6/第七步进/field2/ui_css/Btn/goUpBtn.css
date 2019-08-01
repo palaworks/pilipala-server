@@ -1,0 +1,36 @@
+.goUpBtn {
+    width: 60px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    text-align: center;
+    font-size: 22px;
+    line-height: 28px;
+
+    position: fixed;
+    z-index: 1;
+    bottom: 10%;
+
+    background: rgba(55, 55, 55, 1.00);
+    
+    cursor: pointer;
+}
+
+.goUpBtn::before {
+    font-family: 'labelico';
+    color: #FFFFFF;
+    content: "\e3005";
+}
+
+@media only screen and (min-width: 1025px) {
+    .goUpBtn {
+        right: 6%;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .goUpBtn {
+        left: 2%;
+    }
+}
