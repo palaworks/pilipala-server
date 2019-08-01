@@ -1,0 +1,39 @@
+.b50 {
+    background: rgba(50, 50, 50, 1.00);
+}
+
+.b55 {
+    background: rgba(55, 55, 55, 1.00);
+}
+
+.L {
+    float: left;
+}
+
+.R {
+    float: right;
+}
+
+.mB {
+    margin-bottom: 10px;
+}
+
+.mT {
+    margin-bottom: 10px;
+}
+
+.FIELDCOLOR {
+    background: seagreen;
+}
+
+.bSha {
+    box-shadow: 0px 0px 3px 0.2px rgba(0, 0, 0, 0.4);
+}
+
+.bRds {
+    border-radius: 6px;
+}
+
+.pt {
+    cursor: pointer;
+}
