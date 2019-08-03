@@ -1,14 +1,14 @@
 .nxtBtn,
 .pvsBtn {
 
-    color: rgba(1, 153, 255, 1.00);
+    color: rgba(1, 153, 255, 1);
     font-size: 17px;
     line-height: 17px;
 
     margin: 3px;
     padding: 3px;
 
-    background: rgba(241, 241, 241, 1.00);
+    background: rgba(245, 245, 245, 1);
 
     overflow: hidden;
     white-space: nowrap;
@@ -31,7 +31,7 @@
 .pvsBtn::after {
     font-family: 'labelico';
     font-size: 14px;
-    color: rgba(1, 153, 255, 1.00);
+    color: rgba(1, 153, 255, 1);
 }
 
 .nxtBtn::before {
