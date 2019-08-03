@@ -2,14 +2,12 @@
     width: 100%;
 
     padding-top: 10px;
-    padding-bottom: 3px;
-    margin-bottom: 200px;
+    padding-bottom: 6px;
+    margin-bottom: 160px;
 
     text-align: center;
     font-size: 22px;
     line-height: 18px;
 
     position: relative;
-
-    background: rgba(250, 250, 250, 1.00);
 }

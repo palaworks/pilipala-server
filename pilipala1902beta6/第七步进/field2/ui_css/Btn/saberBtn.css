@@ -1,0 +1,13 @@
+.saberBtn {
+    font-size: 26px;
+    line-height: 50px;
+
+    color: #FFFFFF;
+}
+
+.saberBtn::before {
+    font-family: 'labelico';
+   
+    margin: 12px;
+    content: "\e3016";
+}
