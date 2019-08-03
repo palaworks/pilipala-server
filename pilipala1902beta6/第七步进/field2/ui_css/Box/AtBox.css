@@ -9,7 +9,6 @@
     float: left;
 
     text-align: center;
-    font-size: 14px;
 
     margin-left: 2%;
     margin-right: 2%;
@@ -19,6 +18,20 @@
     border-radius: 4px;
 }
 
+/* 屏幕宽度大于1000时 */
+@media (min-width: 1000px) {
+    .AtBox>div {
+        font-size: 14px;
+    }
+}
+
+/* 屏幕宽度小于1000时 */
+@media (max-width: 1000px) {
+    .AtBox>div {
+        font-size: 12px;
+    }
+}
+
 .AtBox>div::before {
     font-family: 'labelico';
     padding-right: 6px;
@@ -26,7 +39,7 @@
 
 .AtBox>.Comment,
 .AtBox>.Star {
-    background: rgba(241, 241, 241, 1.00);
+    background: rgba(245, 245, 245, 1);
 }
 
 .AtBox>.Date::before {

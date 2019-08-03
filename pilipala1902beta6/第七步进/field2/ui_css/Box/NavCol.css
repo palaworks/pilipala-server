@@ -1,9 +1,5 @@
 .NavCol {
-    width: 23.5%;
-    max-width: 307px;
-    color: rgba(250, 250, 250, 1);
-
-    position: fixed;
+    color: rgba(250, 250, 250, 1.00);
 }
 
 .NavCol>.contain {
@@ -36,7 +32,7 @@
     font-size: 22px;
 }
 
-.NavCol>.contain>.Info {
+.NavCol>.contain>.JieShao {
     width: 98%;
     text-align: center;
     font-size: 17px;
@@ -47,14 +43,14 @@
     padding-bottom: 24px;
 }
 
-.NavCol>.contain>.Info::before {
+.NavCol>.contain>.JieShao::before {
     margin-right: 6px;
     font-family: "labelico";
     content: '\e3010';
     font-size: 12px;
 }
 
-.NavCol>.contain>.Info::after {
+.NavCol>.contain>.JieShao::after {
     margin-left: 6px;
     font-family: "labelico";
     content: '\e3003';
@@ -76,10 +72,16 @@
 
     font-size: 17px;
     letter-spacing: 1px;
+
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
 }
 
 .NavCol>.List>.Card:hover {
     background: rgba(41, 41, 41, 1);
+
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
 }
 
 .NavCol>.List>.Card::after {
@@ -109,16 +111,17 @@
     line-height: 17px;
 }
 
-@media only screen and (min-width: 901px) {
+/* 屏幕宽度大于1000时 */
+@media screen and (min-width: 1000px) {
     .NavCol {
-        width: 23.5%;
+        width: 26%;
         max-width: 307px;
     
         position: fixed;
     }
 }
-
-@media only screen and (max-width: 900px) {
+/* 屏幕宽度小于1000时 */
+@media screen and (max-width: 1000px) {
     .NavCol {
         display: none;
     }

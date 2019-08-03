@@ -6,6 +6,10 @@
     background: rgba(55, 55, 55, 1.00);
 }
 
+.w250 {
+    background: rgba(250, 250, 250, 1.00);
+}
+
 .L {
     float: left;
 }
@@ -14,16 +18,18 @@
     float: right;
 }
 
-.mB {
-    margin-bottom: 10px;
+/* 屏幕宽度大于1000时 */
+@media (min-width: 1000px) {
+    .M {
+        margin-bottom: 12px;
+    }
 }
 
-.mT {
-    margin-bottom: 10px;
-}
-
-.FIELDCOLOR {
-    background: seagreen;
+/* 屏幕宽度小于1000时 */
+@media (max-width: 1000px) {
+    .M {
+        margin-bottom: 8px;
+    }
 }
 
 .bSha {
@@ -34,6 +40,19 @@
     border-radius: 6px;
 }
 
-.pt {
+.pS {
+    width: 30%;
+}
+.pM {
+    width: 40%;
+}
+.pL {
+    width: 60%;
+}
+.pXL {
+    width: 100%;
+}
+
+.cur {
     cursor: pointer;
 }
