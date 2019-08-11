@@ -1,0 +1,16 @@
+C:\Users\Administrator\Desktop\StudioLibrary\StudioLibrary\bin\Debug\StudioLibrary.dll
+C:\Users\Administrator\Desktop\StudioLibrary\StudioLibrary\bin\Debug\StudioLibrary.pdb
+C:\Users\Administrator\Desktop\StudioLibrary\StudioLibrary\bin\Debug\mysql.data.dll
+C:\Users\Administrator\Desktop\StudioLibrary\StudioLibrary\obj\Debug\WaterLibrary.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\StudioLibrary\StudioLibrary\obj\Debug\WaterLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\StudioLibrary\StudioLibrary\obj\Debug\WaterLibrary.csproj.CopyComplete
+C:\Users\Administrator\Desktop\StudioLibrary\StudioLibrary\obj\Debug\StudioLibrary.dll
+C:\Users\Administrator\Desktop\StudioLibrary\StudioLibrary\obj\Debug\StudioLibrary.pdb
+C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\bin\Debug\mysql.data.dll
+C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csproj.CopyComplete
+C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.dll
+C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.pdb
+C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.dll
+C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.pdb

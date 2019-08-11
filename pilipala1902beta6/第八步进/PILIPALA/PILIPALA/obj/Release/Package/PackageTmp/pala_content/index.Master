@@ -1,0 +1,22 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="index.master.cs" Inherits="PILIPALA.index" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Thaumy的小破站|又一个码农的家</title>
+    <!-- 文档头 -->
+    <asp:ContentPlaceHolder ID="indexHead" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+    <form runat="server">
+        <!-- 文档内容 -->
+        <asp:ContentPlaceHolder ID="indexBody" runat="server"></asp:ContentPlaceHolder>
+    </form>
+    <!-- CNZZ -->
+    <div style="display: none">
+        <script type="text/javascript" src="https://s19.cnzz.com/z_stat.php?id=1262285427&web_id=1262285427"></script>
+    </div>
+    <!-- CNZZ -->
+</body>
+</html>
