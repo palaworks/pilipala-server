@@ -39,11 +39,11 @@
 
 <asp:Content ID="body" ContentPlaceHolderID="indexBody" runat="Server">
     <!-- ScriptManager -->
-    <asp:scriptmanager id="indexScriptManager" runat="server">
+    <asp:ScriptManager ID="indexScriptManager" runat="server">
         <Services>
             <asp:ServiceReference Path="~/pala_services/SLS.asmx" />
         </Services>
-    </asp:scriptmanager>
+    </asp:ScriptManager>
     <!-- ScriptManager -->
 
     <div class="main">
@@ -96,7 +96,7 @@
             <%LibStructs.PaText PaText = new LibStructs.PaText();
                 PaText = SLS.fill(SLS.getTextMain(idxPaText.text_id), SLS.getTextSub(idxPaText.text_id));%>
 
-
+            <div class="content2">
 
             <div class="LabelBox L rB rT MagnB">
                 <div class="TxtBox pSha bSha L rB rT">
@@ -124,9 +124,6 @@
                 <%} %>
             </div>
 
-
-
-            <div class="TxtBox pSha bSha L rB rT MagnB">
             </div>
 
             <%} %>

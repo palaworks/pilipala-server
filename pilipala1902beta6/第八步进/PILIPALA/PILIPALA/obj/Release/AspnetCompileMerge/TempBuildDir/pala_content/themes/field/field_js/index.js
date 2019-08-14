@@ -82,7 +82,7 @@ function refre_count_pv(text_id) {
 function loadTxt() {
     $.ajax({
         type: "post",
-        url: "index.aspx?guide=0&text=1&row=" + $(".TxtBox").length,
+        url: "index.aspx?guide=0&text=1&row=" + $(".content2").length,
         data: "",
         dataType: "html",/* html返回类型 */
         success: function (result) {
