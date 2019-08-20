@@ -1388,56 +1388,35 @@
             文本列表控制接口
             </summary>
         </member>
-        <member name="M:businessUnit.pilipala.ITextListH.getTextIDList">
+        <member name="M:businessUnit.pilipala.ITextListH.getTextList">
             <summary>
-            获得全部文本ID列表
+            获得文本索引表（重载一::得到全文本列表）
             </summary>
             <returns></returns>
         </member>
-        <member name="M:businessUnit.pilipala.ITextListH.getTextIDList(System.String)">
+        <member name="M:businessUnit.pilipala.ITextListH.getTextList(System.String)">
             <summary>
-            获得指定类型的文本ID列表
+            获得文本索引表（重载二::得到指定类型的文本列表）
             </summary>
             <parmm name="text_type">自定义文本类型</parmm>
             <returns></returns>
         </member>
-        <member name="M:businessUnit.pilipala.ITextListH.stepTextIDList(System.Int32,System.Int32)">
+        <member name="M:businessUnit.pilipala.ITextListH.stepTextList(System.Int32,System.Int32)">
             <summary>
-            获得全部文本ID列表(步进式)
+            步进式获得文本索引表（重载一::得到全文本列表）
             </summary>
-            <parmm name="start">步进起始行（包含该行）</parmm>
-            <parmm name="length">加载行数</parmm>
+            <parmm name="row">步进起始行（包含该行）</parmm>
+            <parmm name="rowLength">加载行数</parmm>
             <returns></returns>
         </member>
-        <member name="M:businessUnit.pilipala.ITextListH.stepTextIDList(System.Int32,System.Int32,System.String)">
+        <member name="M:businessUnit.pilipala.ITextListH.stepTextList(System.Int32,System.Int32,System.String)">
             <summary>
-            获得指定类型的文本ID列表(步进式)
+            步进式获得文本索引表（重载一::得到指定类型的文本列表）
             </summary>
-            <parmm name="start">步进起始行（包含该行）</parmm>
-            <parmm name="length">加载行数</parmm>
+            <parmm name="row">步进起始行（包含该行）</parmm>
+            <parmm name="rowLength">加载行数</parmm>
             <parmm name="text_type">自定义文本类型</parmm>
             <returns></returns>
-        </member>
-        <member name="M:businessUnit.pilipala.ITextListH.matchTextTitle(System.String)">
-            <summary>
-            文章标题(text_id)匹配器
-            </summary>
-            <param name="str">匹配文本</param>
-            <returns>返回符合匹配文本的text_id集合</returns>
-        </member>
-        <member name="M:businessUnit.pilipala.ITextListH.matchTextSummary(System.String)">
-            <summary>
-            文章标题(text_summary)匹配器
-            </summary>
-            <param name="str">匹配文本</param>
-            <returns>返回符合匹配文本的text_id集合</returns>
-        </member>
-        <member name="M:businessUnit.pilipala.ITextListH.matchTextContent(System.String)">
-            <summary>
-            文章标题(text_content)匹配器
-            </summary>
-            <param name="str">匹配文本</param>
-            <returns>返回符合匹配文本的text_id集合</returns>
         </member>
         <member name="T:businessUnit.pilipala.ITextH">
             <summary>
@@ -1446,17 +1425,35 @@
         </member>
         <member name="M:businessUnit.pilipala.ITextH.getTextMain(System.Int32)">
             <summary>
-            获得符合text_id的文本主要数据
+            获得指定ID的文本主表行
             </summary>
-            <parmm name="text_id">文本序列号</parmm>
+            <parmm name="text_id">文本ID</parmm>
             <returns></returns>
         </member>
         <member name="M:businessUnit.pilipala.ITextH.getTextSub(System.Int32)">
             <summary>
-             获得符合text_id的文本次要数据
+            获得指定ID的文本副表行
+            </summary>
+            <parmm name="text_id">文本ID</parmm>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.ITextH.getTextTitle(System.Int32)">
+            <summary>
+            取得文本标题
             </summary>
             <parmm name="text_id">文本序列号</parmm>
-            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.ITextH.getTextSummary(System.Int32)">
+            <summary>
+            取得文本概要
+            </summary>
+            <parmm name="text_id">文本序列号</parmm>
+        </member>
+        <member name="M:businessUnit.pilipala.ITextH.getTextContent(System.Int32)">
+            <summary>
+            取得文本正文
+            </summary>
+            <parmm name="text_id">文本序列号</parmm>
         </member>
         <member name="M:businessUnit.pilipala.ITextH.nextTextID(System.Int32)">
             <summary>
@@ -1472,17 +1469,18 @@
             <parmm name="current_text_id">当前文本序列号</parmm>
             <returns>错误返回 -1</returns>
         </member>
-        <member name="M:businessUnit.pilipala.ITextH.rdmTextID(System.Int32,System.String)">
+        <member name="M:businessUnit.pilipala.ITextH.rdmTextIndex(System.Int32,System.String)">
             <summary>
-            随机获得文本ID(text_id)
+            随机获得文本索引表行
             </summary>
-            <parmm name="excluded_text_id">不参与随机操作的文本的text_id</parmm>
+            <parmm name="excluded_text_id">不参与随机操作的文本ID</parmm>
             <parmm name="text_type">自定义文本类型</parmm>
-            <returns>错误返回 -1</returns>
+            <returns></returns>
         </member>
         <member name="T:businessUnit.pilipala.UI.TextListH">
             <summary>
             文本列表控制器
+            方法注释参见ITextListH接口
             </summary>
         </member>
         <member name="P:businessUnit.pilipala.UI.TextListH.dataBase">
@@ -1511,29 +1509,29 @@
             </summary>
             <parmm name="PaDB">啪啦数据库信息</parmm>
         </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList">
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextList">
             <summary>
-            ITextListH接口的基础实现，详见其接口注释
+            
             </summary>
         </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.String)">
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextList(System.String)">
             <summary>
-            ITextListH接口的基础实现，详见其接口注释
+            
             </summary>
         </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.stepTextIDList(System.Int32,System.Int32)">
+        <member name="M:businessUnit.pilipala.UI.TextListH.stepTextList(System.Int32,System.Int32)">
             <summary>
-            ITextListH接口的基础实现，详见其接口注释
+            
             </summary>
         </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.stepTextIDList(System.Int32,System.Int32,System.String)">
+        <member name="M:businessUnit.pilipala.UI.TextListH.stepTextList(System.Int32,System.Int32,System.String)">
             <summary>
-            ITextListH接口的基础实现，详见其接口注释
+            
             </summary>
         </member>
         <member name="M:businessUnit.pilipala.UI.TextListH.getTextMap">
             <summary>
-            获得站点地图(由text_id和text_title构成的集合)
+            
             </summary>
         </member>
         <member name="M:businessUnit.pilipala.UI.TextListH.matchText``1(``0)">
@@ -1546,35 +1544,29 @@
         </member>
         <member name="M:businessUnit.pilipala.UI.TextListH.matchTextTitle(System.String)">
             <summary>
-            ITextListH接口的基础实现，详见其接口注释
+            文章标题匹配器
             </summary>
+            <parmm name="str"></parmm>
+            <returns></returns>
         </member>
         <member name="M:businessUnit.pilipala.UI.TextListH.matchTextSummary(System.String)">
             <summary>
-            ITextListH接口的基础实现，详见其接口注释
+            文章概要匹配器
             </summary>
+            <parmm name="str"></parmm>
+            <returns></returns>
         </member>
         <member name="M:businessUnit.pilipala.UI.TextListH.matchTextContent(System.String)">
             <summary>
-            ITextListH接口的基础实现，详见其接口注释
+            文章内容匹配器
             </summary>
-        </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.getHotTextIDList">
-            <summary>
-            获取热度文章排行(全部)
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.getHotTextIDList(System.Int32)">
-            <summary>
-            获取热度文章排行(有截止长度)
-            </summary>
-            <param name="length">截止长度</param>
+            <parmm name="str"></parmm>
             <returns></returns>
         </member>
         <member name="T:businessUnit.pilipala.UI.TextH">
             <summary>
             文本控制器
+            方法注释参见ITextH接口
             </summary>
         </member>
         <member name="P:businessUnit.pilipala.UI.TextH.dataBase">
@@ -1605,69 +1597,48 @@
         </member>
         <member name="M:businessUnit.pilipala.UI.TextH.getTextMain(System.Int32)">
             <summary>
-            ITextH接口的基础实现，详见其接口注释
+            
             </summary>
-        </member>
-        <member name="M:businessUnit.pilipala.UI.TextH.getTextMain(System.Int32,System.String)">
-            <summary>
-            取得Main表的一个键值
-            </summary>
-            <param name="text_id">文章序列号</param>
-            <param name="keyName">键名</param>
-            <returns></returns>
         </member>
         <member name="M:businessUnit.pilipala.UI.TextH.getTextSub(System.Int32)">
             <summary>
-            ITextH接口的基础实现，详见其接口注释
+            
             </summary>
-        </member>
-        <member name="M:businessUnit.pilipala.UI.TextH.getTextSub(System.Int32,System.String)">
-            <summary>
-            取得Sub表的一个键值
-            </summary>
-            <param name="text_id">文章序列号</param>
-            <param name="keyName">键名</param>
-            <returns></returns>
         </member>
         <member name="M:businessUnit.pilipala.UI.TextH.getTextTitle(System.Int32)">
             <summary>
-            取得文本标题(text_title)
+            
             </summary>
-            <param name="text_id">文本序列号</param>
-            <returns></returns>
         </member>
         <member name="M:businessUnit.pilipala.UI.TextH.getTextSummary(System.Int32)">
             <summary>
-            取得文本概要(text_summary)
+            
             </summary>
-            <param name="text_id">文本序列号</param>
-            <returns></returns>
         </member>
         <member name="M:businessUnit.pilipala.UI.TextH.getTextContent(System.Int32)">
             <summary>
-            取得文本正文(text_content)
+            
             </summary>
-            <param name="text_id">文本序列号</param>
-            <returns></returns>
         </member>
         <member name="M:businessUnit.pilipala.UI.TextH.nextTextID(System.Int32)">
             <summary>
-            ITextH接口的基础实现，详见其接口注释
+            
             </summary>
         </member>
         <member name="M:businessUnit.pilipala.UI.TextH.prevTextID(System.Int32)">
             <summary>
-            ITextH接口的基础实现，详见其接口注释
+            
             </summary>
         </member>
-        <member name="M:businessUnit.pilipala.UI.TextH.rdmTextID(System.Int32,System.String)">
+        <member name="M:businessUnit.pilipala.UI.TextH.rdmTextIndex(System.Int32,System.String)">
             <summary>
-            ITextH接口的基础实现，详见其接口注释
+            
             </summary>
         </member>
         <member name="T:businessUnit.pilipala.Edit.TextListH">
             <summary>
             文本列表控制器
+            方法注释参见ITextListH接口
             </summary>
         </member>
         <member name="M:businessUnit.pilipala.Edit.TextListH.#ctor(LibStruct.pilipala.PaDB)">
@@ -1676,14 +1647,14 @@
             </summary>
             <parmm name="PaDB">啪啦数据库信息</parmm>
         </member>
-        <member name="M:businessUnit.pilipala.Edit.TextListH.getTextIDList">
+        <member name="M:businessUnit.pilipala.Edit.TextListH.getTextList">
             <summary>
-            ITextListH接口的基础实现，详见其接口注释
+            
             </summary>
         </member>
-        <member name="M:businessUnit.pilipala.Edit.TextListH.getTextIDList(System.String)">
+        <member name="M:businessUnit.pilipala.Edit.TextListH.getTextMap">
             <summary>
-            ITextListH接口的基础实现，详见其接口注释
+            
             </summary>
         </member>
         <member name="T:businessUnit.pilipala.Edit.TextH">
@@ -1700,12 +1671,12 @@
         </member>
         <member name="M:businessUnit.pilipala.Edit.TextH.getTextMain(System.Int32)">
             <summary>
-            获得符合text_id的且在展示文本主要数据，无论展示与否
+            
             </summary>
         </member>
         <member name="M:businessUnit.pilipala.Edit.TextH.getTextSub(System.Int32)">
             <summary>
-            获得符合text_id的且在展示文本次要数据，无论展示与否
+            
             </summary>
         </member>
         <member name="M:businessUnit.pilipala.Edit.TextH.updateTextBasic``1(``0)">
@@ -1718,7 +1689,7 @@
         </member>
         <member name="M:businessUnit.pilipala.Edit.TextH.updateTextTitle(System.Int32,System.String)">
             <summary>
-            更改文章标题(text_title)
+            更改文章标题
             </summary>
             <param name="text_id">文章序列号</param>
             <param name="text_title">新标题</param>
@@ -1726,7 +1697,7 @@
         </member>
         <member name="M:businessUnit.pilipala.Edit.TextH.updateTextSummary(System.Int32,System.String)">
             <summary>
-            更改文章概要(text_summary)
+            更改文章概要
             </summary>
             <param name="text_id">文章序列号</param>
             <param name="text_summary">新概要</param>
@@ -1734,23 +1705,23 @@
         </member>
         <member name="M:businessUnit.pilipala.Edit.TextH.updateTextContent(System.Int32,System.String)">
             <summary>
-            更改文章内容(text_content)
+            更改文章内容
             </summary>
             <param name="text_id">文章序列号</param>
             <param name="text_content">新内容</param>
             <returns></returns>
         </member>
-        <member name="M:businessUnit.pilipala.Edit.TextH.update_countPv(System.Int32,System.Int32)">
+        <member name="M:businessUnit.pilipala.Edit.TextH.update_count_pv(System.Int32,System.Int32)">
             <summary>
-            设置浏览计数(count_pv)
+            设置count_pv
             </summary>
             <parmm name="text_id">文本ID</parmm>
             <parmm name="value">值</parmm>
             <returns></returns>
         </member>
-        <member name="M:businessUnit.pilipala.Edit.TextH.update_countStar(System.Int32,System.Int32)">
+        <member name="M:businessUnit.pilipala.Edit.TextH.update_count_star(System.Int32,System.Int32)">
             <summary>
-            设置星星计数(count_star)
+            设置count_star
             </summary>
             <parmm name="text_id">文本ID</parmm>
             <parmm name="value">值</parmm>
