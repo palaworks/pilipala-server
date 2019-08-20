@@ -47,7 +47,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="mysql.data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Debug\mysql.data.dll</HintPath>
+      <HintPath>pala_system\core\mysql.data.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -65,8 +65,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="WaterLibrary">
-      <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.dll</HintPath>
+    <Reference Include="WaterLibrary, Version=1.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>pala_system\core\WaterLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -75,9 +76,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="pala_custom\theme\field2\web_service\WebService.asmx" />
+    <Content Include="pala_system\service\Basic.asmx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="pala_custom\theme\field2\web_service\WebService.asmx.cs">
+      <DependentUpon>WebService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="pala_system\service\Basic.asmx.cs">
+      <DependentUpon>Basic.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +99,11 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="pala_custom\theme\field2\cut\" />
+    <Folder Include="pala_custom\theme\field2\web_js\" />
+    <Folder Include="pala_system\core\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
