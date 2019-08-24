@@ -8,34 +8,6 @@
 <%@ Import Namespace="PILIPALA.pala_services" %>
 <%@ Import Namespace="PILIPALA.pala_content.themes.field.field_service" %>
 
-<asp:Content ID="head" ContentPlaceHolderID="indexHead" runat="Server">
-
-    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
-    <base target="_blank">
-    <link rel="shortcut icon" href="ui_img/favicon.ico" type="image/x-icon">
-    <title>Thaumy的小破站|又一个码农的家</title>
-
-    <style type="text/css">
-        @import url("ui_css/global.css");
-        @import url("ui_css/pic.css");
-        @import url("ui_css/basic.css");
-        @import url("ui_css/font.css");
-        @import url("ui_css/Box/Box.css");
-        @import url("ui_css/Btn/Btn.css");
-    </style>
-
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js" type="text/javascript"></script>
-    <script src="https://cdn.bootcss.com/showdown/1.9.0/showdown.min.js" type="text/javascript"></script>
-    <script src="https://cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-    <script src="ui_js/ShowNaviBtn.js" type="text/javascript"></script>
-    <script src="ui_js/basic.js" type="text/javascript"></script>
-
-    <!-- field_js -->
-    <script src="field_js/index.js" type="text/javascript"></script>
-    <!-- field_js -->
-</asp:Content>
 
 <asp:Content ID="body" ContentPlaceHolderID="indexBody" runat="Server">
     <!-- ScriptManager -->
