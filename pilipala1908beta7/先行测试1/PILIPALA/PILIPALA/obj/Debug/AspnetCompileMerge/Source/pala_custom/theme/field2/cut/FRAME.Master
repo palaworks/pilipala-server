@@ -97,6 +97,11 @@
     <link rel="stylesheet" type="text/css" href="http://raw.githack.com/Thaumy/Blog/master/build/css/wrds.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400">
     <link rel="stylesheet" href="https://fonts.font.im/css?family=Roboto+Mono">
+
+    <!-- CNZZ -->
+    <div style="display: none">
+        <script type="text/javascript" src="https://s19.cnzz.com/z_stat.php?id=1262285427&web_id=1262285427"></script>
+    </div>
 </body>
 
 <script type="text/javascript" src="/pala_custom/theme/field2/cut/ui_js/jieshao.js"></script>
