@@ -82,7 +82,9 @@
     <Content Include="pala_custom\theme\field2\web_js\basic.js" />
     <Content Include="pala_custom\theme\field2\web_service\FieldService.asmx" />
     <Content Include="pala_system\service\Basic.asmx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Default.aspx.cs">

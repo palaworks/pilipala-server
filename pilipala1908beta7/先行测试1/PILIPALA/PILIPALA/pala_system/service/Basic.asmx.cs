@@ -31,21 +31,21 @@ namespace PILIPALA.pala_system.service
         public Basic()
         {
             paDB.MySqlConnH = new MySqlConnH();
-            
+            /* 
             mysqlConn.user = "pala_database_user";
             mysqlConn.password = "pala_database_user_password";
             mysqlConn.dataSource = "localhost";
             mysqlConn.port = "3306";
             paDB.MySqlConnH.start(mysqlConn);
             paDB.dataBase = "pala_db";//测试库
-            /* 
+            */
             mysqlConn.user = "thaumy0tdymy";
             mysqlConn.password = "177BDE5";
             mysqlConn.dataSource = "localhost";
             mysqlConn.port = "3306";
             paDB.MySqlConnH.start(mysqlConn);
             paDB.dataBase = "thaumy0tdymy";//生产库
-            */
+            
             paDB.Tables = PaRoot.defaultTables();/* 以默认值确定表名 */
             paDB.Views = PaRoot.defaultViews();/* 以默认值确定视图名 */
 
