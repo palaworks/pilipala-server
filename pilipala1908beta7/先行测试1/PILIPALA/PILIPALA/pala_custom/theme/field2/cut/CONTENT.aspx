@@ -9,7 +9,6 @@
 <%@ Import Namespace="PILIPALA.pala_custom.theme.field2.web_service" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="RefreshBlock" runat="server">
-
     <div class="Card L M bSha bRds">
         <div class="contain L bRds w250">
             <div class="Title"><%Response.Write(PaText.text_title); %></div>
@@ -29,6 +28,8 @@
 
             <script>$(".CardCol>.Card>.contain>.Content").html(marked($(".CardCol>.Card>.contain>.Content").html()));</script>
         </div>
+        <!-- 代码高亮启用 -->
+        <script>hljs.initHighlighting();</script>
     </div>
     <div class="CoBox L M bSha b50">
 
