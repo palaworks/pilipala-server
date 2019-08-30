@@ -6,6 +6,7 @@
     CodeBehind="CONTENT.aspx.cs"
     Inherits="PILIPALA.pala_custom.theme.field2.cut.CONTENT" %>
 
+<%@ Import Namespace="PILIPALA.pala_system.service" %>
 <%@ Import Namespace="PILIPALA.pala_custom.theme.field2.web_service" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="RefreshBlock" runat="server">
@@ -28,13 +29,18 @@
 
             <script>$(".CardCol>.Card>.contain>.Content").html(marked($(".CardCol>.Card>.contain>.Content").html()));</script>
         </div>
+
         <!-- 代码高亮启用 -->
-        <script>hljs.initHighlighting();</script>
+        <script>
+            hljs.initHighlighting.called = false;
+            hljs.initHighlighting();
+        </script>
+
     </div>
     <div class="CoBox L M bSha b50">
 
-        <span class="text_auth L">由ThaumyCX2最后编辑于<%Response.Write(FieldService.toTime1(PaText.date_changed, "/")); %></span>
-        <span class="text_mId R">004C01E</span>
+        <span class="text_auth L">由<%Response.Write(PaText.text_editor); %>最后编辑于<%Response.Write(FieldService.toTime1(PaText.date_changed, "/")); %></span>
+        <span class="text_mId R"><%Response.Write(Basic.toMD5(PaText.text_content).Substring(0, 7)); %></span>
 
         <div class="AtBox L bRds w250">
             <div class="Date"><%Response.Write(FieldService.toTime1(PaText.date_created, "-")); %></div>

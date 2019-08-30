@@ -51,7 +51,7 @@
             <%}
                 }%>
 
-            <div class="Co">
+            <div class="Co cur" onclick="up();showText(12388)">
                 Thaumy的博客©2016-2019保留所有权利<br>
                 基于pilipala构建<br>
                 Field Theme Designed By Thaumy<br>
@@ -84,7 +84,7 @@
                     }%>
             </div>
 
-            <div class="Co">
+            <div class="Co cur" onclick="up();showText(12388)">
                 Thaumy的博客©2016-2019保留所有权利<br>
                 基于pilipala构建<br>
                 Field Theme Designed By Thaumy<br>
@@ -95,6 +95,7 @@
             <asp:ContentPlaceHolder ID="RefreshBlock" runat="server">
             </asp:ContentPlaceHolder>
         </div>
+
     </div>
 
     <link rel="stylesheet" type="text/css" href="http://raw.githack.com/Thaumy/Blog/master/build/css/mrks.css">

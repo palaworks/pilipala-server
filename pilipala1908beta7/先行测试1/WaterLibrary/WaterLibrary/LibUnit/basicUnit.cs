@@ -43,7 +43,7 @@ namespace basicUnit
         /// </summary>
         /// <param name="array">被排序的数组</param>
         /// <returns>通常返回有序数组(由小到大)，报错则返回null</returns>
-        public virtual T[] easySort<T>(T[] array) where T : IComparable
+        public static T[] easySort<T>(T[] array) where T : IComparable
         {
             try
             {
@@ -76,7 +76,7 @@ namespace basicUnit
         /// </summary>
         /// <param name="array">待排序的整数组</param>
         /// <returns>返回排序完成的数组</returns>
-        public virtual int[] shellSort(int[] array)
+        public static int[] shellSort(int[] array)
         {
             int N = array.Length;
             int h = 1;
@@ -102,7 +102,7 @@ namespace basicUnit
         /// <param name="value">被检索值</param>
         /// <param name="array">数组,顺序由小到大</param>
         /// <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
-        public virtual int binarySearch(int value, int[] array)
+        public static int binarySearch(int value, int[] array)
         {
             try//二分法主体
             {
@@ -138,7 +138,7 @@ namespace basicUnit
         /// <param name="value">被检索值</param>
         /// <param name="array">数组，顺序由小到大</param>
         /// <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
-        public virtual double binarySearch(double value, double[] array)
+        public static double binarySearch(double value, double[] array)
         {
             try//二分法主体
             {
@@ -174,7 +174,7 @@ namespace basicUnit
         /// </summary>
         /// <param name="url">文件所在的本地网络路径</param>
         /// <returns>返回字符串</returns>
-        public virtual string fileToString(string url)
+        public static string fileToString(string url)
         {
             //读取url文件到文件尾，然后返回
             return LibFrame.LibFrameInfo.getStreamReader(url).ReadToEnd();
@@ -185,7 +185,7 @@ namespace basicUnit
         /// <param name="url">文件所在的本地网络路径</param>
         /// /// <param name="encodingType">解析文件所用的编码模式</param>
         /// <returns>返回字符串</returns>
-        public virtual string fileToString(string url, string encodingType)
+        public static string fileToString(string url, string encodingType)
         {
             //读取url文件到文件尾，然后返回
             return LibFrame.LibFrameInfo.getStreamReader(url, encodingType).ReadToEnd();
@@ -197,7 +197,7 @@ namespace basicUnit
         /// <param name="bufferSize">文件流缓冲区大小，默认值可填4096</param>
         /// <param name="useAsync">使用异步初始化文件流，缺乏设计的异步调用会慢于串行调用</param>
         /// <returns>返回字符串</returns>
-        public virtual string fileToString(string filePath, int bufferSize, bool useAsync)
+        public static string fileToString(string filePath, int bufferSize, bool useAsync)
         {
 
             using (
@@ -218,7 +218,7 @@ namespace basicUnit
         /// <param name="useAsync">使用异步初始化文件流，缺乏设计的异步调用会慢于串行调用</param>
         /// <param name="encodingType">解析文件所用的编码模式</param>
         /// <returns>返回字符串</returns>
-        public virtual string fileToString(string filePath, int bufferSize, bool useAsync, string encodingType)
+        public static string fileToString(string filePath, int bufferSize, bool useAsync, string encodingType)
         {
 
             using (
@@ -239,7 +239,7 @@ namespace basicUnit
         /// <typeparam name="T">待转换对象对应的类型</typeparam>
         /// <param name="obj">待转换对象</param>
         /// <returns>返回处理后得到的字符串</returns>
-        public string toMD5<T>(T obj)
+        public static string toMD5<T>(T obj)
         {
             byte[] source = Encoding.Default.GetBytes(Convert.ToString(obj));/* 将对象转换成string后转换成字节数组 */
             byte[] data = MD5.Create().ComputeHash(source);/* 创建SHA1对象进行散列计算 */
@@ -258,7 +258,7 @@ namespace basicUnit
         /// <typeparam name="T">待转换对象对应的类型</typeparam>
         /// <param name="obj">待转换对象</param>
         /// <returns>返回处理后得到的字符串</returns>
-        public string toSHA1<T>(T obj)
+        public static string toSHA1<T>(T obj)
         {
             byte[] source = Encoding.Default.GetBytes(Convert.ToString(obj));
             byte[] data = SHA1.Create().ComputeHash(source);
@@ -277,7 +277,7 @@ namespace basicUnit
         /// <typeparam name="T">待转换对象对应的类型</typeparam>
         /// <param name="obj">待转换对象</param>
         /// <returns>返回处理后得到的字符串</returns>
-        public string toSHA256<T>(T obj)
+        public static string toSHA256<T>(T obj)
         {
             byte[] source = Encoding.Default.GetBytes(Convert.ToString(obj));
             byte[] data = SHA1.Create().ComputeHash(source);

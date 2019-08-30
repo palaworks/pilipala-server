@@ -7,6 +7,7 @@ using System.Web.Services;
 using LibStruct.MySql;
 using LibStruct.pilipala;
 using dataUnit;
+using basicUnit;
 using businessUnit.pilipala;
 using businessUnit.pilipala.UI;
 
@@ -22,30 +23,35 @@ namespace PILIPALA.pala_system.service
     // [System.Web.Script.Services.ScriptService]
     public class Basic : System.Web.Services.WebService
     {
+        /* 数据库 */
         private mysqlConn mysqlConn;
         private PaDB paDB;
 
+        /* 文章列表控制器 */
         private TextListH TextListH;
+        /* 文章控制器 */
         private TextH TextH;
 
         public Basic()
         {
             paDB.MySqlConnH = new MySqlConnH();
-            /* 
+            
             mysqlConn.user = "pala_database_user";
             mysqlConn.password = "pala_database_user_password";
             mysqlConn.dataSource = "localhost";
             mysqlConn.port = "3306";
             paDB.MySqlConnH.start(mysqlConn);
             paDB.dataBase = "pala_db";//测试库
-            */
+
+            /*
             mysqlConn.user = "thaumy0tdymy";
             mysqlConn.password = "177BDE5";
             mysqlConn.dataSource = "localhost";
             mysqlConn.port = "3306";
             paDB.MySqlConnH.start(mysqlConn);
             paDB.dataBase = "thaumy0tdymy";//生产库
-            
+            */
+
             paDB.Tables = PaRoot.defaultTables();/* 以默认值确定表名 */
             paDB.Views = PaRoot.defaultViews();/* 以默认值确定视图名 */
 
@@ -55,54 +61,58 @@ namespace PILIPALA.pala_system.service
             //如果使用设计的组件，请取消注释以下行 
             //InitializeComponent(); 
         }
+        #region TextListH
 
-        [WebMethod]
         public List<int> getTextIDList()
         {
             return TextListH.getTextIDList();
         }
-        [WebMethod]
         public List<int> getTextIDList(string text_type)
         {
             return TextListH.getTextIDList(text_type);
         }
 
-        [WebMethod]
         public List<int> stepTextIDList(int row, int rowLength)
         {
             return TextListH.stepTextIDList(row, rowLength);
         }
-        [WebMethod]
         public List<int> stepTextIDList(int row, int rowLength, string text_type)
         {
             return TextListH.stepTextIDList(row, rowLength, text_type);
         }
 
-        [WebMethod]
+        #endregion
+        #region TextH
+
         public PaText getTextMain(int text_id)
         {
             return TextH.getTextMain(text_id);
         }
-        [WebMethod]
         public PaText getTextSub(int text_id)
         {
             return TextH.getTextSub(text_id);
         }
 
-        [WebMethod]
         public string getTextTitle(int text_id)
         {
             return TextH.getTextTitle(text_id);
         }
-        [WebMethod]
         public string getTextSummary(int text_id)
         {
             return TextH.getTextSummary(text_id);
         }
-        [WebMethod]
         public string getTextContent(int text_id)
         {
             return TextH.getTextContent(text_id);
+        }
+
+        public int nextTextID(int current_text_id)
+        {
+            return TextH.nextTextID(current_text_id);
+        }
+        public int prevTextID(int current_text_id)
+        {
+            return TextH.prevTextID(current_text_id);
         }
 
         [WebMethod]
@@ -116,21 +126,15 @@ namespace PILIPALA.pala_system.service
             return TextH.update_countStar(text_id, value);
         }
 
-        [WebMethod]
-        public int nextTextID(int current_text_id)
-        {
-            return TextH.nextTextID(current_text_id);
-        }
-        [WebMethod]
-        public int prevTextID(int current_text_id)
-        {
-            return TextH.prevTextID(current_text_id);
-        }
+        #endregion
 
-        [WebMethod]
         public static PaText fill(PaText TextMain, PaText TextSub)
         {
             return PaFn.fill(TextMain, TextSub);
+        }
+        public static string toMD5(string str)
+        {
+            return BasicMethod.toMD5(str);
         }
     }
 }
