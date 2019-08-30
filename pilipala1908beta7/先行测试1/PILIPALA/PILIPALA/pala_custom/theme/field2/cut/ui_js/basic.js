@@ -28,7 +28,7 @@ function up() {
 
 /* 二段淡入 */
 function fadeInX2(obj, fn) {
-    $(obj).fadeTo(400, 0.3, function () {
+    $(obj).fadeTo(300, 0.3, function () {
         fn.apply();
         $(obj).fadeTo(260, 0.6, fn);
     });
@@ -47,7 +47,7 @@ function slideRight2X(obj) {
     $(obj).animate({
         opacity: 1,
         left: '-30px'
-    }, 400, function () {
+    }, 300, function () {
         $(obj).animate({
             left: '12px'
         }, 260);

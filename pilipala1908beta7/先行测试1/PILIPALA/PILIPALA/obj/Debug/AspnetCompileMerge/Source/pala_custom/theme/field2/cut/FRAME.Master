@@ -95,6 +95,7 @@
             <asp:ContentPlaceHolder ID="RefreshBlock" runat="server">
             </asp:ContentPlaceHolder>
         </div>
+
     </div>
 
     <link rel="stylesheet" type="text/css" href="http://raw.githack.com/Thaumy/Blog/master/build/css/mrks.css">

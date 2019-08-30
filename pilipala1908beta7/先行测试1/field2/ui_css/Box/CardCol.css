@@ -52,7 +52,7 @@
 
     font-size: 18px;
     line-height: 28px;
-    word-break: break-word;
+    word-break: break-all;
 }
 
 .CardCol>.Card>.contain>.Content>img {

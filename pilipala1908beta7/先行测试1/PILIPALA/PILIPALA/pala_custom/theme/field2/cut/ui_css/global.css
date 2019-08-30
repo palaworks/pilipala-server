@@ -40,6 +40,10 @@ blockquote {
     body>.contain {
         padding-top: 10px;
     }
+    html {
+        background: url("http://thblog-img.test.upcdn.net/ui-background/pc.jpg") fixed;
+        background-size: cover;
+    }
 }
 
 /* 屏幕宽度小于1000时 */
@@ -47,5 +51,9 @@ blockquote {
     body>.contain {
         padding: 7px;
         padding-top: 57px;
+    }
+    html {
+        background: url("http://thblog-img.test.upcdn.net/ui-background/mobi.jpg") fixed;
+        background-size: contain;
     }
 }

@@ -2,7 +2,7 @@
     width: 100%;
 
     background: rgba(245, 245, 245, 1);
-    background: url("../../ui_img/gezi.jpg") fixed;
+    background: url("http://thblog-img.test.upcdn.net/ui_img/gezi.jpg") fixed;
 }
 
 .CardCol>.Card>.contain {
