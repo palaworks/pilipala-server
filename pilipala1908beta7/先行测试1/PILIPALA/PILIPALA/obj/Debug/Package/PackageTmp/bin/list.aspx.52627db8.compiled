@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="3" virtualPath="/pala_custom/theme/field2/cut/LIST.aspx" hash="fffffffe227ad988" filehash="5e5ed83761c3e1eb" flags="110000" assembly="App_Web_hfidpwk0" type="ASP.pala_custom_theme_field2_cut_list_aspx">
+<preserve resultType="3" virtualPath="/pala_custom/theme/field2/cut/LIST.aspx" hash="fffffffe227ad988" filehash="a1d17cf35c2061d7" flags="110000" assembly="App_Web_phjlzea5" type="ASP.pala_custom_theme_field2_cut_list_aspx">
     <filedeps>
         <filedep name="/pala_custom/theme/field2/cut/FRAME.Master" />
         <filedep name="/pala_custom/theme/field2/cut/LIST.aspx" />
