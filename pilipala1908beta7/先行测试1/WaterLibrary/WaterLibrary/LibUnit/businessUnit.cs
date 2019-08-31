@@ -684,23 +684,81 @@ namespace businessUnit
                 }
 
                 /// <summary>
-                /// 获取热度文章排行(全部)
+                /// 获取文章排行(无截止长度)
                 /// </summary>
+                /// <param name="key">键名</param>
+                /// <param name="orderType">asc(升序)或desc(降序)</param>
                 /// <returns></returns>
-                public virtual List<int> getHotTextIDList()
+                public virtual List<int> getTextIDList_OrderBy(string key, string orderType)
                 {
-                    /* 待更新 */
-                    return null;
+                    try
+                    {
+                        List<int> List_text_id = new List<int>();
+
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_sub + "` ORDER BY ?key ?orderType";
+
+                        List<mysqlParm> List_mysqlParm = new List<mysqlParm>
+                        {
+                            new mysqlParm() { parmName = "?key", parmValue = key },
+                            new mysqlParm() { parmName = "?orderType", parmValue = orderType },
+                        };
+
+                        using (MySqlCommand MySqlCommand = MySqlConnH.parmQueryCmd(SQL, List_mysqlParm))
+                        {
+                            DataTable text_id_table = MySqlConnH.getTable(MySqlCommand);
+
+                            foreach (DataRow Row in text_id_table.Rows)
+                            {
+                                List_text_id.Add(Convert.ToInt32(Row["text_id"]));
+                            }
+                        }
+                        return List_text_id;
+                    }
+                    finally
+                    {
+                        MySqlConnH.nullHCommand();
+                        MySqlConnH.disposeHCommand();
+                    }
                 }
                 /// <summary>
                 /// 获取热度文章排行(有截止长度)
                 /// </summary>
+                /// <param name="key">键名</param>
+                /// <param name="orderType">asc(升序)或desc(降序)</param>
                 /// <param name="length">截止长度</param>
                 /// <returns></returns>
-                public virtual List<int> getHotTextIDList(int length)
+                public virtual List<int> getTextIDList_OrderBy(string key, string orderType, int length)
                 {
-                    /* 待更新 */
-                    return null;
+                    try
+                    {
+                        List<int> List_text_id = new List<int>();
+
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_sub + "` ORDER BY ?key ?orderType LIMIT 0,?length";
+
+                        List<mysqlParm> List_mysqlParm = new List<mysqlParm>
+                        {
+
+                            new mysqlParm() { parmName = "?key", parmValue = key },
+                            new mysqlParm() { parmName = "?orderType", parmValue = orderType },
+                            new mysqlParm() { parmName = "?length", parmValue = length }
+                        };
+
+                        using (MySqlCommand MySqlCommand = MySqlConnH.parmQueryCmd(SQL, List_mysqlParm))
+                        {
+                            DataTable text_id_table = MySqlConnH.getTable(MySqlCommand);
+
+                            foreach (DataRow Row in text_id_table.Rows)
+                            {
+                                List_text_id.Add(Convert.ToInt32(Row["text_id"]));
+                            }
+                        }
+                        return List_text_id;
+                    }
+                    finally
+                    {
+                        MySqlConnH.nullHCommand();
+                        MySqlConnH.disposeHCommand();
+                    }
                 }
             }
 
