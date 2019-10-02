@@ -25,6 +25,16 @@
 
     <script type="text/javascript" src="/pala_custom/theme/field2/cut/ui_js/basic.js"></script>
     <script type="text/javascript" src="/pala_custom/theme/field2/web_js/basic.js"></script>
+    <!--  
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6892741833070631",
+            enable_page_level_ads: true
+        });
+    </script>
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
 </head>
 
 <body>

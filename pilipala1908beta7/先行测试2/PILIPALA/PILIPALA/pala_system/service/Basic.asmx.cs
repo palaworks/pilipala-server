@@ -103,6 +103,19 @@ namespace PILIPALA.pala_system.service
             return TextH.getTextContent(text_id);
         }
 
+        public string getTextTitle(int text_id, int length)
+        {
+            return TextH.getTextTitle(text_id, length);
+        }
+        public string getTextSummary(int text_id, int length)
+        {
+            return TextH.getTextSummary(text_id, length);
+        }
+        public string getTextContent(int text_id, int length)
+        {
+            return TextH.getTextContent(text_id, length);
+        }
+
         public int nextTextID(int current_text_id)
         {
             return TextH.nextTextID(current_text_id);
@@ -129,6 +142,15 @@ namespace PILIPALA.pala_system.service
         {
             return PaFn.fill(TextMain, TextSub);
         }
+        public static string htmlFilter(string str)
+        {
+            return PaFn.htmlFilter(str);
+        }
+        public static string timeFromNow(DateTime dateTime)
+        {
+            return PaFn.timeFromNow(dateTime);
+        }
+
         public static string toMD5(string str)
         {
             return BasicMethod.toMD5(str);
