@@ -1644,6 +1644,30 @@
             <param name="text_id">文本序列号</param>
             <returns></returns>
         </member>
+        <member name="M:businessUnit.pilipala.UI.TextH.getTextTitle(System.Int32,System.Int32)">
+            <summary>
+            按长度取得文本标题(text_title)
+            </summary>
+            <param name="text_id">文本序列号</param>
+            <param name="length">取得的文章内容长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.UI.TextH.getTextSummary(System.Int32,System.Int32)">
+            <summary>
+            按长度取得文本概要(text_summary)
+            </summary>
+            <param name="text_id">文本序列号</param>
+            <param name="length">取得的文章内容长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.UI.TextH.getTextContent(System.Int32,System.Int32)">
+            <summary>
+            按长度取得文本正文(text_content)
+            </summary>
+            <param name="text_id">文本序列号</param>
+            <param name="length">取得的文章内容长度</param>
+            <returns></returns>
+        </member>
         <member name="M:businessUnit.pilipala.UI.TextH.nextTextID(System.Int32)">
             <summary>
             ITextH接口的基础实现，详见其接口注释
@@ -1791,6 +1815,20 @@
             </summary>
             <parmm name="TextMain">主表PaText</parmm>
             <parmm name="TextSub">副表PaText</parmm>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.PaFn.htmlFilter(System.String)">
+            <summary>
+            html过滤器
+            </summary>
+            <param name="str">待过滤的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.PaFn.timeFromNow(System.DateTime)">
+            <summary>
+            距现在字符串生成器
+            </summary>
+            <param name="dateTime">要计算的时间</param>
             <returns></returns>
         </member>
     </members>

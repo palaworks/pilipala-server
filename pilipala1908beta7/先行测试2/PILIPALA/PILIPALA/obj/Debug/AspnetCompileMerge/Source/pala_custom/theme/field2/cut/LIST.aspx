@@ -6,6 +6,7 @@
     CodeBehind="LIST.aspx.cs"
     Inherits="PILIPALA.pala_custom.theme.field2.cut.LIST" %>
 
+<%@ Import Namespace="PILIPALA.pala_system.service" %>
 <%@ Import Namespace="PILIPALA.pala_custom.theme.field2.web_service" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="RefreshBlock" runat="server">
@@ -20,7 +21,19 @@
             <%Response.Write(PaText.before_html); %>
 
             <div class="Title"><%Response.Write(BS.getTextTitle(text_id)); %></div>
-            <div class="Summary"><%Response.Write(BS.getTextSummary(text_id)); %></div>
+            <div class="Summary">
+                <%
+                    if (BS.getTextSummary(text_id) == "")
+                    {
+                        /* 如果文章概要不存在，输出前120文章内容 */
+                        Response.Write(Basic.htmlFilter(BS.getTextContent(text_id, 120)));
+                    }
+                    else
+                    {
+                        Response.Write(BS.getTextSummary(text_id));
+                    }
+                %>
+            </div>
         </div>
 
         <div class="AtBox L">
@@ -28,7 +41,18 @@
             <div class="Pv"><%Response.Write(PaText.count_pv); %></div>
             <div class="Comment"><%Response.Write(PaText.count_comment); %></div>
             <div class="Star"><%Response.Write(PaText.count_star); %></div>
-            <div class="Time"><%Response.Write(FieldService.toTime2(PaText.date_changed)); %></div>
+            <div class="Time">
+                <%
+                    if (Basic.timeFromNow(PaText.date_created)==null)
+                    {
+                        Response.Write(FieldService.toTime2(PaText.date_created));
+                    }
+                    else
+                    {
+                        Response.Write(Basic.timeFromNow(PaText.date_created));
+                    }
+                 %>
+            </div>
             <div class="Archiv"><%Response.Write(PaText.text_archiv); %></div>
 
             <%foreach (string str in FieldService.toTags(PaText.tags))
