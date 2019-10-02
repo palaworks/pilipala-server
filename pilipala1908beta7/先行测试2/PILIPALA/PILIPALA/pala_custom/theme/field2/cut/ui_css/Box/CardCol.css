@@ -1,12 +1,26 @@
 .CardCol>.Card {
     width: 100%;
+    background: url("http://thblog-img.test.upcdn.net/ui_img/gezi.jpg");
+}
 
-    background: rgba(245, 245, 245, 1);
-    background: url("http://thblog-img.test.upcdn.net/ui_img/gezi.jpg") fixed;
+/* 屏幕宽度大于1000时 */
+@media screen and (min-width: 1000px) {
+    .CardCol>.Card {
+        background-size: 20px 20px;
+    }
+}
+
+/* 屏幕宽度小于1000时 */
+@media screen and (max-width: 1000px) {
+    .CardCol>.Card {
+        background-size: 14px 14px;
+    }
 }
 
 .CardCol>.Card>.contain {
     width: 100%;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 .CardCol>.Card>.contain>.Title {
@@ -25,11 +39,17 @@
 
 .CardCol>.Card>.contain>.Summary {
     color: rgba(79, 89, 89, 1.00);
+
     font-size: 15px;
-    line-height: 15px;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 
     padding-left: 18px;
-    padding-bottom: 12px;
+    padding-right: 18px;
+
+    padding-bottom: 8px;
 }
 
 /* 屏幕宽度大于1000时 */

@@ -47,7 +47,18 @@
             <div class="Pv"><%Response.Write(PaText.count_pv); %></div>
             <div class="Comment cur"><%Response.Write(PaText.count_comment); %></div>
             <div class="Star cur" onclick="refre_countStar(<%Response.Write(PaText.text_id); %>)"><%Response.Write(PaText.count_star); %></div>
-            <div class="Time"><%Response.Write(FieldService.toTime2(PaText.date_changed)); %></div>
+            <div class="Time">
+                <%
+                    if (Basic.timeFromNow(PaText.date_created)==null)
+                    {
+                        Response.Write(FieldService.toTime2(PaText.date_created));
+                    }
+                    else
+                    {
+                        Response.Write(Basic.timeFromNow(PaText.date_created));
+                    }
+                 %>
+            </div>
             <div class="Archiv"><%Response.Write(PaText.text_archiv); %></div>
             <%foreach (string str in FieldService.toTags(PaText.tags))
                 {  %>

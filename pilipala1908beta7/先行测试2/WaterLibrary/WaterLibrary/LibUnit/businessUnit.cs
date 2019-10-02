@@ -12,6 +12,8 @@ using LibStruct.MySql;
 using LibStruct.pilipala;
 using LibStruct.Interface;
 
+using System.Text.RegularExpressions;
+
 namespace businessUnit
 {
     namespace pilipala
@@ -1096,6 +1098,133 @@ namespace businessUnit
                 }
 
                 /// <summary>
+                /// 按长度取得文本标题(text_title)
+                /// </summary>
+                /// <param name="text_id">文本序列号</param>
+                /// <param name="length">取得的文章内容长度</param>
+                /// <returns></returns>
+                public virtual string getTextTitle(int text_id, int length)
+                {
+                    try
+                    {
+                        string SQL = "SELECT SUBSTRING((" +
+
+                                     "SELECT " +
+                                     "`" + Views.text_main + "`.text_title" +
+                                     " FROM " +
+                                     dataBase + ".`" + Views.text_index + "`," +
+                                     dataBase + ".`" + Views.text_main + "`" +
+                                     " WHERE `" +
+                                     Views.text_index + "`.text_id =`" + Views.text_main + "`.text_id" +
+                                     " AND `" +
+                                     Views.text_main + "`.text_id = ?text_id" +
+
+                                     ") FROM 1 FOR ?length)";
+
+                        List<mysqlParm> List_mysqlParm = new List<mysqlParm>/* 为参数化查询添加元素 */
+                            {
+                            new mysqlParm() { parmName = "?text_id", parmValue = text_id },
+                            new mysqlParm() { parmName = "?length", parmValue = length }
+                            };
+
+                        using (MySqlCommand MySqlCommand = MySqlConnH.parmQueryCmd(SQL, List_mysqlParm))/* 参数化查询 */
+                        {
+                            return MySqlConnH.getRow(MySqlCommand)[0].ToString();
+                        }
+                    }
+                    finally
+                    {
+                        MySqlConnH.closeHConnection();
+                        MySqlConnH.nullHCommand();
+                        MySqlConnH.disposeHCommand();
+                    }
+                }
+                /// <summary>
+                /// 按长度取得文本概要(text_summary)
+                /// </summary>
+                /// <param name="text_id">文本序列号</param>
+                /// <param name="length">取得的文章内容长度</param>
+                /// <returns></returns>
+                public virtual string getTextSummary(int text_id, int length)
+                {
+                    try
+                    {
+                        string SQL = "SELECT SUBSTRING((" +
+
+                                     "SELECT " +
+                                     "`" + Views.text_main + "`.text_summary" +
+                                     " FROM " +
+                                     dataBase + ".`" + Views.text_index + "`," +
+                                     dataBase + ".`" + Views.text_main + "`" +
+                                     " WHERE `" +
+                                     Views.text_index + "`.text_id =`" + Views.text_main + "`.text_id" +
+                                     " AND `" +
+                                     Views.text_main + "`.text_id = ?text_id" +
+
+                                     ") FROM 1 FOR ?length)";
+
+                        List<mysqlParm> List_mysqlParm = new List<mysqlParm>/* 为参数化查询添加元素 */
+                            {
+                            new mysqlParm() { parmName = "?text_id", parmValue = text_id },
+                            new mysqlParm() { parmName = "?length", parmValue = length }
+                            };
+
+                        using (MySqlCommand MySqlCommand = MySqlConnH.parmQueryCmd(SQL, List_mysqlParm))/* 参数化查询 */
+                        {
+                            return MySqlConnH.getRow(MySqlCommand)[0].ToString();
+                        }
+                    }
+                    finally
+                    {
+                        MySqlConnH.closeHConnection();
+                        MySqlConnH.nullHCommand();
+                        MySqlConnH.disposeHCommand();
+                    }
+                }
+                /// <summary>
+                /// 按长度取得文本正文(text_content)
+                /// </summary>
+                /// <param name="text_id">文本序列号</param>
+                /// <param name="length">取得的文章内容长度</param>
+                /// <returns></returns>
+                public virtual string getTextContent(int text_id, int length)
+                {
+                    try
+                    {
+                        string SQL = "SELECT SUBSTRING((" +
+
+                                     "SELECT " +
+                                     "`" + Views.text_main + "`.text_content" +
+                                     " FROM " +
+                                     dataBase + ".`" + Views.text_index + "`," +
+                                     dataBase + ".`" + Views.text_main + "`" +
+                                     " WHERE `" +
+                                     Views.text_index + "`.text_id =`" + Views.text_main + "`.text_id" +
+                                     " AND `" +
+                                     Views.text_main + "`.text_id = ?text_id" +
+
+                                     ") FROM 1 FOR ?length)";
+
+                        List<mysqlParm> List_mysqlParm = new List<mysqlParm>/* 为参数化查询添加元素 */
+                            {
+                            new mysqlParm() { parmName = "?text_id", parmValue = text_id },
+                            new mysqlParm() { parmName = "?length", parmValue = length }
+                            };
+
+                        using (MySqlCommand MySqlCommand = MySqlConnH.parmQueryCmd(SQL, List_mysqlParm))/* 参数化查询 */
+                        {
+                            return MySqlConnH.getRow(MySqlCommand)[0].ToString();
+                        }
+                    }
+                    finally
+                    {
+                        MySqlConnH.closeHConnection();
+                        MySqlConnH.nullHCommand();
+                        MySqlConnH.disposeHCommand();
+                    }
+                }
+
+                /// <summary>
                 /// ITextH接口的基础实现，详见其接口注释
                 /// </summary>
                 public virtual int nextTextID(int current_text_id)
@@ -1596,6 +1725,92 @@ namespace businessUnit
                     tags = TextSub.tags,
                     before_html = TextSub.before_html,
                 };
+            }
+
+            /// <summary>
+            /// html过滤器
+            /// </summary>
+            /// <param name="str">待过滤的字符串</param>
+            /// <returns></returns>
+            public static string htmlFilter(string str)
+            {
+                if (string.IsNullOrEmpty(str))
+                {
+                    return "";
+                }
+
+                string regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>";
+                string regEx_script = "<script[^>]*?>[\\s\\S]*?<\\/script>";
+                string regEx_html = "<[^>]+>";
+
+                str = Regex.Replace(str, regEx_style, "");
+                str = Regex.Replace(str, regEx_script, "");
+                str = Regex.Replace(str, regEx_html, "");
+                str = Regex.Replace(str, "\\s*|\t|\r|\n", "");
+                str = str.Replace(" ", "");
+
+                return str.Trim();
+            }
+
+            /// <summary>
+            /// 距现在字符串生成器
+            /// </summary>
+            /// <param name="dateTime">要计算的时间</param>
+            /// <returns></returns>
+            public static string timeFromNow(DateTime dateTime)
+            {
+                //获取当前时间
+                DateTime DateTime1 = DateTime.Now;
+
+                TimeSpan ts1 = new TimeSpan(DateTime1.Ticks);
+                TimeSpan ts2 = new TimeSpan(dateTime.Ticks);
+
+                //时间比较，得出差值
+                TimeSpan ts = ts1.Subtract(ts2).Duration();
+
+                if (ts.Days >= 60)
+                {
+                    return null;
+                }
+                else
+                if (ts.Days >= 28 && ts.Days < 60)
+                {
+                    return "一月前";
+                }
+                else
+                if (ts.Days >= 21 && ts.Days < 28)
+                {
+                    return "三周前";
+                }
+                else
+                if (ts.Days >= 14 && ts.Days < 21)
+                {
+                    return "二周前";
+                }
+                else
+                if (ts.Days >= 7)
+                {
+                    return "一周前";
+                }
+                else
+                if (ts.Days < 1 && ts.Hours < 6)
+                {
+                    return "刚刚";
+                }
+                else
+                {
+                    switch (ts.Days)
+                    {
+                        case 0: return "今天";
+                        case 1: return "昨天";
+                        case 2: return "二天前";
+                        case 3: return "三天前";
+                        case 4: return "四天前";
+                        case 5: return "五天前";
+                        case 6: return "六天前";
+                        default: return null;
+                    }
+                }
             }
         }
     }
