@@ -43,27 +43,39 @@
         <span class="text_mId R"><%Response.Write(Basic.toMD5(PaText.text_content).Substring(0, 7)); %></span>
 
         <div class="AtBox L bRds w250">
-            <div class="Date"><%Response.Write(FieldService.toTime1(PaText.date_created, "-")); %></div>
-            <div class="Pv"><%Response.Write(PaText.count_pv); %></div>
-            <div class="Comment cur"><%Response.Write(PaText.count_comment); %></div>
-            <div class="Star cur" onclick="refre_countStar(<%Response.Write(PaText.text_id); %>)"><%Response.Write(PaText.count_star); %></div>
-            <div class="Time">
+            <div class="Date">
                 <%
-                    if (Basic.timeFromNow(PaText.date_created)==null)
+                    if (Basic.timeFromNow(PaText.date_created) == null)
                     {
-                        Response.Write(FieldService.toTime2(PaText.date_created));
+                        Response.Write(FieldService.toTime1(PaText.date_created, "-"));
                     }
                     else
                     {
                         Response.Write(Basic.timeFromNow(PaText.date_created));
                     }
-                 %>
+                %>
             </div>
+            <div class="Pv"><%Response.Write(PaText.count_pv); %></div>
+            <div class="Comment cur"><%Response.Write(PaText.count_comment); %></div>
+            <div class="Star cur" onclick="refre_countStar(<%Response.Write(PaText.text_id); %>)"><%Response.Write(PaText.count_star); %></div>
+            <div class="Time">
+                <%Response.Write(FieldService.toTime2(PaText.date_created)); %>
+            </div>
+
+            <%if (PaText.text_archiv != "")
+                {/* 如果归档不为空就输出 */
+            %>
             <div class="Archiv"><%Response.Write(PaText.text_archiv); %></div>
-            <%foreach (string str in FieldService.toTags(PaText.tags))
-                {  %>
-            <div class="Tag"><%Response.Write(str); %></div>
             <%} %>
+
+            <%if (PaText.tags != "")
+                {/* 如果标签不为空就输出 */
+                    foreach (string str in FieldService.toTags(PaText.tags))
+                    {
+            %>
+            <div class="Tag"><%Response.Write(str); %></div>
+            <%}
+            }%>
         </div>
     </div>
 

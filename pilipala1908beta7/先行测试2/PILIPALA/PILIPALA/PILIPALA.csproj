@@ -42,6 +42,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -67,7 +68,7 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="WaterLibrary, Version=1.1.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.dll</HintPath>
+      <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Release\WaterLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
