@@ -87,11 +87,11 @@ namespace LibFrame
         /// <summary>
         /// 版本
         /// </summary>
-        public int projectVer { get; } = 113;
+        public int projectVer { get; } = 115;
         /// <summary>
         /// 版本名字对象
         /// </summary>
-        public string projectMoniker { get; } = "st114";
+        public string projectMoniker { get; } = "WL115";
         /// <summary>
         /// 版本类型
         /// </summary>
@@ -99,7 +99,7 @@ namespace LibFrame
         /// <summary>
         /// 步进
         /// </summary>
-        public string stepping { get; } = "a0";
+        public string stepping { get; } = "A3";
         /// <summary>
         /// 类库的目标框架
         /// </summary>
@@ -111,7 +111,7 @@ namespace LibFrame
         /// <summary>
         /// 类库的目标C#版本
         /// </summary>
-        public string targetCSharpLang { get; } = "7.2";
+        public string targetCSharpLang { get; } = "7.3";
         /// <summary>
         /// 针对最近一次发行版的全局兼容性
         /// </summary>
@@ -119,7 +119,7 @@ namespace LibFrame
         /// <summary>
         /// 适用平台
         /// </summary>
-        public string platform { get; } = "x86";
+        public string platform { get; } = "AnyCpu";
         /// <summary>
         /// 是否为最新pub版本
         /// </summary>
@@ -135,7 +135,7 @@ namespace LibFrame
         /// <summary>
         /// 内置于当前版本的Hlinf信息获取URL
         /// </summary>
-        public string HlinfURL { get; } = "https://thaumy.github.io/StdLib1x/xplore/st114_Hlinf.html";
+        public string HlinfURL { get; } = "https://thaumy.github.io/StdLib1x/xplore/st115_Hlinf.html";
 
         #endregion
 
