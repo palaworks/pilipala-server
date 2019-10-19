@@ -1,0 +1,45 @@
+.CoBox {
+    width: 100%;
+
+    font-size: 16px;
+    color: rgba(250, 250, 250, 1.00);
+
+    border-radius: 4px;
+}
+
+.CoBox>.AtBox>.Star {
+    color: rgba(250, 250, 250, 1.00);
+    background: rgba(255, 159, 0, 1.00);
+}
+
+.CoBox>.AtBox>.Comment {
+    color: rgba(250, 250, 250, 1.00);
+    background: rgb(12, 193, 185, 1.00);
+}
+
+.CoBox>.text_auth {
+    margin-top: 6px;
+    margin-left: 8px;
+    
+    letter-spacing: 1px;
+    margin-right: 0;
+}
+
+.CoBox>.text_mId {
+    font-family: 'Roboto Mono', monospace;
+    letter-spacing: 2px;
+
+    line-height: 14px;
+    margin: 6px;
+
+    font-size: 14px;
+
+    border-radius: 4px;
+}
+
+.CoBox>.text_mId::before {
+    font-family: 'labelico';
+    content: "\e3015";
+
+    display: table-cell;
+}

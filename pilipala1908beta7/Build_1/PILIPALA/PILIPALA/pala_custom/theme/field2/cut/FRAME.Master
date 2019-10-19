@@ -1,0 +1,192 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="FRAME.master.cs" Inherits="PILIPALA.pala_custom.theme.field2.cut.FRAME" %>
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base target="_blank">
+    <title>Thaumy的小破站|又一个码农的家</title>
+
+    <link rel="stylesheet" href="/pala_custom/theme/field2/cut/ui_css/global.css">
+    <link rel="stylesheet" href="/pala_custom/theme/field2/cut/ui_css/basic.css">
+    <link rel="stylesheet" href="/pala_custom/theme/field2/cut/ui_css/Box.css">
+    <link rel="stylesheet" href="/pala_custom/theme/field2/cut/ui_css/Btn.css">
+
+    <link rel="stylesheet" href="/pala_custom/theme/field2/cut/ui_css/more/vs2015.css">
+
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/marked/0.7.0/marked.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+
+    <script type="text/javascript" src="/pala_custom/theme/field2/cut/ui_js/basic.js"></script>
+    <script type="text/javascript" src="/pala_custom/theme/field2/web_js/basic.js"></script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6892741833070631",
+            enable_page_level_ads: true
+        });
+    </script>
+</head>
+
+<body>
+    <%List<int> TextIDList = BS.getTextIDList("page"); %>
+    <div class="fixed">
+
+        <div class="NavLine L M bSha b50">
+            <div onclick="up();showHome()" class="contain cur bRds">
+                <div class="Avatar bSha"></div>
+                <div class="Name">THAUMY的小站</div>
+            </div>
+            <div class="SiderBtn R" onclick="ListToggle()"></div>
+        </div>
+
+        <div class="SiderList bSha">
+
+            <%if (Request.QueryString["text_id"] == null)
+                {
+                    foreach (int text_id in TextIDList)
+                    { %>
+            <div class="Card cur bRds" onclick="up();ListToggle();showText(<%Response.Write(text_id); %>)">
+                <div class="contain"><%Response.Write(BS.getTextTitle(text_id)); %></div>
+            </div>
+            <%}
+                }%>
+
+            <div class="Co cur" onclick="up();ListToggle();showText(12388)">
+                Thaumy的博客©2016-2019保留所有权利<br>
+                基于pilipala构建<br>
+                Field Theme Designed By Thaumy<br>
+            </div>
+        </div>
+
+        <div class="Shadow" onclick="ListToggle()"></div>
+        <div class="upBtn bSha bRds b55" style="display: none" onclick="up()"></div>
+
+    </div>
+
+    <div class="contain">
+        <div class="NavCol bSha bRds b50">
+            <div onclick="up();showHome()" class="contain bRds">
+                <div class="Avatar bSha cur"></div>
+                <div class="Name">THAUMY的小站</div>
+                <div class="JieShao"><span class="jieshao"></span></div>
+            </div>
+
+            <div class="List">
+
+                <%if (Request.QueryString["text_id"] == null)
+                    {
+                        foreach (int text_id in TextIDList)
+                        { %>
+                <div class="Card cur bRds" onclick="up();showText(<%Response.Write(text_id); %>)">
+                    <div class="contain"><%Response.Write(BS.getTextTitle(text_id)); %></div>
+                </div>
+                <%}
+                    }%>
+            </div>
+
+            <div class="Co cur" onclick="up();showText(12388)">
+                Thaumy的博客©2016-2019保留所有权利<br>
+                基于pilipala构建<br>
+                Field Theme Designed By Thaumy<br>
+            </div>
+        </div>
+
+        <div class="CardCol R">
+            <asp:ContentPlaceHolder ID="RefreshBlock" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+    </div>
+
+    <link rel="stylesheet" type="text/css" href="http://raw.githack.com/Thaumy/Blog/master/build/css/mrks.css">
+    <link rel="stylesheet" type="text/css" href="http://raw.githack.com/Thaumy/Blog/master/build/css/wrds.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400">
+    <link rel="stylesheet" href="https://fonts.font.im/css?family=Roboto+Mono">
+
+    <!-- CNZZ -->
+    <div style="display: none">
+        <script type="text/javascript" src="https://s19.cnzz.com/z_stat.php?id=1262285427&web_id=1262285427"></script>
+    </div>
+</body>
+
+<script type="text/javascript" src="/pala_custom/theme/field2/cut/ui_js/jieshao.js"></script>
+
+
+<script type="text/javascript">
+    /* 返顶按钮淡入淡出 */
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 1000) {
+            $(".upBtn").fadeIn(350);
+        }
+        else {
+            $(".upBtn").fadeOut(350);
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    /* 向上滚动NavLine展开 */
+    var p = 0; t = 0;
+    $(window).scroll(debounce(function () {
+        /* 触发宽度 */
+        if ($(window).width() <= 1000) {
+            p = $(this).scrollTop();
+            if (t <= p) {
+                /* 防止触发遮住文本首部 */
+                if ($(window).scrollTop() >= 20) {
+                    $(".NavLine").slideUp(200);
+                }
+            }
+            else {
+                /* 触发高度：小于20或大于200 */
+                if ($(window).scrollTop() <= 20 | $(window).scrollTop() >= 200) {
+                    $(".NavLine").slideDown(150);
+                }
+            }
+            t = p;
+        } else {
+            $(".NavLine").slideUp(200);
+        }
+    }, 50))
+
+    /* 触发宽度外，收起NavLine */
+    $(window).resize(function () {
+        if ($(window).width() > 1000) {
+            $(".NavLine").slideUp(200);
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    /* 侧边菜单展开 */
+    function ListToggle() {
+        if ($(".SiderList").css("left") == "-800px") {
+            $("body").css("overflow", "hidden");/* 禁用滚动 */
+
+            fadeInX2(".Shadow", function () { });
+            $(".SiderBtn").slideUp(300);
+            slideRight2X(".SiderList");
+
+        }
+
+        if ($(".SiderList").css("left") == "12px") {
+            $("body").css("overflow", "unset");/* 启用滚动 */
+
+            fadeOutX2(".Shadow", function () {
+                $(".SiderBtn").slideDown(400);
+            });
+            slideLeft2X(".SiderList");
+
+        }
+    }
+</script>
+
+</html>
