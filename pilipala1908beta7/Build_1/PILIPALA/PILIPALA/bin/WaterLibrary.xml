@@ -1521,11 +1521,6 @@
             ITextListH接口的基础实现，详见其接口注释
             </summary>
         </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.getTextMap">
-            <summary>
-            获得站点地图(由text_id和text_title构成的集合)
-            </summary>
-        </member>
         <member name="M:businessUnit.pilipala.UI.TextListH.matchText``1(``0)">
             <summary>
             文章匹配器
@@ -1564,6 +1559,18 @@
             <param name="key">键名</param>
             <param name="orderType">asc(升序)或desc(降序)</param>
             <param name="length">截止长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextMap">
+            <summary>
+            获得站点地图(由text_id和text_title构成的集合)
+            </summary>
+        </member>
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextByArchiv(System.String)">
+            <summary>
+            获得指定归档的文本ID列表
+            </summary>
+            <param name="text_archiv">归档名</param>
             <returns></returns>
         </member>
         <member name="T:businessUnit.pilipala.UI.TextH">

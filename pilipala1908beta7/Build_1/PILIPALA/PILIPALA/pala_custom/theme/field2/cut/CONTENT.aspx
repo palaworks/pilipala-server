@@ -12,8 +12,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="RefreshBlock" runat="server">
     <div class="Card L M bSha bRds">
         <div class="contain L bRds w250">
+
+            <% if (PaText.text_title != "")
+                { //如果标题不为空则输出%>
             <div class="Title"><%Response.Write(PaText.text_title); %></div>
             <div class="Summary"><%Response.Write(PaText.text_summary); %></div>
+            <%} %>
 
             <div class="Content bRds"><%Response.Write(PaText.text_content); %></div>
 

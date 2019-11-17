@@ -515,46 +515,6 @@ namespace businessUnit
                 }
 
                 /// <summary>
-                /// 获得站点地图(由text_id和text_title构成的集合)
-                /// </summary>
-                public virtual List<PaText> getTextMap()
-                {
-                    try
-                    {
-                        string SQL =
-                            "SELECT " +
-                            "`" + Views.text_main + "`.text_id," +
-                            "`" + Views.text_main + "`.text_title" +
-                            " FROM " +
-                            dataBase + ".`" + Views.text_index + "`," +
-                            dataBase + ".`" + Views.text_main + "`" +
-                            " WHERE `" +
-                            Views.text_main + "`.text_id=`" + Views.text_index + "`.text_id";
-
-                        List<PaText> List_PaText = new List<PaText>();
-
-                        using (DataTable pala_text_index = MySqlConnH.getTable(SQL))
-                        {
-                            foreach (DataRow Row in pala_text_index.Rows)/* 遍历数据库表行，逐行取得数据 */
-                            {
-                                PaText PaText = new PaText
-                                {
-                                    text_id = Convert.ToInt32(Row["text_id"]),
-                                    text_type = Convert.ToString(Row["text_title"])
-                                };
-                                List_PaText.Add(PaText);/* 每次循环完成，将获取到的文本数据添加至文本列表 */
-                            }
-                        }
-                        return List_PaText;
-                    }
-                    finally
-                    {
-                        MySqlConnH.nullHCommand();
-                        MySqlConnH.disposeHCommand();
-                    }
-                }
-
-                /// <summary>
                 /// 文章匹配器
                 /// </summary>
                 /// <typeparmm name="T">继承自ITextBasic的类型</typeparmm>
@@ -753,6 +713,85 @@ namespace businessUnit
                             {
                                 List_text_id.Add(Convert.ToInt32(Row["text_id"]));
                             }
+                        }
+                        return List_text_id;
+                    }
+                    finally
+                    {
+                        MySqlConnH.nullHCommand();
+                        MySqlConnH.disposeHCommand();
+                    }
+                }
+
+                /// <summary>
+                /// 获得站点地图(由text_id和text_title构成的集合)
+                /// </summary>
+                public virtual List<PaText> getTextMap()
+                {
+                    try
+                    {
+                        string SQL =
+                            "SELECT " +
+                            "`" + Views.text_main + "`.text_id," +
+                            "`" + Views.text_main + "`.text_title" +
+                            " FROM " +
+                            dataBase + ".`" + Views.text_index + "`," +
+                            dataBase + ".`" + Views.text_main + "`" +
+                            " WHERE `" +
+                            Views.text_main + "`.text_id=`" + Views.text_index + "`.text_id";
+
+                        List<PaText> List_PaText = new List<PaText>();
+
+                        using (DataTable pala_text_index = MySqlConnH.getTable(SQL))
+                        {
+                            foreach (DataRow Row in pala_text_index.Rows)/* 遍历数据库表行，逐行取得数据 */
+                            {
+                                PaText PaText = new PaText
+                                {
+                                    text_id = Convert.ToInt32(Row["text_id"]),
+                                    text_type = Convert.ToString(Row["text_title"])
+                                };
+                                List_PaText.Add(PaText);/* 每次循环完成，将获取到的文本数据添加至文本列表 */
+                            }
+                        }
+                        return List_PaText;
+                    }
+                    finally
+                    {
+                        MySqlConnH.nullHCommand();
+                        MySqlConnH.disposeHCommand();
+                    }
+                }
+                /// <summary>
+                /// 获得指定归档的文本ID列表
+                /// </summary>
+                /// <param name="text_archiv">归档名</param>
+                /// <returns></returns>
+                public virtual List<int> getTextByArchiv(string text_archiv)
+                {
+                    try
+                    {
+                        List<int> List_text_id = new List<int>();
+
+                        string SQL =
+                            "SELECT " +
+                            "`" + Views.text_main + "`.text_id," +
+                            " FROM " +
+                            dataBase + ".`" + Views.text_index + "`," +
+                            " WHERE `" +
+                            Views.text_main + "`.text_archiv=?text_type";
+
+                        List<mysqlParm> List_mysqlParm = new List<mysqlParm>
+                        {
+                            new mysqlParm() { parmName = "?text_archiv", parmValue = text_archiv },
+                        };
+
+                        using (DataTable pala_text_index = MySqlConnH.getTable(SQL))
+                        {
+                            foreach (DataRow Row in pala_text_index.Rows)
+                            {
+                                List_text_id.Add(Convert.ToInt32(Row["text_id"]));
+                            };
                         }
                         return List_text_id;
                     }

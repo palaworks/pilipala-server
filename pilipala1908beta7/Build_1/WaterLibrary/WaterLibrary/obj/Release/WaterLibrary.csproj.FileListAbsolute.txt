@@ -6,3 +6,4 @@ C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\bin\Release\mysql.data.
 C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.csproj.CopyComplete
 C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.dll
 C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.pdb
+C:\Users\Administrator\Desktop\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.csprojAssemblyReference.cache
