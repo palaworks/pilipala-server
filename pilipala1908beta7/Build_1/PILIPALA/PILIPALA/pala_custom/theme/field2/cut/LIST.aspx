@@ -15,6 +15,27 @@
         { %>
     <%LibStruct.pilipala.PaText PaText = BS.getTextSub(text_id); %>
 
+    <%if (BS.getTextTitle(text_id) == "")
+        {%>
+    <div class="Card L M bSha bRds">
+        <div class="contain L bRds w250">
+            <div class="Content bRds">
+                <div class="Content bRds"><%Response.Write(BS.getTextContent(text_id)); %></div>
+            </div>
+        </div>
+        <div class="AtBox L">
+            <div class="Pv"><%Response.Write(PaText.count_pv); %></div>
+            <div class="Comment"><%Response.Write(PaText.count_comment); %></div>
+            <div class="Star"><%Response.Write(PaText.count_star); %></div>
+            <div class="Time">
+                <%Response.Write(FieldService.toTime2(PaText.date_created)); %>
+            </div>
+        </div>
+    </div>
+    <%}
+        else
+        { %>
+
     <div class="Card L M bSha bRds">
         <div onclick="up();showText(<%Response.Write(PaText.text_id); %>)" class="contain L cur bRds w250">
 
@@ -62,6 +83,8 @@
                 }%>
         </div>
     </div>
+
+    <%} %>
 
     <%} %>
 </asp:Content>
