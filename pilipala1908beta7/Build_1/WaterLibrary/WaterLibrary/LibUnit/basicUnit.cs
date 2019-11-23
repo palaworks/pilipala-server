@@ -28,14 +28,23 @@ namespace basicUnit
             j = temp;
         }
         /// <summary>
-        /// 比较大小的方法
+        /// 判断小于的方法
         /// </summary>
         /// <param name="i"></param>
         /// <param name="j"></param>
-        /// <returns></returns>
+        /// <returns>若i小于j返回true</returns>
         public static bool less(int i, int j)
         {
             return i.CompareTo(j) < 0;
+        }
+        /// <summary>
+        /// 判断奇数的方法
+        /// </summary>
+        /// <param name="num">待判断的数值</param>
+        /// <returns>num为奇数返回true，num为偶数返回false</returns>
+        public static bool isOdd(int num)
+        {
+            return (num % 2) == 1;
         }
 
         /// <summary>
