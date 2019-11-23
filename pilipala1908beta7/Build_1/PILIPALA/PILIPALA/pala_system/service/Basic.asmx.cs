@@ -78,6 +78,11 @@ namespace PILIPALA.pala_system.service
             return TextListH.stepTextIDList(row, rowLength, text_type);
         }
 
+        public List<int> getTextIDList(List<string> text_archiv_list)
+        {
+            return TextListH.getTextIDList(text_archiv_list);
+        }
+
         #endregion
 
         #region TextH
