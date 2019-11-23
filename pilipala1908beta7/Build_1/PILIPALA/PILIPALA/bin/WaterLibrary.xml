@@ -1051,11 +1051,18 @@
         </member>
         <member name="M:basicUnit.BasicMethod.less(System.Int32,System.Int32)">
             <summary>
-            比较大小的方法
+            判断小于的方法
             </summary>
             <param name="i"></param>
             <param name="j"></param>
-            <returns></returns>
+            <returns>若i小于j返回true</returns>
+        </member>
+        <member name="M:basicUnit.BasicMethod.isOdd(System.Int32)">
+            <summary>
+            判断奇数的方法
+            </summary>
+            <param name="num">待判断的数值</param>
+            <returns>num为奇数返回true，num为偶数返回false</returns>
         </member>
         <member name="M:basicUnit.BasicMethod.easySort``1(``0[])">
             <summary>
@@ -1521,9 +1528,33 @@
             ITextListH接口的基础实现，详见其接口注释
             </summary>
         </member>
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.String,System.String)">
+            <summary>
+            获取文章排行(无截止长度)
+            </summary>
+            <param name="key">键名</param>
+            <param name="orderType">asc(升序)或desc(降序)</param>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.String,System.String,System.Int32)">
+            <summary>
+            获取文章排行(有截止长度)
+            </summary>
+            <param name="key">键名</param>
+            <param name="orderType">asc(升序)或desc(降序)</param>
+            <param name="length">截止长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.Collections.Generic.List{System.String})">
+            <summary>
+            获得指定归档的文本ID列表
+            </summary>
+            <param name="text_archiv_list">归档列表</param>
+            <returns></returns>
+        </member>
         <member name="M:businessUnit.pilipala.UI.TextListH.matchText``1(``0)">
             <summary>
-            文章匹配器
+            文本匹配器
             </summary>
             <typeparmm name="T">继承自ITextBasic的类型</typeparmm>
             <parmm name="obj">继承自ITextBasic的对象实例</parmm>
@@ -1544,38 +1575,14 @@
             ITextListH接口的基础实现，详见其接口注释
             </summary>
         </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList_OrderBy(System.String,System.String)">
-            <summary>
-            获取文章排行(无截止长度)
-            </summary>
-            <param name="key">键名</param>
-            <param name="orderType">asc(升序)或desc(降序)</param>
-            <returns></returns>
-        </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList_OrderBy(System.String,System.String,System.Int32)">
-            <summary>
-            获取热度文章排行(有截止长度)
-            </summary>
-            <param name="key">键名</param>
-            <param name="orderType">asc(升序)或desc(降序)</param>
-            <param name="length">截止长度</param>
-            <returns></returns>
-        </member>
         <member name="M:businessUnit.pilipala.UI.TextListH.getTextMap">
             <summary>
             获得站点地图(由text_id和text_title构成的集合)
             </summary>
         </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.getTextByArchiv(System.String)">
-            <summary>
-            获得指定归档的文本ID列表
-            </summary>
-            <param name="text_archiv">归档名</param>
-            <returns></returns>
-        </member>
         <member name="T:businessUnit.pilipala.UI.TextH">
             <summary>
-            文本控制器
+            单一文本控制器
             </summary>
         </member>
         <member name="P:businessUnit.pilipala.UI.TextH.dataBase">
@@ -1743,7 +1750,7 @@
         </member>
         <member name="T:businessUnit.pilipala.Edit.TextH">
             <summary>
-            文本控制器
+            单一文本控制器
             方法注释参见ITextH接口
             </summary>
         </member>

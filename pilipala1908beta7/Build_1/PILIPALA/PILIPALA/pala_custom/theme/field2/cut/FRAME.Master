@@ -34,9 +34,9 @@
         });
     </script>
 </head>
-
+    
 <body>
-    <%List<int> TextIDList = BS.getTextIDList("page"); %>
+    <%List<int> TextIDList = BS.getTextIDList(text_archiv_list); %>
     <div class="fixed">
 
         <div class="NavLine L M bSha b50">
