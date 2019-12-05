@@ -59,6 +59,11 @@
             文本作者
             </summary>
         </member>
+        <member name="P:LibStruct.Interface.IPaTextSub.text_tag">
+            <summary>
+            文本标签
+            </summary>
+        </member>
         <member name="P:LibStruct.Interface.IPaTextSub.date_created">
             <summary>
             创建日期
@@ -82,11 +87,6 @@
         <member name="P:LibStruct.Interface.IPaTextSub.count_star">
             <summary>
             星星计数
-            </summary>
-        </member>
-        <member name="P:LibStruct.Interface.IPaTextSub.tags">
-            <summary>
-            标签集合
             </summary>
         </member>
         <member name="P:LibStruct.Interface.IPaTextSub.before_html">
@@ -144,7 +144,7 @@
             文本序列号
             </summary>
         </member>
-        <member name="P:LibStruct.Interface.ITextBasic.innerText">
+        <member name="P:LibStruct.Interface.ITextBasic.val">
             <summary>
             文本
             </summary>
@@ -259,7 +259,7 @@
             节点的属性值，用于XmlCreater类的AddRealNode方法
             </summary>
         </member>
-        <member name="P:LibStruct.XmlSign.innerText">
+        <member name="P:LibStruct.XmlSign.val">
             <summary>
             节点的子文本，用于XmlCreater类的AddRealNode方法
             </summary>
@@ -379,6 +379,11 @@
             
             </summary>
         </member>
+        <member name="P:LibStruct.pilipala.PaText.text_tag">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:LibStruct.pilipala.PaText.date_created">
             <summary>
             
@@ -400,11 +405,6 @@
             </summary>
         </member>
         <member name="P:LibStruct.pilipala.PaText.count_star">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:LibStruct.pilipala.PaText.tags">
             <summary>
             
             </summary>
@@ -481,7 +481,7 @@
         </member>
         <member name="T:LibStruct.pilipala.TextTitle">
             <summary>
-            分立文章标题
+            文章标题
             </summary>
         </member>
         <member name="P:LibStruct.pilipala.TextTitle.text_id">
@@ -489,14 +489,14 @@
             文本序列号
             </summary>
         </member>
-        <member name="P:LibStruct.pilipala.TextTitle.innerText">
+        <member name="P:LibStruct.pilipala.TextTitle.val">
             <summary>
-            文本
+            值
             </summary>
         </member>
         <member name="T:LibStruct.pilipala.TextSummary">
             <summary>
-            分立文章概要
+            文章概要
             </summary>
         </member>
         <member name="P:LibStruct.pilipala.TextSummary.text_id">
@@ -504,14 +504,14 @@
             文本序列号
             </summary>
         </member>
-        <member name="P:LibStruct.pilipala.TextSummary.innerText">
+        <member name="P:LibStruct.pilipala.TextSummary.val">
             <summary>
-            文本
+            值
             </summary>
         </member>
         <member name="T:LibStruct.pilipala.TextContent">
             <summary>
-            分立文章内容
+            文章内容
             </summary>
         </member>
         <member name="P:LibStruct.pilipala.TextContent.text_id">
@@ -519,9 +519,54 @@
             文本序列号
             </summary>
         </member>
-        <member name="P:LibStruct.pilipala.TextContent.innerText">
+        <member name="P:LibStruct.pilipala.TextContent.val">
             <summary>
-            文本
+            值
+            </summary>
+        </member>
+        <member name="T:LibStruct.pilipala.TextType">
+            <summary>
+            文章类型
+            </summary>
+        </member>
+        <member name="P:LibStruct.pilipala.TextType.text_id">
+            <summary>
+            文本序列号
+            </summary>
+        </member>
+        <member name="P:LibStruct.pilipala.TextType.val">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:LibStruct.pilipala.TextArchiv">
+            <summary>
+            文章归档
+            </summary>
+        </member>
+        <member name="P:LibStruct.pilipala.TextArchiv.text_id">
+            <summary>
+            文本序列号
+            </summary>
+        </member>
+        <member name="P:LibStruct.pilipala.TextArchiv.val">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:LibStruct.pilipala.TextTag">
+            <summary>
+            文章标签
+            </summary>
+        </member>
+        <member name="P:LibStruct.pilipala.TextTag.text_id">
+            <summary>
+            文本序列号
+            </summary>
+        </member>
+        <member name="P:LibStruct.pilipala.TextTag.val">
+            <summary>
+            值
             </summary>
         </member>
         <member name="T:LibFrame.ILibFrameInfo">
@@ -1391,13 +1436,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:businessUnit.pilipala.ITextListH.getTextIDList(System.String)">
-            <summary>
-            获得指定类型的文本ID列表
-            </summary>
-            <parmm name="text_type">自定义文本类型</parmm>
-            <returns></returns>
-        </member>
         <member name="M:businessUnit.pilipala.ITextListH.stepTextIDList(System.Int32,System.Int32)">
             <summary>
             获得全部文本ID列表(步进式)
@@ -1469,7 +1507,7 @@
             <parmm name="current_text_id">当前文本序列号</parmm>
             <returns>错误返回 -1</returns>
         </member>
-        <member name="M:businessUnit.pilipala.ITextH.rdmTextID(System.Int32,System.String)">
+        <member name="M:businessUnit.pilipala.ITextH.randTextID(System.Int32,System.String)">
             <summary>
             随机获得文本ID(text_id)
             </summary>
@@ -1513,11 +1551,6 @@
             ITextListH接口的基础实现，详见其接口注释
             </summary>
         </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.String)">
-            <summary>
-            ITextListH接口的基础实现，详见其接口注释
-            </summary>
-        </member>
         <member name="M:businessUnit.pilipala.UI.TextListH.stepTextIDList(System.Int32,System.Int32)">
             <summary>
             ITextListH接口的基础实现，详见其接口注释
@@ -1545,11 +1578,52 @@
             <param name="length">截止长度</param>
             <returns></returns>
         </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.Collections.Generic.List{System.String})">
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.Collections.Generic.List{LibStruct.pilipala.TextType})">
+            <summary>
+            获得指定类型的文本ID列表
+            </summary>
+            <param name="text_type">类型集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.Collections.Generic.List{LibStruct.pilipala.TextArchiv})">
             <summary>
             获得指定归档的文本ID列表
             </summary>
-            <param name="text_archiv_list">归档列表</param>
+            <param name="text_archiv">归档集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.Collections.Generic.List{LibStruct.pilipala.TextTag})">
+            <summary>
+            获得指定标签的文本ID列表
+            </summary>
+            <param name="text_tag">标签集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.Collections.Generic.List{LibStruct.pilipala.TextType},System.String,System.String)">
+            <summary>
+            获得指定类型的文本ID列表(重载二:排序指定)
+            </summary>
+            <param name="text_type">类型集合</param>
+            <param name="OrderBy">排序根据</param>
+            <param name="SC">排序类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.Collections.Generic.List{LibStruct.pilipala.TextArchiv},System.String,System.String)">
+            <summary>
+            获得指定归档的文本ID列表(重载二:排序指定)
+            </summary>
+            <param name="text_archiv">归档集合</param>
+            <param name="OrderBy">排序根据</param>
+            <param name="SC">排序类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:businessUnit.pilipala.UI.TextListH.getTextIDList(System.Collections.Generic.List{LibStruct.pilipala.TextTag},System.String,System.String)">
+            <summary>
+            获得指定标签的文本ID列表(重载二:排序指定)
+            </summary>
+            <param name="text_tag">标签集合</param>
+            <param name="OrderBy">排序根据</param>
+            <param name="SC">排序类型</param>
             <returns></returns>
         </member>
         <member name="M:businessUnit.pilipala.UI.TextListH.matchText``1(``0)">
@@ -1573,11 +1647,6 @@
         <member name="M:businessUnit.pilipala.UI.TextListH.matchTextContent(System.String)">
             <summary>
             ITextListH接口的基础实现，详见其接口注释
-            </summary>
-        </member>
-        <member name="M:businessUnit.pilipala.UI.TextListH.getTextMap">
-            <summary>
-            获得站点地图(由text_id和text_title构成的集合)
             </summary>
         </member>
         <member name="T:businessUnit.pilipala.UI.TextH">
@@ -1692,7 +1761,7 @@
             ITextH接口的基础实现，详见其接口注释
             </summary>
         </member>
-        <member name="M:businessUnit.pilipala.UI.TextH.rdmTextID(System.Int32,System.String)">
+        <member name="M:businessUnit.pilipala.UI.TextH.randTextID(System.Int32,System.String)">
             <summary>
             ITextH接口的基础实现，详见其接口注释
             </summary>
@@ -1739,11 +1808,6 @@
             <parmm name="PaDB">啪啦数据库信息</parmm>
         </member>
         <member name="M:businessUnit.pilipala.Edit.TextListH.getTextIDList">
-            <summary>
-            ITextListH接口的基础实现，详见其接口注释
-            </summary>
-        </member>
-        <member name="M:businessUnit.pilipala.Edit.TextListH.getTextIDList(System.String)">
             <summary>
             ITextListH接口的基础实现，详见其接口注释
             </summary>

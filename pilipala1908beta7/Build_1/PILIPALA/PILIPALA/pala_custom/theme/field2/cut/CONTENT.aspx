@@ -13,6 +13,8 @@
     <div class="Card L M bSha bRds">
         <div class="contain L bRds w250">
 
+            <%Response.Write(PaText.before_html); %>
+
             <% if (PaText.text_title != "")
                 { //如果标题不为空则输出%>
             <div class="Title"><%Response.Write(PaText.text_title); %></div>
@@ -72,9 +74,9 @@
             <div class="Archiv"><%Response.Write(PaText.text_archiv); %></div>
             <%} %>
 
-            <%if (PaText.tags != "")
+            <%if (PaText.text_tag != "")
                 {/* 如果标签不为空就输出 */
-                    foreach (string str in FieldService.toTags(PaText.tags))
+                    foreach (string str in FieldService.toTags(PaText.text_tag))
                     {
             %>
             <div class="Tag"><%Response.Write(str); %></div>
