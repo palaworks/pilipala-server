@@ -64,10 +64,6 @@ namespace PILIPALA.pala_system.service
         {
             return TextListH.getTextIDList();
         }
-        public List<int> getTextIDList(string text_type)
-        {
-            return TextListH.getTextIDList(text_type);
-        }
 
         public List<int> stepTextIDList(int row, int rowLength)
         {
@@ -78,9 +74,9 @@ namespace PILIPALA.pala_system.service
             return TextListH.stepTextIDList(row, rowLength, text_type);
         }
 
-        public List<int> getTextIDList(List<string> text_archiv_list)
+        public List<int> getTextIDList(List<TextArchiv> text_archiv)
         {
-            return TextListH.getTextIDList(text_archiv_list);
+            return TextListH.getTextIDList(text_archiv);
         }
 
         #endregion

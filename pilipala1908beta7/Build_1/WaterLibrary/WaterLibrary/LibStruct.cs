@@ -63,6 +63,10 @@ namespace LibStruct
             /// </summary>
             string text_editor { get; set; }
             /// <summary>
+            /// 文本标签
+            /// </summary>
+            string text_tag { get; set; }
+            /// <summary>
             /// 创建日期
             /// </summary>
             DateTime date_created { get; set; }
@@ -82,10 +86,6 @@ namespace LibStruct
             /// 星星计数
             /// </summary>
             int count_star { get; set; }
-            /// <summary>
-            /// 标签集合
-            /// </summary>
-            string tags { get; set; }
             /// <summary>
             /// 封面链接
             /// </summary>
@@ -139,7 +139,7 @@ namespace LibStruct
             /// <summary>
             /// 文本
             /// </summary>
-            string innerText { get; set; }
+            string val { get; set; }
         }
     }
 
@@ -280,7 +280,7 @@ namespace LibStruct
         /// <summary>
         /// 节点的子文本，用于XmlCreater类的AddRealNode方法
         /// </summary>
-        public string innerText { get; set; }
+        public string val { get; set; }
         /// <summary>
         /// 读取类型，可选值有"_name"、"_value"，用于XmlCreater类的ReadNode方法
         /// </summary>
@@ -397,6 +397,10 @@ namespace LibStruct
             /// <summary>
             /// 
             /// </summary>
+            public string text_tag { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
             public DateTime date_created { get; set; }
             /// <summary>
             /// 
@@ -414,10 +418,6 @@ namespace LibStruct
             /// 
             /// </summary>
             public int count_star { get; set; }
-            /// <summary>
-            /// 
-            /// </summary>
-            public string tags { get; set; }
             /// <summary>
             /// 
             /// </summary>
@@ -469,11 +469,11 @@ namespace LibStruct
             /// <summary>
             /// 文本表
             /// </summary>
-            public PaRoot.Tables Tables { get; set; }
+            public PaRoot.PalaSysTables Tables { get; set; }
             /// <summary>
             /// 文本视图
             /// </summary>
-            public PaRoot.Views Views { get; set; }
+            public PaRoot.PalaSysViews Views { get; set; }
             /// <summary>
             /// 数据库管理器实例
             /// </summary>
@@ -481,7 +481,7 @@ namespace LibStruct
         }
 
         /// <summary>
-        /// 分立文章标题
+        /// 文章标题
         /// </summary>
         public struct TextTitle : ITextBasic
         {
@@ -490,12 +490,12 @@ namespace LibStruct
             /// </summary>
             public int text_id { get; set; }
             /// <summary>
-            /// 文本
+            /// 值
             /// </summary>
-            public string innerText { get; set; }
+            public string val { get; set; }
         }
         /// <summary>
-        /// 分立文章概要
+        /// 文章概要
         /// </summary>
         public struct TextSummary : ITextBasic
         {
@@ -504,12 +504,12 @@ namespace LibStruct
             /// </summary>
             public int text_id { get; set; }
             /// <summary>
-            /// 文本
+            /// 值
             /// </summary>
-            public string innerText { get; set; }
+            public string val { get; set; }
         }
         /// <summary>
-        /// 分立文章内容
+        /// 文章内容
         /// </summary>
         public struct TextContent : ITextBasic
         {
@@ -518,9 +518,52 @@ namespace LibStruct
             /// </summary>
             public int text_id { get; set; }
             /// <summary>
-            /// 文本
+            /// 值
             /// </summary>
-            public string innerText { get; set; }
+            public string val { get; set; }
+        }
+
+        /// <summary>
+        /// 文章类型
+        /// </summary>
+        public struct TextType : ITextBasic
+        {
+            /// <summary>
+            /// 文本序列号
+            /// </summary>
+            public int text_id { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string val { get; set; }
+        }
+        /// <summary>
+        /// 文章归档
+        /// </summary>
+        public struct TextArchiv : ITextBasic
+        {
+            /// <summary>
+            /// 文本序列号
+            /// </summary>
+            public int text_id { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string val { get; set; }
+        }
+        /// <summary>
+        /// 文章标签
+        /// </summary>
+        public struct TextTag : ITextBasic
+        {
+            /// <summary>
+            /// 文本序列号
+            /// </summary>
+            public int text_id { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string val { get; set; }
         }
     }
 }
