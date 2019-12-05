@@ -140,7 +140,7 @@ namespace dataUnit
                 newAtt.Value = XmlSign.attValue;//属性的值指定
                 newNode.Attributes.Append(newAtt);//添加属性到节点
 
-                newNode.InnerText = XmlSign.innerText;
+                newNode.InnerText = XmlSign.val;
 
                 parentNode.AppendChild(newNode);//在父节点上添加该节点
                 xDoc.Save(xpath);//保存到xpath

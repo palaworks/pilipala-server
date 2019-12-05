@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+using LibStruct.pilipala;
+
 namespace PILIPALA.pala_custom.theme.field2.cut
 {
     public partial class LIST : System.Web.UI.Page
@@ -13,14 +15,14 @@ namespace PILIPALA.pala_custom.theme.field2.cut
         protected pala_system.service.Basic BS { get; set; }
 
         /* 指定显示的归档类型 */
-        protected List<string> text_archiv_list = new List<string>
+        protected List<TextArchiv> text_archiv = new List<TextArchiv>
             {
-                "技术",
-                "生活"
+                new TextArchiv(){ val = "技术" },
+                new TextArchiv(){ val = "生活" },
             };
-        protected List<string> text_archiv_list_top = new List<string>
+        protected List<TextArchiv> text_archiv_top = new List<TextArchiv>
             {
-                "置顶"
+                new TextArchiv(){ val = "置顶" },
             };
 
         protected void Page_Load(object sender, EventArgs e)
