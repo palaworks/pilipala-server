@@ -39,7 +39,6 @@ namespace PILIPALA.pala_custom.theme.field2.web_service
         [WebMethod]
         public static string toTime2(DateTime DateTime)
         {
-            //年份只取后二位：2099=>99
             string DayInCN = "未知";
             switch (DateTime.DayOfWeek.ToString())
             {

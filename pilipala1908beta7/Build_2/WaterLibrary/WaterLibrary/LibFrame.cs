@@ -99,7 +99,7 @@ namespace LibFrame
         /// <summary>
         /// 步进
         /// </summary>
-        public string stepping { get; } = "B2";
+        public string stepping { get; } = "B4";
         /// <summary>
         /// 类库的目标框架
         /// </summary>

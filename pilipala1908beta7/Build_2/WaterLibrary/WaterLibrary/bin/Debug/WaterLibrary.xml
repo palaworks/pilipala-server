@@ -1407,17 +1407,17 @@
             <param name="text_main"></param>
             <param name="text_sub"></param>
         </member>
-        <member name="P:businessUnit.pilipala.PaRoot.PalaSysViews.text_index">
+        <member name="P:businessUnit.pilipala.PaRoot.PalaSysViews.view_index">
             <summary>
             
             </summary>
         </member>
-        <member name="P:businessUnit.pilipala.PaRoot.PalaSysViews.text_main">
+        <member name="P:businessUnit.pilipala.PaRoot.PalaSysViews.view_main">
             <summary>
             
             </summary>
         </member>
-        <member name="P:businessUnit.pilipala.PaRoot.PalaSysViews.text_sub">
+        <member name="P:businessUnit.pilipala.PaRoot.PalaSysViews.view_sub">
             <summary>
             
             </summary>
@@ -1498,16 +1498,23 @@
             单一文本控制接口
             </summary>
         </member>
+        <member name="M:businessUnit.pilipala.ITextH.getTextIndex(System.Int32)">
+            <summary>
+            获得符合text_id的文本索引数据
+            </summary>
+            <parmm name="text_id">文本序列号</parmm>
+            <returns></returns>
+        </member>
         <member name="M:businessUnit.pilipala.ITextH.getTextMain(System.Int32)">
             <summary>
-            获得符合text_id的文本主要数据
+            获得符合text_id的文本数据
             </summary>
             <parmm name="text_id">文本序列号</parmm>
             <returns></returns>
         </member>
         <member name="M:businessUnit.pilipala.ITextH.getTextSub(System.Int32)">
             <summary>
-             获得符合text_id的文本次要数据
+             获得符合text_id的文本参数数据
             </summary>
             <parmm name="text_id">文本序列号</parmm>
             <returns></returns>
