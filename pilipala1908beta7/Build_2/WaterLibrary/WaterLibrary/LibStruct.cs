@@ -43,7 +43,7 @@ namespace LibStruct
             /// 持有用户
             /// </summary>
             string text_user { get; set; }
-            
+
         }
         /// <summary>
         /// 迭代表数据接口

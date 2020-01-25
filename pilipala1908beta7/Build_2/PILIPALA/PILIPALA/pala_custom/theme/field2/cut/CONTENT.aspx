@@ -45,19 +45,19 @@
     </div>
     <div class="CoBox L M bSha b50">
 
-        <span class="text_auth L">由<%Response.Write(PaText.text_editor); %>最后编辑于<%Response.Write(FieldService.toTime1(PaText.date_changed, "/")); %></span>
+        <span class="text_auth L">由<%Response.Write(PaText.text_user); %>最后编辑于<%Response.Write(FieldService.toTime1(PaText.time_change, "/")); %></span>
         <span class="text_mId R"><%Response.Write(Basic.toMD5(PaText.text_content).Substring(0, 7)); %></span>
 
         <div class="AtBox L bRds w250">
             <div class="Date">
                 <%
-                    if (Basic.timeFromNow(PaText.date_created) == null)
+                    if (Basic.timeFromNow(PaText.time_set) == null)
                     {
-                        Response.Write(FieldService.toTime1(PaText.date_created, "-"));
+                        Response.Write(FieldService.toTime1(PaText.time_set, "-"));
                     }
                     else
                     {
-                        Response.Write(Basic.timeFromNow(PaText.date_created));
+                        Response.Write(Basic.timeFromNow(PaText.time_set));
                     }
                 %>
             </div>
@@ -65,7 +65,7 @@
             <div class="Comment cur"><%Response.Write(PaText.count_comment); %></div>
             <div class="Star cur" onclick="refre_countStar(<%Response.Write(PaText.text_id); %>)"><%Response.Write(PaText.count_star); %></div>
             <div class="Time">
-                <%Response.Write(FieldService.toTime2(PaText.date_created)); %>
+                <%Response.Write(FieldService.toTime2(PaText.time_set)); %>
             </div>
 
             <%if (PaText.text_archiv != "")

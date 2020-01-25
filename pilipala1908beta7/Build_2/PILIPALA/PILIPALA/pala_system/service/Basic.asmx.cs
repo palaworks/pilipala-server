@@ -82,6 +82,10 @@ namespace PILIPALA.pala_system.service
         #endregion
 
         #region TextH
+        public PaText getTextIndex(int text_id)
+        {
+            return TextH.getTextIndex(text_id);
+        }
         public PaText getTextMain(int text_id)
         {
             return TextH.getTextMain(text_id);
@@ -160,9 +164,9 @@ namespace PILIPALA.pala_system.service
             }
         }
 
-        public static PaText fill(PaText TextMain, PaText TextSub)
+        public static PaText fill(PaText TextIndex, PaText TextMain, PaText TextSub)
         {
-            return PaFn.fill(TextMain, TextSub);
+            return PaFn.fill(TextIndex, TextMain, TextSub);
         }
         public static string htmlFilter(string str)
         {
