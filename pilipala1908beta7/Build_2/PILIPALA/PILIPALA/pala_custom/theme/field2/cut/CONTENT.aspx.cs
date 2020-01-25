@@ -34,7 +34,7 @@ namespace PILIPALA.pala_custom.theme.field2.cut
                 /* 初始化基本服务 */
                 BS = new pala_system.service.Basic();
                 /* 合并主次表 */
-                PaText = pala_system.service.Basic.fill(BS.getTextMain(text_id), BS.getTextSub(text_id));
+                PaText = pala_system.service.Basic.fill(BS.getTextIndex(text_id), BS.getTextMain(text_id), BS.getTextSub(text_id));
 
                 /* 前后文章标题赋值 */
                 prevTextID = BS.prevTextID(text_id);

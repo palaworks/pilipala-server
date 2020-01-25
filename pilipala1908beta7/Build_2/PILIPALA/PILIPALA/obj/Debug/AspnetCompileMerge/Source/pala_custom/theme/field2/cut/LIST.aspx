@@ -14,7 +14,9 @@
     <!-- 置顶文章输出 -->
     <%foreach (int text_id in BS.getTextIDList(text_archiv_top))
         { %>
-    <%LibStruct.pilipala.PaText PaText = BS.getTextSub(text_id); %>
+
+    <%LibStruct.pilipala.PaText PaText =
+                Basic.fill(BS.getTextIndex(text_id), new LibStruct.pilipala.PaText(), BS.getTextSub(text_id)); %>
 
     <div class="Card L M bSha bRds">
         <div onclick="up();showText(<%Response.Write(PaText.text_id); %>)" class="contain L cur bRds w250">
@@ -30,13 +32,13 @@
         <div class="AtBox L">
             <div class="Date">
                 <%
-                    if (Basic.timeFromNow(PaText.date_created) == null)
+                    if (Basic.timeFromNow(PaText.time_set) == null)
                     {
-                        Response.Write(FieldService.toTime1(PaText.date_created, "-"));
+                        Response.Write(FieldService.toTime1(PaText.time_set, "-"));
                     }
                     else
                     {
-                        Response.Write(Basic.timeFromNow(PaText.date_created));
+                        Response.Write(Basic.timeFromNow(PaText.time_set));
                     }
                 %>
             </div>
@@ -49,9 +51,11 @@
     <%} %>
 
     <!-- 其他文章输出 -->
-    <%foreach (int text_id in BS.getTextIDList(text_archiv))
+    <%foreach (int text_id in BS.getTextIDList(text_archiv_normal))
         { %>
-    <%LibStruct.pilipala.PaText PaText = BS.getTextSub(text_id); %>
+
+    <%LibStruct.pilipala.PaText PaText =
+                Basic.fill(BS.getTextIndex(text_id), new LibStruct.pilipala.PaText(), BS.getTextSub(text_id)); %>
 
     <%if (BS.getTextTitle(text_id) == "")
         {%>
@@ -62,13 +66,13 @@
         <div class="AtBox L">
             <div class="Date">
                 <%
-                    if (Basic.timeFromNow(PaText.date_created) == null)
+                    if (Basic.timeFromNow(PaText.time_set) == null)
                     {
-                        Response.Write(FieldService.toTime1(PaText.date_created, "-"));
+                        Response.Write(FieldService.toTime1(PaText.time_set, "-"));
                     }
                     else
                     {
-                        Response.Write(Basic.timeFromNow(PaText.date_created));
+                        Response.Write(Basic.timeFromNow(PaText.time_set));
                     }
                 %>
             </div>
@@ -94,13 +98,13 @@
         <div class="AtBox L">
             <div class="Date">
                 <%
-                    if (Basic.timeFromNow(PaText.date_created) == null)
+                    if (Basic.timeFromNow(PaText.time_set) == null)
                     {
-                        Response.Write(FieldService.toTime1(PaText.date_created, "-"));
+                        Response.Write(FieldService.toTime1(PaText.time_set, "-"));
                     }
                     else
                     {
-                        Response.Write(Basic.timeFromNow(PaText.date_created));
+                        Response.Write(Basic.timeFromNow(PaText.time_set));
                     }
                 %>
             </div>

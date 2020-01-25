@@ -135,9 +135,9 @@ namespace businessUnit
             /// </summary>
             private struct dftViews
             {
-                public static string text_index = "view>index";
-                public static string text_main = "view>main";
-                public static string text_sub = "view>sub";
+                public static string view_index = "view>index";
+                public static string view_main = "view>main";
+                public static string view_sub = "view>sub";
             }
 
             /// <summary>
@@ -190,22 +190,22 @@ namespace businessUnit
                 /// <param name="text_sub"></param>
                 public PalaSysViews(string text_index, string text_main, string text_sub) : this()
                 {
-                    this.text_index = text_index;
-                    this.text_main = text_main;
-                    this.text_sub = text_sub;
+                    this.view_index = text_index;
+                    this.view_main = text_main;
+                    this.view_sub = text_sub;
                 }
                 /// <summary>
                 /// 
                 /// </summary>
-                public string text_index { get; set; }
+                public string view_index { get; set; }
                 /// <summary>
                 /// 
                 /// </summary>
-                public string text_main { get; set; }
+                public string view_main { get; set; }
                 /// <summary>
                 /// 
                 /// </summary>
-                public string text_sub { get; set; }
+                public string view_sub { get; set; }
             }
 
             /// <summary>
@@ -223,10 +223,9 @@ namespace businessUnit
             /// </summary>
             public static void defaultViews(ref PalaSysViews Views)
             {
-                Views.text_main = dftViews.text_main;
-                Views.text_sub = dftViews.text_sub;
-
-                Views.text_index = dftViews.text_index;
+                Views.view_index = dftViews.view_index;
+                Views.view_main = dftViews.view_main;
+                Views.view_sub = dftViews.view_sub;
             }
 
             /// <summary>
@@ -240,7 +239,7 @@ namespace businessUnit
             /// </summary>
             /// <returns></returns>
             public static PalaSysViews defaultViews()
-            { return new PalaSysViews(dftViews.text_index, dftViews.text_main, dftViews.text_sub); }
+            { return new PalaSysViews(dftViews.view_index, dftViews.view_main, dftViews.view_sub); }
         }
 
         /// <summary>
@@ -295,13 +294,19 @@ namespace businessUnit
         interface ITextH : IPaRoot
         {
             /// <summary>
-            /// 获得符合text_id的文本主要数据
+            /// 获得符合text_id的文本索引数据
+            /// </summary>
+            /// <parmm name="text_id">文本序列号</parmm>
+            /// <returns></returns>
+            PaText getTextIndex(int text_id);
+            /// <summary>
+            /// 获得符合text_id的文本数据
             /// </summary>
             /// <parmm name="text_id">文本序列号</parmm>
             /// <returns></returns>
             PaText getTextMain(int text_id);
             /// <summary>
-            ///  获得符合text_id的文本次要数据
+            ///  获得符合text_id的文本参数数据
             /// </summary>
             /// <parmm name="text_id">文本序列号</parmm>
             /// <returns></returns>
@@ -368,7 +373,7 @@ namespace businessUnit
                         List<int> List_text_id = new List<int>();
 
                         using (DataTable text_id_table
-                            = MySqlConnH.getTable("SELECT text_id FROM " + dataBase + ".`" + Views.text_index + "`"))
+                            = MySqlConnH.getTable("SELECT text_id FROM " + dataBase + ".`" + Views.view_index + "`"))
                         {
                             foreach (DataRow Row in text_id_table.Rows)/* 遍历数据库表行，逐行取得数据 */
                             {
@@ -395,9 +400,9 @@ namespace businessUnit
                         List<int> List_text_id = new List<int>();
 
                         string SQL = "SELECT `" +
-                                     Views.text_index + "`.text_id" +
+                                     Views.view_index + "`.text_id" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index +
+                                     dataBase + ".`" + Views.view_index +
                                      "` LIMIT " +
                                      "?start , ?length";
 
@@ -432,9 +437,9 @@ namespace businessUnit
                     try
                     {
                         string SQL = "SELECT `" +
-                                     Views.text_index + "`.text_id" +
+                                     Views.view_index + "`.text_id" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index +
+                                     dataBase + ".`" + Views.view_index +
                                      "` WHERE " +
                                      "text_type = ?text_type" +
                                      " LIMIT " +
@@ -479,7 +484,7 @@ namespace businessUnit
                     {
                         List<int> List_text_id = new List<int>();
 
-                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_sub + "` ORDER BY ?key ?OrderType";
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.view_sub + "` ORDER BY ?key ?OrderType";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>
                         {
@@ -517,7 +522,7 @@ namespace businessUnit
                     {
                         List<int> List_text_id = new List<int>();
 
-                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_sub + "` ORDER BY ?key ?OrderType LIMIT 0,?length";
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.view_sub + "` ORDER BY ?key ?OrderType LIMIT 0,?length";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>
                         {
@@ -563,7 +568,7 @@ namespace businessUnit
                         }
                         str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_index + "`" + " WHERE text_type REGEXP ?str";
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.view_index + "`" + " WHERE text_type REGEXP ?str";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>
                         {
@@ -606,7 +611,7 @@ namespace businessUnit
                         }
                         str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_main + "`" + " WHERE text_archiv REGEXP ?str";
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.view_main + "`" + " WHERE text_archiv REGEXP ?str";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>
                         {
@@ -649,7 +654,7 @@ namespace businessUnit
                         }
                         str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_main + "`" + " WHERE text_tag REGEXP ?str";
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.view_main + "`" + " WHERE text_tag REGEXP ?str";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>
                         {
@@ -695,7 +700,7 @@ namespace businessUnit
                         }
                         str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_index + "`" + " WHERE text_type REGEXP ?str ORDER BY ?key ?OrderType";
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.view_index + "`" + " WHERE text_type REGEXP ?str ORDER BY ?key ?OrderType";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>
                         {
@@ -742,7 +747,7 @@ namespace businessUnit
                         }
                         str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_main + "`" + " WHERE text_archiv REGEXP ?str ORDER BY ?key ?OrderType";
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.view_main + "`" + " WHERE text_archiv REGEXP ?str ORDER BY ?key ?OrderType";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>
                         {
@@ -789,7 +794,7 @@ namespace businessUnit
                         }
                         str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_main + "`" + " WHERE text_tag REGEXP ?str ORDER BY ?key ?OrderType";
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.view_main + "`" + " WHERE text_tag REGEXP ?str ORDER BY ?key ?OrderType";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>
                         {
@@ -838,7 +843,7 @@ namespace businessUnit
                         }
                         str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_index + "`" + " WHERE text_type REGEXP ?str ORDER BY ?key ?OrderType LIMIT 0,?length";
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.view_index + "`" + " WHERE text_type REGEXP ?str ORDER BY ?key ?OrderType LIMIT 0,?length";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>
                         {
@@ -887,7 +892,7 @@ namespace businessUnit
                         }
                         str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_main + "`" + " WHERE text_archiv REGEXP ?str ORDER BY ?key ?OrderType LIMIT 0,?length";
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.view_main + "`" + " WHERE text_archiv REGEXP ?str ORDER BY ?key ?OrderType LIMIT 0,?length";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>
                         {
@@ -936,7 +941,7 @@ namespace businessUnit
                         }
                         str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.text_main + "`" + " WHERE text_tag REGEXP ?str ORDER BY ?key ?OrderType LIMIT 0,?length";
+                        string SQL = "SELECT text_id FROM " + dataBase + ".`" + Views.view_main + "`" + " WHERE text_tag REGEXP ?str ORDER BY ?key ?OrderType LIMIT 0,?length";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>
                         {
@@ -1179,11 +1184,11 @@ namespace businessUnit
                     try
                     {
                         string SQL = "SELECT " +
-                                     "`" + Views.text_index + "`.?key" +
+                                     "`" + Views.view_index + "`.?key" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index + "`" +
+                                     dataBase + ".`" + Views.view_index + "`" +
                                      " WHERE `" +
-                                     Views.text_index + "`.text_id = ?text_id";
+                                     Views.view_index + "`.text_id = ?text_id";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>/* 为参数化查询添加元素 */
                         {
@@ -1195,7 +1200,7 @@ namespace businessUnit
                         {
                             DataRow Row = MySqlConnH.getRow(MySqlCommand);
 
-                                return Convert.ToString(Convert.ToInt32(Row[key]));
+                            return Convert.ToString(Convert.ToInt32(Row[key]));
                         }
                     }
                     finally
@@ -1253,11 +1258,11 @@ namespace businessUnit
                     try
                     {
                         string SQL = "SELECT " +
-                                     "`" + Views.text_main + "`.?key" +
+                                     "`" + Views.view_main + "`.?key" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_main + "`" +
+                                     dataBase + ".`" + Views.view_main + "`" +
                                      " WHERE `" +
-                                     Views.text_main + "`.text_id = ?text_id";
+                                     Views.view_main + "`.text_id = ?text_id";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>/* 为参数化查询添加元素 */
                         {
@@ -1269,7 +1274,7 @@ namespace businessUnit
                         {
                             DataRow Row = MySqlConnH.getRow(MySqlCommand);
 
-                                return Convert.ToString(Convert.ToInt32(Row[key]));
+                            return Convert.ToString(Convert.ToInt32(Row[key]));
                         }
                     }
                     finally
@@ -1325,11 +1330,11 @@ namespace businessUnit
                     try
                     {
                         string SQL = "SELECT " +
-                                     "`" + Views.text_sub + "`.?key" +
+                                     "`" + Views.view_sub + "`.?key" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index + "`," +
+                                     dataBase + ".`" + Views.view_index + "`," +
                                      " WHERE `" +
-                                     Views.text_sub + "`.text_id = ?text_id";
+                                     Views.view_sub + "`.text_id = ?text_id";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>/* 为参数化查询添加元素 */
                         {
@@ -1341,7 +1346,7 @@ namespace businessUnit
                         {
                             DataRow Row = MySqlConnH.getRow(MySqlCommand);
 
-                                return Convert.ToString(Convert.ToInt32(Row[key]));
+                            return Convert.ToString(Convert.ToInt32(Row[key]));
                         }
                     }
                     finally
@@ -1362,14 +1367,14 @@ namespace businessUnit
                     try
                     {
                         string SQL = "SELECT " +
-                                     "`" + Views.text_main + "`.text_title" +
+                                     "`" + Views.view_main + "`.text_title" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index + "`," +
-                                     dataBase + ".`" + Views.text_main + "`" +
+                                     dataBase + ".`" + Views.view_index + "`," +
+                                     dataBase + ".`" + Views.view_main + "`" +
                                      " WHERE `" +
-                                     Views.text_index + "`.text_guid =`" + Views.text_main + "`.text_guid" +
+                                     Views.view_index + "`.text_guid =`" + Views.view_main + "`.text_guid" +
                                      " AND `" +
-                                     Views.text_main + "`.text_id = ?text_id";
+                                     Views.view_main + "`.text_id = ?text_id";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>/* 为参数化查询添加元素 */
                             {
@@ -1404,14 +1409,14 @@ namespace businessUnit
                     try
                     {
                         string SQL = "SELECT " +
-                                     "`" + Views.text_main + "`.text_summary" +
+                                     "`" + Views.view_main + "`.text_summary" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index + "`," +
-                                     dataBase + ".`" + Views.text_main + "`" +
+                                     dataBase + ".`" + Views.view_index + "`," +
+                                     dataBase + ".`" + Views.view_main + "`" +
                                      " WHERE `" +
-                                     Views.text_index + "`.text_guid =`" + Views.text_main + "`.text_guid" +
+                                     Views.view_index + "`.text_guid =`" + Views.view_main + "`.text_guid" +
                                      " AND `" +
-                                     Views.text_main + "`.text_id = ?text_id";
+                                     Views.view_main + "`.text_id = ?text_id";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>/* 为参数化查询添加元素 */
                             {
@@ -1446,14 +1451,14 @@ namespace businessUnit
                     try
                     {
                         string SQL = "SELECT " +
-                                     "`" + Views.text_main + "`.text_content" +
+                                     "`" + Views.view_main + "`.text_content" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index + "`," +
-                                     dataBase + ".`" + Views.text_main + "`" +
+                                     dataBase + ".`" + Views.view_index + "`," +
+                                     dataBase + ".`" + Views.view_main + "`" +
                                      " WHERE `" +
-                                      Views.text_index + "`.text_guid =`" + Views.text_main + "`.text_guid" +
+                                      Views.view_index + "`.text_guid =`" + Views.view_main + "`.text_guid" +
                                      " AND `" +
-                                     Views.text_main + "`.text_id = ?text_id";
+                                     Views.view_main + "`.text_id = ?text_id";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>/* 为参数化查询添加元素 */
                             {
@@ -1492,14 +1497,14 @@ namespace businessUnit
                         string SQL = "SELECT SUBSTRING((" +
 
                                      "SELECT " +
-                                     "`" + Views.text_main + "`.text_title" +
+                                     "`" + Views.view_main + "`.text_title" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index + "`," +
-                                     dataBase + ".`" + Views.text_main + "`" +
+                                     dataBase + ".`" + Views.view_index + "`," +
+                                     dataBase + ".`" + Views.view_main + "`" +
                                      " WHERE `" +
-                                     Views.text_index + "`.text_guid =`" + Views.text_main + "`.text_guid" +
+                                     Views.view_index + "`.text_guid =`" + Views.view_main + "`.text_guid" +
                                      " AND `" +
-                                     Views.text_main + "`.text_id = ?text_id" +
+                                     Views.view_main + "`.text_id = ?text_id" +
 
                                      ") FROM 1 FOR ?length)";
 
@@ -1534,14 +1539,14 @@ namespace businessUnit
                         string SQL = "SELECT SUBSTRING((" +
 
                                      "SELECT " +
-                                     "`" + Views.text_main + "`.text_summary" +
+                                     "`" + Views.view_main + "`.text_summary" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index + "`," +
-                                     dataBase + ".`" + Views.text_main + "`" +
+                                     dataBase + ".`" + Views.view_index + "`," +
+                                     dataBase + ".`" + Views.view_main + "`" +
                                      " WHERE `" +
-                                     Views.text_index + "`.text_guid =`" + Views.text_main + "`.text_guid" +
+                                     Views.view_index + "`.text_guid =`" + Views.view_main + "`.text_guid" +
                                      " AND `" +
-                                     Views.text_main + "`.text_id = ?text_id" +
+                                     Views.view_main + "`.text_id = ?text_id" +
 
                                      ") FROM 1 FOR ?length)";
 
@@ -1576,14 +1581,14 @@ namespace businessUnit
                         string SQL = "SELECT SUBSTRING((" +
 
                                      "SELECT " +
-                                     "`" + Views.text_main + "`.text_content" +
+                                     "`" + Views.view_main + "`.text_content" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index + "`," +
-                                     dataBase + ".`" + Views.text_main + "`" +
+                                     dataBase + ".`" + Views.view_index + "`," +
+                                     dataBase + ".`" + Views.view_main + "`" +
                                      " WHERE `" +
-                                     Views.text_index + "`.text_guid =`" + Views.text_main + "`.text_guid" +
+                                     Views.view_index + "`.text_guid =`" + Views.view_main + "`.text_guid" +
                                      " AND `" +
-                                     Views.text_main + "`.text_id = ?text_id" +
+                                     Views.view_main + "`.text_id = ?text_id" +
 
                                      ") FROM 1 FOR ?length)";
 
@@ -1616,9 +1621,9 @@ namespace businessUnit
                         /* 取得比当前 text_id 大的一行，实现对下一条数据的抓取 */
                         string SQL = "SELECT *" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index +
+                                     dataBase + ".`" + Views.view_index +
                                      "` WHERE " +
-                                     "text_id = (SELECT min(text_id) FROM " + dataBase + ".`" + Views.text_index + "` WHERE text_id > ?current_text_id);";
+                                     "text_id = (SELECT min(text_id) FROM " + dataBase + ".`" + Views.view_index + "` WHERE text_id > ?current_text_id);";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>/* 为参数化查询添加元素 */
                         {
@@ -1651,9 +1656,9 @@ namespace businessUnit
                         /* 取得比当前 text_id 小的一行，实现对上一条数据的抓取 */
                         string SQL = "SELECT *" +
                                      " FROM " +
-                                     dataBase + ".`" + Views.text_index +
+                                     dataBase + ".`" + Views.view_index +
                                      "` WHERE " +
-                                     "text_id = (SELECT max(text_id) FROM " + dataBase + ".`" + Views.text_index + "` WHERE text_id < ?current_text_id);";
+                                     "text_id = (SELECT max(text_id) FROM " + dataBase + ".`" + Views.view_index + "` WHERE text_id < ?current_text_id);";
 
                         List<mysqlParm> List_mysqlParm = new List<mysqlParm>/* 为参数化查询添加元素 */
                         {
