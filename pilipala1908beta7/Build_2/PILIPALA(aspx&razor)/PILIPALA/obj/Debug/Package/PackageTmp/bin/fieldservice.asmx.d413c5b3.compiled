@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/pala_custom/theme/field2/web_service/FieldService.asmx" hash="fffffffff3c9419c" filehash="ffffef4d9c2faa53" flags="130000" assembly="PILIPALA" type="PILIPALA.pala_custom.theme.field2.web_service.FieldService">
+    <filedeps>
+        <filedep name="/pala_custom/theme/field2/web_service/FieldService.asmx" />
+    </filedeps>
+</preserve>

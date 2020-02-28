@@ -2,7 +2,7 @@
 function showText(text_id) {
     $.ajax({
         type: "post",
-        url: "/pala_custom/theme/field2/cut/CONTENT.aspx?text_id=" + text_id,
+        url: "/pala_custom/theme/field2/cut/内容.cshtml?text_id=" + text_id,
         data: "",
         dataType: "html",/* html返回类型 */
         success: function (result) {
@@ -25,7 +25,7 @@ function showText(text_id) {
 function showHome() {
     $.ajax({
         type: "post",
-        url: "/pala_custom/theme/field2/cut/LIST.aspx",
+        url: "/Default.aspx",
         data: "",
         dataType: "html",/* html返回类型 */
         success: function (result) {
@@ -103,9 +103,35 @@ function mkdConvert(mkdText) {
     $(".CardCol>.Card>.contain>.Content").html(converter.makeHtml(mkdText));
 };
 
+/*星星熄灭/点亮*/
 function starOpacity050() {
     $(".AtBox").append("<style id=\"Star_tempstyle\">.CoBox>.AtBox>.Star:before{opacity: 0.5}</style>");
 }
 function starOpacity100() {
     $("#Star_tempstyle").remove();
+}
+
+/*将字数估计的提示输出至.Tip*/
+function putWordCount() {
+    count = wordCount($(".CardCol>.Card>.contain>.Content").text());
+    time = Math.ceil(count / 400);
+    /*空格为全角*/
+    $(".CardCol>.Card>.contain>.Tip").text("约 " + count + "字　阅读需要 " + time + "分钟");
+}
+
+/*字数估计函数*/
+function wordCount(data) {
+    var pattern = /[a-zA-Z0-9_\u0392-\u03c9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\uac00-\ud7af]+/g;
+    var m = data.match(pattern);
+    var count = 0;
+    if (m == null) { return count; }
+    for (var i = 0; i < m.length; i++) {
+        if (m[i].charCodeAt(0) >= 0x4E00) {
+            count += m[i].length;
+        } else {
+            count += 1;
+        }
+    }
+    /*向上取整到10位*/
+    return Math.ceil(count / 10)*10;
 }
