@@ -1,0 +1,13 @@
+.SiderBtn {
+    font-size: 26px;
+    line-height: 50px;
+
+    color: #FFFFFF;
+}
+
+.SiderBtn::before {
+    font-family: 'labelico';
+   
+    margin: 12px;
+    content: "\e3016";
+}

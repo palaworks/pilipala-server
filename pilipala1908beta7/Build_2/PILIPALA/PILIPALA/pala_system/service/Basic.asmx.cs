@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Services;
 
 using System.Web.Configuration;
+using System.Text.RegularExpressions;
 
 using LibStruct.MySql;
 using LibStruct.pilipala;
@@ -154,32 +155,106 @@ namespace PILIPALA.pala_system.service
         /// <returns></returns>
         public string doSummary(int text_id, int length)
         {
-            if (getTextSummary(text_id) == "")
-            {
-                return htmlFilter(getTextContent(text_id, 120));
-            }
-            else
-            {
-                return getTextSummary(text_id);
-            }
+            return htmlFilter(getTextContent(text_id, length));
         }
 
         public static PaText fill(PaText TextIndex, PaText TextMain, PaText TextSub)
         {
             return PaFn.fill(TextIndex, TextMain, TextSub);
         }
-        public static string htmlFilter(string str)
-        {
-            return PaFn.htmlFilter(str);
-        }
-        public static string timeFromNow(DateTime dateTime)
-        {
-            return PaFn.timeFromNow(dateTime);
-        }
 
         public static string toMD5(string str)
         {
             return BasicMethod.toMD5(str);
+        }
+
+        /// <summary>
+        /// html过滤器
+        /// </summary>
+        /// <param name="str">待过滤的字符串</param>
+        /// <returns></returns>
+        public static string htmlFilter(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return "";
+            }
+
+            string regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>";
+            string regEx_script = "<script[^>]*?>[\\s\\S]*?<\\/script>";
+            string regEx_html = "<[^>]+>";
+
+            str = Regex.Replace(str, regEx_style, "");
+            str = Regex.Replace(str, regEx_script, "");
+            str = Regex.Replace(str, regEx_html, "");
+            str = Regex.Replace(str, "\\s*|\t|\r|\n", "");
+            str = str.Replace(" ", "");
+
+            /*把MKD中的#符号去掉*/
+            str = str.Replace("#", "");
+
+            return str.Trim();
+        }
+
+        /// <summary>
+        /// 距现在字符串生成器
+        /// </summary>
+        /// <param name="dateTime">要计算的时间</param>
+        /// <returns></returns>
+        public static string timeFromNow(DateTime dateTime)
+        {
+            //获取当前时间
+            DateTime DateTime1 = DateTime.Now;
+
+            TimeSpan ts1 = new TimeSpan(DateTime1.Ticks);
+            TimeSpan ts2 = new TimeSpan(dateTime.Ticks);
+
+            //时间比较，得出差值
+            TimeSpan ts = ts1.Subtract(ts2).Duration();
+
+            if (ts.Days >= 60)
+            {
+                return null;
+            }
+            else
+            if (ts.Days >= 28 && ts.Days < 60)
+            {
+                return "一月前";
+            }
+            else
+            if (ts.Days >= 21 && ts.Days < 28)
+            {
+                return "三周前";
+            }
+            else
+            if (ts.Days >= 14 && ts.Days < 21)
+            {
+                return "两周前";
+            }
+            else
+            if (ts.Days >= 7)
+            {
+                return "一周前";
+            }
+            else
+            if (ts.Days < 1 && ts.Hours < 6)
+            {
+                return "刚刚";
+            }
+            else
+            {
+                switch (ts.Days)
+                {
+                    case 0: return "今天";
+                    case 1: return "昨天";
+                    case 2: return "两天前";
+                    case 3: return "三天前";
+                    case 4: return "四天前";
+                    case 5: return "五天前";
+                    case 6: return "六天前";
+                    default: return null;
+                }
+            }
         }
         #endregion
     }
