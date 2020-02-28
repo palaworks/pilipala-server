@@ -43,13 +43,40 @@
     font-size: 15px;
     line-height: 20px;
     overflow: hidden;
-    text-overflow:ellipsis;
+    text-overflow: ellipsis;
     white-space: nowrap;
 
     padding-left: 18px;
     padding-right: 18px;
 
-    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.CardCol>.Card>.contain>.Tip {
+    color: white;
+    background: rgb(52, 165, 61);
+
+    font-size: 15px;
+    line-height: 20px;
+
+    padding-left: 18px;
+    padding-right: 18px;
+
+    padding-top: 4px;
+    padding-bottom: 4px;
+
+    margin-top: 6px;
+    margin-bottom: 6px;
+    margin-left: 4px;
+    margin-right: 4px;
+
+    border-radius: 3px;
+}
+
+.CardCol>.Card>.contain>.Tip::after {
+    float: right;
+    font-family: 'labelico';
+    content: "\e3004";
 }
 
 /* 屏幕宽度大于1000时 */
@@ -90,7 +117,8 @@
     word-break: break-word;
 }
 
-.CardCol>.Card>.contain>.Content>img,.CardCol>.Card>.contain>.NoteContent>img {
+.CardCol>.Card>.contain>.Content>img,
+.CardCol>.Card>.contain>.NoteContent>img {
     border-radius: 4px;
     box-shadow: 0px 0px 4px 0.4px rgba(0, 0, 0, 0.3);
 }
