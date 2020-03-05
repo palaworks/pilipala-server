@@ -15,8 +15,8 @@
     int prevTextID = new int();
     int nextTextID = new int();
 
-    string prevTextTitle = "";
-    string nextTextTitle = "";
+    string prevTextTitle = null;
+    string nextTextTitle = null;
 }
 <!-- 其他初始化 -->
 @if (Request.QueryString["text_id"] != null)
@@ -32,8 +32,13 @@
     nextTextID = BS.nextTextID(text_id);
 
     /* 前后文章标题赋值 */
-    prevTextTitle = BS.getTextTitle(prevTextID);
-    nextTextTitle = BS.getTextTitle(nextTextID);
+    if (prevTextID!=-1) {
+        prevTextTitle = BS.getTextTitle(prevTextID);
+    }
+    if (nextTextID!=-1) {
+        nextTextTitle = BS.getTextTitle(nextTextID);
+    }
+
 }
 
 

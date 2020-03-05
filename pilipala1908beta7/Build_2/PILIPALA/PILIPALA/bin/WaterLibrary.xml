@@ -1337,6 +1337,11 @@
             
             </summary>
         </member>
+        <member name="P:businessUnit.pilipala.PaRoot.root_id">
+            <summary>
+            权限ID访问器
+            </summary>
+        </member>
         <member name="M:businessUnit.pilipala.PaRoot.#ctor(System.Int32,LibStruct.pilipala.PaDB)">
             <summary>
             初始化PaRoot
