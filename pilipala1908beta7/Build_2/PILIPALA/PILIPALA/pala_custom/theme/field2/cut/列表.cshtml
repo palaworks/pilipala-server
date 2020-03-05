@@ -31,32 +31,59 @@
     {
         PaText data = Basic.fill(BS.getTextIndex(text_id), new PaText(), BS.getTextSub(text_id));
 
-        <div class="Card L M bSha bRds">
+        if (data.text_type == "p")
+        {
+            <div class="Card L M bSha bRds">
 
-            <div onclick="up();showText(@text_id)" class="contain L cur w250">
+                <div onclick="up();showText(@text_id)" class="contain L cur w250">
 
-                <!-- 前置样式 -->
-                @Html.Raw(data.before_html)
+                    <!-- 前置样式 -->
+                    @Html.Raw(data.before_html)
 
-                <div class="Title">@BS.getTextTitle(text_id)</div>
-                <div class="Summary">@BS.getTextSummary(text_id)</div>
+                    <div class="Title">@BS.getTextTitle(text_id)</div>
+                    <div class="Summary">@BS.getTextSummary(text_id)</div>
+                </div>
+
+                <div class="AtBox L">
+                    @if (Basic.timeFromNow(data.time_set) == null)
+                    {
+                        <div class="Date">@FieldService.toTime1(data.time_set, "-")</div>
+                    }
+                    else
+                    {
+                        <div class="Date">@Basic.timeFromNow(data.time_set)</div>
+                    }
+                    <div class="Pv">@data.count_pv</div>
+                    <div class="Comment">@data.count_comment</div>
+                    <div class="Star">@data.count_star</div>
+                </div>
+
             </div>
+        }
+        else if (data.text_type == "n")
+        {
+            <div class="Card L M bSha bRds">
 
-            <div class="AtBox L">
-                @if (Basic.timeFromNow(data.time_set) == null)
-                {
-                    <div class="Date">@FieldService.toTime1(data.time_set, "-")</div>
-                }
-                else
-                {
-                    <div class="Date">@Basic.timeFromNow(data.time_set)</div>
-                }
-                <div class="Pv">@data.count_pv</div>
-                <div class="Comment">@data.count_comment</div>
-                <div class="Star">@data.count_star</div>
+                <div class="contain L bRds w250">
+                    <!-- 前置样式 -->
+                    @Html.Raw(data.before_html)
+                    <div class="NoteContent bRds">@Html.Raw(BS.getTextContent(text_id))</div>
+                </div>
+                <div class="AtBox L">
+                    @if (Basic.timeFromNow(data.time_set) == null)
+                    {
+                        <div class="Date">@FieldService.toTime1(data.time_set, "-")</div>
+                    }
+                    else
+                    {
+                        <div class="Date">@Basic.timeFromNow(data.time_set)</div>
+                    }
+                    <div class="Pv">@data.count_pv</div>
+                    <div class="Comment">@data.count_comment</div>
+                    <div class="Star">@data.count_star</div>
+                </div>
             </div>
-
-        </div>
+        }
     }
 
     <!-- 其他文章输出 -->
@@ -65,16 +92,17 @@
         PaText data = Basic.fill(BS.getTextIndex(text_id), new PaText(), BS.getTextSub(text_id));
 
         data.text_title = BS.getTextTitle(text_id);
-        data.text_summary=BS.getTextSummary(text_id);
+        data.text_summary = BS.getTextSummary(text_id);
 
         if (data.text_type == "p")
         {
             <div class="Card L M bSha bRds">
 
                 <div onclick="up();showText(@text_id)" class="contain L cur w250">
-                    <!-- 前置样式 -->@Html.Raw(data.before_html)
+                    <!-- 前置样式 -->
+                    @Html.Raw(data.before_html)
                     <div class="Title">@data.text_title</div>
-                    
+
                     @if (data.text_summary == "")
                     {
                         <div class="Summary">@BS.doSummary(text_id, 100)</div>
@@ -104,8 +132,11 @@
         else if (data.text_type == "n")
         {
             <div class="Card L M bSha bRds">
+
                 <div class="contain L bRds w250">
-                    <div class="NoteContent bRds">@BS.getTextContent(text_id)</div>
+                    <!-- 前置样式 -->
+                    @Html.Raw(data.before_html)
+                    <div class="NoteContent bRds">@Html.Raw(BS.getTextContent(text_id))</div>
                 </div>
                 <div class="AtBox L">
                     @if (Basic.timeFromNow(data.time_set) == null)

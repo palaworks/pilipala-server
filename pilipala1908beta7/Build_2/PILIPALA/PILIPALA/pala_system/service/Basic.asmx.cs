@@ -217,7 +217,12 @@ namespace PILIPALA.pala_system.service
                 return null;
             }
             else
-            if (ts.Days >= 28 && ts.Days < 60)
+            if (ts.Days >= 50 && ts.Days < 80)
+            {
+                return "两月前";
+            }
+            else
+            if (ts.Days >= 28 && ts.Days < 50)
             {
                 return "一月前";
             }
