@@ -73,7 +73,6 @@ C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\bin\WaterLibrary.dll
 C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\bin\WaterLibrary.pdb
 C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\bin\WaterLibrary.xml
 C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\obj\Debug\PILIPALA.csprojAssemblyReference.cache
 C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\obj\Debug\PILIPALA.csproj.CopyComplete
 C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\obj\Debug\PILIPALA.dll
 C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\obj\Debug\PILIPALA.pdb
@@ -93,3 +92,4 @@ C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\bin\zh-Hans\System.Web.Razor.resources
 C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\bin\zh-Hans\System.Web.WebPages.resources.dll
 C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
+C:\Users\Thaumy\Desktop\PILIPALA\PILIPALA\obj\Debug\PILIPALA.csprojAssemblyReference.cache
