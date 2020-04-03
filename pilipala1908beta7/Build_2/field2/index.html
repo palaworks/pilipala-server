@@ -17,7 +17,6 @@
   <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
   <script type="text/javascript" src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
-  <script src="https://cdn.bootcss.com/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
 
   <script type="text/javascript" src="ui_js/basic.js"></script>
 </head>
@@ -98,82 +97,6 @@
 
       <div class="Card L M bSha bRds">
         <div class="contain L bRds w250">
-          <div>
-            <div id="countdown_ncee">
-              <div id="day">Err</div>
-              <div id="hour">Err</div>
-              <div id="min">Err</div>
-              <div id="sec">Err</div>
-              <div class="sub">天</div>
-              <div class="sub">时</div>
-              <div class="sub">分</div>
-              <div class="sub">秒</div>
-            </div>
-            <script type="text/javascript">
-              $("#countdown_ncee>#day")
-                .countdown("2020/06/07", function (event) {
-                  $(this).text(
-                    event.strftime('%D')
-                  );
-                });
-              $("#countdown_ncee>#hour")
-                .countdown("2020/06/07", function (event) {
-                  $(this).text(
-                    event.strftime('%H')
-                  );
-                });
-              $("#countdown_ncee>#min")
-                .countdown("2020/06/07", function (event) {
-                  $(this).text(
-                    event.strftime('%M')
-                  );
-                });
-              $("#countdown_ncee>#sec")
-                .countdown("2020/06/07", function (event) {
-                  $(this).text(
-                    event.strftime('%S')
-                  );
-                });
-            </script>
-            <style>
-              #countdown_ncee {
-                width: 100%;
-                float: left;
-                background-color: orangered;
-                border-radius: 4px;
-              }
-  
-              #countdown_ncee>#day,#hour,#min,#sec {
-                font-family: 'Roboto Mono', monospace;
-                font-size: 64px;
-                line-height: 64px;
-                background-color: white;
-                text-align: center;
-                width: 21%;
-                float: left;
-                margin-left: 2%;
-                margin-right: 2%;
-                margin-top: 20px;
-                border-radius: 4px;
-              }
-  
-              #countdown_ncee>.sub {
-                font-family: 'Noto Sans SC', sans-serif;
-                font-size: 16px;
-                line-height: 16px;
-  
-                color: white;
-                text-align: center;
-                width: 21%;
-                float: left;
-                margin-left: 2%;
-                margin-right: 2%;
-                margin-top: 8px;
-                margin-bottom: 8px;
-                border-radius: 4px
-              }
-            </style>
-          </div>
           <div class="NoteContent bRds">
             这是一篇NOTE类型文章，适用于短文本。
           </div>
@@ -204,9 +127,22 @@
 
       <div class="Card L M bSha bRds">
 
-        
+
 
         <div onclick="up()" class="contain L cur w250">
+
+          <div>
+            <img class="pXL" id="welcom_pic" src="" />
+            <script>
+              var images = ['http://thblog-img.test.upcdn.net/ui-background/bg_1.jpg',
+                'http://thblog-img.test.upcdn.net/ui-background/bg_2.jpg',
+                'http://thblog-img.test.upcdn.net/ui-background/bg_3.jpg',
+                'http://thblog-img.test.upcdn.net/ui-background/bg_4.jpg'
+              ];
+              document.getElementById("welcom_pic").src = images[Math.floor(Math.random() * images.length)];
+            </script>
+          </div>
+
           <div class="Title">PILIPALA BETA7</div>
           <div class="Summary">理所当然的奇迹</div>
         </div>
