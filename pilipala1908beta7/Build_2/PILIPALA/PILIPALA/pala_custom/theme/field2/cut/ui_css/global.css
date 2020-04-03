@@ -1,0 +1,51 @@
+html {
+    background: url("http://thblog-img.test.upcdn.net/ui-background/pc.jpg") fixed;
+    background-size: cover;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+body>.contain {
+    margin: auto;
+    max-width: 1188px;
+}
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+
+    margin: 0;
+}
+
+@font-face {
+    font-family: 'labelico';
+    src: url('../ui_img/labelico/labelico.eot'), url('../ui_img/labelico/labelico.woff'), url('../ui_img/labelico/labelico.svg');
+    font-display: swap;
+}
+
+/* 屏幕宽度大于1000时 */
+@media screen and (min-width: 1000px) {
+    body>.contain {
+        padding-top: 10px;
+    }
+
+    html {
+        background: url("http://thblog-img.test.upcdn.net/ui-background/pc.jpg") fixed;
+        background-size: cover;
+    }
+}
+
+/* 屏幕宽度小于1000时 */
+@media screen and (max-width: 1000px) {
+    body>.contain {
+        padding: 7px;
+        padding-top: 57px;
+    }
+
+    html {
+        background: url("http://thblog-img.test.upcdn.net/ui-background/mobi.jpg") fixed;
+        background-size: contain;
+    }
+}
