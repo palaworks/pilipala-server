@@ -1,0 +1,38 @@
+.Tip_1,.Tip_2{
+    color: white;
+    font-size: 15px;
+
+    padding-left: 18px;
+    padding-right: 18px;
+
+    margin: 4px;
+
+    border-radius: 3px;
+}
+.Tip_1::after,.Tip_2::after{
+    padding-top: 1px;
+    float: right;
+    font-family: 'labelico';
+}
+
+.Tip_1 {
+    background: rgb(52, 165, 61);
+
+    
+    line-height: 24px;
+}
+
+.Tip_1::after {
+    content: "\e3004";
+}
+
+.Tip_2 {
+    color: white;
+    background: rgb(255, 165, 0);
+
+    line-height: 48px;
+}
+
+.Tip_2::after {
+    content: "\e3016";
+}
