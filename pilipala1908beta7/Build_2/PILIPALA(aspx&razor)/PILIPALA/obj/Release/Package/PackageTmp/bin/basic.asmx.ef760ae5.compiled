@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/pala_system/service/Basic.asmx" hash="fffffffff9d57aef" filehash="3822ac3e3924" flags="130000" assembly="PILIPALA" type="PILIPALA.pala_system.service.Basic">
-    <filedeps>
-        <filedep name="/pala_system/service/Basic.asmx" />
-    </filedeps>
-</preserve>

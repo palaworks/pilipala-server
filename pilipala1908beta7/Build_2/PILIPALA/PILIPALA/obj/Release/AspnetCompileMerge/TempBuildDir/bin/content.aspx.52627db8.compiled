@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="3" virtualPath="/pala_custom/theme/field2/cut/CONTENT.aspx" hash="ffffffff7a0f745b" filehash="bc5fa067b83ef2be" flags="110000" assembly="App_Web_ncft2fzn" type="ASP.pala_custom_theme_field2_cut_content_aspx">
-    <filedeps>
-        <filedep name="/pala_custom/theme/field2/cut/CONTENT.aspx" />
-        <filedep name="/pala_custom/theme/field2/cut/FRAME.Master" />
-    </filedeps>
-</preserve>
