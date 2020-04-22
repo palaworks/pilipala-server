@@ -52,33 +52,6 @@
     margin-bottom: 8px;
 }
 
-.CardCol>.Card>.contain>.Tip {
-    color: white;
-    background: rgb(52, 165, 61);
-
-    font-size: 15px;
-    line-height: 20px;
-
-    padding-left: 18px;
-    padding-right: 18px;
-
-    padding-top: 4px;
-    padding-bottom: 4px;
-
-    margin-top: 6px;
-    margin-bottom: 6px;
-    margin-left: 4px;
-    margin-right: 4px;
-
-    border-radius: 3px;
-}
-
-.CardCol>.Card>.contain>.Tip::after {
-    float: right;
-    font-family: 'labelico';
-    content: "\e3004";
-}
-
 /* 屏幕宽度大于1000时 */
 @media (min-width: 1000px) {
     .CardCol>.Card>.contain>.Title {
