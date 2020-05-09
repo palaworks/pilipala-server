@@ -1,0 +1,51 @@
+﻿.mk-dt {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 300;
+    color: #FFFFFF;
+    border-radius: 4px;
+    font-size: 16px;
+    padding-left: 5px;
+    margin-right: 4px;
+    background: rgba(60, 60, 60, 1.00);
+}
+
+.mk-w,
+.mk-bug,
+.mk-dbg,
+.mk-updt,
+.mk-mtn,
+.mk-ui {
+    font-family: 'Roboto Mono', monospace;
+    color: #FFFFFF;
+    border-radius: 3px;
+    margin-left: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 16px;
+    background: rgba(210, 210, 210, 1);
+    
+}
+
+.mk-w::before {
+    content: "📃";
+}
+
+.mk-bug::before {
+    content: "🚨";
+}
+
+.mk-dbg::before {
+    content: "🔨";
+}
+
+.mk-updt::before {
+    content: "🎯";
+}
+
+.mk-mtn::before {
+    content: "📦";
+}
+
+.mk-ui::before {
+    content: "📐";
+}
