@@ -9,7 +9,8 @@ html::-webkit-scrollbar {
 
 body>.contain {
     margin: auto;
-    max-width: 1188px;
+    
+    max-width: 1200px;
 }
 
 body {
@@ -28,7 +29,8 @@ body {
 /* 屏幕宽度大于1000时 */
 @media screen and (min-width: 1000px) {
     body>.contain {
-        padding-top: 10px;
+        padding-top: 8px;
+        width:99%;
     }
 
     html {
