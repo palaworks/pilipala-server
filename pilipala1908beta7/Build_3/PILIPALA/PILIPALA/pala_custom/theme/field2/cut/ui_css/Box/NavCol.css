@@ -3,7 +3,7 @@
 }
 
 .NavCol>.contain {
-    padding-top: 50px;
+    padding-top: 5.6vmin;
 
     box-shadow: 0px 0px 3px 0.5px rgba(0, 0, 0, 0.4);
 }
@@ -13,10 +13,13 @@
 }
 
 .NavCol>.contain>.Avatar {
-    width: 120px;
-    height: 120px;
 
-    margin-bottom: 40px;
+    width:10vw;
+    height: 10vw;
+    max-width: 110px;
+    max-height: 110px;
+
+    margin-bottom: 4vmin;
     
     background: transparent url("http://thblog-img.test.upcdn.net/ui_img/p200.jpg");
     background-position: center;
@@ -28,7 +31,7 @@
 .NavCol>.contain>.Name {
     width: 94%;
     text-align: center;
-    font-size: 22px;
+    font-size: 21px;
 }
 
 .NavCol>.contain>.JieShao {
@@ -36,8 +39,8 @@
     text-align: center;
     font-size: 17px;
 
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 3vmin;
+    padding-bottom: 3vmin;
 }
 
 .NavCol>.contain>.JieShao::before {
@@ -60,7 +63,8 @@
 
 .NavCol>.List>.Card {
     width: 94%;
-    height: 52px;
+    height: 8vh;
+    max-height: 50px;
     display: flex;
 
     margin: auto;
@@ -111,8 +115,9 @@
 /* 屏幕宽度大于1000时 */
 @media screen and (min-width: 1000px) {
     .NavCol {
-        width: 26%;
-        max-width: 307px;
+        width: 23%;
+        min-width: 230px;
+        max-width: 280px;
     
         position: fixed;
     }

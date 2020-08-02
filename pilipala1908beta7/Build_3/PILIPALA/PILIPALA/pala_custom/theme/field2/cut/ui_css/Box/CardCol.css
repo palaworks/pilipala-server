@@ -99,8 +99,8 @@
 /* 屏幕宽度大于1000时 */
 @media screen and (min-width: 1000px) {
     .CardCol {
-        width: 73%;
-        max-width: 1000px;
+        width: 76%;
+        max-width: 1100px;
     }
 }
 
