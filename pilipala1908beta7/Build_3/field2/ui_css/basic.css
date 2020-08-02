@@ -1,9 +1,11 @@
 .b50 {
     background: rgba(50, 50, 50, 1.00);
 }
+
 .b55 {
     background: rgba(55, 55, 55, 1.00);
 }
+
 .w250 {
     background: rgba(250, 250, 250, 1.00);
 }
@@ -12,6 +14,7 @@
 .L {
     float: left;
 }
+
 .R {
     float: right;
 }
@@ -20,7 +23,7 @@
 /* 屏幕宽度大于1000时 */
 @media (min-width: 1000px) {
     .M {
-        margin-bottom: 12px;
+        margin-bottom: 10px;
     }
 }
 
@@ -35,6 +38,7 @@
 .bSha {
     box-shadow: 0px 0px 3px 0.2px rgba(0, 0, 0, 0.4);
 }
+
 .bRds {
     border-radius: 4px;
 }
@@ -43,12 +47,15 @@
 .pS {
     width: 30%;
 }
+
 .pM {
     width: 40%;
 }
+
 .pL {
     width: 60%;
 }
+
 .pXL {
     width: 100%;
 }
@@ -78,15 +85,15 @@ table {
     box-shadow: 0px 0px 4px 0.4px rgba(0, 0, 0, 0.3);
 }
 
-thead{
+thead {
     background-color: rgba(255, 165, 0, 1);
 }
 
-tr{
+tr {
     line-height: 24px;
 }
 
-th{
+th {
     font-size: 15px;
     color: white;
     font-weight: 300;

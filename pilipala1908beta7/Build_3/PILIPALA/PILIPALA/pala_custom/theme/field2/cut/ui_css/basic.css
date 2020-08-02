@@ -20,7 +20,7 @@
 /* 屏幕宽度大于1000时 */
 @media (min-width: 1000px) {
     .M {
-        margin-bottom: 12px;
+        margin-bottom: 10px;
     }
 }
 
