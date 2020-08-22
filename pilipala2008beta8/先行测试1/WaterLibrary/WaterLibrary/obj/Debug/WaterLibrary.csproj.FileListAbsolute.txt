@@ -1,0 +1,8 @@
+H:\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.dll
+H:\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.pdb
+H:\WaterLibrary\WaterLibrary\bin\Debug\mysql.data.dll
+H:\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csprojAssemblyReference.cache
+H:\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csproj.CoreCompileInputs.cache
+H:\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csproj.CopyComplete
+H:\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.dll
+H:\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.pdb
