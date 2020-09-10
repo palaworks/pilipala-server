@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace WaterLibrary.stru.basic
 {
-
+    
 }

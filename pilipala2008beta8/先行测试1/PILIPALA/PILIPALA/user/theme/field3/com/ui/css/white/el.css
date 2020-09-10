@@ -1,0 +1,51 @@
+blockquote {
+    border-left: 4px solid rgba(0, 120, 215, 1);
+
+    margin-left: 0;
+    margin-right: 0;
+
+    padding: 2px;
+    padding-left: 6px;
+
+    /* 颜色模式 */
+    /* color: rgba(250, 250, 250, 1); */
+    background: rgb(255, 255, 255);
+}
+
+table {
+    width: 100%;
+
+    margin-top: 6px;
+    margin-bottom: 6px;
+    box-shadow: 0px 0px 3px 0.2px rgba(0, 0, 0, 0.4);
+
+    /* 颜色模式 */
+    background-color: rgb(240, 240, 240);
+}
+
+tr:nth-child(even) {
+    /* 颜色模式 */
+    background: rgb(240, 240, 240);
+}
+
+tr:nth-child(odd) {
+    /* 颜色模式 */
+    background: rgb(234, 234, 234);
+}
+
+tr {
+    line-height: 24px;
+}
+
+th {
+    font-size: 15px;
+    color: white;
+    font-weight: 300;
+
+    background-color: rgba(255, 165, 0, 1);
+}
+
+td {
+    font-size: 14px;
+    line-height: 20px;
+}
