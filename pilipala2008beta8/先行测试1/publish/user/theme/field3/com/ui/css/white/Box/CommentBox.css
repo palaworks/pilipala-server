@@ -1,0 +1,17 @@
+.CommentBox {
+    width: 100%;
+
+    padding-top: 10px;
+    padding-bottom: 6px;
+    margin-bottom: 64px;
+
+    text-align: center;
+    font-size: 22px;
+    line-height: 18px;
+
+    position: relative;
+
+    /* 颜色模式 */
+    /* color: rgba(250, 250, 250, 1.00); */
+    background: rgba(246, 246, 246, 1.00);
+}

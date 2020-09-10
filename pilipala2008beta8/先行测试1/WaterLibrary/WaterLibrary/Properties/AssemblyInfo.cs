@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("An advanced library for web development")]
 [assembly: AssemblyConfiguration("1.16")]
 [assembly: AssemblyCompany("H2OMELON'SOCIE")]
-[assembly: AssemblyProduct("WaterLibrary 1.16 'Kaguya'")]
+[assembly: AssemblyProduct("WaterLibrary 1.16 'Magallan'")]
 [assembly: AssemblyCopyright("Copyright © 2019-2020 H2OMELON'SOCIE All Rights Reserved")]
 [assembly: AssemblyTrademark("WaterLibrary")]
 [assembly: AssemblyCulture("neutral")]

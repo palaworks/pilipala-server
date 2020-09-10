@@ -11,6 +11,7 @@ using System.Data;
 
 using WaterLibrary.stru.MySQL;
 
+/* 维护参考信息：通常情况下，查询无果方法会返回null */
 namespace WaterLibrary.com.MySQL
 {
     /// <summary>
@@ -18,23 +19,21 @@ namespace WaterLibrary.com.MySQL
     /// </summary>
     public class MySqlConnH
     {
-
-        private MySqlConnection HConnection;
-        private MySqlCommand HCommand;
+        private MySqlConnection HandlerConnection;
 
         /// <summary>
         /// Close主连接
         /// </summary>
         /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool CloseHConnection()
+        public bool CloseHandlerConnection()
         {
             try
             {
-                switch (HConnection.State)
+                switch (HandlerConnection.State)
                 {
                     case ConnectionState.Open:
-                        HConnection.Close();
-                        if (HConnection.State == ConnectionState.Closed)
+                        HandlerConnection.Close();
+                        if (HandlerConnection.State == ConnectionState.Closed)
                         {
                             return true;
                         }
@@ -59,15 +58,15 @@ namespace WaterLibrary.com.MySQL
         /// Dispose主连接
         /// </summary>
         /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool DisposeHConnection()
+        public bool DisposeHandlerConnection()
         {
             try
             {
-                switch (HConnection.State)
+                switch (HandlerConnection.State)
                 {
                     case ConnectionState.Open:
-                        HConnection.Dispose();
-                        if (HConnection.State == ConnectionState.Closed)
+                        HandlerConnection.Dispose();
+                        if (HandlerConnection.State == ConnectionState.Closed)
                         {
                             return true;
                         }
@@ -92,11 +91,11 @@ namespace WaterLibrary.com.MySQL
         /// 将主连接设置为null值
         /// </summary>
         /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool NullHConnection()
+        public bool NullHandlerConnection()
         {
             try
             {
-                HConnection = null;
+                HandlerConnection = null;
                 return true;
             }
             catch
@@ -108,20 +107,20 @@ namespace WaterLibrary.com.MySQL
         /// 重启主连接（须以主连接定义完成为前提）
         /// </summary>
         /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool ReStartHConnection()
+        public bool ReStartHandlerConnection()
         {
             try
             {
                 //考虑到重启连接需花费一定时间的假设，该方法只提供了重启操作，而不去判断是否执行成功。
-                switch (HConnection.State)
+                switch (HandlerConnection.State)
                 {
                     case ConnectionState.Closed:
-                        HConnection.Open();
+                        HandlerConnection.Open();
                         return true;
 
                     case ConnectionState.Open:
-                        HConnection.Close();
-                        HConnection.Open();
+                        HandlerConnection.Close();
+                        HandlerConnection.Open();
 
                         return true;
 
@@ -135,79 +134,54 @@ namespace WaterLibrary.com.MySQL
             }
         }
 
-
         /// <summary>
-        /// dispose主命令行
+        /// 生成MySqlConnection（重载一）
         /// </summary>
-        /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool DisposeHCommand()
+        /// <param name="MySqlConn">连接签名</param>
+        /// <returns>返回一个MySqlConnection对象，错误则返回null</returns>
+        public MySqlConnection GetSqlConnection(MySqlConn MySqlConn)
         {
             try
             {
-                HCommand.Dispose();
-                return true;
+                //返回创建的连接
+                return new MySqlConnection
+                    (//组建连接信息
+                    "Data source=" + MySqlConn.DataSource + ";port=" +
+                    MySqlConn.Port + ";User Id=" + MySqlConn.User + ";password=" + MySqlConn.PWD + ";"
+                    );
             }
             catch
             {
-                return false;
+                return null;
             }
         }
         /// <summary>
-        /// 将主命令行设置为null值
+        /// 生成MySqlConnection（重载二）
         /// </summary>
-        /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool NullHCommand()
+        /// <param name="DataSource">数据源</param>
+        /// <param name="Port">端口</param>
+        /// <param name="User">用户名</param>
+        /// <param name="PWD">密码</param>
+        /// <returns>返回一个MySqlConnection对象，错误则返回null</returns>
+        public MySqlConnection GetSqlConnection(string DataSource, string Port, string User, string PWD)
         {
             try
             {
-                HCommand = null;
-                return true;
+                //返回创建的连接
+                return new MySqlConnection
+                    (//组建连接信息
+                    "Data source=" + DataSource + ";port="
+                    + Port + ";User Id=" + User + ";password=" + PWD + ";"
+                    );
             }
             catch
             {
-                return false;
-            }
-        }
-        /// <summary>
-        /// 设置主命令行的sql语句（重载一）（注意：此方法可能会引起未知的ACID问题，建议仅供调试使用）
-        /// </summary>
-        /// <param name="MySqlConnection">要求主命令行执行的MySqlConnection连接实例</param>
-        /// <param name="SQL">被设置的sql语句</param>
-        /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool SetHCommand(MySqlConnection MySqlConnection, string SQL)
-        {
-            try
-            {
-                HCommand = new MySqlCommand(SQL, MySqlConnection);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        /// <summary>
-        /// 设置主命令行的sql语句（重载二：HConnection介入）（注意：此方法可能会引起未知的ACID问题，建议仅供调试使用）
-        /// </summary>
-        /// <param name="sql">被设置的sql语句</param>
-        /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool SetHCommand(string sql)
-        {
-            try
-            {
-                HCommand = new MySqlCommand(sql, HConnection);
-                return true;
-            }
-            catch
-            {
-                return false;
+                return null;
             }
         }
 
-
-
         /// <summary>
-        /// 启动连接（重载一：HConnection介入）
+        /// 启动连接（重载一：启动HandlerConnection）
         /// </summary>
         /// <param name="DataSource">数据源</param>
         /// <param name="Port">端口</param>
@@ -217,30 +191,30 @@ namespace WaterLibrary.com.MySQL
         public bool Start(string DataSource, string Port, string User, string PWD)
         {
             //组建连接信息并创建连接
-            HConnection = new MySqlConnection
+            HandlerConnection = new MySqlConnection
                 (
                 "Data source=" + DataSource + ";port="
                 + Port + ";User Id=" + User + ";password=" + PWD + ";"
                 );
-            return Start(HConnection);
+            return Start(HandlerConnection);
         }
         /// <summary>
-        /// 启动连接（重载二：HConnection介入）
+        /// 启动连接（重载二：启动HandlerConnection）
         /// </summary>
         /// <param name="MySqlConn">连接签名</param>
         /// <returns>返回true，错误则返回false</returns>
         public bool Start(MySqlConn MySqlConn)
         {
             //组建连接信息并创建连接
-            HConnection = new MySqlConnection
+            HandlerConnection = new MySqlConnection
                 (
                 "Data source=" + MySqlConn.DataSource + ";port=" +
                 MySqlConn.Port + ";User Id=" + MySqlConn.User + ";password=" + MySqlConn.PWD + ";"
                 );
-            return Start(HConnection);
+            return Start(HandlerConnection);
         }
         /// <summary>
-        /// 启动连接（重载三）
+        /// 启动连接（重载三：启动外来MySqlConnection）
         /// </summary>
         /// <param name="MySqlConnection">MySqlConnection连接实例</param>
         /// <returns>返回true，错误则返回false</returns>
@@ -267,121 +241,154 @@ namespace WaterLibrary.com.MySQL
             }
         }
 
+        /// <summary>
+        /// 建立参数化查询CMD对象
+        /// </summary>
+        /// <param name="SQL">携带查询参数的SQL语句</param>
+        /// <param name="ParmList">查询参数列表</param>
+        /// <returns>返回建立的参数化查询CMD对象</returns>
+        public MySqlCommand ParmQueryCMD(string SQL, List<MySqlParm> ParmList)
+        {
+            //建立CMD对象，用于执行参数化查询
+            using (MySqlCommand MySqlCommand = new MySqlCommand(SQL))
+            {
+                foreach (MySqlParm Parm in ParmList)
+                {
+                    MySqlCommand.Parameters.AddWithValue(Parm.Name, Parm.Val);//添加参数
+                }
+                return MySqlCommand;
+            }
+        }
+
+        /// <summary>
+        /// 获得一个键值（键匹配查询）
+        /// （重载一：使用HandlerConnection查询）
+        /// 返回结果集中的第一行第一列
+        /// </summary>
+        /// <param name="MySqlKey">操作定位器</param>
+        /// <param name="KeyName">键名</param>
+        /// <returns></returns>
+        public object GetKey(MySqlKey MySqlKey, string KeyName)
+        {
+            try
+            {
+                string SQL = "SELECT " +
+                             KeyName +
+                             " FROM " +
+                             MySqlKey.DataBase + "." + MySqlKey.Table +
+                             " WHERE " +
+                             MySqlKey.Name + "='" + MySqlKey.Val +
+                             "';";
+
+                return new MySqlCommand(SQL, HandlerConnection).ExecuteScalar();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// 获得一个键值（键匹配查询）
+        ///（重载二：使用外部MySqlConnection查询）
+        /// 返回结果集中的第一行第一列
+        /// </summary>
+        /// <param name="MySqlConnection">数据库连接实例，用于承担该操作</param>
+        /// <param name="MySqlKey">操作定位器</param>
+        /// <param name="KeyName">键名</param>
+        /// <returns></returns>
+        public object GetKey(MySqlConnection MySqlConnection, MySqlKey MySqlKey, string KeyName)
+        {
+            try
+            {
+                string SQL = "SELECT " +
+                         KeyName +
+                         " FROM " +
+                         MySqlKey.DataBase + "." + MySqlKey.Table +
+                         " WHERE " +
+                         MySqlKey.Name + "='" + MySqlKey.Val +
+                         "';";
+
+                return new MySqlCommand(SQL, MySqlConnection).ExecuteScalar();
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
 
         /// <summary>
-        /// 获得数据行（重载一）
+        /// 获得数据行（重载一：使用HandlerConnection查询）
         /// </summary>
-        /// <param name="MySqlConnection">MySqlConnection连接实例</param>
         /// <param name="SQL">SQL语句</param>
-        /// <returns>返回查询结果</returns>
-        public DataRow GetRow(MySqlConnection MySqlConnection, string SQL)
+        /// <returns>操作异常返回null，如目标行不存在</returns>
+        public DataRow GetRow(string SQL)
         {
             try
             {
-                if (MySqlConnection.State == ConnectionState.Closed)//判断连接是否被关闭
-                {
-                    MySqlConnection.Open();//连接关闭则打开
-                }
-                using (MySqlDataAdapter myDA = new MySqlDataAdapter(SQL, MySqlConnection))
-                {
-                    DataTable DataTable = new DataTable();
-                    myDA.Fill(DataTable);
-
-                    return DataTable.Rows[0];
-                }
+                return GetTable(SQL).Rows[0];
             }
-            finally//释放资源
+            catch
             {
-                HCommand = null;
+                return null;
             }
+
         }
         /// <summary>
-        /// 获得数据行（重载二）（适用于参数化查询）
-        /// </summary>
-        /// <param name="MySqlConnection">MySqlConnection连接实例</param>
-        /// <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
-        /// <returns>返回查询结果</returns>
-        public DataRow GetRow(MySqlConnection MySqlConnection, MySqlCommand MySqlCommand)
-        {
-            try
-            {
-                if (MySqlConnection.State == ConnectionState.Closed)//判断连接是否被关闭
-                {
-                    MySqlConnection.Open();//连接关闭则打开
-                }
-                //将外来cmd设置为基于MySqlConnection执行
-                MySqlCommand.Connection = MySqlConnection;
-                using (MySqlDataAdapter myDA = new MySqlDataAdapter(MySqlCommand))
-                {
-                    DataTable DataTable = new DataTable();
-                    myDA.Fill(DataTable);
-
-                    return DataTable.Rows[0];
-                }
-            }
-            finally//释放资源
-            {
-                HCommand = null;
-            }
-        }
-        /// <summary>
-        /// 获得数据行（重载三：HConnection介入）
-        /// </summary>
-        /// <param name="sql">SQL语句</param>
-        /// <returns>返回查询结果</returns>
-        public DataRow GetRow(string sql)
-        {
-            try
-            {
-                if (HConnection.State == ConnectionState.Closed)//判断连接是否被关闭
-                {
-                    HConnection.Open();//连接关闭则打开
-                }
-                using (MySqlDataAdapter myDA = new MySqlDataAdapter(sql, HConnection))
-                {
-                    DataTable DataTable = new DataTable();
-                    myDA.Fill(DataTable);
-
-                    return DataTable.Rows[0];
-                }
-            }
-            finally//释放资源
-            {
-                HCommand = null;
-            }
-        }
-        /// <summary>
-        /// 获得数据行（重载四：HConnection介入）（适用于参数化查询）
+        /// 获得数据行（重载二：使用HandlerConnection查询）（适用于参数化查询）
         /// </summary>
         /// <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
-        /// <returns>返回查询结果</returns>
-        /// 
+        /// <returns>操作异常返回null，如目标行不存在</returns>
         public DataRow GetRow(MySqlCommand MySqlCommand)
         {
             try
             {
-                if (HConnection.State == ConnectionState.Closed)//判断连接是否被关闭
-                {
-                    HConnection.Open();//连接关闭则打开
-                }
-                //将外来cmd设置为基于HConnection执行
-                MySqlCommand.Connection = HConnection;
-                using (MySqlDataAdapter myDA = new MySqlDataAdapter(MySqlCommand))
-                {
-                    DataTable DataTable = new DataTable();
-                    myDA.Fill(DataTable);
+                //将外来CMD设置为基于HandlerConnection执行
+                MySqlCommand.Connection = HandlerConnection;
 
-                    return DataTable.Rows[0];
-                }
+                return GetTable(MySqlCommand).Rows[0];
             }
-            finally//释放资源
+            catch
             {
-                HCommand = null;
+                return null;
             }
         }
         /// <summary>
-        /// 获得数据行（重载五：通过键值匹配，从数据表中获取数据行）
+        /// 获得数据行（重载三：使用外部MySqlConnection查询）
+        /// </summary>
+        /// <param name="MySqlConnection">MySqlConnection连接实例</param>
+        /// <param name="SQL">SQL语句</param>
+        /// <returns>操作异常返回null，如目标行不存在</returns>
+        public DataRow GetRow(MySqlConnection MySqlConnection, string SQL)
+        {
+            try
+            {
+                return GetTable(MySqlConnection, SQL).Rows[0];
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// 获得数据行（重载四：使用外部MySqlConnection查询）（适用于参数化查询）
+        /// </summary>
+        /// <param name="MySqlConnection">MySqlConnection连接实例</param>
+        /// <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+        /// <returns>操作异常返回null，如目标行不存在</returns>
+        public DataRow GetRow(MySqlConnection MySqlConnection, MySqlCommand MySqlCommand)
+        {
+            try
+            {
+                return GetTable(MySqlConnection, MySqlCommand).Rows[0];
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// 从DataTable中提取指定行
         /// </summary>
         /// <param name="DataTable">数据表实例</param>
         /// <param name="KeyName">键名</param>
@@ -398,27 +405,26 @@ namespace WaterLibrary.com.MySQL
                     return DataRow;//返回符合被检索主键的行
                 }
             }
-            return null;//没找到返回bull
+            return null;//没找到返回null
         }
 
+
         /// <summary>
-        /// 抛出一个MySql连接（重载一）
+        /// 获取一张数据表（重载一：使用HandlerConnection查询）
         /// </summary>
-        /// <param name="DataSource">数据源</param>
-        /// <param name="Port">端口</param>
-        /// <param name="User">用户名</param>
-        /// <param name="PWD">密码</param>
-        /// <returns>返回一个MySqlConnection对象，错误则返回null</returns>
-        public MySqlConnection GetConnection(string DataSource, string Port, string User, string PWD)
+        /// <param name="SQL">SQL语句，用于查询数据表</param>
+        /// <returns>返回一个DataTable对象，错误则返回null</returns>
+        public DataTable GetTable(string SQL)
         {
             try
             {
-                //返回创建的连接
-                return new MySqlConnection
-                    (//组建连接信息
-                    "Data source=" + DataSource + ";port="
-                    + Port + ";User Id=" + User + ";password=" + PWD + ";"
-                    );
+                //新建数据适配器
+                MySqlDataAdapter myDA = new MySqlDataAdapter(SQL, HandlerConnection);
+
+                DataTable table = new DataTable();
+                myDA.Fill(table);
+
+                return table;
             }
             catch
             {
@@ -426,130 +432,81 @@ namespace WaterLibrary.com.MySQL
             }
         }
         /// <summary>
-        /// 抛出一个MySql连接（重载二）
+        /// 获取一张数据表（重载二：使用HandlerConnection查询）（适用于参数化查询）
         /// </summary>
-        /// <param name="MySqlConn">连接签名</param>
-        /// <returns>返回一个MySqlConnection对象，错误则返回null</returns>
-        public MySqlConnection GetConnection(MySqlConn MySqlConn)
+        /// <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+        /// <returns>返回一个DataTable对象，错误则返回null</returns>
+        public DataTable GetTable(MySqlCommand MySqlCommand)
         {
             try
             {
-                //返回创建的连接
-                return new MySqlConnection
-                    (//组建连接信息
-                    "Data source=" + MySqlConn.DataSource + ";port=" +
-                    MySqlConn.Port + ";User Id=" + MySqlConn.User + ";password=" + MySqlConn.PWD + ";"
-                    );
+                //将外来CMD设置为基于HandlerConnection执行
+                MySqlCommand.Connection = HandlerConnection;
+                //新建数据适配器，以外来CMD初始化
+                MySqlDataAdapter myDA = new MySqlDataAdapter(MySqlCommand);
+
+                DataTable table = new DataTable();
+                myDA.Fill(table);
+
+                return table;
             }
             catch
             {
                 return null;
             }
         }
-
         /// <summary>
-        /// 获取一张数据表（重载一）
+        /// 获取一张数据表（重载三：使用外部MySqlConnection查询）
         /// </summary>
         /// <param name="MySqlConnection">MySqlConnection连接实例</param>
         /// <param name="SQL">用于查询数据表的SQL语句</param>
         /// <returns>返回一个DataTable对象，错误则返回null</returns>
         public DataTable GetTable(MySqlConnection MySqlConnection, string SQL)
         {
-            //新建数据适配器
-            MySqlDataAdapter myDA = new MySqlDataAdapter(SQL, MySqlConnection);
-            if (MySqlConnection.State == ConnectionState.Closed)//检测是否开启
+            try
             {
-                MySqlConnection.Open();
+                //新建数据适配器
+                MySqlDataAdapter myDA = new MySqlDataAdapter(SQL, MySqlConnection);
+
+                if (MySqlConnection.State == ConnectionState.Closed)//检测连接是否开启
+                {
+                    MySqlConnection.Open();
+                }
+
+                DataTable table = new DataTable();
+                myDA.Fill(table);
+
+                return table;
             }
-
-            //新建数据表
-            DataTable table = new DataTable();
-            myDA.Fill(table);//填充数据到table
-
-            return table;
+            catch
+            {
+                return null;
+            }
         }
         /// <summary>
-        /// 获取一张数据表（重载二）（适用于参数化查询）
+        /// 获取一张数据表（重载四：使用外部MySqlConnection查询）（适用于参数化查询）
         /// </summary>
         /// <param name="MySqlConnection">MySqlConnection连接实例</param>
         /// <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
         /// <returns>返回一个DataTable对象，错误则返回null</returns>
         public DataTable GetTable(MySqlConnection MySqlConnection, MySqlCommand MySqlCommand)
         {
-            //将外来cmd设置为基于MySqlConnection执行
-            MySqlCommand.Connection = MySqlConnection;
-            //新建数据适配器，以外来cmd初始化
-            MySqlDataAdapter myDA = new MySqlDataAdapter(MySqlCommand);
-            if (MySqlConnection.State == ConnectionState.Closed)//检测是否开启
-            {
-                MySqlConnection.Open();
-            }
-
-            //新建数据表
-            DataTable table = new DataTable();
-            myDA.Fill(table);//填充数据到table
-
-            return table;
-        }
-        /// <summary>
-        /// 获取一张数据表（重载三：HConnection介入）
-        /// </summary>
-        /// <param name="sql">SQL语句，用于查询数据表</param>
-        /// <returns>返回一个DataTable对象，错误则返回null</returns>
-        public DataTable GetTable(string sql)
-        {
-            //新建数据适配器
-            MySqlDataAdapter myDA = new MySqlDataAdapter(sql, HConnection);
-            if (HConnection.State == ConnectionState.Closed)
-            {
-                HConnection.Open();
-            }
-
-            //新建数据表
-            DataTable table = new DataTable();
-            myDA.Fill(table);//填充数据到DataTable
-
-            return table;
-        }
-        /// <summary>
-        /// 获取一张数据表（重载四：HConnection介入）（适用于参数化查询）
-        /// </summary>
-        /// <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
-        /// <returns>返回一个DataTable对象，错误则返回null</returns>
-        public DataTable GetTable(MySqlCommand MySqlCommand)
-        {
-            //将外来cmd设置为基于HConnection执行
-            MySqlCommand.Connection = HConnection;
-            //新建数据适配器，以外来cmd初始化
-            MySqlDataAdapter myDA = new MySqlDataAdapter(MySqlCommand);
-            if (HConnection.State == ConnectionState.Closed)
-            {
-                HConnection.Open();
-            }
-
-            //新建数据表
-            DataTable table = new DataTable();
-            myDA.Fill(table);//填充数据到DataTable
-
-            return table;
-        }
-
-        /// <summary>
-        /// 从数据表中提取取数据列
-        /// </summary>
-        /// <param name="DataTable">数据表实例</param>
-        /// <param name="ColumnName">列名</param>
-        /// <returns>返回非泛型List{object}实例，错误则返回null</returns>
-        public List<object> GetColumn(DataTable DataTable, string ColumnName)
-        {
             try
             {
-                List<object> list = new List<object>();
-                foreach (DataRow DataRow in DataTable.Rows)
+                //将外来CMD设置为基于MySqlConnection执行
+                MySqlCommand.Connection = MySqlConnection;
+                //新建数据适配器，以外来CMD初始化
+                MySqlDataAdapter myDA = new MySqlDataAdapter(MySqlCommand);
+
+                if (MySqlConnection.State == ConnectionState.Closed)//检测连接是否开启
                 {
-                    list.Add(DataRow[ColumnName]);//将数据表中ColumnName列的所有行数据依次添加到list中
+                    MySqlConnection.Open();
                 }
-                return list;//返回列
+
+                DataTable table = new DataTable();
+                myDA.Fill(table);
+
+                return table;
             }
             catch
             {
@@ -558,166 +515,167 @@ namespace WaterLibrary.com.MySQL
         }
 
 
+        /// <summary>
+        /// 取得查询结果中的第一列（重载一：使用HandlerConnection查询）
+        /// </summary>
+        /// <param name="SQL">用于查询的SQL语句</param>
+        /// <returns>返回非泛型List{object}实例，错误则返回null</returns>
+        public List<object> GetColumn(string SQL)
+        {
+            List<object> List = new List<object>();
+
+            foreach (DataRow DataRow in GetTable(SQL).Rows)
+            {
+                List.Add(DataRow[0]);
+            }
+
+            return List;
+        }
+        /// <summary>
+        /// 取得查询结果中的指定列（重载二：使用HandlerConnection查询）
+        /// </summary>
+        /// <param name="SQL">用于查询的SQL语句</param>
+        /// <param name="Key">目标列键名</param>
+        /// <returns>返回非泛型List{object}实例，错误则返回null</returns>
+        public List<object> GetColumn(string SQL, string Key)
+        {
+            List<object> List = new List<object>();
+
+            foreach (DataRow DataRow in GetTable(SQL).Rows)
+            {
+                List.Add(DataRow[Key]);
+            }
+
+            return List;
+        }
+        /// <summary>
+        /// 取得查询结果中的第一列（重载三：使用HandlerConnection查询）（适用于参数化查询）
+        /// </summary>
+        /// <param name="MySqlCommand">CMD实例</param>
+        /// <returns></returns>
+        public List<object> GetColumn(MySqlCommand MySqlCommand)
+        {
+            List<object> List = new List<object>();
+
+            foreach (DataRow DataRow in GetTable(MySqlCommand).Rows)
+            {
+                List.Add(DataRow[0]);
+            }
+
+            return List;
+        }
+        /// <summary>
+        /// 取得查询结果中的指定列（重载四：使用HandlerConnection查询）（适用于参数化查询）
+        /// </summary>
+        /// <param name="MySqlCommand">CMD实例</param>
+        /// <param name="Key">目标列键名</param>
+        /// <returns></returns>
+        public List<object> GetColumn(MySqlCommand MySqlCommand, string Key)
+        {
+            List<object> List = new List<object>();
+
+            foreach (DataRow DataRow in GetTable(MySqlCommand).Rows)
+            {
+                List.Add(DataRow[Key]);
+            }
+
+            return List;
+        }
+        /// <summary>
+        /// 从DataTable中提取指定列
+        /// </summary>
+        /// <param name="DataTable">数据表实例</param>
+        /// <param name="Key">目标列键名</param>
+        /// <returns>返回非泛型List{object}实例，错误则返回null</returns>
+        public List<object> GetColumn(DataTable DataTable, string Key)
+        {
+            List<object> List = new List<object>();
+
+            foreach (DataRow DataRow in DataTable.Rows)
+            {
+                List.Add(DataRow[Key]);//将数据表中ColumnName列的所有行数据依次添加到List中
+            }
+
+            return List;//返回列
+        }
 
         /// <summary>
-        /// 设置(替换)一个键值（键匹配查询）
+        /// 设置(更新)一个键值（键匹配查询）
+        /// （重载一：使用HandlerConnection查询）
+        /// </summary>
+        /// <param name="MySqlKey">操作定位器</param>
+        /// <param name="KeyName">操作于键名</param>
+        /// <param name="KeyValue">更改为该键值</param>
+        /// <returns></returns>
+        public bool UpdateKey(MySqlKey MySqlKey, string KeyName, string KeyValue)
+        {
+            string SQL = string.Format("UPDATE {0}.{1} SET {2} = ?KeyValue WHERE {3} = ?Val"
+                , MySqlKey.DataBase, MySqlKey.Table, KeyName, MySqlKey.Name);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+                {
+                    new MySqlParm() { Name = "KeyValue", Val = KeyValue },
+                    new MySqlParm() { Name = "Val", Val = MySqlKey.Val }
+                };
+
+            using (MySqlCommand MySqlCommand = ParmQueryCMD(SQL, ParmList))
+            {
+                MySqlCommand.Connection = HandlerConnection;/* 使用控制器内部连接执行查询 */
+                int result = MySqlCommand.ExecuteNonQuery();
+
+                if (result == 1)
+                {
+                    return true;/* 只有出现只有一行被更改时，才能返回true */
+                }
+                else if (result > 1)
+                {
+                    throw new Exception("操作了多个数据行");
+                }
+                else if (result == 0)
+                {
+                    throw new Exception("语句未作用于任何数据行");
+                }
+                return false;
+            }
+        }
+        /// <summary>
+        /// 设置(更新)一个键值（键匹配查询）
+        /// （重载二：使用外部MySqlConnection查询）
         /// </summary>
         /// <param name="MySqlConnection">数据库连接实例，用于承担该操作</param>
         /// <param name="MySqlKey">操作定位器</param>
         /// <param name="KeyName">操作于键名</param>
         /// <param name="KeyValue">更改为该键值</param>
-        /// <returns>操作成功返回true</returns>
-        public bool SetColumnValue(MySqlConnection MySqlConnection, MySqlKey MySqlKey, string KeyName, string KeyValue)
+        /// <returns></returns>
+        public bool UpdateKey(MySqlConnection MySqlConnection, MySqlKey MySqlKey, string KeyName, string KeyValue)
         {
-            #region SQL字符串处理
-            string sql = "UPDATE " +
-                         MySqlKey.DataBase + "." + MySqlKey.Table +
-                         " SET " +
-                         KeyName + "='" + KeyValue +
-                         "' WHERE " +
-                         MySqlKey.Name + "='" + MySqlKey.Val +
-                         "';";
-            #endregion
-            HCommand = new MySqlCommand(sql, MySqlConnection);
-            try
-            {
-                if (HCommand.Connection.State == ConnectionState.Closed)//查询连接状况
-                {
-                    HCommand.Connection.Open();//若连接被关闭则打开连接
-                }
+            string SQL = string.Format("UPDATE {0}.{1} SET {2} = ?KeyValue WHERE {3} = ?Val"
+                , MySqlKey.DataBase, MySqlKey.Table, KeyName, MySqlKey.Name);
 
-                if (HCommand.ExecuteNonQuery() > 0)
-                { return true; }//查询成功返回true
-                else
-                { return false; }//查询失败返回false
-            }
-            finally//释放内存
-            {
-                HCommand = null;
-            }
-        }
-        /// <summary>
-        /// 设置(替换)一个键值（键匹配查询）
-        /// （重载二：HConnection介入）
-        /// </summary>
-        /// <param name="MySqlKey">操作定位器</param>
-        /// <param name="KeyName">操作于键名</param>
-        /// <param name="KeyValue">更改为该键值</param>
-        /// <returns>操作成功返回true</returns>
-        public bool SetColumnValue(MySqlKey MySqlKey, string KeyName, string KeyValue)
-        {
-            #region SQL字符串处理
-            string sql = "UPDATE " +
-                         MySqlKey.DataBase + "." + MySqlKey.Table +
-                         " SET " +
-                         KeyName + "='" + KeyValue +
-                         "' WHERE " +
-                         MySqlKey.Name + "='" + MySqlKey.Val +
-                         "';";
-            #endregion
-            HCommand = new MySqlCommand(sql, HConnection);
-            try
-            {
-                if (HCommand.Connection.State == ConnectionState.Closed)//查询连接状况
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    HCommand.Connection.Open();//若连接被关闭则打开连接
-                }
+                    new MySqlParm() { Name = "KeyValue", Val = KeyValue },
+                    new MySqlParm() { Name = "Val", Val = MySqlKey.Val }
+                };
 
-                if (HCommand.ExecuteNonQuery() > 0)
-                { return true; }//查询成功返回true
-                else
-                { return false; }//查询失败返回false
-            }
-            finally//释放内存
+            using (MySqlCommand MySqlCommand = ParmQueryCMD(SQL, ParmList))
             {
-                HCommand = null;
-            }
-        }
+                MySqlCommand.Connection = MySqlConnection;/* 使用外来连接执行查询 */
+                int result = MySqlCommand.ExecuteNonQuery();
 
-        /// <summary>
-        /// 获得一个键值（键匹配查询）
-        ///（重载一）
-        /// 如果查询到多个行，则只返回第一行的数据
-        /// </summary>
-        /// <param name="MySqlConnection">数据库连接实例，用于承担该操作</param>
-        /// <param name="MySqlKey">操作定位器</param>
-        /// <param name="KeyName">键名</param>
-        /// <returns>操作成功返回true</returns>
-        public object GetColumnValue(MySqlConnection MySqlConnection, MySqlKey MySqlKey, string KeyName)
-        {
-            #region SQL字符串处理
-            string sql = "SELECT " +
-                         KeyName +
-                         " FROM " +
-                         MySqlKey.DataBase + "." + MySqlKey.Table +
-                         " WHERE " +
-                         MySqlKey.Name + "='" + MySqlKey.Val +
-                         "';";
-            #endregion
-            HCommand = new MySqlCommand(sql, MySqlConnection);
-            try
-            {
-                if (HCommand.Connection.State == ConnectionState.Closed)//查询连接状况
+                if (result == 1)
                 {
-                    HCommand.Connection.Open();//若连接被关闭则打开连接
+                    return true;/* 只有出现只有一行被更改时，才能返回true */
                 }
-                return HCommand.ExecuteScalar();
-            }
-            finally//释放内存
-            {
-                HCommand = null;
-            }
-        }
-        /// <summary>
-        /// 获得一个键值（键匹配查询）
-        /// （重载二：HConnection介入）
-        /// 如果查询到多个行，则只返回第一行的数据
-        /// </summary>
-        /// <param name="MySqlKey">操作定位器</param>
-        /// <param name="KeyName">键名</param>
-        /// <returns>操作成功返回true</returns>
-        public object GetColumnValue(MySqlKey MySqlKey, string KeyName)
-        {
-            #region SQL字符串处理
-            string sql = "SELECT " +
-                         KeyName +
-                         " FROM " +
-                         MySqlKey.DataBase + "." + MySqlKey.Table +
-                         " WHERE " +
-                         MySqlKey.Name + "='" + MySqlKey.Val +
-                         "';";
-            #endregion
-            HCommand = new MySqlCommand(sql, HConnection);
-            try
-            {
-                if (HCommand.Connection.State == ConnectionState.Closed)//查询连接状况
+                else if (result > 1)
                 {
-                    HCommand.Connection.Open();//若连接被关闭则打开连接
+                    throw new Exception("操作了多个数据行");
                 }
-                return HCommand.ExecuteScalar();
-            }
-            finally//释放内存
-            {
-                HCommand = null;
-            }
-        }
-
-        /// <summary>
-        /// 建立参数化查询cmd对象
-        /// </summary>
-        /// <param name="SQL">携带查询参数的SQL语句</param>
-        /// <param name="ParmList">查询参数列表</param>
-        /// <returns>返回建立的参数化查询cmd对象</returns>
-        public MySqlCommand ParmQueryCMD(string SQL, List<MySqlParm> ParmList)
-        {
-            //建立cmd对象，用于执行参数化查询
-            using (MySqlCommand MySqlCommand = new MySqlCommand(SQL))
-            {
-                foreach (MySqlParm Parm in ParmList)
+                else if (result == 0)
                 {
-                    MySqlCommand.Parameters.AddWithValue(Parm.Name, Parm.Val);//添加参数
+                    throw new Exception("语句未作用于任何数据行");
                 }
-                return MySqlCommand;
+                return false;
             }
         }
     }

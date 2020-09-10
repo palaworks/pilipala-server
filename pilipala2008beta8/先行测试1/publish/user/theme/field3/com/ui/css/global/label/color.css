@@ -1,0 +1,47 @@
+/* 黑色标记 */
+.b20 {
+    background: rgba(20, 20, 20, 1.00);
+}
+
+.b30 {
+    background: rgba(30, 30, 30, 1.00);
+}
+
+.b40 {
+    background: rgba(40, 40, 40, 1.00);
+}
+
+.b50 {
+    background: rgba(50, 50, 50, 1.00);
+}
+
+.b55 {
+    background: rgba(55, 55, 55, 1.00);
+}
+
+.f-b90 {
+    color: rgba(90, 90, 90, 1.00);
+}
+
+
+
+/* 白色标记 */
+.w250 {
+    background: rgba(250, 250, 250, 1.00);
+}
+
+.w245 {
+    background: rgba(250, 250, 250, 1.00);
+}
+
+.f-w170 {
+    color: rgba(170, 170, 170, 1.00);
+}
+
+.f-w220 {
+    color: rgba(220, 220, 220, 1.00);
+}
+
+.f-w250 {
+    color: rgba(250, 250, 250, 1.00);
+}

@@ -10,7 +10,7 @@ using System.Data;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala;
-using WaterLibrary.stru.pilipala.Core;
+using WaterLibrary.stru.pilipala.core;
 
 using System.Text.RegularExpressions;
 
@@ -26,7 +26,7 @@ namespace WaterLibrary.com.pilipala
 
 
     /// <summary>
-    /// 啪啦系统类
+    /// 啪啦系统
     /// </summary>
     public class PLSYS
     {
@@ -82,38 +82,25 @@ namespace WaterLibrary.com.pilipala
         /// <returns>错误则返回Name为ERROR的User实例</returns>
         public User GetUser()
         {
-            try
-            {
-                string SQL = "CALL ?DataBase.`get>user`( ?ID )";
+            string SQL = string.Format("CALL {0}.`get>user`( ?ID )", DataBase);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
+
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        return new User
-                        {
-                            ID = Convert.ToInt32(Row["ID"]),
-                            GUID = Convert.ToString(Row["GUID"]),
-                            Name = Convert.ToString(Row["Name"]),
-                            Note = Convert.ToString(Row["Note"])
-                        };
-                    }
-                }
-                return new User { Name = "ERROR" };
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                DataRow result = MySqlConnH.GetRow(MySqlCommand);/* 得到一行数据，使用GetRow方法 */
+
+                return new User
+                {
+                    ID = Convert.ToInt32(result["ID"]),
+                    GUID = Convert.ToString(result["GUID"]),
+                    Name = Convert.ToString(result["Name"]),
+                    Note = Convert.ToString(result["Note"])
+                };
             }
         }
 
@@ -213,7 +200,7 @@ namespace WaterLibrary.com.pilipala
         public MySqlConnH MySqlConnH { get; set; }
 
         /// <summary>
-        /// 初始化TextListH
+        /// 初始化啪啦数据读取器
         /// </summary>
         /// <parmm name="PLDB">啪啦数据库信息</parmm>
         public PLDR(PLSYS PLSYS)
@@ -226,126 +213,81 @@ namespace WaterLibrary.com.pilipala
 
 
         /// <summary>
-        /// 获得全部文本ID列表
+        /// 获得全部文章ID列表
         /// </summary>
         /// <returns></returns>
         public virtual List<int> GetIDList()
         {
-            try
+            List<int> IDList = new List<int>();
+
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}`", DataBase, Views.IndexView);
+
+            foreach (object ID in MySqlConnH.GetColumn(SQL))
             {
-                List<int> IDList = new List<int>();
-
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView`";
-
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
-                {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val =Views.IndexView }
-                };
-
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));/* 每次循环完成，将获取到的文本数据添加至文本列表 */
-                    }
-                }
-                return IDList;
+                IDList.Add(Convert.ToInt32(ID));
             }
-            finally
-            {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
-            }
+
+            return IDList;
         }
 
-
-
         /// <summary>
-        /// 取得文本ID列表（步进式）
+        /// 取得文章ID列表（步进式）
         /// </summary>
         /// <parmm name="Start">步进起始行（包含该行）</parmm>
         /// <parmm name="Length">加载行数</parmm>
         /// <returns></returns>
         public virtual List<int> GetIDList(int Start, int Length)
         {
-            try
-            {
-                List<int> IDList = new List<int>();
+            List<int> IDList = new List<int>();
 
-                /* 此处以时间降序排列查询 */
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView` ORDER BY Time DESC LIMIT ?Start , ?Length";
+            /* 此处以时间降序排列查询 */
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` ORDER BY Time DESC LIMIT ?Start , ?Length", DataBase, Views.IndexView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
-
                     new MySqlParm() { Name = "?Start", Val = Start },
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));/* 每次循环完成，将获取到的文本数据添加至文本列表 */
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
         /// <summary>
-        /// 取得指定类型的文本ID列表（步进式）
+        /// 取得指定类型的文章ID列表（步进式）
         /// </summary>
         /// <parmm name="Start">步进起始行（包含该行）</parmm>
         /// <parmm name="Length">加载行数</parmm>
-        /// <parmm name="Type">自定义文本类型</parmm>
+        /// <parmm name="Type">自定义文章类型</parmm>
         /// <returns></returns>
         public virtual List<int> GetIDList(int Start, int Length, string Type)
         {
-            try
-            {
-                List<int> IDList = new List<int>();
 
-                /* 此处以时间降序排列查询 */
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView` WHERE Type = ?Type ORDER BY Time DESC LIMIT ?Start , ?Length";
+            List<int> IDList = new List<int>();
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+            /* 此处以时间降序排列查询 */
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE Type = ?Type ORDER BY Time DESC LIMIT ?Start , ?Length", DataBase, Views.IndexView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
-
                     new MySqlParm() { Name = "?Type", Val = Type },
                     new MySqlParm() { Name = "?Start", Val = Start },
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
 
         /// <summary>
@@ -356,37 +298,24 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual List<int> GetIDList(string Key, string OrderType)
         {
-            try
-            {
-                List<int> IDList = new List<int>();
+            List<int> IDList = new List<int>();
 
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView` ORDER BY ?Key ?OrderType";
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` ORDER BY ?Key ?OrderType", DataBase, Views.IndexView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
-
                     new MySqlParm() { Name = "?Key", Val = Key },
                     new MySqlParm() { Name = "?OrderType", Val = OrderType }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
         /// <summary>
         /// 取得指定长度的文章ID列表
@@ -397,181 +326,128 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual List<int> GetIDList(string Key, string OrderType, int Length)
         {
-            try
-            {
-                List<int> IDList = new List<int>();
+            List<int> IDList = new List<int>();
 
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView` ORDER BY ?Key ?OrderType LIMIT 0,?Length";
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` ORDER BY ?Key ?OrderType LIMIT 0,?Length", DataBase, Views.IndexView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
-
                     new MySqlParm() { Name = "?Key", Val = Key },
                     new MySqlParm() { Name = "?OrderType", Val = OrderType },
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
-
 
         #region  GetIDList的剩余重载（按照文章类型、归档、标签查询）
 
         /// <summary>
-        /// 获得指定类型的文本ID列表
+        /// 获得指定类型的文章ID列表
         /// </summary>
         /// <param name="Type">类型集合</param>
         /// <returns></returns>
         public virtual List<int> GetIDList(List<Type> Type)
         {
-            try
+            List<int> IDList = new List<int>();
+
+            string str = "";
+            foreach (Type a in Type)
             {
-                List<int> IDList = new List<int>();
+                str += a.Val + "|";
+            }
+            str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                string str = "";
-                foreach (Type a in Type)
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE Type REGEXP ?str", DataBase, Views.IndexView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    str += a.Val + "|";
-                }
-                str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
-
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView` WHERE Type REGEXP ?str";
-
-                List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
-
                     new MySqlParm() { Name = "?str", Val = str }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
         /// <summary>
-        /// 获得指定归档的文本ID列表
+        /// 获得指定归档的文章ID列表
         /// </summary>
         /// <param name="Archiv">归档集合</param>
         /// <returns></returns>
         public virtual List<int> GetIDList(List<Archiv> Archiv)
         {
-            try
+            List<int> IDList = new List<int>();
+
+            string str = "";
+            foreach (Archiv a in Archiv)
             {
-                List<int> IDList = new List<int>();
+                str += a.Val + "|";
+            }
+            str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                string str = "";
-                foreach (Archiv a in Archiv)
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE Archiv REGEXP ?str", DataBase, Views.PrimaryView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    str += a.Val + "|";
-                }
-                str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
-
-                string SQL = "SELECT ID FROM ?DataBase.`?PrimaryView` WHERE Archiv REGEXP ?str";
-
-                List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase},
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?str", Val = str }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
         /// <summary>
-        /// 获得指定标签的文本ID列表
+        /// 获得指定标签的文章ID列表
         /// </summary>
         /// <param name="Label">标签集合</param>
         /// <returns></returns>
         public virtual List<int> GetIDList(List<Label> Label)
         {
-            try
+            List<int> IDList = new List<int>();
+
+            string str = "";
+            foreach (Label a in Label)
             {
-                List<int> IDList = new List<int>();
+                str += a.Val + "|";
+            }
+            str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                string str = "";
-                foreach (Label a in Label)
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE Label REGEXP ?str", DataBase, Views.PrimaryView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    str += a.Val + "|";
-                }
-                str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
-
-                string SQL = "SELECT ID FROM ?DataBase.`?PrimaryView` WHERE Label REGEXP ?str";
-
-                List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?str", Val = str }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
 
         /// <summary>
-        /// 获得指定类型的文本ID列表(排序指定)
+        /// 获得指定类型的文章ID列表(排序指定)
         /// </summary>
         /// <param name="Type">类型集合</param>
         /// <param name="Key">被排序键</param>
@@ -579,48 +455,35 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual List<int> GetIDList(List<Type> Type, string Key, string OrderType)
         {
-            try
+            List<int> IDList = new List<int>();
+
+            string str = "";
+            foreach (Type a in Type)
             {
-                List<int> IDList = new List<int>();
+                str += a.Val + "|";
+            }
+            str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                string str = "";
-                foreach (Type a in Type)
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE Type REGEXP ?str ORDER BY ?Key ?OrderType", DataBase, Views.IndexView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    str += a.Val + "|";
-                }
-                str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
-
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView` WHERE Type REGEXP ?str ORDER BY ?Key ?OrderType";
-
-                List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
-
                     new MySqlParm() { Name = "?str", Val = str },
                     new MySqlParm() { Name = "?Key", Val = Key },
                     new MySqlParm() { Name = "?OrderType", Val = OrderType }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
         /// <summary>
-        /// 获得指定归档的文本ID列表(排序指定)
+        /// 获得指定归档的文章ID列表(排序指定)
         /// </summary>
         /// <param name="Archiv">归档集合</param>
         /// <param name="Key">被排序键</param>
@@ -628,48 +491,35 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual List<int> GetIDList(List<Archiv> Archiv, string Key, string OrderType)
         {
-            try
+            List<int> IDList = new List<int>();
+
+            string str = "";
+            foreach (Archiv a in Archiv)
             {
-                List<int> IDList = new List<int>();
+                str += a.Val + "|";
+            }
+            str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                string str = "";
-                foreach (Archiv a in Archiv)
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE Archiv REGEXP ?str ORDER BY ?Key ?OrderType", DataBase, Views.PrimaryView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    str += a.Val + "|";
-                }
-                str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
-
-                string SQL = "SELECT ID FROM ?DataBase.`?PrimaryView` WHERE Archiv REGEXP ?str ORDER BY ?Key ?OrderType";
-
-                List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?str", Val = str },
                     new MySqlParm() { Name = "?Key", Val = Key },
                     new MySqlParm() { Name = "?OrderType", Val = OrderType }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
         /// <summary>
-        /// 获得指定标签的文本ID列表(排序指定)
+        /// 获得指定标签的文章ID列表(排序指定)
         /// </summary>
         /// <param name="Label">标签集合</param>
         /// <param name="Key">被排序键</param>
@@ -677,49 +527,36 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual List<int> GetIDList(List<Label> Label, string Key, string OrderType)
         {
-            try
+            List<int> IDList = new List<int>();
+
+            string str = "";
+            foreach (Label a in Label)
             {
-                List<int> IDList = new List<int>();
+                str += a.Val + "|";
+            }
+            str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                string str = "";
-                foreach (Label a in Label)
+            string SQL = string.Format("SELECT ID FROM {0},`{1}` WHERE Label REGEXP ?str ORDER BY ?Key ?OrderType", DataBase, Views.PrimaryView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    str += a.Val + "|";
-                }
-                str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
-
-                string SQL = "SELECT ID FROM ?DataBase.`?PrimaryView` WHERE Label REGEXP ?str ORDER BY ?Key ?OrderType";
-
-                List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?str", Val = str },
                     new MySqlParm() { Name = "?Key", Val = Key },
                     new MySqlParm() { Name = "?OrderType", Val = OrderType }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
 
         /// <summary>
-        /// 获得指定类型的文本ID列表(排序指定,长度限制)
+        /// 获得指定类型的文章ID列表(排序指定,长度限制)
         /// </summary>
         /// <param name="Type">类型集合</param>
         /// <param name="Key">被排序键</param>
@@ -728,49 +565,36 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual List<int> GetIDList(List<Type> Type, string Key, string OrderType, int Length)
         {
-            try
+            List<int> IDList = new List<int>();
+
+            string str = "";
+            foreach (Type a in Type)
             {
-                List<int> IDList = new List<int>();
+                str += a.Val + "|";
+            }
+            str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                string str = "";
-                foreach (Type a in Type)
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE Type REGEXP ?str ORDER BY ?Key ?OrderType LIMIT 0,?Length", DataBase, Views.IndexView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    str += a.Val + "|";
-                }
-                str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
-
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView` WHERE Type REGEXP ?str ORDER BY ?Key ?OrderType LIMIT 0,?Length";
-
-                List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
-
                     new MySqlParm() { Name = "?str", Val = str },
                     new MySqlParm() { Name = "?Key", Val = Key },
                     new MySqlParm() { Name = "?OrderType", Val = OrderType },
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
         /// <summary>
-        /// 获得指定归档的文本ID列表(排序指定,长度限制)
+        /// 获得指定归档的文章ID列表(排序指定,长度限制)
         /// </summary>
         /// <param name="Archiv">归档集合</param>
         /// <param name="Key">被排序键</param>
@@ -779,49 +603,36 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual List<int> GetIDList(List<Archiv> Archiv, string Key, string OrderType, int Length)
         {
-            try
+            List<int> IDList = new List<int>();
+
+            string str = "";
+            foreach (Archiv a in Archiv)
             {
-                List<int> IDList = new List<int>();
+                str += a.Val + "|";
+            }
+            str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                string str = "";
-                foreach (Archiv a in Archiv)
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE Archiv REGEXP ?str ORDER BY ?Key ?OrderType LIMIT 0,?Length", DataBase, Views.PrimaryView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    str += a.Val + "|";
-                }
-                str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
-
-                string SQL = "SELECT ID FROM ?DataBase.`?PrimaryView` WHERE Archiv REGEXP ?str ORDER BY ?Key ?OrderType LIMIT 0,?Length";
-
-                List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?str", Val = str },
                     new MySqlParm() { Name = "?Key", Val = Key },
                     new MySqlParm() { Name = "?OrderType", Val = OrderType },
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
         /// <summary>
-        /// 获得指定标签的文本ID列表(排序指定,长度限制)
+        /// 获得指定标签的文章ID列表(排序指定,长度限制)
         /// </summary>
         /// <param name="Label">标签集合</param>
         /// <param name="Key">被排序键</param>
@@ -830,46 +641,33 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual List<int> GetIDList(List<Label> Label, string Key, string OrderType, int Length)
         {
-            try
+            List<int> IDList = new List<int>();
+
+            string str = "";
+            foreach (Label a in Label)
             {
-                List<int> IDList = new List<int>();
+                str += a.Val + "|";
+            }
+            str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
 
-                string str = "";
-                foreach (Label a in Label)
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE Label REGEXP ?str ORDER BY ?Key ?OrderType LIMIT 0,?Length", DataBase, Views.PrimaryView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    str += a.Val + "|";
-                }
-                str = str.Substring(0, str.Length - 1);//将最后一个或符号删除
-
-                string SQL = "SELECT ID FROM ?DataBase.`?PrimaryView` WHERE Label REGEXP ?str ORDER BY ?Key ?OrderType LIMIT 0,?Length";
-
-                List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?str", Val = str },
                     new MySqlParm() { Name = "?Key", Val = Key },
                     new MySqlParm() { Name = "?OrderType", Val = OrderType },
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
 
         #endregion
@@ -883,150 +681,100 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual List<int> MatchPost<T>(T OBJ) where T : IKey
         {
-            try
-            {
-                List<int> IDList = new List<int>();
+            List<int> IDList = new List<int>();
 
-                string SQL = "SELECT ID FROM ?DataBase.`?PrimaryView` WHERE ?Key REGEXP ?Val";
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE ?Key REGEXP ?Val", DataBase, Views.PrimaryView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    new MySqlParm() { Name = "?DataBase",Val=DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?Key", Val = OBJ.GetType().ToString() },
                     new MySqlParm() { Name = "?Val", Val = OBJ.Val.ToString() }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
 
         /// <summary>
         /// 文章标题(Title)匹配器
         /// </summary>
-        /// <param name="Val">匹配文本</param>
-        /// <returns>返回符合匹配文本的ID集合</returns>
+        /// <param name="Val">匹配文章</param>
+        /// <returns>返回符合匹配文章的ID集合</returns>
         public virtual List<int> MatchTitle(string Val)
         {
-            try
-            {
-                List<int> IDList = new List<int>();
+            List<int> IDList = new List<int>();
 
-                string SQL = "CALL ?DataBase.`match<title`( ?Val )";
+            string SQL = string.Format("CALL {0}.`match<title`( ?Val )", DataBase);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
                     new MySqlParm() { Name = "?Val", Val = Val }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
         /// <summary>
         /// 文章概要(Summary)匹配器
         /// </summary>
-        /// <param name="Val">匹配文本</param>
-        /// <returns>返回符合匹配文本的ID集合</returns>
+        /// <param name="Val">匹配文章</param>
+        /// <returns>返回符合匹配文章的ID集合</returns>
         public virtual List<int> MatchSummary(string Val)
         {
-            try
-            {
-                List<int> IDList = new List<int>();
+            List<int> IDList = new List<int>();
 
-                string SQL = "CALL ?DataBase.`match<summary`( ?Val )";
+            string SQL = string.Format("CALL {0}.`match<summary`( ?Val )", DataBase);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
                     new MySqlParm() { Name = "?Val", Val = Val }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
         /// <summary>
         /// 文章内容(Content)匹配器
         /// </summary>
-        /// <param name="Val">匹配文本</param>
-        /// <returns>返回符合匹配文本的ID集合</returns>
+        /// <param name="Val">匹配文章</param>
+        /// <returns>返回符合匹配文章的ID集合</returns>
         public virtual List<int> MatchContent(string Val)
         {
-            try
-            {
-                List<int> IDList = new List<int>();
+            List<int> IDList = new List<int>();
 
-                string SQL = "CALL ?DataBase.`match<content`( ?Val )";
+            string SQL = string.Format("CALL {0}.`match<content`( ?Val )", DataBase);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
                     new MySqlParm() { Name = "?Val", Val = Val }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                    foreach (DataRow Row in result.Rows)
-                    {
-                        IDList.Add(Convert.ToInt32(Row[0]));
-                    }
-                }
-                return IDList;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                {
+                    IDList.Add(Convert.ToInt32(ID));
+                }
             }
+            return IDList;
         }
 
 
@@ -1037,38 +785,28 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual Post GetIndex(int ID)
         {
-            try
-            {
-                string SQL = "CALL ?DataBase.`get>index`( ?ID )";
+            string SQL = string.Format("CALL {0}.`get>index`( ?ID )", DataBase);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    DataRow Row = MySqlConnH.GetRow(MySqlCommand);
-
-                    return new Post
-                    {
-                        ID = Convert.ToInt32(Row["ID"]),
-                        GUID = Convert.ToString(Row["GUID"]),
-                        CT = Convert.ToDateTime(Row["CT"]),
-                        Mode = Convert.ToString(Row["Mode"]),
-                        Type = Convert.ToString(Row["Type"]),
-                        User = Convert.ToString(Row["User"]),
-                        UVCount = Convert.ToInt32(Row["UVCount"]),
-                        StarCount = Convert.ToInt32(Row["StarCount"])
-                    };
-                }
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                DataRow result = MySqlConnH.GetRow(MySqlCommand);
+
+                return new Post
+                {
+                    ID = Convert.ToInt32(result["ID"]),
+                    GUID = Convert.ToString(result["GUID"]),
+                    CT = Convert.ToDateTime(result["Time"]),
+                    Mode = Convert.ToString(result["Mode"]),
+                    Type = Convert.ToString(result["Type"]),
+                    User = Convert.ToString(result["User"]),
+                    UVCount = Convert.ToInt32(result["UVCount"]),
+                    StarCount = Convert.ToInt32(result["StarCount"])
+                };
             }
         }
         /// <summary>
@@ -1079,456 +817,377 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual string GetIndex(int ID, string Key)
         {
-            try
-            {
-                string SQL = "SELECT ?Key FROM ?DataBase.`?IndexView` WHERE ID = ?ID";
+            string SQL = string.Format("SELECT ?Key FROM {0}.`{1}` WHERE ID = ?ID", DataBase, Views.IndexView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
                     new MySqlParm() { Name = "?Key", Val = Key },
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
-                }
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
             }
         }
 
         /// <summary>
         /// 通过ID获取Primary表中的目标文章数据
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
         public virtual Post GetPrimary(int ID)
         {
-            try
-            {
-                string SQL = "CALL ?DataBase.`get>primary`( ?ID )";
+            string SQL = string.Format("CALL {0}.`get>primary`( ?ID )", DataBase);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    DataRow Row = MySqlConnH.GetRow(MySqlCommand);
-
-                    return new Post
-                    {
-                        ID = Convert.ToInt32(Row["ID"]),
-                        GUID = Convert.ToString(Row["GUID"]),
-                        LCT = Convert.ToDateTime(Row["LCT"]),
-                        Title = Convert.ToString(Row["Title"]),
-                        Summary = Convert.ToString(Row["Summary"]),
-                        Content = Convert.ToString(Row["Content"]),
-                        Archiv = Convert.ToString(Row["Archiv"]),
-                        Label = Convert.ToString(Row["Label"]),
-                        Cover = Convert.ToString(Row["Cover"])
-                    };
-                }
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                DataRow result = MySqlConnH.GetRow(MySqlCommand);
+
+                return new Post
+                {
+                    ID = Convert.ToInt32(result["ID"]),
+                    GUID = Convert.ToString(result["GUID"]),
+                    LCT = Convert.ToDateTime(result["Time"]),
+                    Title = Convert.ToString(result["Title"]),
+                    Summary = Convert.ToString(result["Summary"]),
+                    Content = Convert.ToString(result["Content"]),
+                    Archiv = Convert.ToString(result["Archiv"]),
+                    Label = Convert.ToString(result["Label"]),
+                    Cover = Convert.ToString(result["Cover"])
+                };
             }
         }
         /// <summary>
-        /// 取得Primary表的一个键值
+        /// 取得Primary表的一个键值（object）
         /// </summary>
-        /// <param name="ID">文章序列号</param>
+        /// <param name="ID">目标文章ID</param>
         /// <param name="Key">键名</param>
         /// <returns></returns>
-        public virtual string GetPrimary(int ID, string Key)
+        public virtual object GetPrimary(int ID, string Key)
         {
-            try
-            {
-                string SQL = "SELECT ?Key FROM ?DataBase.`?PrimaryView` WHERE ID = ?ID";
+            string SQL = string.Format("SELECT ?Key FROM {0}.`{1}` WHERE ID = ?ID", DataBase, Views.PrimaryView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?Key", Val = Key },
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
-                }
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                return MySqlConnH.GetRow(MySqlCommand)[0];
             }
         }
-
-
         /// <summary>
-        /// 取得文本标题(Title)
+        /// 取得文章标题（Title）
         /// </summary>
-        /// <param name="ID">文本序列号</param>
+        /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
         public virtual string GetTitle(int ID)
         {
-            try
-            {
-                string SQL = "SELECT Title FROM ?DataBase.`?PrimaryView` WHERE ID = ?ID";
+            string SQL = string.Format("SELECT Title FROM {0}.`{1}` WHERE ID = ?ID", DataBase, Views.PrimaryView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
-                }
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
             }
         }
         /// <summary>
-        /// 取得文本概要(Summary)
+        /// 取得文章概要(Summary)
         /// </summary>
-        /// <param name="ID">文本序列号</param>
+        /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
         public virtual string GetSummary(int ID)
         {
-            try
-            {
-                string SQL = "SELECT Summary FROM ?DataBase.`?PrimaryView` WHERE ID = ?ID";
+            string SQL = string.Format("SELECT Summary FROM {0}.`{1}` WHERE ID = ?ID", DataBase, Views.PrimaryView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
-                }
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
             }
         }
         /// <summary>
-        /// 取得文本正文(Content)
+        /// 取得文章正文(Content)
         /// </summary>
-        /// <param name="ID">文本序列号</param>
+        /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
         public virtual string GetContent(int ID)
         {
-            try
-            {
-                string SQL = "SELECT Content FROM ?DataBase.`?PrimaryView` WHERE ID = ?ID";
+            string SQL = string.Format("SELECT Content FROM {0}.`{1}` WHERE ID = ?ID", DataBase, Views.PrimaryView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
-                }
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
             }
         }
 
         /// <summary>
-        /// 按长度取得文本标题(Title)
+        /// 取得一定长度的文章标题(Title)
         /// </summary>
-        /// <param name="ID">文本序列号</param>
+        /// <param name="ID">目标文章ID</param>
         /// <param name="Length">取得的文章内容长度</param>
         /// <returns></returns>
         public virtual string GetTitle(int ID, int Length)
         {
-            try
-            {
-                string SQL = "SELECT SUBSTRING(( SELECT Title FROM ?DataBase.`?PrimaryView` WHERE ID = ?ID ) FROM 1 FOR ?Length)";
+            string SQL = string.Format("SELECT SUBSTRING(( SELECT Title FROM {0}.`{1}` WHERE ID = ?ID ) FROM 1 FOR ?Length)", DataBase, Views.PrimaryView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?ID", Val = ID },
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
-                }
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
             }
         }
         /// <summary>
-        /// 按长度取得文本概要(Summary)
+        /// 按长度取得文章概要（Summary）
         /// </summary>
-        /// <param name="ID">文本序列号</param>
+        /// <param name="ID">目标文章ID</param>
         /// <param name="Length">取得的文章内容长度</param>
         /// <returns></returns>
         public virtual string GetSummary(int ID, int Length)
         {
-            try
-            {
-                string SQL = "SELECT SUBSTRING(( SELECT Summary FROM ?DataBase.`?PrimaryView` WHERE ID = ?ID ) FROM 1 FOR ?Length)";
+            string SQL = string.Format("SELECT SUBSTRING(( SELECT Summary FROM {0}.`{1}` WHERE ID = ?ID ) FROM 1 FOR ?Length)", DataBase, Views.PrimaryView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?ID", Val = ID },
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
-                }
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
             }
         }
         /// <summary>
-        /// 按长度取得文本正文(Content)
+        /// 按长度取得文章正文(Content)
         /// </summary>
-        /// <param name="ID">文本序列号</param>
+        /// <param name="ID">目标文章ID</param>
         /// <param name="Length">取得的文章内容长度</param>
         /// <returns></returns>
         public virtual string GetContent(int ID, int Length)
         {
-            try
-            {
-                string SQL = "SELECT SUBSTRING(( SELECT Content FROM ?DataBase.`?PrimaryView` WHERE ID = ?ID ) FROM 1 FOR ?Length)";
+            string SQL = string.Format("SELECT SUBSTRING(( SELECT Content FROM {0}.`{1}` WHERE ID = ?ID ) FROM 1 FOR ?Length)", DataBase, Views.PrimaryView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?PrimaryView", Val = Views.PrimaryView },
-
                     new MySqlParm() { Name = "?ID", Val = ID },
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
-                }
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
             }
         }
 
 
         /// <summary>
-        /// 取得目标文本ID 的下一个文本ID（按ID升序查找）
+        /// 取得目标文章ID 的下一个文章ID（按ID升序查找）
         /// </summary>
-        /// <param name="ID">目标文本ID</param>
-        /// <returns>错误返回-1</returns>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns>不存在符合要求的ID时，返回-1</returns>
         public virtual int NextID(int ID)
         {
-            try
-            {
-                /* 取得比当前 ID 大的一行，实现对下一条数据的抓取 */
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView` " +
-                    "WHERE ID =( SELECT min(ID) FROM ?DataBase.`?IndexView` WHERE ID > ?ID );";
+            /* 取得比当前 ID 大的一行，实现对下一条数据的抓取 */
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` " +
+                "WHERE ID =( SELECT min(ID) FROM {0}.`{1}` WHERE ID > ?ID );", DataBase, Views.IndexView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
-
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    foreach (DataRow Row in MySqlConnH.GetTable(MySqlCommand).Rows)/* 遍历查询到的表以取得唯一的数据行 */
-                    {
-                        return Convert.ToInt32(Row[0]);/* 直接返回该ID */
-                    }
-                }
-                return -1;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                if (DataRow == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return Convert.ToInt32(DataRow[0]);
+                }
             }
         }
         /// <summary>
-        /// 取得目标文本ID 的下一个文本ID(重载二::按指定键升序查找)
+        /// 取得目标文章ID 的下一个文章ID（在正则表达式匹配到的归档范围内，按ID升序查找）
         /// </summary>
-        /// <param name="ID">目标文本ID</param>
+        /// <param name="REGEXP">正则表达式</param>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns>不存在符合要求的ID时，返回-1</returns>
+        public virtual int NextID(string REGEXP, int ID)
+        {
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` " +
+                "WHERE ID =( SELECT min(ID) FROM {0}.`{1}` WHERE ID > ?ID AND Archiv REGEXP ?REGEXP);", DataBase, Views.PrimaryView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+                {
+                    new MySqlParm() { Name = "?ID", Val = ID },
+                    new MySqlParm() { Name = "?REGEXP", Val = REGEXP }
+                };
+
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            {
+                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                if (DataRow == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return Convert.ToInt32(DataRow[0]);
+                }
+            }
+        }
+        /// <summary>
+        /// 取得目标文章ID 的下一个文章ID(按指定键在Index表升序查找)
+        /// </summary>
+        /// <param name="ID">目标文章ID</param>
         /// <param name="Key">指定键</param>
-        /// <returns>错误返回-1</returns>
+        /// <returns>不存在符合要求的ID时，返回-1</returns>
         public virtual int NextID(int ID, string Key)
         {
-            try
-            {
-                /* 取得比当前 ID 大的一行，实现对下一条数据的抓取 */
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView` WHERE " +
-                             "?Key =( SELECT min(?Key) FROM ?DataBase.`?IndexView` WHERE " +
-                             "?Key >( SELECT ?Key FROM ?DataBase.`?IndexView` WHERE ID = ?ID ))";
+            /* 取得比当前 ID 大的一行，实现对下一条数据的抓取 */
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE " +
+                         "?Key =( SELECT min(?Key) FROM {0}.`{1}` WHERE " +
+                         "?Key >( SELECT ?Key FROM {0}.`{1}` WHERE ID = ?ID ))", DataBase, Views.IndexView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
-
                     new MySqlParm() { Name = "?ID", Val = ID },
                     new MySqlParm() { Name = "?Key", Val = Key }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    foreach (DataRow Row in MySqlConnH.GetTable(MySqlCommand).Rows)/* 遍历查询到的表以取得唯一的数据行 */
-                    {
-                        return Convert.ToInt32(Row[0]);/* 直接返回该ID */
-                    }
-                }
-                return -1;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                if (DataRow == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return Convert.ToInt32(DataRow[0]);
+                }
             }
         }
 
         /// <summary>
-        /// 取得指定目标文本ID 的上一个文本ID（按ID升序查找）
+        /// 取得指定目标文章ID 的上一个文章ID（按ID升序查找）
         /// </summary>
-        /// <param name="ID">目标文本ID</param>
-        /// <returns>错误返回-1</returns>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns>不存在符合要求的ID时，返回-1</returns>
         public virtual int PrevID(int ID)
         {
-            try
-            {
-                /* 取得比当前 ID 小的一行，实现对上一条数据的抓取 */
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView` WHERE " +
-                             "ID =( SELECT max(ID) FROM ?DataBase.`?IndexView` WHERE ID < ?ID );";
+            /* 取得比当前 ID 小的一行，实现对上一条数据的抓取 */
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE " +
+                         "ID =( SELECT max(ID) FROM {0}.`{1}` WHERE ID < ?ID );", DataBase, Views.IndexView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
-
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    foreach (DataRow Row in MySqlConnH.GetTable(MySqlCommand).Rows)
-                    {
-                        return Convert.ToInt32(Row[0]);
-                    }
-                }
-                return -1;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                if (DataRow == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return Convert.ToInt32(DataRow[0]);
+                }
+            }
+
+        }
+        /// <summary>
+        /// 取得指定目标文章ID 的上一个文章ID（在正则表达式匹配到的归档范围内，按ID升序查找）
+        /// </summary>
+        /// <param name="REGEXP">正则表达式</param>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns>不存在符合要求的ID时，返回-1</returns>
+        public virtual int PrevID(string REGEXP, int ID)
+        {
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE " +
+                         "ID =( SELECT max(ID) FROM {0}.`{1}` WHERE ID < ?ID AND Archiv REGEXP ?REGEXP);", DataBase, Views.PrimaryView);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+                {
+                    new MySqlParm() { Name = "?ID", Val = ID },
+                    new MySqlParm() { Name = "?REGEXP", Val = REGEXP }
+                };
+
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            {
+                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                if (DataRow == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return Convert.ToInt32(DataRow[0]);
+                }
             }
         }
         /// <summary>
-        /// 取得指定目标文本ID 的上一个文本ID(重载二::按指定键升序查找)
+        /// 取得指定目标文章ID 的上一个文章ID(按指定键在Index表升序查找)
         /// </summary>
-        /// <param name="ID">目标文本ID</param>
+        /// <param name="ID">目标文章ID</param>
         /// <param name="Key">指定键</param>
-        /// <returns>错误返回-1</returns>
+        /// <returns>不存在符合要求的ID时，返回-1</returns>
         public virtual int PrevID(int ID, string Key)
         {
-            try
-            {
-                /* 取得比当前 ID 小的一行，实现对上一条数据的抓取 */
-                string SQL = "SELECT ID FROM ?DataBase.`?IndexView` WHERE " +
-                             "?Key =( SELECT max(?Key) FROM ?DataBase.`?IndexView` WHERE " +
-                             "?Key <( SELECT ?Key FROM ?DataBase.`?IndexView` WHERE ID = ?ID ))";
+            string SQL = string.Format("SELECT ID FROM {0}.`{1}` WHERE " +
+                         "?Key =( SELECT max(?Key) FROM {0}.`{1}` WHERE " +
+                         "?Key <( SELECT ?Key FROM {0}.`{1}` WHERE ID = ?ID ))", DataBase, Views.IndexView);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexView", Val = Views.IndexView },
-
                     new MySqlParm() { Name = "?ID", Val = ID },
                     new MySqlParm() { Name = "?Key", Val = Key }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    foreach (DataRow Row in MySqlConnH.GetTable(MySqlCommand).Rows)
-                    {
-                        return Convert.ToInt32(Row[0]);
-                    }
-                }
-                return -1;
-            }
-            finally
+            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
             {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                if (DataRow == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return Convert.ToInt32(DataRow[0]);
+                }
             }
         }
     }
@@ -1557,37 +1216,23 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 得到最大文章ID（私有）
         /// </summary>
-        /// <returns>错误返回-1</returns>
+        /// <returns>错误则返回-1</returns>
         private int GetMaxID()
         {
             try
             {
-                string SQL = "SELECT max(ID) FROM ?DataBase.`?IndexTable`";
+                string SQL = string.Format("SELECT max(ID) FROM {0}.`{1}`", DataBase, Tables.IndexTable);
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
-                {
-                    new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                    new MySqlParm() { Name = "?IndexTable", Val = Tables.IndexTable }
-                };
-
-                using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-                {
-                    foreach (DataRow Row in MySqlConnH.GetTable(MySqlCommand).Rows)
-                    {
-                        return Convert.ToInt32(Row[0]);
-                    }
-                }
-                return -1;
+                return Convert.ToInt32(MySqlConnH.GetRow(SQL)[0]);
             }
-            finally
+            catch
             {
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
+                return -1;
             }
         }
 
         /// <summary>
-        /// 初始化TextListH
+        /// 初始化啪啦数据修改器
         /// </summary>
         /// <parmm name="PLDB">啪啦数据库信息</parmm>
         public PLDU(PLSYS PLSYS)
@@ -1603,27 +1248,25 @@ namespace WaterLibrary.com.pilipala
         /// 注册文章
         /// </summary>
         /// <param name="Post">文章数据（ID、GUID、CT、LCT、User由系统生成）</param>
-        /// <returns></returns>
-        public bool RegPost(Post Post)
+        /// <returns>返回受影响的行数</returns>
+        public bool Reg(Post Post)
         {
             DateTime t = DateTime.Now;
 
-            string SQL =
-                "INSERT INTO ?DataBase.`?IndexTable`" +
+            string SQL = string.Format(
+                "INSERT INTO {0}.`{1}`" +
                 " (`ID`, `GUID`, `Time`, `Mode`, `Type`, `User`, `UVCount`, `StarCount`) VALUES" +
                 " ('?ID','?GUID', '?CT','?Mode','?Type','?User','?UVCount','?StarCount');"
                 +
-                "INSERT INTO ?DataBase.`?PrimaryTable`" +
+                "INSERT INTO {0}.`{2}`" +
                 " (`ID`, `GUID`, `Time`, `Title`, `Summary`, `Content`, `Archiv`, `Label`, `Cover`) VALUES" +
-                " ('?ID','?GUID','?LCT','?Title','?Summary','?Content','?Archiv','?Label','?Cover');";
+                " ('?ID','?GUID','?LCT','?Title','?Summary','?Content','?Archiv','?Label','?Cover');"
+
+                , DataBase, Tables.IndexTable, Tables.PrimaryTable);
 
 
             List<MySqlParm> ParmList = new List<MySqlParm>
             {
-                new MySqlParm() { Name = "?DataBase", Val = DataBase },
-                new MySqlParm() { Name = "?IndexTable", Val = Tables.IndexTable },
-                new MySqlParm() { Name = "?PrimaryTable", Val = Tables.PrimaryTable },
-
                 new MySqlParm() { Name = "?ID", Val = GetMaxID() + 1 },
                 new MySqlParm() { Name = "?GUID", Val = MathH.GenerateGUID("D") },
 
@@ -1645,20 +1288,55 @@ namespace WaterLibrary.com.pilipala
                 new MySqlParm() { Name = "?Label", Val = Post.Label },
                 new MySqlParm() { Name = "?Cover", Val = Post.Cover }
             };
-
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
-            {
-                DataTable result = MySqlConnH.GetTable(MySqlCommand);
-
-                foreach (DataRow Row in result.Rows)
-                {
-
-                }
-            }
-
-            return false;
+            if (MySqlConnH.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
+                return true;
+            else
+                throw new Exception("多行操作异常");
         }
+        /// <summary>
+        /// 更新文章
+        /// </summary>
+        /// <param name="Post">文章数据</param>
+        /// <returns></returns>
+        public bool UpdatePost(Post Post)
+        {
+            DateTime t = DateTime.Now;
 
+            string SQL = string.Format("UPDATE {0}.`{1}` SET" +
+                " GUID='?GUID', Mode='?Mode', Type='?Type', UVCount='?UVCount', StarCount='?StarCount' WHERE ID = ?ID;"
+                +
+                "INSERT INTO {0}.`{2}`" +
+                " (`ID`, `GUID`, `Time`, `Title`, `Summary`, `Content`, `Archiv`, `Label`, `Cover`) VALUES" +
+                " ('?ID','?GUID','?LCT','?Title','?Summary','?Content','?Archiv','?Label','?Cover');"
+
+                , DataBase, Tables.IndexTable, Tables.PrimaryTable);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+            {
+                new MySqlParm() { Name = "?ID", Val = GetMaxID() + 1 },
+                new MySqlParm() { Name = "?GUID", Val = MathH.GenerateGUID("D") },
+
+                new MySqlParm() { Name = "?LCT", Val = t },
+
+                new MySqlParm() { Name = "?Mode", Val = Post.Mode },
+                new MySqlParm() { Name = "?Type", Val = Post.Type },
+
+                new MySqlParm() { Name = "?UVCount", Val = Post.UVCount },
+                new MySqlParm() { Name = "?StarCount", Val = Post.StarCount },
+
+                new MySqlParm() { Name = "?Title", Val = Post.Title },
+                new MySqlParm() { Name = "?Summary", Val = Post.Summary },
+                new MySqlParm() { Name = "?Content", Val = Post.Content },
+
+                new MySqlParm() { Name = "?Archiv", Val = Post.Archiv },
+                new MySqlParm() { Name = "?Label", Val = Post.Label },
+                new MySqlParm() { Name = "?Cover", Val = Post.Cover }
+            };
+            if (MySqlConnH.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
+                return true;
+            else
+                throw new Exception("多行操作异常");
+        }
 
         /* 风险性功能，需要周全的开发逻辑以防止生产用数据库的意外灾难 */
         /// <summary>
@@ -1666,37 +1344,109 @@ namespace WaterLibrary.com.pilipala
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public bool DisposeReg(int ID) { return false; }
+        public bool DisposeReg(int ID)
+        {
+            string SQL = string.Format("DELETE FROM {0}.`{1}` WHERE ID = ?ID; DELETE FROM {0}.`{2}` WHERE ID = ?ID;", DataBase, Tables.IndexTable, Tables.PrimaryTable);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+            {
+                new MySqlParm() { Name = "?ID", Val = ID }
+            };
+
+            if (MySqlConnH.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() >= 2)
+                return true;
+            else
+                throw new Exception("多行操作异常");
+        }
         /// <summary>
         /// 删除副本（仅单个副本）
         /// </summary>
         /// <param name="GUID">目标文章的GUID</param>
         /// <returns></returns>
-        public bool DeletePost(int GUID) { return false; }
+        public bool DeletePost(int GUID)
+        {
+            string SQL = string.Format("DELETE FROM {0}.`{1}` WHERE GUID = ?GUID;", DataBase, Tables.PrimaryTable);
 
-        #region 状态管理
+            List<MySqlParm> ParmList = new List<MySqlParm>
+            {
+                new MySqlParm() { Name = "?GUID", Val = GUID }
+            };
+
+            if (MySqlConnH.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() >= 1)
+                return true;
+            else
+                throw new Exception("多行操作异常");
+        }
 
         /// <summary>
-        /// 将目标文章隐藏
+        /// 将目标文章状态标记为展示
         /// </summary>
-        /// <param name="ID">目标文章的ID</param>
+        /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public bool Close(int ID) { return false; }
+        public bool ShowReg(int ID)
+        {
+            //初始化键定位
+            MySqlKey MySqlKey = new MySqlKey
+            {
+                DataBase = DataBase,
+                Table = Tables.IndexTable,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlConnH.UpdateKey(MySqlKey, "Mode", "show");
+        }
         /// <summary>
-        /// 将目标文章列入计划状态
+        /// 将目标文章状态标记为隐藏
         /// </summary>
-        /// <param name="ID">目标文章的ID</param>
+        /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public bool Schedule(int ID) { return false; }
+        public bool CloseReg(int ID)
+        {
+            //初始化键定位
+            MySqlKey MySqlKey = new MySqlKey
+            {
+                DataBase = DataBase,
+                Table = Tables.IndexTable,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlConnH.UpdateKey(MySqlKey, "Mode", "closed");
+        }
         /// <summary>
-        /// 将目标文章归档
+        /// 将目标文章状态标记为计划中
         /// </summary>
-        /// <param name="ID">目标文章的ID</param>
-        /// <param name="Val">归档名</param>
+        /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public bool Archiv(int ID, string Val) { return false; }
+        public bool ScheduleReg(int ID)
+        {
+            //初始化键定位
+            MySqlKey MySqlKey = new MySqlKey
+            {
+                DataBase = DataBase,
+                Table = Tables.IndexTable,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlConnH.UpdateKey(MySqlKey, "Mode", "scheduled");
+        }
+        /// <summary>
+        /// 将目标文章状态标记为已归档
+        /// </summary>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns></returns>
+        public bool ArchivReg(int ID)
+        {
+            //初始化键定位
+            MySqlKey MySqlKey = new MySqlKey
+            {
+                DataBase = DataBase,
+                Table = Tables.IndexTable,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlConnH.UpdateKey(MySqlKey, "Mode", "archived");
+        }
 
-        #endregion
 
         /// <summary>
         /// 通用文章键更改器
@@ -1706,26 +1456,16 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public bool UpdateKey<T>(T OBJ) where T : IKey
         {
-            try
+            //初始化键定位
+            MySqlKey MySqlKey = new MySqlKey
             {
-                //初始化键定位
-                MySqlKey MySqlKey = new MySqlKey
-                {
-                    DataBase = DataBase,
-                    Table = Tables.PrimaryTable,
-                    Name = "ID",
-                    Val = OBJ.ID.ToString()
-                };
-                return MySqlConnH.SetColumnValue(MySqlKey, OBJ.GetType().Name, OBJ.Val.ToString());
-            }
-            finally
-            {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
-            }
+                DataBase = DataBase,
+                Table = Tables.PrimaryTable,
+                Name = "ID",
+                Val = OBJ.ID.ToString()
+            };
+            return MySqlConnH.UpdateKey(MySqlKey, OBJ.GetType().Name, OBJ.Val.ToString());
         }
-
         /// <summary>
         /// 更改文章标题(Title)
         /// </summary>
@@ -1734,24 +1474,15 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public bool UpdateTitle(int ID, string Val)
         {
-            try
+            //初始化键定位
+            MySqlKey MySqlKey = new MySqlKey
             {
-                //初始化键定位
-                MySqlKey MySqlKey = new MySqlKey
-                {
-                    DataBase = DataBase,
-                    Table = Tables.PrimaryTable,
-                    Name = "ID",
-                    Val = ID.ToString()
-                };
-                return MySqlConnH.SetColumnValue(MySqlKey, "Title", Val);
-            }
-            finally
-            {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
-            }
+                DataBase = DataBase,
+                Table = Tables.PrimaryTable,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlConnH.UpdateKey(MySqlKey, "Title", Val);
         }
         /// <summary>
         /// 更改文章概要(Summary)
@@ -1761,23 +1492,14 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public bool UpdateSummary(int ID, string Val)
         {
-            try
+            MySqlKey MySqlKey = new MySqlKey
             {
-                MySqlKey MySqlKey = new MySqlKey
-                {
-                    DataBase = DataBase,
-                    Table = Tables.PrimaryTable,
-                    Name = "ID",
-                    Val = ID.ToString()
-                };
-                return MySqlConnH.SetColumnValue(MySqlKey, "Summary", Val);
-            }
-            finally
-            {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
-            }
+                DataBase = DataBase,
+                Table = Tables.PrimaryTable,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlConnH.UpdateKey(MySqlKey, "Summary", Val);
         }
         /// <summary>
         /// 更改文章内容(Content)
@@ -1787,77 +1509,50 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public bool UpdateContent(int ID, string Val)
         {
-            try
+            MySqlKey MySqlKey = new MySqlKey
             {
-                MySqlKey MySqlKey = new MySqlKey
-                {
-                    DataBase = DataBase,
-                    Table = Tables.PrimaryTable,
-                    Name = "ID",
-                    Val = ID.ToString()
-                };
-                return MySqlConnH.SetColumnValue(MySqlKey, "Content", Val);
-            }
-            finally
-            {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
-            }
+                DataBase = DataBase,
+                Table = Tables.PrimaryTable,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlConnH.UpdateKey(MySqlKey, "Content", Val);
         }
 
         /// <summary>
         /// 设置浏览计数(UVCount)
         /// </summary>
-        /// <parmm name="ID">文本ID</parmm>
+        /// <parmm name="ID">文章ID</parmm>
         /// <parmm name="Value">值</parmm>
         /// <returns></returns>
         public bool UpdateUVCount(int ID, int Val)
         {
-            try
+            //初始化键定位
+            MySqlKey MySqlKey = new MySqlKey
             {
-                //初始化键定位
-                MySqlKey MySqlKey = new MySqlKey
-                {
-                    DataBase = DataBase,
-                    Table = Tables.IndexTable,
-                    Name = "ID",
-                    Val = ID.ToString()
-                };
-                return MySqlConnH.SetColumnValue(MySqlKey, "UVCount", Val.ToString());
-            }
-            finally
-            {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
-            }
+                DataBase = DataBase,
+                Table = Tables.IndexTable,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlConnH.UpdateKey(MySqlKey, "UVCount", Val.ToString());
         }
         /// <summary>
         /// 设置星星计数(StarCount)
         /// </summary>
-        /// <parmm name="ID">文本ID</parmm>
+        /// <parmm name="ID">文章ID</parmm>
         /// <parmm name="Value">值</parmm>
         /// <returns></returns>
         public bool UpdateStarCount(int ID, int Val)
         {
-            try
+            MySqlKey MySqlKey = new MySqlKey
             {
-                MySqlKey MySqlKey = new MySqlKey
-                {
-                    DataBase = DataBase,
-                    Table = Tables.IndexTable,
-                    Name = "ID",
-                    Val = ID.ToString()
-                };
-                return MySqlConnH.SetColumnValue(MySqlKey, "StarCount", Val.ToString());
-            }
-            finally
-            {
-                MySqlConnH.CloseHConnection();
-                MySqlConnH.NullHCommand();
-                MySqlConnH.DisposeHCommand();
-            }
+                DataBase = DataBase,
+                Table = Tables.IndexTable,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlConnH.UpdateKey(MySqlKey, "StarCount", Val.ToString());
         }
 
 
@@ -1866,7 +1561,7 @@ namespace WaterLibrary.com.pilipala
         /// </summary>
         /// <parmm name="IndexTable">索引表Post实例</parmm>
         /// <parmm name="PrimaryTable">主表Post实例</parmm>
-        /// <returns>错误则返回Content为ERROR的Post实例</returns>
+        /// <returns></returns>
         public static Post Join(Post IndexTable, Post PrimaryTable)
         {
             if (IndexTable.ID == PrimaryTable.ID && IndexTable.GUID == PrimaryTable.GUID)
@@ -1893,12 +1588,12 @@ namespace WaterLibrary.com.pilipala
                     UVCount = IndexTable.UVCount,
                     StarCount = IndexTable.StarCount,
 
-                    Cover = IndexTable.Cover
+                    Cover = PrimaryTable.Cover
                 };
             }
             else
             {
-                return new Post { Content = "ERROR" };
+                throw new Exception("ERROR");
             }
         }
         /// <summary>
@@ -1931,7 +1626,7 @@ namespace WaterLibrary.com.pilipala
                 UVCount = IndexTable.UVCount,
                 StarCount = IndexTable.StarCount,
 
-                Cover = IndexTable.Cover
+                Cover = PrimaryTable.Cover
             };
         }
     }

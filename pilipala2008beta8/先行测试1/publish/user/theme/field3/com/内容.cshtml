@@ -1,0 +1,125 @@
+﻿@{
+    Layout = "~/user/theme/field3/com/框架.cshtml";
+}
+<!-- 引用 -->
+@using WaterLibrary.stru.pilipala;
+@using WaterLibrary.com.pilipala;
+@using WaterLibrary.com.basic;
+@using PILIPALA.system.serv;
+@using PILIPALA.user.theme.field3.serv;
+<!-- 服务初始化 -->
+@{ SysServ SysServ = new SysServ(); }
+<!-- 变量初始化 -->
+@{
+    Post Post = new Post();
+    int ID = new int();
+
+    int PrevID = -1;
+    int NextID = -1;
+}
+<!-- 其他初始化 -->
+@if (Request.QueryString["ID"] != null)
+{
+    /* 获得请求的text_id */
+    ID = Convert.ToInt32(Request.Params["ID"]);
+
+    /* 合并表 */
+    Post = PLDU.Join(SysServ.PLDR.GetIndex(ID), SysServ.PLDR.GetPrimary(ID));
+
+    /* 前后文章标题赋值 */
+    PrevID = SysServ.PLDR.PrevID("生活|技术", ID);
+    NextID = SysServ.PLDR.NextID("生活|技术", ID);
+}
+
+
+@section 内容
+    {
+    <div class="Card L M bSha bRds">
+        <div class="contain L bRds">
+
+            @Html.Raw(Post.Cover)
+
+            @if (Post.Title != "")
+            {
+                <div class="Title">@Post.Title</div>
+            }
+            @if (Post.Summary != "")
+            {
+                <div class="Summary">@Post.Summary</div>
+            }
+
+            <!-- 状态信息输出 -->
+            @if (Post.Mode == "scheduled")
+            {
+                <div class="Tip_3"><div class="con">计划中的项目。此文章将会于近期更新</div></div>
+            }
+            @if (Post.Mode == "archived")
+            {
+                <div class="Tip_2"><div class="con">此文章已归档。这意味着其内容将不受维护，但仍具有一定的参考价值。</div></div>
+            }
+
+            <div class="Tip_1">
+                <div class="con"></div>
+            </div>
+
+            <!-- 横向HTML可避免hljs在首行的错误解析 -->
+            <div class="Content">@Html.Raw(Post.Content)</div>
+
+            <!-- 上下文章按钮 -->
+            <div>
+                @if (NextID != -1)
+                {
+                    <div class="nxtBtn L bRds cur" onclick="up();showPost(@NextID)">@SysServ.PLDR.GetTitle(NextID)</div>
+                }
+                @if (PrevID != -1)
+                {
+                    <div class="pvsBtn R bRds cur" onclick="up();showPost(@PrevID)">@SysServ.PLDR.GetTitle(PrevID)</div>
+                }
+            </div>
+
+        </div>
+
+        <script>$("#CardCol>.Col>.Card>.contain>.Content").html(marked($("#CardCol>.Col>.Card>.contain>.Content").html()));</script>
+        <script>
+            /*代码高亮启用*/
+            hljs.initHighlighting.called = false;
+            hljs.initHighlighting();
+            /*在.Tip内输出字数统计*/
+            putWordCount();
+        </script>
+
+    </div>
+
+    <div class="CoBox L M bSha">
+
+        <span class="text_auth L">由 @Post.User 最后编辑于 @Post.LCT.ToString()</span>
+        <span class="text_mId R">@ConvertH.ToMD5(Post.Content).Substring(0, 7)</span>
+
+        <div class="AtBox L bRds-b">
+            <div class="Date">@Post.CT</div>
+            <div class="UVCount">@Post.UVCount</div>
+            <div class="CommentCount cur">0</div>
+            <div class="StarCount cur" onclick="refre_StarCount(@ID)">@Post.StarCount</div>
+            <div class="Time">@Post.CT</div>
+
+            @if (Post.Archiv != "")
+            {/* 归档不为空时输出 */
+                <div class="Archiv">@Post.Archiv</div>
+            }
+            @if (Post.Label != "")
+            {/* 标签不为空时输出 */
+                foreach (string str in ThemeServ.ToLabels(Post.Label))
+                {
+                    <div class="Tag">@str</div>
+                }
+            }
+
+        </div>
+    </div>
+
+    <div class="CommentBox L bSha bRds">
+        <div style="font-size: 22px">评论 - 即将启用</div>
+        <div style="font-size: 18px;margin-top:8px">- CommentLake -</div>
+        <div style="font-size: 13px;margin-top:3px">专为独立站点打造的客制化评论系统</div>
+    </div>
+}
