@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
-using WaterLibrary.stru.pilipala.Core;
+using WaterLibrary.stru.pilipala.core;
 
 namespace WaterLibrary.stru.pilipala
 {
     //116维护完成
-    namespace Core
+    namespace core
     {
         /// <summary>
         /// 啪啦数据库接口
@@ -200,7 +200,6 @@ namespace WaterLibrary.stru.pilipala
         }
     }
 
-
     /// <summary>
     /// 啪啦数据读取器接口
     /// </summary>
@@ -269,24 +268,29 @@ namespace WaterLibrary.stru.pilipala
     interface IPLDataUpdater : IPLDB
     {
         /// <summary>
-        /// 将目标文章隐藏
+        /// 将目标文章状态标记为展示
         /// </summary>
-        /// <param name="ID">目标文章的ID</param>
+        /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        bool Close(int ID);
+        bool ShowReg(int ID);
         /// <summary>
-        /// 将目标文章列入计划项目
+        /// 将目标文章状态标记为隐藏
         /// </summary>
-        /// <param name="ID">目标文章的ID</param>
+        /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        bool Schedule(int ID);
+        bool CloseReg(int ID);
         /// <summary>
-        /// 将目标文章归档
+        /// 将目标文章状态标记为计划中
         /// </summary>
-        /// <param name="ID">目标文章的ID</param>
-        /// <param name="Val">归档名</param>
+        /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        bool Archiv(int ID, string Val);
+        bool ScheduleReg(int ID);
+        /// <summary>
+        /// 将目标文章状态标记为已归档
+        /// </summary>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns></returns>
+        bool ArchivReg(int ID);
 
         /// <summary>
         /// 通用文章键更改器

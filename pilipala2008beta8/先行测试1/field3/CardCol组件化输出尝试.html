@@ -1,0 +1,71 @@
+<script>
+    Vue.component('post-card', {
+        props: ['post'],
+        template: '<div class="Card L M bSha bRds" :key="post.ID">' +
+            '{{post.Cover}}' +
+            '<div v-on:click="post_card_click" class="contain L cur">' +
+            '<div class="Title">{{post.Title}}</div>' +
+            '<div class="Summary">{{post.Summary}}</div>' +
+            '</div>' +
+
+            '<div class="AtBox L bRds-b">' +
+
+            '<div class="Date">{{post.CT}}</div>' +
+            '<div class="UVCount">{{post.UVCount}}</div>' +
+            '<div class="CommentCount">0</div>' +
+            '<div class="StarCount">{{post.StarCount}}</div>' +
+
+            '</div>' +
+
+            '</div>',
+        methods: {
+            post_card_click: function () {
+                up();
+
+                AvaOutline.style = {
+                    'border-color': 'rgba(0,0,0,0)'
+                }
+                CoOutline.style = {
+                    'border-color': 'rgba(0,0,0,0)'
+                }
+            }
+        }
+    })
+</script>
+<div class="CardCol R" id="CardCol">
+    <post-card v-for="a in List" v-bind:post="a" v-bind:key="a.index"></post-card>
+</div>
+<script>
+    var pcNavList = new Vue({
+        el: '#CardCol',
+        data: {
+            List: [{
+                    ID: 12348,
+                    Title: '0.测试',
+                    Cover: '0.Cover',
+                    Summary: '0.概要',
+                    CT: '0.CT',
+                    UVCount: '0.UVCount',
+                    StarCount: '0.StarCount'
+                }, {
+                    ID: 12345,
+                    Title: '1.测试',
+                    Cover: '1.Cover',
+                    Summary: '1.概要',
+                    CT: '1.CT',
+                    UVCount: '1.UVCount',
+                    StarCount: '1.StarCount'
+                },
+                {
+                    ID: 12347,
+                    Title: '2.测试',
+                    Cover: '',
+                    Summary: '2.概要',
+                    CT: '2.CT',
+                    UVCount: '2.UVCount',
+                    StarCount: '2.StarCount'
+                }
+            ]
+        },
+    })
+</script>
