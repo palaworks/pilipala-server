@@ -96,11 +96,11 @@
         <span class="text_mId R">@ConvertH.ToMD5(Post.Content).Substring(0, 7)</span>
 
         <div class="AtBox L bRds-b">
-            <div class="Date">@ThemeServ.toTime1(Post.CT, "-")</div>
+            <div class="Date">@ThemeServ.ToAtBoxDate(Post.CT, "-")</div>
             <div class="UVCount">@Post.UVCount</div>
             <div class="CommentCount cur">0</div>
             <div class="StarCount cur" onclick="refre_StarCount(@ID)">@Post.StarCount</div>
-            <div class="Time">@ThemeServ.toTime2(Post.CT)</div>
+            <div class="Time">@ThemeServ.ToAtBoxWeekTime(Post.CT)</div>
 
             @if (Post.Archiv != "")
             {/* 归档不为空时输出 */
@@ -108,7 +108,7 @@
             }
             @if (Post.Label != "")
             {/* 标签不为空时输出 */
-                foreach (string str in ThemeServ.ToLabels(Post.Label))
+                foreach (string str in WaterLibrary.com.basic.ConvertH.ToStringList(Post.Label, '$'))
                 {
                     <div class="Tag">@str</div>
                 }
