@@ -42,13 +42,13 @@
                     </div>
                 </div>
                 <div class="AtBox L bRds-b">
-                    @if (ThemeServ.timeFromNow(Post.CT) == null)
+                    @if (ThemeServ.ToTimeFromNow(Post.CT) == null)
                     {
-                        <div class="Date">@ThemeServ.toTime1(Post.CT, "-")</div>
+                        <div class="Date">@ThemeServ.ToAtBoxDate(Post.CT, "-")</div>
                     }
                     else
                     {
-                        <div class="Date">@ThemeServ.timeFromNow(Post.CT)</div>
+                        <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
                     }
                     <div class="UVCount">@Post.UVCount</div>
                     <div class="CommentCount">0</div>
@@ -68,13 +68,13 @@
                 </div>
 
                 <div class="AtBox L bRds-b">
-                    @if (ThemeServ.timeFromNow(Post.CT) == null)
+                    @if (ThemeServ.ToTimeFromNow(Post.CT) == null)
                     {
-                        <div class="Date">@ThemeServ.toTime1(Post.CT, "-")</div>
+                        <div class="Date">@ThemeServ.ToAtBoxDate(Post.CT, "-")</div>
                     }
                     else
                     {
-                        <div class="Date">@ThemeServ.timeFromNow(Post.CT)</div>
+                        <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
                     }
                     <div class="UVCount">@Post.UVCount</div>
                     <div class="CommentCount">0</div>
@@ -102,7 +102,7 @@
                     <div class="Title">@Post.Title</div>
                     @if (Post.Summary == "")
                     {
-                        <div class="Summary">@ThemeServ.doSummary(SysServ.PLDR.GetContent(ID), 100)</div>
+                        <div class="Summary">@ThemeServ.DoSummary(SysServ.PLDR.GetContent(ID), 100)</div>
                     }
                     else
                     {
@@ -111,13 +111,13 @@
                 </div>
 
                 <div class="AtBox L bRds-b">
-                    @if (ThemeServ.timeFromNow(Post.CT) == null)
+                    @if (ThemeServ.ToTimeFromNow(Post.CT) == null)
                     {
-                        <div class="Date">@ThemeServ.toTime1(Post.CT, "-")</div>
+                        <div class="Date">@ThemeServ.ToAtBoxDate(Post.CT, "-")</div>
                     }
                     else
                     {
-                        <div class="Date">@ThemeServ.timeFromNow(Post.CT)</div>
+                        <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
                     }
                     <div class="UVCount">@Post.UVCount</div>
                     <div class="CommentCount">0</div>
@@ -138,13 +138,13 @@
                     </div>
                 </div>
                 <div class="AtBox L bRds-b">
-                    @if (ThemeServ.timeFromNow(Post.CT) == null)
+                    @if (ThemeServ.ToTimeFromNow(Post.CT) == null)
                     {
-                        <div class="Date">@ThemeServ.toTime1(Post.CT, "-")</div>
+                        <div class="Date">@ThemeServ.ToAtBoxDate(Post.CT, "-")</div>
                     }
                     else
                     {
-                        <div class="Date">@ThemeServ.timeFromNow(Post.CT)</div>
+                        <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
                     }
                     <div class="UVCount">@Post.UVCount</div>
                     <div class="CommentCount">0</div>

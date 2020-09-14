@@ -23,26 +23,11 @@ namespace PILIPALA.user.theme.field3.serv
     public class ThemeServ : System.Web.Services.WebService
     {
         /// <summary>
-        /// 数据库标签数据转字符串集合
-        /// </summary>
-        /// <param name="tags">标签文本</param>
-        [WebMethod]
-        public static List<string> ToLabels(string tags)
-        {
-            List<string> temp = new List<string>();
-            foreach (string tag in tags.Split('$'))
-            {
-                temp.Add(tag);
-            }
-            return temp;
-        }
-
-        /// <summary>
         /// 到 日期
         /// </summary>
         /// <param name="DateTime">时间对象</param>
         [WebMethod]
-        public static string toTime1(DateTime DateTime, string str)
+        public static string ToAtBoxDate(DateTime DateTime, string str)
         {
             //年份只取后二位：2099=>99
             return Convert.ToString(DateTime.Year).Substring(2, 2) + str + DateTime.Month + str + DateTime.Day;
@@ -52,7 +37,7 @@ namespace PILIPALA.user.theme.field3.serv
         /// </summary>
         /// <param name="DateTime">时间对象</param>
         [WebMethod]
-        public static string toTime2(DateTime DateTime)
+        public static string ToAtBoxWeekTime(DateTime DateTime)
         {
             string DayInCN = "未知";
             switch (DateTime.DayOfWeek.ToString())
@@ -75,7 +60,7 @@ namespace PILIPALA.user.theme.field3.serv
         /// </summary>
         /// <param name="dateTime">要计算的时间</param>
         /// <returns></returns>
-        public static string timeFromNow(DateTime dateTime)
+        public static string ToTimeFromNow(DateTime dateTime)
         {
             //获取当前时间
             DateTime DateTime1 = DateTime.Now;
@@ -141,19 +126,19 @@ namespace PILIPALA.user.theme.field3.serv
         /// <param name="ID">文章id</param>
         /// <param name="length">如果文章概要不存在，取文章前一段内容的长度</param>
         /// <returns></returns>
-        public static string doSummary(string Content, int Length)
+        public static string DoSummary(string Content, int Length)
         {
-            return htmlFilter(Content).Substring(0, Length);
+            return HtmlMKDFilter(Content).Substring(0, Length);
         }
 
         /// <summary>
-        /// html过滤器
+        /// Html过滤器(MKD过滤改装)
         /// </summary>
-        /// <param name="str">待过滤的字符串</param>
+        /// <param name="Html">待过滤的Html字符串</param>
         /// <returns></returns>
-        public static string htmlFilter(string str)
+        public static string HtmlMKDFilter(string Html)
         {
-            if (string.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(Html))
             {
                 return "";
             }
@@ -162,16 +147,16 @@ namespace PILIPALA.user.theme.field3.serv
             string regEx_script = "<script[^>]*?>[\\s\\S]*?<\\/script>";
             string regEx_html = "<[^>]+>";
 
-            str = Regex.Replace(str, regEx_style, "");
-            str = Regex.Replace(str, regEx_script, "");
-            str = Regex.Replace(str, regEx_html, "");
-            str = Regex.Replace(str, "\\s*|\t|\r|\n", "");
-            str = str.Replace(" ", "");
+            Html = Regex.Replace(Html, regEx_style, "");
+            Html = Regex.Replace(Html, regEx_script, "");
+            Html = Regex.Replace(Html, regEx_html, "");
+            Html = Regex.Replace(Html, "\\s*|\t|\r|\n", "");
+            Html = Html.Replace(" ", "");
 
             /*把MKD中的#符号去掉*/
-            str = str.Replace("#", "");
+            Html = Html.Replace("#", "");
 
-            return str.Trim();
+            return Html.Trim();
         }
     }
 }

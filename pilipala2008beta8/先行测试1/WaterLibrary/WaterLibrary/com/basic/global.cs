@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using System.IO;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace WaterLibrary.com.basic
 {
@@ -204,6 +205,46 @@ namespace WaterLibrary.com.basic
     /// </summary>
     public class ConvertH
     {
+        /// <summary>
+        /// 将字符串按照分隔符字符切割
+        /// </summary>
+        /// <param name="str">待切割字符串</param>
+        /// <param name="Delimiter">分隔符</param>
+        /// <returns>返回切割结果集</returns>
+        public static List<string> ToStringList(string str, char Delimiter)
+        {
+            List<string> StringList = new List<string>();
+            foreach (string el in str.Split(Delimiter))
+            {
+                StringList.Add(el);
+            }
+            return StringList;
+        }
+        /// <summary>
+        /// Html过滤器
+        /// </summary>
+        /// <param name="Html">待过滤的Html字符串</param>
+        /// <returns></returns>
+        public static string HtmlFilter(string Html)
+        {
+            if (string.IsNullOrEmpty(Html))
+            {
+                return "";
+            }
+
+            string regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>";
+            string regEx_script = "<script[^>]*?>[\\s\\S]*?<\\/script>";
+            string regEx_html = "<[^>]+>";
+
+            Html = Regex.Replace(Html, regEx_style, "");
+            Html = Regex.Replace(Html, regEx_script, "");
+            Html = Regex.Replace(Html, regEx_html, "");
+            Html = Regex.Replace(Html, "\\s*|\t|\r|\n", "");
+            Html = Html.Replace(" ", "");
+
+            return Html.Trim();
+        }
+
         /// <summary>
         /// 对象输出到MD5
         /// </summary>
