@@ -7,6 +7,7 @@
 @using WaterLibrary.com.basic;
 @using PILIPALA.system.serv;
 @using PILIPALA.user.theme.field3.serv;
+@using Markdig;
 <!-- 服务初始化 -->
 @{ SysServ SysServ = new SysServ(); }
 <!-- 变量初始化 -->
@@ -16,6 +17,11 @@
 
     int PrevID = -1;
     int NextID = -1;
+
+    /* mkd */
+    var builder = new Markdig.MarkdownPipelineBuilder();
+    builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
+    var pipeline = builder.Build();
 }
 <!-- 其他初始化 -->
 @if (Request.QueryString["ID"] != null)
@@ -62,8 +68,7 @@
                 <div class="con"></div>
             </div>
 
-            <!-- 横向HTML可避免hljs在首行的错误解析 -->
-            <div class="Content">@Html.Raw(Post.Content)</div>
+            <div class="Content">@Html.Raw(Markdown.ToHtml(Post.Content, pipeline))</div>
 
             <!-- 上下文章按钮 -->
             <div>
@@ -79,7 +84,10 @@
 
         </div>
 
+        <!--
         <script>$("#CardCol>.Col>.Card>.contain>.Content").html(marked($("#CardCol>.Col>.Card>.contain>.Content").html()));</script>
+        -->
+
         <script>
             /*代码高亮启用*/
             hljs.initHighlighting.called = false;
@@ -92,11 +100,11 @@
 
     <div class="CoBox L M bSha">
 
-        <span class="text_auth L">由 @Post.User 最后编辑于 @Post.LCT.ToString()</span>
+        <span class="text_auth L">由 @Post.User 最后编辑于 @ThemeServ.ToAtBoxDate(Post.LCT, "/")</span>
         <span class="text_mId R">@ConvertH.ToMD5(Post.Content).Substring(0, 7)</span>
 
         <div class="AtBox L bRds-b">
-            <div class="Date">@ThemeServ.ToAtBoxDate(Post.CT, "-")</div>
+            <div class="Date">创建于 @ThemeServ.ToAtBoxDate(Post.CT, "-")</div>
             <div class="UVCount">@Post.UVCount</div>
             <div class="CommentCount cur">0</div>
             <div class="StarCount cur" onclick="refre_StarCount(@ID)">@Post.StarCount</div>

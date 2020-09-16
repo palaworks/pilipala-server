@@ -6,6 +6,8 @@ using System.Web.Services;
 
 using System.Text.RegularExpressions;
 using PILIPALA.system.serv;
+using WaterLibrary.com.basic;
+using Markdig;
 
 namespace PILIPALA.user.theme.field3.serv
 {
@@ -121,42 +123,20 @@ namespace PILIPALA.user.theme.field3.serv
             }
         }
         /// <summary>
-        /// 生成概要
+        /// 概要生成器
         /// </summary>
         /// <param name="ID">文章id</param>
         /// <param name="length">如果文章概要不存在，取文章前一段内容的长度</param>
         /// <returns></returns>
         public static string DoSummary(string Content, int Length)
         {
-            return HtmlMKDFilter(Content).Substring(0, Length);
-        }
+            /* 添加表解析插件支持 */
+            var builder = new Markdig.MarkdownPipelineBuilder();
+            builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
 
-        /// <summary>
-        /// Html过滤器(MKD过滤改装)
-        /// </summary>
-        /// <param name="Html">待过滤的Html字符串</param>
-        /// <returns></returns>
-        public static string HtmlMKDFilter(string Html)
-        {
-            if (string.IsNullOrEmpty(Html))
-            {
-                return "";
-            }
+            var pipeline = builder.Build();
 
-            string regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>";
-            string regEx_script = "<script[^>]*?>[\\s\\S]*?<\\/script>";
-            string regEx_html = "<[^>]+>";
-
-            Html = Regex.Replace(Html, regEx_style, "");
-            Html = Regex.Replace(Html, regEx_script, "");
-            Html = Regex.Replace(Html, regEx_html, "");
-            Html = Regex.Replace(Html, "\\s*|\t|\r|\n", "");
-            Html = Html.Replace(" ", "");
-
-            /*把MKD中的#符号去掉*/
-            Html = Html.Replace("#", "");
-
-            return Html.Trim();
+            return ConvertH.HtmlFilter(Markdown.ToHtml(Content, pipeline));
         }
     }
 }
