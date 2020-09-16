@@ -48,14 +48,14 @@
 /* 屏幕宽度大于1000时 */
 @media (min-width: 1000px) {
     .AtBox>div {
-        font-size: 14px;
+        font-size: 0.8em;
     }
 }
 
 /* 屏幕宽度小于1000时 */
 @media (max-width: 1000px) {
     .AtBox>div {
-        font-size: 12px;
+        font-size: 0.6em;
     }
 }
 

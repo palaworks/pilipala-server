@@ -7,19 +7,26 @@
 @using WaterLibrary.com.basic;
 @using PILIPALA.system.serv;
 @using PILIPALA.user.theme.field3.serv;
+@using Markdig;
 <!-- 服务初始化 -->
 @{ SysServ SysServ = new SysServ(); }
 <!-- 其他初始化 -->
 @{
     List<Archiv> 置顶 = new List<Archiv>
-{
+    {
     new Archiv(){ Val = "置顶" },
-};
+    };
+
     List<Archiv> 其他 = new List<Archiv>
-{
+    {
     new Archiv(){ Val = "技术" },
     new Archiv(){ Val = "生活" }
-};
+    };
+
+    /* mkd */
+    var builder = new Markdig.MarkdownPipelineBuilder();
+    builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
+    var pipeline = builder.Build();
 }
 
 @section 列表
@@ -37,8 +44,9 @@
                 <div class="contain L bRds">
                     <!-- 前置样式 -->
                     @Html.Raw(Post.Cover)
+
                     <div class="NoteContent bRds-t">
-                        @Html.Raw(SysServ.PLDR.GetContent(ID))
+                        @Html.Raw(Markdown.ToHtml(SysServ.PLDR.GetContent(ID), pipeline))
                     </div>
                 </div>
                 <div class="AtBox L bRds-b">
@@ -64,7 +72,14 @@
                     <!-- 前置样式 -->
                     @Html.Raw(Post.Cover)
                     <div class="Title">@SysServ.PLDR.GetTitle(ID)</div>
-                    <div class="Summary">@SysServ.PLDR.GetSummary(ID)</div>
+                    @if (Post.Summary == "")
+                    {
+                        <div class="Summary">@ThemeServ.DoSummary(SysServ.PLDR.GetContent(ID), 100)</div>
+                    }
+                    else
+                    {
+                        <div class="Summary">@Post.Summary</div>
+                    }
                 </div>
 
                 <div class="AtBox L bRds-b">
@@ -124,8 +139,6 @@
                     <div class="StarCount">@Post.StarCount</div>
                 </div>
             </div>
-
-
         }
         else if (Post.Type == "n")
         {
@@ -134,7 +147,7 @@
                     <!-- 前置样式 -->
                     @Html.Raw(Post.Cover)
                     <div class="NoteContent bRds-t">
-                        @Html.Raw(SysServ.PLDR.GetContent(ID))
+                        @Html.Raw(Markdown.ToHtml(SysServ.PLDR.GetContent(ID), pipeline))
                     </div>
                 </div>
                 <div class="AtBox L bRds-b">
