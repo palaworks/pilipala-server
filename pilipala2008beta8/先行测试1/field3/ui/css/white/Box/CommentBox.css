@@ -1,17 +1,102 @@
-.CommentBox {
+.CommentList {
     width: 100%;
 
-    padding-top: 10px;
-    padding-bottom: 6px;
-    margin-bottom: 64px;
-
-    text-align: center;
-    font-size: 22px;
-    line-height: 18px;
-
-    position: relative;
+    margin-bottom: 128px;
 
     /* 颜色模式 */
     /* color: rgba(250, 250, 250, 1.00); */
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.CommentList>.Box>.Floor,
+.Time,
+.Reply {
+    font-family: 'Roboto Mono', monospace;
+}
+
+.CommentList>.Box {
+    display: grid;
+    grid-template-columns: 50% 46% 4%;
+    grid-template-rows: 20px 16px auto;
+
     background: rgba(246, 246, 246, 1.00);
+    padding: 4px;
+    margin: 4px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+}
+
+.CommentList>.Box>.Name {
+    justify-self: start;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    padding-left: 3px;
+
+    font-size: 1.1em;
+    line-height: 1.2em;
+    font-weight: 400;
+}
+
+.CommentList .Reply {
+    display: inline-block;
+
+    margin-left: 4px;
+    margin-right: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+
+    height: 1em;
+
+    font-size: 0.9em;
+    color: rgba(240, 240, 240, 1);
+    line-height: 0.9em;
+
+    border-radius: 2px;
+    background: rgb(220, 0, 0);
+}
+
+.CommentList>.Box>.Time {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    justify-self: right;
+
+    font-size: 0.7em;
+    color: rgba(170, 170, 170, 1);
+}
+
+.CommentList>.Box>.Email {
+    justify-self: start;
+    padding-left: 3px;
+
+    text-align: right;
+    color: rgba(170, 170, 170, 1);
+    font-size: 0.5em;
+}
+
+.CommentList>.Box>.Floor {
+    justify-self: end;
+    grid-column-start: 3;
+
+    height: 14px;
+    width: 14px;
+
+    text-align: center;
+    font-size: 0.6em;
+    line-height: 13px;
+    color: rgba(240, 240, 240, 1);
+
+    border-radius: 2px;
+    background: rgba(3, 211, 159, 1);
+}
+
+.CommentList>.Box>.Content {
+    grid-column-start: 1;
+    grid-column-end: 4;
+
+    padding-top: 4px;
+    padding-left: 8px;
+    padding-bottom: 2px;
+
+    text-align: left;
+    font-size: 0.9em;
 }
