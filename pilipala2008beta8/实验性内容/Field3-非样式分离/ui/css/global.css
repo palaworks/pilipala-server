@@ -1,0 +1,14 @@
+@import "./global/doc.css";
+@import "./global/el.css";
+@import "./global/font.css";
+@import "./global/transition.css";
+
+/* 样式标签 */
+@import "./global/label/border.css";
+@import "./global/label/color.css";
+@import "./global/label/more.css";
+@import "./global/label/img.css";
+
+/* 其他组件 */
+@import "./global/more/LoadLine.css";
+@import "./global/more/upBtn.css";

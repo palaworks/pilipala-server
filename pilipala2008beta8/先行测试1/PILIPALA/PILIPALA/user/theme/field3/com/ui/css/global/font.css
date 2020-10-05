@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'labelico';
-    src: url('../../img/labelico/labelico.eot'), url('../../img/labelico/labelico.woff'), url('../../img/labelico/labelico.svg');
+    font-family: 'field-icon';
+    src: url('../../img/field-icon/field-icon.ttf'), url('../../img/field-icon/field-icon.woff'), url('../../img/field-icon/field-icon.svg');
     font-display: swap;
 }
 

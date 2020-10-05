@@ -36,12 +36,13 @@ namespace PILIPALA.system.serv
 
         public SysServ()
         {
+            /* 初始化噼里啪啦用户、数据库、表、连接控制器 */
             PLDB PLDB = new PLDB
             {
                 DataBase = WebConfigurationManager.AppSettings["DataBase"],
                 Tables = PLSYS.DefTables,
                 Views = PLSYS.DefViews,
-                MySqlConnH = new MySqlConnH()
+                MySqlManager = new MySqlManager()
             };
             PLSYS = new PLSYS(2, PLDB);
 
@@ -49,7 +50,7 @@ namespace PILIPALA.system.serv
             PLSYS.DefaultSysViews();
 
             /* 初始化数据库连接 */
-            PLSYS.DBCINIT(new MySqlConn
+            PLSYS.DBCHINIT(new MySqlConn
             {
                 DataSource = WebConfigurationManager.AppSettings["DataSource"],
                 Port = WebConfigurationManager.AppSettings["Port"],
@@ -63,12 +64,14 @@ namespace PILIPALA.system.serv
             ConvertH = new ConvertH();
         }
 
+
+
         /// <summary>
         /// count_star计数减一
         /// </summary>
         /// <param name="ID">文章序列号</param>
         [WebMethod]
-        public int subs_StarCount(int ID)
+        public int StarCount_subs(int ID)
         {
             SysServ SysServ = new SysServ();
             int StarCount = SysServ.PLDR.GetIndex(ID).StarCount;
@@ -82,7 +85,7 @@ namespace PILIPALA.system.serv
         /// </summary>
         /// <param name="ID">文章序列号</param>
         [WebMethod]
-        public int plus_StarCount(int ID)
+        public int StarCount_plus(int ID)
         {
             SysServ SysServ = new SysServ();
             int StarCount = SysServ.PLDR.GetIndex(ID).StarCount;
@@ -96,7 +99,7 @@ namespace PILIPALA.system.serv
         /// </summary>
         /// <param name="ID">文章序列号</param>
         [WebMethod]
-        public int plus_UVCount(int ID)
+        public int UVCount_plus(int ID)
         {
             SysServ SysServ = new SysServ();
             int UVCount = SysServ.PLDR.GetIndex(ID).UVCount;
