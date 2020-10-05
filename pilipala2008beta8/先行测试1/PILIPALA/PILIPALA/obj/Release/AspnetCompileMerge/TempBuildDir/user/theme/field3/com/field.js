@@ -61,7 +61,6 @@ function showHome_origin() {
         },
         complete: function () {
             $('.LoadLine').attr('style', 'animation: LoadLine 0.6s cubic-bezier(0.5, 0.4, 0.5, 1)');
-
             setTimeout(
                 function () {
                     $(".LoadLine").fadeOut(200, function () { $(".LoadLine").remove(); });
@@ -78,7 +77,7 @@ function refre_StarCount(ID) {
         $.ajax({
             type: "post",
             contentType: "application/json",
-            url: "/system/serv/SysServ.asmx/subs_StarCount",
+            url: "/system/serv/SysServ.asmx/StarCount_subs",
             data: "{ID:" + ID + "}",
             dataType: "json",/* json返回类型 */
             success: function (result) {
@@ -93,7 +92,7 @@ function refre_StarCount(ID) {
         $.ajax({
             type: "post",
             contentType: "application/json",
-            url: "/system/serv/SysServ.asmx/plus_StarCount",
+            url: "/system/serv/SysServ.asmx/StarCount_plus",
             data: "{ID:" + ID + "}",
             dataType: "json",/* json返回类型 */
             success: function (result) {
@@ -115,7 +114,7 @@ function refre_UVCount(ID) {
         $.ajax({
             type: "post",
             contentType: "application/json",
-            url: "/system/serv/SysServ.asmx/plus_UVCount",
+            url: "/system/serv/SysServ.asmx/UVCount_plus",
             data: "{ID:" + ID + "}",
             dataType: "json",/* json返回类型 */
             success: function (result) {
@@ -158,7 +157,7 @@ function putWordCount() {
     count = wordCount($("#CardCol>.Col>.Card>.contain>.Content").text());
     time = Math.ceil(count / 400);
     /*空格为全角*/
-    $(".Tip_1>.con").text("约 " + count + " 字，阅读成本 " + time + " 分钟");
+    $(".ReadTimeTip>.con").text("约 " + count + " 字，阅读成本 " + time + " 分钟");
 }
 
 /*字数估计函数*/

@@ -10,9 +10,10 @@ H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\bin\De
 H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.dll
 H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.pdb
 H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\bin\Debug\mysql.data.dll
-H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csprojAssemblyReference.cache
 H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csproj.CoreCompileInputs.cache
 H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csproj.CopyComplete
 H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.dll
 H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.pdb
-H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\bin\Debug\mysql.data.xml
+H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csprojAssemblyReference.cache
+H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\bin\Debug\BouncyCastle.Crypto.dll
+H:\博客项目\pilipala2008beta8\先行测试1\WaterLibrary\WaterLibrary\bin\Debug\Renci.SshNet.dll

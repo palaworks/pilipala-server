@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using WaterLibrary.com.MySQL;
 using WaterLibrary.stru.MySQL;
-using CommentLake.Stru;
+using CommentLake.stru;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using MySql;
@@ -16,10 +16,11 @@ namespace CommentLake
 {
     public class CommentLake
     {
+        #region WL数据库操作标准配置
+
         public string DataBase { get; private set; }
         public string CommentTable { get; private set; }
-
-        public MySqlConnH MySqlConnH { get; private set; }
+        public MySqlManager MySqlManager { get; private set; }
 
         public CommentLake(string DataBase, string CommentTable)
         {
@@ -27,10 +28,13 @@ namespace CommentLake
             this.CommentTable = CommentTable;
         }
 
-        public void DBCINIT(MySqlConn MySqlConn)
+        public void DBCHINIT(MySqlConn MySqlConn)
         {
-            MySqlConnH.Start(MySqlConn);
+            MySqlManager = new MySqlManager();
+            MySqlManager.Start(MySqlConn);
         }
+
+        #endregion
 
         /// <summary>
         /// 得到最大评论ID（私有）
@@ -42,7 +46,7 @@ namespace CommentLake
             {
                 string SQL = string.Format("SELECT max(CommentID) FROM {0}.`{1}`", DataBase, CommentTable);
 
-                return Convert.ToInt32(MySqlConnH.GetRow(SQL)[0]);
+                return Convert.ToInt32(MySqlManager.GetRow(SQL)[0]);
             }
             catch
             {
@@ -79,10 +83,31 @@ namespace CommentLake
                 new MySqlParm() { Name = "?HEAD", Val =  Comment.HEAD},
             };
 
-            if (MySqlConnH.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
+            if (MySqlManager.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
                 return true;
             else
                 throw new Exception("多行操作异常");
+        }
+
+        /// <summary>
+        /// 得到目标文章ID的评论计数
+        /// </summary>
+        /// <param name="PostID">目标文章ID</param>
+        /// <returns></returns>
+        public int GetCommentCount(int PostID)
+        {
+            /* 按时间从早到晚排序 */
+            string SQL = string.Format("SELECT COUNT(*) FROM {0}.`{1}` WHERE PostID = ?PostID", DataBase, CommentTable);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+                {
+                    new MySqlParm() { Name = "?PostID", Val = PostID }
+                };
+
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
+            {
+                return Convert.ToInt32(MySqlManager.GetRow(MySqlCommand)[0]);
+            }
         }
 
         /// <summary>
@@ -94,31 +119,41 @@ namespace CommentLake
         {
             List<Comment> CommentList = new List<Comment>();
 
-            string SQL = string.Format("SELECT * FROM {0}.'{1}' WHERE PostID = ?PostID", DataBase,CommentTable);
+            /* 按时间从早到晚排序 */
+            string SQL = string.Format("SELECT * FROM {0}.`{1}` WHERE PostID = ?PostID ORDER BY Time", DataBase, CommentTable);
 
-            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+            List<MySqlParm> ParmList = new List<MySqlParm>
                 {
                     new MySqlParm() { Name = "?PostID", Val = PostID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                DataTable result = MySqlConnH.GetTable(MySqlCommand);
+                DataTable result = MySqlManager.GetTable(MySqlCommand);
 
-                foreach(DataRow Row in result.Rows)
+                /* 楼层暂存变量 */
+                ushort f = 0;
+
+                foreach (DataRow Row in result.Rows)
                 {
-                    CommentList.Add(new Comment {
-                        CommentID=Convert.ToString(Row["CommentID"]),
-                        PostID = Convert.ToString(Row["PostID"]),
+                    CommentList.Add(new Comment
+                    {
+                        /* 数据库中的量 */
+                        CommentID = Convert.ToInt32(Row["CommentID"]),
+                        PostID = Convert.ToInt32(Row["PostID"]),
                         Name = Convert.ToString(Row["Name"]),
                         Email = Convert.ToString(Row["Email"]),
                         Content = Convert.ToString(Row["Content"]),
                         WebSIte = Convert.ToString(Row["WebSite"]),
-                        HEAD = Convert.ToString(Row["HEAD"])
+                        HEAD = Convert.ToInt32(Row["HEAD"].ToString() == "" ? -1 : Row["HEAD"]),/* HEAD为空值时赋值为-1 */
+                        Time = Convert.ToDateTime(Row["Time"]),
+
+                        /* 计算后得到的量 */
+                        Floor = ++f
                     });
                 }
+                return CommentList;
             }
-            return CommentList;
         }
     }
 }

@@ -1,17 +1,33 @@
 .CommentBox {
-    width: 100%;
-
-    padding-top: 10px;
-    padding-bottom: 6px;
-    margin-bottom: 64px;
-
-    text-align: center;
-    font-size: 22px;
-    line-height: 18px;
-
-    position: relative;
-
     /* 颜色模式 */
-    color: rgba(240, 240, 240, 1.00);
-    background: rgba(40, 40, 40, 1.00);
+    color: rgba(10, 10, 10, 1);
+    background: var(--b30);
+}
+
+.CommentBox input {
+    /* 颜色模式 */
+    color: rgba(120, 120, 120, 1);
+    background: rgba(16, 16, 16, 1);
+}
+
+.CommentBox textarea {
+    /* 颜色模式 */
+    color: rgba(120, 120, 120, 1);
+    background: rgba(16, 16, 16, 1);
+}
+
+.CommentBox>div>.Logo {
+    /* 颜色模式 */
+    color: rgba(160, 160, 160, 1);
+    background: var(--b40);
+}
+
+.CommentBox>.CommitBtn {
+    /* 颜色模式 */
+    background: rgb(0, 156, 228);
+}
+
+.CommentBox>.CommitBtn:hover {
+    /* 颜色模式 */
+    background: rgb(0, 204, 255);
 }

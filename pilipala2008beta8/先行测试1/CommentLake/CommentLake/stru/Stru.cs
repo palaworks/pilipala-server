@@ -4,18 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommentLake.Stru
+namespace CommentLake.stru
 {
     public struct Comment
     {
+        /* 数据库中的量 */
         /// <summary>
         /// 评论ID
         /// </summary>
-        public string CommentID { get; set; }
+        public int CommentID { get; set; }
         /// <summary>
         /// 被评论的文章ID
         /// </summary>
-        public string PostID { get; set; }
+        public int PostID { get; set; }
         /// <summary>
         /// 评论用户名
         /// </summary>
@@ -35,6 +36,16 @@ namespace CommentLake.Stru
         /// <summary>
         /// 回复到的ID（为空时表示不回复）
         /// </summary>
-        public string HEAD { get; set; }
+        public int HEAD { get; set; }
+        /// <summary>
+        /// 评论的创建时间
+        /// </summary>
+        public DateTime Time { get; set; }
+
+        /* 计算得到的量 */
+        /// <summary>
+        /// 所在楼层
+        /// </summary>
+        public int Floor { get; set; }
     }
 }

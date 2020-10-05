@@ -19,7 +19,7 @@ namespace WaterLibrary.com.basic
         /// <summary>
         /// 判断Cookie对象是否存在
         /// </summary>
-        /// <param name="CookieName">被判断Cookie对象的名称</param>
+        /// <param name="Name">被判断Cookie对象的名称</param>
         /// <returns>存在返回true，反之false</returns>
         public bool IsCookiesExist(string Name)
         {
@@ -37,8 +37,8 @@ namespace WaterLibrary.com.basic
         /// <summary>
         /// 判断Cookie对象是否存在（重载二：判断索引是否存在）
         /// </summary>
-        /// <param name="CookieName">被判断Cookie对象的名称</param>
-        /// <param name="keyName">索引名，属于被判断的Cookie</param>
+        /// <param name="Name">被判断Cookie对象的名称</param>
+        /// <param name="Key">索引名，属于被判断的Cookie</param>
         /// <returns>存在返回true，反之false</returns>
         public bool IsCookiesExist(string Name, string Key)
         {
@@ -59,7 +59,7 @@ namespace WaterLibrary.com.basic
         /// 读取Cookie对象到指定类型
         /// </summary>
         /// <typeparam name="T">指定泛型</typeparam>
-        /// <param name="CookieName">被读取Cookie对象名</param>
+        /// <param name="Name">被读取Cookie对象名</param>
         /// <returns>返回泛型值，读取失败则返回泛型默认值</returns>
         public T GetCookie<T>(string Name)
         {
@@ -78,8 +78,8 @@ namespace WaterLibrary.com.basic
         /// 读取Cookie对象的指定索引值到指定类型
         /// </summary>
         /// <typeparam name="T">指定泛型</typeparam>
-        /// <param name="CookieName">被读取Cookie对象名</param>
-        /// <param name="keyName">索引名，属于当前Cookie对象</param>
+        /// <param name="Name">被读取Cookie对象名</param>
+        /// <param name="Key">索引名，属于当前Cookie对象</param>
         /// <returns>返回泛型值，读取失败则返回泛型默认值</returns>
         public T GetCookie<T>(string Name, string Key)
         {
@@ -97,8 +97,8 @@ namespace WaterLibrary.com.basic
         /// <summary>
         /// 设置Cookie值
         /// </summary>
-        /// <param name="CookieName">Cookie名，承担该操作</param>
-        /// <param name="value">设置值</param>
+        /// <param name="Name">Cookie名，承担该操作</param>
+        /// <param name="Val">设置值</param>
         /// <returns>设置成功返回true，反之false</returns>
         public bool SetCookie(string Name, object Val)
         {
@@ -108,9 +108,9 @@ namespace WaterLibrary.com.basic
         /// <summary>
         /// 设置Cookie值（重载二：索引设置）
         /// </summary>
-        /// <param name="CookieName">Cookie名，承担该操作</param>
-        /// <param name="keyName">索引名，属于承担该操作的Cookie</param>
-        /// <param name="value">设置值</param>
+        /// <param name="Name">Cookie名，承担该操作</param>
+        /// <param name="Key">索引名，属于承担该操作的Cookie</param>
+        /// <param name="Val">设置值</param>
         /// <returns>设置成功返回true，反之false</returns>
         public bool SetCookie(string Name, string Key, object Val)
         {
@@ -123,7 +123,7 @@ namespace WaterLibrary.com.basic
         /// <summary>
         /// 判断Cookie对象是否存在
         /// </summary>
-        /// <param name="CookieName">被判断Cookie对象的名称</param>
+        /// <param name="Name">被判断Cookie对象的名称</param>
         /// <returns>存在返回true，反之false</returns>
         public bool IsSessionExist(string Name)
         {
@@ -143,7 +143,7 @@ namespace WaterLibrary.com.basic
         /// 读取Session对象到指定类型
         /// </summary>
         /// <typeparam name="T">指定泛型</typeparam>
-        /// <param name="varName">变量名，属于Session对象，承担该操作</param>
+        /// <param name="Name">变量名，属于Session对象，承担该操作</param>
         /// <returns>返回泛型值，读取失败则返回泛型默认值</returns>
         public T GetSession<T>(string Name)
         {
@@ -160,8 +160,8 @@ namespace WaterLibrary.com.basic
         /// <summary>
         /// 设置Session对象的变量值
         /// </summary>
-        /// <param name="varName">变量名，属于Session对象，承担该操作</param>
-        /// <param name="value">设置值</param>
+        /// <param name="Name">变量名，属于Session对象，承担该操作</param>
+        /// <param name="Val">设置值</param>
         /// <returns>设置成功返回true，反之false</returns>
         public bool SetSession(string Name, object Val)
         {

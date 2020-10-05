@@ -23,8 +23,6 @@ using System.Web.UI.WebControls;
 
 namespace WaterLibrary.com.pilipala
 {
-
-
     /// <summary>
     /// 啪啦系统
     /// </summary>
@@ -50,7 +48,7 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 
         /// </summary>
-        public MySqlConnH MySqlConnH { get; private set; }
+        public MySqlManager MySqlManager { get; private set; }
 
 
         /// <summary>
@@ -62,7 +60,7 @@ namespace WaterLibrary.com.pilipala
             this.ID = ID;
         }
         /// <summary>
-        /// 初始化啪啦系统（重载二::定义系统和数据库的关系）
+        /// 初始化啪啦系统（重载二::定义系统和数据库的关系）（推荐）
         /// </summary>
         /// <parmm name="ID">用户ID</parmm>
         /// <parmm name="PLDB">啪啦数据库信息</parmm>
@@ -73,7 +71,7 @@ namespace WaterLibrary.com.pilipala
             DataBase = PLDB.DataBase;
             SysTables = PLDB.Tables;
             SysViews = PLDB.Views;
-            MySqlConnH = PLDB.MySqlConnH;
+            MySqlManager = PLDB.MySqlManager;
         }
 
         /// <summary>
@@ -90,9 +88,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                DataRow result = MySqlConnH.GetRow(MySqlCommand);/* 得到一行数据，使用GetRow方法 */
+                DataRow result = MySqlManager.GetRow(MySqlCommand);/* 得到一行数据，使用GetRow方法 */
 
                 return new User
                 {
@@ -167,12 +165,12 @@ namespace WaterLibrary.com.pilipala
         }
 
         /// <summary>
-        /// 初始化数据库连接
+        /// 初始化数据库连接控制器
         /// </summary>
         /// <param name="MySqlConn">连接信息</param>
-        public void DBCINIT(MySqlConn MySqlConn)
+        public void DBCHINIT(MySqlConn MySqlConn)
         {
-            MySqlConnH.Start(MySqlConn);
+            MySqlManager.Start(MySqlConn);
         }
     }
 
@@ -197,7 +195,7 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 
         /// </summary>
-        public MySqlConnH MySqlConnH { get; set; }
+        public MySqlManager MySqlManager { get; set; }
 
         /// <summary>
         /// 初始化啪啦数据读取器
@@ -208,7 +206,7 @@ namespace WaterLibrary.com.pilipala
             DataBase = PLSYS.DataBase;
             Tables = PLSYS.SysTables;
             Views = PLSYS.SysViews;
-            MySqlConnH = PLSYS.MySqlConnH;
+            MySqlManager = PLSYS.MySqlManager;
         }
 
 
@@ -222,7 +220,7 @@ namespace WaterLibrary.com.pilipala
 
             string SQL = string.Format("SELECT ID FROM {0}.`{1}`", DataBase, Views.IndexView);
 
-            foreach (object ID in MySqlConnH.GetColumn(SQL))
+            foreach (object ID in MySqlManager.GetColumn(SQL))
             {
                 IDList.Add(Convert.ToInt32(ID));
             }
@@ -249,9 +247,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -280,9 +278,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -308,9 +306,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?OrderType", Val = OrderType }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -337,9 +335,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -372,9 +370,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?str", Val = str }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -404,9 +402,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?str", Val = str }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -436,9 +434,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?str", Val = str }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -473,9 +471,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?OrderType", Val = OrderType }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -509,9 +507,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?OrderType", Val = OrderType }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -545,9 +543,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?OrderType", Val = OrderType }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -584,9 +582,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -622,9 +620,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -660,9 +658,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -691,9 +689,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Val", Val = OBJ.Val.ToString() }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -717,9 +715,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Val", Val = Val }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -742,9 +740,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Val", Val = Val }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -767,9 +765,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Val", Val = Val }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                foreach (object ID in MySqlConnH.GetColumn(MySqlCommand))
+                foreach (object ID in MySqlManager.GetColumn(MySqlCommand))
                 {
                     IDList.Add(Convert.ToInt32(ID));
                 }
@@ -792,9 +790,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                DataRow result = MySqlConnH.GetRow(MySqlCommand);
+                DataRow result = MySqlManager.GetRow(MySqlCommand);
 
                 return new Post
                 {
@@ -825,9 +823,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
+                return MySqlManager.GetRow(MySqlCommand)[0].ToString();
             }
         }
 
@@ -845,9 +843,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                DataRow result = MySqlConnH.GetRow(MySqlCommand);
+                DataRow result = MySqlManager.GetRow(MySqlCommand);
 
                 return new Post
                 {
@@ -879,9 +877,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                return MySqlConnH.GetRow(MySqlCommand)[0];
+                return MySqlManager.GetRow(MySqlCommand)[0];
             }
         }
         /// <summary>
@@ -898,9 +896,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
+                return MySqlManager.GetRow(MySqlCommand)[0].ToString();
             }
         }
         /// <summary>
@@ -917,9 +915,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
+                return MySqlManager.GetRow(MySqlCommand)[0].ToString();
             }
         }
         /// <summary>
@@ -936,9 +934,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
+                return MySqlManager.GetRow(MySqlCommand)[0].ToString();
             }
         }
 
@@ -958,9 +956,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
+                return MySqlManager.GetRow(MySqlCommand)[0].ToString();
             }
         }
         /// <summary>
@@ -979,9 +977,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
+                return MySqlManager.GetRow(MySqlCommand)[0].ToString();
             }
         }
         /// <summary>
@@ -1000,9 +998,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Length", Val = Length }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                return MySqlConnH.GetRow(MySqlCommand)[0].ToString();
+                return MySqlManager.GetRow(MySqlCommand)[0].ToString();
             }
         }
 
@@ -1023,9 +1021,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                DataRow DataRow = MySqlManager.GetRow(MySqlCommand);
                 if (DataRow == null)
                 {
                     return -1;
@@ -1053,9 +1051,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?REGEXP", Val = REGEXP }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                DataRow DataRow = MySqlManager.GetRow(MySqlCommand);
                 if (DataRow == null)
                 {
                     return -1;
@@ -1085,9 +1083,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Key", Val = Key }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                DataRow DataRow = MySqlManager.GetRow(MySqlCommand);
                 if (DataRow == null)
                 {
                     return -1;
@@ -1115,9 +1113,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?ID", Val = ID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                DataRow DataRow = MySqlManager.GetRow(MySqlCommand);
                 if (DataRow == null)
                 {
                     return -1;
@@ -1146,9 +1144,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?REGEXP", Val = REGEXP }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                DataRow DataRow = MySqlManager.GetRow(MySqlCommand);
                 if (DataRow == null)
                 {
                     return -1;
@@ -1177,9 +1175,9 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "?Key", Val = Key }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlConnH.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                DataRow DataRow = MySqlConnH.GetRow(MySqlCommand);
+                DataRow DataRow = MySqlManager.GetRow(MySqlCommand);
                 if (DataRow == null)
                 {
                     return -1;
@@ -1211,7 +1209,7 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 
         /// </summary>
-        public MySqlConnH MySqlConnH { get; set; }
+        public MySqlManager MySqlManager { get; set; }
 
         /// <summary>
         /// 得到最大文章ID（私有）
@@ -1223,7 +1221,7 @@ namespace WaterLibrary.com.pilipala
             {
                 string SQL = string.Format("SELECT max(ID) FROM {0}.`{1}`", DataBase, Tables.IndexTable);
 
-                return Convert.ToInt32(MySqlConnH.GetRow(SQL)[0]);
+                return Convert.ToInt32(MySqlManager.GetRow(SQL)[0]);
             }
             catch
             {
@@ -1240,7 +1238,7 @@ namespace WaterLibrary.com.pilipala
             DataBase = PLSYS.DataBase;
             Tables = PLSYS.SysTables;
             Views = PLSYS.SysViews;
-            MySqlConnH = PLSYS.MySqlConnH;
+            MySqlManager = PLSYS.MySqlManager;
         }
 
 
@@ -1288,7 +1286,7 @@ namespace WaterLibrary.com.pilipala
                 new MySqlParm() { Name = "?Label", Val = Post.Label },
                 new MySqlParm() { Name = "?Cover", Val = Post.Cover }
             };
-            if (MySqlConnH.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
+            if (MySqlManager.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
                 return true;
             else
                 throw new Exception("多行操作异常");
@@ -1332,7 +1330,7 @@ namespace WaterLibrary.com.pilipala
                 new MySqlParm() { Name = "?Label", Val = Post.Label },
                 new MySqlParm() { Name = "?Cover", Val = Post.Cover }
             };
-            if (MySqlConnH.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
+            if (MySqlManager.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
                 return true;
             else
                 throw new Exception("多行操作异常");
@@ -1353,7 +1351,7 @@ namespace WaterLibrary.com.pilipala
                 new MySqlParm() { Name = "?ID", Val = ID }
             };
 
-            if (MySqlConnH.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() >= 2)
+            if (MySqlManager.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() >= 2)
                 return true;
             else
                 throw new Exception("多行操作异常");
@@ -1363,7 +1361,7 @@ namespace WaterLibrary.com.pilipala
         /// </summary>
         /// <param name="GUID">目标文章的GUID</param>
         /// <returns></returns>
-        public bool DeletePost(int GUID)
+        public bool DeletePost(string GUID)
         {
             string SQL = string.Format("DELETE FROM {0}.`{1}` WHERE GUID = ?GUID;", DataBase, Tables.PrimaryTable);
 
@@ -1372,7 +1370,7 @@ namespace WaterLibrary.com.pilipala
                 new MySqlParm() { Name = "?GUID", Val = GUID }
             };
 
-            if (MySqlConnH.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() >= 1)
+            if (MySqlManager.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() >= 1)
                 return true;
             else
                 throw new Exception("多行操作异常");
@@ -1393,7 +1391,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlConnH.UpdateKey(MySqlKey, "Mode", "show");
+            return MySqlManager.UpdateKey(MySqlKey, "Mode", "show");
         }
         /// <summary>
         /// 将目标文章状态标记为隐藏
@@ -1410,7 +1408,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlConnH.UpdateKey(MySqlKey, "Mode", "closed");
+            return MySqlManager.UpdateKey(MySqlKey, "Mode", "closed");
         }
         /// <summary>
         /// 将目标文章状态标记为计划中
@@ -1427,7 +1425,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlConnH.UpdateKey(MySqlKey, "Mode", "scheduled");
+            return MySqlManager.UpdateKey(MySqlKey, "Mode", "scheduled");
         }
         /// <summary>
         /// 将目标文章状态标记为已归档
@@ -1444,7 +1442,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlConnH.UpdateKey(MySqlKey, "Mode", "archived");
+            return MySqlManager.UpdateKey(MySqlKey, "Mode", "archived");
         }
 
 
@@ -1464,7 +1462,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = OBJ.ID.ToString()
             };
-            return MySqlConnH.UpdateKey(MySqlKey, OBJ.GetType().Name, OBJ.Val.ToString());
+            return MySqlManager.UpdateKey(MySqlKey, OBJ.GetType().Name, OBJ.Val.ToString());
         }
         /// <summary>
         /// 更改文章标题(Title)
@@ -1482,7 +1480,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlConnH.UpdateKey(MySqlKey, "Title", Val);
+            return MySqlManager.UpdateKey(MySqlKey, "Title", Val);
         }
         /// <summary>
         /// 更改文章概要(Summary)
@@ -1499,7 +1497,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlConnH.UpdateKey(MySqlKey, "Summary", Val);
+            return MySqlManager.UpdateKey(MySqlKey, "Summary", Val);
         }
         /// <summary>
         /// 更改文章内容(Content)
@@ -1516,7 +1514,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlConnH.UpdateKey(MySqlKey, "Content", Val);
+            return MySqlManager.UpdateKey(MySqlKey, "Content", Val);
         }
 
         /// <summary>
@@ -1535,7 +1533,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlConnH.UpdateKey(MySqlKey, "UVCount", Val.ToString());
+            return MySqlManager.UpdateKey(MySqlKey, "UVCount", Val.ToString());
         }
         /// <summary>
         /// 设置星星计数(StarCount)
@@ -1552,7 +1550,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlConnH.UpdateKey(MySqlKey, "StarCount", Val.ToString());
+            return MySqlManager.UpdateKey(MySqlKey, "StarCount", Val.ToString());
         }
 
 

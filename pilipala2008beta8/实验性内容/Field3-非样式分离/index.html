@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-type" Content="text/html;charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <base target="_blank">
+
+  <link rel="icon" href="ui/img/console.png" sizes="192x192">
+  <title>Thaumy的博客|又一个码农的家</title>
+
+  <link rel="stylesheet" href="ui/css/global.css">
+  <link rel="stylesheet" href="ui/css/white.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+
+  <script src="ui/js/global.js"></script>
+</head>
+
+<body>
+
+  <div class="fixed">
+
+    <div id="NavLine" class="L M bSha">
+      <div class="contain cur bRds" onclick="up()">
+        <div class="Avatar bSha"></div>
+        <div class="Name">THAUMY的小站</div>
+      </div>
+      <div class="SiderBtn R" onclick="ListToggle()"></div>
+    </div>
+
+    <div id="SiderList" class="bSha">
+
+      <m-nav_card v-for="a in List" v-bind:item="a" v-bind:key="a.index"></m-nav_card>
+
+      <div class="Co cur" onclick="up();ListToggle()">
+        Thaumy的博客©2016-2020保留所有权利<br>
+        基于pilipala构建<br>
+        Field Theme Designed By Thaumy<br>
+      </div>
+    </div>
+
+
+    <div class="Shadow" onclick="ListToggle()"></div>
+    <div class="upBtn bSha bRds" style="display: none" onclick="upBtn()"></div>
+  </div>
+
+  <div class="contain">
+    <div id="NavCol" class="bSha bRds">
+
+      <div class="box bSha bRds-t">
+        <div class="AvaBox">
+          <div class="Ava-outline" v-bind:style="style" v-on:click="click" id="Ava-outline">
+            <div class="Ava bSha cur"></div>
+          </div>
+        </div>
+
+        <div class="Name">THAUMY的小站</div>
+        <div class="Note"><span id="note"></span></div>
+      </div>
+
+      <div class="List" id="pcNavList">
+        <div class="barBox">
+          <transition name="fade">
+            <div class="bar" v-if="barSeen" v-bind:style="style"></div>
+          </transition>
+        </div>
+        <div class="box">
+          <pc-nav_card v-for="a in List" v-bind:item="a" v-bind:key="a.index"></pc-nav_card>
+        </div>
+      </div>
+
+      <div class="Co-outline" v-bind:style="style" v-on:click="click" id="Co-outline">
+        <div class="Co cur">
+          Thaumy的博客©2016-2020保留所有权利<br>
+          基于pilipala构建<br>
+          Field Theme Designed By Thaumy<br>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="CardCol" class="R">
+      <div class="LoadLine-"></div>
+      <div class="Col">
+        <div class="Card L M bSha bRds">
+          <div class="contain L bRds">
+            <div class="NoteContent bRds-t">
+              这是一条笔记，适合短文本发布。
+            </div>
+          </div>
+          <div class="AtBox L bRds-b">
+            <div class="Date">19-07-12</div>
+            <div class="UVCount">12345</div>
+            <div class="CommentCount">12345</div>
+            <div class="StarCount">12345</div>
+          </div>
+        </div>
+
+        <div class="Card L M bSha bRds">
+
+          <div onclick="up()" class="contain L cur">
+            <img class="pXL" src="http://thblog-img.test.upcdn.net/md-img/field2cg.jpg" />
+            <div class="Title">氛</div>
+            <div class="Summary">Make a simple, intuitive UI</div>
+          </div>
+
+          <div class="AtBox L bRds-b">
+            <div class="Date">19-07-12</div>
+            <div class="UVCount">12345</div>
+            <div class="CommentCount">12345</div>
+            <div class="StarCount">12345</div>
+          </div>
+        </div>
+
+        <div class="Card L M bSha bRds">
+
+          <div onclick="up()" class="contain L cur">
+
+            <img class="pXL" id="welcom_pic" />
+            <script>
+              var images = ['http://thblog-img.test.upcdn.net/ui-background/bg_1.jpg',
+                'http://thblog-img.test.upcdn.net/ui-background/bg_2.jpg',
+                'http://thblog-img.test.upcdn.net/ui-background/bg_3.jpg',
+                'http://thblog-img.test.upcdn.net/ui-background/bg_4.jpg'
+              ];
+              document.getElementById("welcom_pic").src = images[Math.floor(Math.random() * images.length)];
+            </script>
+
+            <div class="Title">PILIPALA BETA8</div>
+            <div class="Summary">信的开头</div>
+          </div>
+
+          <div class="AtBox L bRds-b">
+            <div class="Date">19-07-12</div>
+            <div class="UVCount">12345</div>
+            <div class="CommentCount">12345</div>
+            <div class="StarCount">12345</div>
+          </div>
+        </div>
+
+        <div class="Card L M bSha bRds">
+          <div class="contain L bRds">
+            <div class="Title">四宫辉夜</div>
+            <div class="Summary">Shinomiya Kaguya</div>
+            <div class="Tip_3">
+              <div class="con">计划中的项目。此文章将会于近期更新</div>
+            </div>
+            <div class="Tip_2">
+              <div class="con">此文章已经归档。这意味着其内容将不受维护，但仍具有一定的参考价值。</div>
+            </div>
+            <div class="Tip_1">
+              <div class="con">约 6600字 阅读需要 5分钟</div>
+            </div>
+            <div class="Content">
+
+              <img class="pM" src="http://thblog-img.test.upcdn.net/md-img/Kaguya_winter.jpg" />
+
+              <h1>四宮輝夜 Shinomiya Kaguya</h1>
+              <h2>简介</h2>
+              <blockquote>
+                四宫辉夜是秀知院学园高中部2年A班学生，学生会副会长。是总资产200兆万亿日元、旗下子公司破千、被视为四大财阀之一的四宫集团的大小姐，有三个哥哥。
+              </blockquote>
+              学业优秀，是一个在茶道、花道、舞蹈、古筝、合气道、薙刀、弓道等方面皆有出色成绩的全能型天才，其中弓道在二年级就升到了四段，初中便拿到全国大赛一等奖，曾在决胜阶段连续射中十次,但升入高中后因比赛与圣诞节冲突便再也没有参加。<br>
+              住在四宫家位于东京的别墅，出门有专车接送、便当是专属厨师制作，是个“盒中的女孩（箱入り娘）”，过着与世俗无缘的生活的同时很向往庶民的生活，是个IT白痴性知识也极度缺乏。<br>
+              以大约一月一个的速度被人告白。<br>
+              非常适合猫耳。
+              <h2>性格</h2>
+              在四宫家的教育下，是一个利己主义者，同时对自己立下的规矩绝不违背。总是不自觉的露出看低别人的表情。<br>
+              因性格冰冷而被当成难以靠近的冰山美人、深闺公主，在加入学生会后渐渐变得温柔和沙雕，少女心的一面渐渐多了起来。<br>
+              自尊心极高，喜欢白银御行和他凶狠的眼神熬夜的黑眼圈，一直不愿承认。“但喜欢的话一定是真爱。”<br>
+              经常主动采取措施逼迫白银御行告白，但常常被藤原千花干扰。到后来甚至会太喜欢白银御行得上“恋心病”。<br>
+              嫉妒心极强，非常担忧白银御行的女性朋友增多。<br>
+              生病时会变得很爱撒娇，但是痊愈后会将这个事情完全忘记。如白银去探病时，直接被辉夜逆推，但辉夜病好之后发现白银在她的床上时，是立刻恢复元气，将白银踹离她的闺房。不过其实这期间白银根本没有做出逾矩的事情，很单纯的只是因睡眠不足而睡着而已。
+              <br><br>
+              表格测试
+
+              <table id="post_comic_list">
+
+                <thead>
+                  <th>番名</th>
+                  <th>评级</th>
+                </thead>
+                <tr>
+                  <td>辉夜大小姐想让我告白</td>
+                  <td>⭐⭐⭐⭐⭐</td>
+                </tr>
+                <tr>
+                  <td>ALDNOAH.ZERO</td>
+                  <td>⭐⭐⭐⭐</td>
+                </tr>
+                <tr>
+                  <td>埃罗芒阿老师</td>
+                  <td>⭐⭐⭐</td>
+                </tr>
+                <tr>
+                  <td>轻音少女</td>
+                  <td>⭐⭐</td>
+                </tr>
+                <tr>
+                  <td>头文字D</td>
+                  <td>⭐</td>
+                </tr>
+              </table>
+
+              高亮测试
+
+              <pre>C#<code>public void HelloField()
+{
+    Console.WriteLine("HelloField!");
+}</code></pre>
+
+              <span class="mk-dt">20.08.30<span class="mk-ui"></span></span>引入了Gitalk作为评论模块（测试版本）
+              <br><span class="mk-dt">20.08.02<span class="mk-ui"></span></span>进一步优化了分辨率兼容性
+              <br><span class="mk-dt">20.07.30<span class="mk-ui"></span></span>微调了ui部分栏目的间隔
+              <br><span class="mk-dt">20.05.09<span class="mk-updt"></span></span>CNZZ记录服务已恢复
+              <br><span class="mk-dt">20.05.09<span class="mk-ui"></span></span>修复了因githack错误而导致的mrks和wrds标记样式丢失的问题
+              <br><span class="mk-dt">20.04.30<span class="mk-updt"></span></span>氛：文章计划标签现可用
+              <br><span class="mk-dt">20.04.30<span class="mk-updt"></span></span>多文章状态属性现可用（例如归档、计划、隐藏、禁用等等）
+              测试结束
+            </div>
+            <div>
+              <div class="nxtBtn L bRds cur" onclick="up()">藤原千花</div>
+              <div class="pvsBtn R bRds cur" onclick="up()">石上优</div>
+            </div>
+
+          </div>
+          <!-- 代码高亮启用 -->
+          <script>
+            hljs.initHighlighting.called = false;
+            hljs.initHighlighting();
+          </script>
+        </div>
+
+        <div class="CoBox L M bSha">
+
+          <span class="text_auth L">由Thaumy最后编辑于19.04.05</span>
+          <span class="text_mId R">004C01E</span>
+
+          <div class="AtBox L bRds-b">
+            <div class="Date">19-07-12</div>
+            <div class="UVCount">12345</div>
+            <div class="CommentCount cur">12345</div>
+            <div class="StarCount cur">12345</div>
+            <div class="Time">周四 07:12</div>
+            <div class="Archiv">氛归档</div>
+            <div class="Tag">氛标签</div>
+          </div>
+        </div>
+
+        <div class="CommentBox">
+          <div class="Content">
+            <div class="Logo"></div>
+            <textarea placeholder="评论内容"></textarea>
+          </div>
+
+          <div class="Name">
+            <div class="Logo"></div>
+            <input placeholder="昵称"></input>
+          </div>
+          <div class="Email">
+            <div class="Logo"></div>
+            <input placeholder="邮箱"></input>
+          </div>
+          <div class="WebSite">
+            <div class="Logo"></div>
+            <input placeholder="网站"></input>
+          </div>
+          <div class="Captcha">
+            <div class="Logo"></div>
+            <input class="Captcha" placeholder="验证码"></input>
+          </div>
+          <button class="CommitBtn">提交</button>
+          <div class="Reply">
+            <div class="ReplyLogo"></div>
+            <div class="ReplyFloor">3F</div>
+          </div>
+        </div>
+
+        <div class="CommentList L bSha bRds">
+          <div class="Box">
+            <div class="Name">Pinn</div>
+            <div class="Floor">1</div>
+            <div class="Email">studio_ai@outlook.com</div>
+            <div class="Time">20-09-09 | 25:61</div>
+            <div class="Content">来自小品的钦定！测试的评论内容测试的评论内容测试的评论内容</div>
+          </div>
+          <div class="Box">
+            <div class="Name">雅爱方雏丶YAMAHA</div>
+            <div class="Floor">2</div>
+            <div class="Email">studio_ai@outlook.com</div>
+            <div class="Time">20-09-12 | 01:34</div>
+            <div class="Content">
+              来自雅爱方雏的钦定！雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈
+            </div>
+          </div>
+          <div class="Box">
+            <div class="Name">王晟睿(回复)<span class="Reply"></span><span class="ReplyFloor">2F</span>雅爱方雏丶YAMAHA</div>
+            <div class="Floor">3</div>
+            <div class="Email">studio_ai@outlook.com</div>
+            <div class="Time">20-09-13 | 23:33</div>
+            <div class="Content">雅子我爱你呀~哼哼哼啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</div>
+          </div>
+          <div class="Box">
+            <div class="Name">Thaumy(回复)<span class="Reply"></span><span class="ReplyFloor">3F</span>王晟睿</div>
+            <div class="Floor">4</div>
+            <div class="Email">studio_ai@outlook.com</div>
+            <div class="Time">20-09-13 | 23:34</div>
+            <div class="Content">我看你是欠日</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400">
+</body>
+
+
+
+<!-- vue-compo -->
+<script>
+  Vue.component("pc-nav_card", {
+    props: ["item"],
+    template: '<div ref="foo" class="Card cur bRds" v-on:click="pc_nav_card_click" :key="item.index"><div class="contain">{{item.Title}}</div></div>',
+    methods: {
+      pc_nav_card_click: function () {
+        up();
+        pcNavList.barSeen = true
+
+        pcNavList.style = {
+          top: this.item.index * 6 + 'vh',
+        }
+
+        AvaOutline.style = {
+          'border-color': 'rgba(0,0,0,0)'
+        }
+        CoOutline.style = {
+          'border-color': 'rgba(0,0,0,0)'
+        }
+      }
+    }
+  })
+  Vue.component('m-nav_card', {
+    props: ['item'],
+    template: '<div class="Card cur bRds" v-on:click="m_nav_card_click" :key="item.index"><div class="contain">{{item.Title}}</div></div>',
+    methods: {
+      m_nav_card_click: function () {
+        up();
+        ListToggle();
+
+        AvaOutline.style = {
+          'border-color': 'rgba(0,0,0,0)'
+        }
+        CoOutline.style = {
+          'border-color': 'rgba(0,0,0,0)'
+        }
+      }
+    }
+  })
+</script>
+<!-- vue -->
+<script>
+  var pcNavList = new Vue({
+    el: '#pcNavList',
+    data: {
+      barSeen: true,
+      style: {
+        top: '0vh'
+      },
+      List: [{
+          index: 0,
+          ID: 12345,
+          Title: '首页'
+        },
+        {
+          index: 1,
+          ID: 12346,
+          Title: '四宫辉夜'
+        },
+        {
+          index: 2,
+          ID: 12349,
+          Title: '石上优'
+        },
+        {
+          index: 3,
+          ID: 12349,
+          Title: '白银御行'
+        },
+        {
+          index: 4,
+          ID: 12349,
+          Title: '藤原千花'
+        },
+        {
+          index: 5,
+          ID: 12349,
+          Title: '早坂爱'
+        },
+        {
+          index: 6,
+          ID: 12349,
+          Title: '伊井野弥子'
+        }
+      ]
+    },
+  })
+</script>
+<script>
+  var SiderList = new Vue({
+    el: '#SiderList',
+    data: {
+      List: pcNavList.List
+    },
+  })
+</script>
+<script>
+  var AvaOutline = new Vue({
+    el: '#Ava-outline',
+    data: {
+      style: {
+        'border-color': 'rgba(0,0,0,0)'
+      }
+    },
+    methods: {
+      click: function () {
+        up();
+        this.style = {
+          'border-color': 'rgba(1, 153, 255, 1)'
+        };
+        CoOutline.style = {
+          'border-color': 'rgba(0,0,0,0)'
+        }
+      }
+    }
+  })
+  var CoOutline = new Vue({
+    el: '#Co-outline',
+    data: {
+      style: {
+        'border-color': 'rgba(0,0,0,0)'
+      }
+    },
+    methods: {
+      click: function () {
+        up();
+        this.style = {
+          'border-color': 'rgba(1, 153, 255, 1)'
+        };
+        AvaOutline.style = {
+          'border-color': 'rgba(0,0,0,0)'
+        }
+      }
+    }
+  })
+</script>
+
+<!-- js特效 -->
+<script src="ui/js/more/note.js"></script>
+<script>
+  /* 返顶按钮淡入淡出 */
+  $(window).scroll(function () {
+    if ($(window).scrollTop() > 1000) {
+      $(".upBtn").fadeIn(350);
+    } else {
+      $(".upBtn").fadeOut(350);
+    }
+  });
+</script>
+<script>
+  /* 向上滚动NavLine展开 */
+  var p = 0;
+  t = 0;
+  $(window).scroll(debounce(function () {
+    /* 触发宽度 */
+    if ($(window).width() < 1000) {
+      p = $(this).scrollTop();
+      if (t <= p) {
+        /* 防止触发遮住文本首部 */
+        if ($(window).scrollTop() >= 20) {
+          $("#NavLine").slideUp(200);
+        }
+      } else {
+        /* 触发高度：小于20或大于200 */
+        if ($(window).scrollTop() <= 20 | $(window).scrollTop() >= 200) {
+          $("#NavLine").slideDown(150);
+        }
+      }
+      t = p;
+    } else {
+      $("#NavLine").slideUp(200);
+    }
+  }, 50))
+
+  /* 触发宽度外，收起NavLine */
+  $(window).resize(function () {
+    if ($(window).width() >= 1000) {
+      $("#NavLine").slideUp(200);
+    }
+  });
+</script>
+<script>
+  /* 侧边菜单展开 */
+  function ListToggle() {
+    if ($("#SiderList").css("left") == "-800px") {
+      $("body").css("overflow", "hidden"); /* 禁用滚动 */
+
+      fadeInX2(".Shadow", function () {});
+      $(".SiderBtn").slideUp(300);
+      slideRight2X("#SiderList");
+
+    }
+
+    if ($("#SiderList").css("left") == "12px") {
+      $("body").css("overflow", "unset"); /* 启用滚动 */
+
+      fadeOutX2(".Shadow", function () {
+        $(".SiderBtn").slideDown(400);
+      });
+      slideLeft2X("#SiderList");
+
+    }
+  }
+</script>
+
+</html>

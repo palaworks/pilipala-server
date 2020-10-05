@@ -11,7 +11,6 @@ using WaterLibrary.stru.pilipala.core;
 
 namespace WaterLibrary.stru.pilipala
 {
-    //116维护完成
     namespace core
     {
         /// <summary>
@@ -34,7 +33,7 @@ namespace WaterLibrary.stru.pilipala
             /// <summary>
             /// 数据库管理器实例
             /// </summary>
-            MySqlConnH MySqlConnH { get; set; }
+            MySqlManager MySqlManager { get; set; }
         }
 
         /// <summary>
@@ -436,7 +435,7 @@ namespace WaterLibrary.stru.pilipala
         /// <summary>
         /// 数据库管理器实例
         /// </summary>
-        public MySqlConnH MySqlConnH { get; set; }
+        public MySqlManager MySqlManager { get; set; }
     }
 
     #region 文章键
