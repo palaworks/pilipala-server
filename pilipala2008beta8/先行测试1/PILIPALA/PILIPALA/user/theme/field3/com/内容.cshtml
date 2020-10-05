@@ -7,7 +7,11 @@
 @using WaterLibrary.com.basic;
 @using PILIPALA.system.serv;
 @using PILIPALA.user.theme.field3.serv;
+@using CommentLake;
+@using CommentLake.stru;
 @using Markdig;
+@using System.Web.Configuration;
+@using WaterLibrary.stru.MySQL;
 <!-- 服务初始化 -->
 @{ SysServ SysServ = new SysServ(); }
 <!-- 变量初始化 -->
@@ -15,8 +19,8 @@
     Post Post = new Post();
     int ID = new int();
 
-    int PrevID = -1;
-    int NextID = -1;
+    int PrevID = new int();
+    int NextID = new int();
 
     /* mkd */
     var builder = new Markdig.MarkdownPipelineBuilder();
@@ -36,7 +40,18 @@
     PrevID = SysServ.PLDR.PrevID("生活|技术", ID);
     NextID = SysServ.PLDR.NextID("生活|技术", ID);
 }
-
+<!-- CommentLake评论系统初始化 -->
+@{
+    CommentLake CommentLake = new CommentLake(WebConfigurationManager.AppSettings["DataBase"], "comment_lake");
+    CommentLake.DBCHINIT(new MySqlConn
+    {
+        DataSource = WebConfigurationManager.AppSettings["DataSource"],
+        Port = WebConfigurationManager.AppSettings["Port"],
+        User = WebConfigurationManager.AppSettings["User"],
+        PWD = WebConfigurationManager.AppSettings["PWD"]
+    });
+    List<Comment> CommentList = CommentLake.GetCommentList(ID);
+}
 
 @section 内容
     {
@@ -57,14 +72,14 @@
             <!-- 状态信息输出 -->
             @if (Post.Mode == "scheduled")
             {
-                <div class="Tip_3"><div class="con">计划中的项目。此文章将会于近期更新</div></div>
+                <div class="ArchivTip bSha"><div class="con">计划中的项目。此文章将会于近期更新</div></div>
             }
             @if (Post.Mode == "archived")
             {
-                <div class="Tip_2"><div class="con">此文章已归档。这意味着其内容将不受维护，但仍具有一定的参考价值。</div></div>
+                <div class="SchedulTip bSha"><div class="con">此文章已归档。这意味着其内容将不受维护，但仍具有一定的参考价值。</div></div>
             }
 
-            <div class="Tip_1">
+            <div class="ReadTimeTip bSha">
                 <div class="con"></div>
             </div>
 
@@ -81,12 +96,7 @@
                     <div class="pvsBtn R bRds cur" onclick="up();showPost(@PrevID)">@SysServ.PLDR.GetTitle(PrevID)</div>
                 }
             </div>
-
         </div>
-
-        <!--
-        <script>$("#CardCol>.Col>.Card>.contain>.Content").html(marked($("#CardCol>.Col>.Card>.contain>.Content").html()));</script>
-        -->
 
         <script>
             /*代码高亮启用*/
@@ -100,15 +110,15 @@
 
     <div class="CoBox L M bSha">
 
-        <span class="text_auth L">由 @Post.User 最后编辑于 @ThemeServ.ToAtBoxDate(Post.LCT, "/")</span>
+        <span class="text_auth L">由 @Post.User 最后编辑于 @ThemeServ.OnlyDate(Post.LCT, "/")</span>
         <span class="text_mId R">@ConvertH.ToMD5(Post.Content).Substring(0, 7)</span>
 
         <div class="AtBox L bRds-b">
-            <div class="Date">创建于 @ThemeServ.ToAtBoxDate(Post.CT, "-")</div>
+            <div class="Date">于@(ThemeServ.OnlyDate(Post.CT, "-"))创建</div>
             <div class="UVCount">@Post.UVCount</div>
-            <div class="CommentCount cur">0</div>
+            <div class="CommentCount cur">@CommentLake.GetCommentCount(ID)</div>
             <div class="StarCount cur" onclick="refre_StarCount(@ID)">@Post.StarCount</div>
-            <div class="Time">@ThemeServ.ToAtBoxWeekTime(Post.CT)</div>
+            <div class="Time">@ThemeServ.OnlyWeekTime(Post.CT)</div>
 
             @if (Post.Archiv != "")
             {/* 归档不为空时输出 */
@@ -118,16 +128,97 @@
             {/* 标签不为空时输出 */
                 foreach (string str in WaterLibrary.com.basic.ConvertH.ToStringList(Post.Label, '$'))
                 {
-                    <div class="Tag">@str</div>
+                    <div class="Label">@str</div>
                 }
             }
-
         </div>
     </div>
 
-    <div class="CommentBox L bSha bRds">
-        <div style="font-size: 22px">评论 - 即将启用</div>
-        <div style="font-size: 18px;margin-top:8px">- CommentLake -</div>
-        <div style="font-size: 13px;margin-top:3px">专为独立站点打造的客制化评论系统</div>
+    <!-- CommentLake模块，测试性功能 -->
+    <div>
+        @if (CommentList.Count == 0)
+        {
+            <div class="ShadowBox L M">
+                <div class="CommentTip bSha">
+                    <div class="con">评论尚无，快来吃个螃蟹！</div>
+                </div>
+                <div class="WarningTip bSha">
+                    <div class="con">CommentLake提交系统尚处于开发状态，这意味着评论功能尚不完全可用。</div>
+                </div>
+                <div class="LockTip bSha">
+                    <div class="con">此文章的评论系统已上锁。</div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="CommentList L M bSha bRds">
+                @foreach (Comment Comment in CommentList)
+                {
+                    <div class="Box bSha">
+                        @if (Comment.HEAD == -1)
+                        {
+                            <div class="Name">@Comment.Name</div>
+                        }
+                        else
+                        {
+                            /* 存在回复 */
+                            foreach (Comment temp in CommentList)
+                            {
+                                if (temp.CommentID == Convert.ToInt32(Comment.HEAD))
+                                {
+                                    <div class="Name">
+                                        @(Comment.Name)(回复)
+                                        <span class="ReplyLogo"></span>
+                                        <span class="ReplyFloor">@(temp.Floor)F</span>@temp.Name
+                                    </div>
+                                    break;
+                                }
+                            }
+                        }
+
+                        <div class="Floor">@Comment.Floor</div>
+                        <div class="Email">@Comment.Email</div>
+                        <div class="Time">@ThemeServ.OnlyDate(Comment.Time, "-") | @ThemeServ.OnlyTime(Comment.Time)</div>
+                        <div class="Content">@Comment.Content</div>
+                    </div>
+                }
+            </div>
+
+            <div class="ShadowBox L M">
+                <div class="WarningTip bSha">
+                    <div class="con">CommentLake提交系统尚处于开发状态，这意味着评论功能尚不完全可用。</div>
+                </div>
+                <div class="LockTip bSha">
+                    <div class="con">此文章的评论系统已上锁。</div>
+                </div>
+            </div>
+        }
+
+        <div class="CommentBox L M bRds bSha">
+            <div class="Content">
+                <div class="Logo"></div>
+                <div class="ReplyLogo"></div>
+                <div class="ReplyFloor">3F</div>
+                <textarea placeholder="评论内容"></textarea>
+            </div>
+            <div class="Name">
+                <div class="Logo"></div>
+                <input placeholder="昵称" />
+            </div>
+            <div class="Email">
+                <div class="Logo"></div>
+                <input placeholder="邮箱" />
+            </div>
+            <div class="WebSite">
+                <div class="Logo"></div>
+                <input placeholder="网站" />
+            </div>
+            <div class="Captcha">
+                <div class="Logo"></div>
+                <input class="Captcha" placeholder="验证码" />
+            </div>
+            <button class="CommitBtn">提交</button>
+        </div>
     </div>
 }

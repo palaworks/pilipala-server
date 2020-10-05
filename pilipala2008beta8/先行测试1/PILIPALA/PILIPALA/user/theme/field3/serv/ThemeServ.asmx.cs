@@ -25,21 +25,21 @@ namespace PILIPALA.user.theme.field3.serv
     public class ThemeServ : System.Web.Services.WebService
     {
         /// <summary>
-        /// 到 日期
+        /// 格式化到：年份:小时:分钟 (均为二位补齐)
         /// </summary>
         /// <param name="DateTime">时间对象</param>
         [WebMethod]
-        public static string ToAtBoxDate(DateTime DateTime, string str)
+        public static string OnlyDate(DateTime DateTime, string str)
         {
             //年份只取后二位：2099=>99
             return Convert.ToString(DateTime.Year).Substring(2, 2) + str + DateTime.Month + str + DateTime.Day;
         }
         /// <summary>
-        /// 到 周几+时间
+        /// 格式化到：周日 小时:分钟 (均为二位补齐)
         /// </summary>
         /// <param name="DateTime">时间对象</param>
         [WebMethod]
-        public static string ToAtBoxWeekTime(DateTime DateTime)
+        public static string OnlyWeekTime(DateTime DateTime)
         {
             string DayInCN = "未知";
             switch (DateTime.DayOfWeek.ToString())
@@ -56,6 +56,16 @@ namespace PILIPALA.user.theme.field3.serv
             }
             return DayInCN + " " + DateTime.Hour + ":" + DateTime.Minute;
         }
+        /// <summary>
+        /// 格式化到 小时:分钟 (均为二位补齐)
+        /// </summary>
+        /// <param name="DateTime">时间对象</param>
+        [WebMethod]
+        public static string OnlyTime(DateTime DateTime)
+        {
+            return DateTime.Hour + ":" + DateTime.Minute;
+        }
+
 
         /// <summary>
         /// 距现在字符串生成器
