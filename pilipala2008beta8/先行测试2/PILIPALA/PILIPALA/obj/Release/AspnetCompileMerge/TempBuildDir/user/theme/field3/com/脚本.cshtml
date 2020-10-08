@@ -1,0 +1,114 @@
+﻿<!-- vue-compo -->
+<script>
+
+</script>
+<!-- vue -->
+<script>
+    var AvaOutline = new Vue({
+        el: '#Ava-outline',
+        data: {
+            style: {
+                'border-color': 'rgba(0,0,0,0)'
+            }
+        },
+        methods: {
+            click: function () {
+                up();
+                showPost(12387);
+                this.style = {
+                    'border-color': 'rgba(1, 153, 255, 1)'
+                };
+                CoOutline.style = {
+                    'border-color': 'rgba(0,0,0,0)'
+                }
+            }
+        }
+    })
+    var CoOutline = new Vue({
+        el: '#Co-outline',
+        data: {
+            style: {
+                'border-color': 'rgba(0,0,0,0)'
+            }
+        },
+        methods: {
+            click: function () {
+                up();
+                showPost(12388);
+                this.style = {
+                    'border-color': 'rgba(1, 153, 255, 1)'
+                };
+                AvaOutline.style = {
+                    'border-color': 'rgba(0,0,0,0)'
+                }
+            }
+        }
+    })
+</script>
+<!-- js特效 -->
+<script src="~/user/theme/field3/com/ui/js/more/note.js"></script>
+<script>
+    /* 返顶按钮淡入淡出 */
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 1000) {
+            $(".upBtn").fadeIn(350);
+        } else {
+            $(".upBtn").fadeOut(350);
+        }
+    });
+</script>
+<script>
+    /* 向上滚动NavLine展开 */
+    var p = 0;
+    t = 0;
+    $(window).scroll(debounce(function () {
+        /* 触发宽度 */
+        if ($(window).width() < 1000) {
+            p = $(this).scrollTop();
+            if (t <= p) {
+                /* 防止触发遮住文本首部 */
+                if ($(window).scrollTop() >= 20) {
+                    $("#NavLine").slideUp(200);
+                }
+            } else {
+                /* 触发高度：小于20或大于200 */
+                if ($(window).scrollTop() <= 20 | $(window).scrollTop() >= 200) {
+                    $("#NavLine").slideDown(150);
+                }
+            }
+            t = p;
+        } else {
+            $("#NavLine").slideUp(200);
+        }
+    }, 50))
+
+    /* 触发宽度外，收起NavLine */
+    $(window).resize(function () {
+        if ($(window).width() >= 1000) {
+            $("#NavLine").slideUp(200);
+        }
+    });
+</script>
+<script>
+    /* 侧边菜单展开 */
+    function ListToggle() {
+        if ($("#SiderList").css("left") == "-800px") {
+            $("body").css("overflow", "hidden"); /* 禁用滚动 */
+
+            fadeInX2(".Shadow", function () { });
+            $(".SiderBtn").slideUp(300);
+            slideRight2X("#SiderList");
+
+        }
+
+        if ($("#SiderList").css("left") == "12px") {
+            $("body").css("overflow", "unset"); /* 启用滚动 */
+
+            fadeOutX2(".Shadow", function () {
+                $(".SiderBtn").slideDown(400);
+            });
+            slideLeft2X("#SiderList");
+
+        }
+    }
+</script>

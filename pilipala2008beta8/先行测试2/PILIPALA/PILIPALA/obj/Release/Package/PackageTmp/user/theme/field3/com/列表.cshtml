@@ -1,0 +1,185 @@
+﻿@{
+    Layout = "~/user/theme/field3/com/框架.cshtml";
+}
+<!-- 引用 -->
+@using System.Web.Configuration;
+@using WaterLibrary.stru.pilipala;
+@using WaterLibrary.stru.MySQL;
+@using WaterLibrary.com.pilipala;
+@using WaterLibrary.com.basic;
+@using PILIPALA.system.serv;
+@using PILIPALA.user.theme.field3.serv;
+@using CommentLake.stru;
+@using CommentLake;
+@using Markdig;
+<!-- 服务初始化 -->
+@{ SysServ SysServ = new SysServ(); }
+<!-- 其他初始化 -->
+@{
+    List<Archiv> 置顶 = new List<Archiv>
+{
+    new Archiv(){ Val = "置顶" },
+    };
+
+    List<Archiv> 其他 = new List<Archiv>
+{
+    new Archiv(){ Val = "技术" },
+    new Archiv(){ Val = "生活" }
+    };
+
+    /* mkd */
+    var builder = new Markdig.MarkdownPipelineBuilder();
+    builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
+    var pipeline = builder.Build();
+}
+<!-- CommentLake评论系统初始化 -->
+@{
+    CommentLake CommentLake = new CommentLake(WebConfigurationManager.AppSettings["DataBase"], "comment_lake");
+    CommentLake.DBCHINIT(new MySqlConn
+    {
+        DataSource = WebConfigurationManager.AppSettings["DataSource"],
+        Port = WebConfigurationManager.AppSettings["Port"],
+        User = WebConfigurationManager.AppSettings["User"],
+        PWD = WebConfigurationManager.AppSettings["PWD"]
+    });
+}
+@section 列表
+    {
+    <!-- 置顶文章输出 -->
+
+
+    @foreach (int ID in SysServ.PLDR.GetIDList(置顶))
+    {
+        Post Post = PLDU.Join(SysServ.PLDR.GetIndex(ID), SysServ.PLDR.GetPrimary(ID));
+
+        if (Post.Type == "n")
+        {
+            <div class="Card L M bSha bRds">
+                <div class="contain L bRds">
+                    <!-- 前置样式 -->
+                    @Html.Raw(Post.Cover)
+
+                    <div class="NoteContent bRds-t">
+                        @Html.Raw(Markdown.ToHtml(SysServ.PLDR.GetContent(ID), pipeline))
+                    </div>
+                </div>
+                <div class="AtBox L bRds-b">
+                    @if (ThemeServ.ToTimeFromNow(Post.CT) == null)
+                    {
+                        <div class="Date">@ThemeServ.OnlyDate(Post.CT, "-")</div>
+                    }
+                    else
+                    {
+                        <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
+                    }
+                    <div class="UVCount">@Post.UVCount</div>
+                    <div class="CommentCount">@CommentLake.GetCommentCount(ID)</div>
+                    <div class="StarCount">@Post.StarCount</div>
+                </div>
+            </div>
+        }
+        else if (Post.Type == "p")
+        {
+            <div class="Card L M bSha bRds">
+
+                <div onclick="up();showPost(@ID)" class="contain L cur">
+                    <!-- 前置样式 -->
+                    @Html.Raw(Post.Cover)
+                    <div class="Title">@SysServ.PLDR.GetTitle(ID)</div>
+                    @if (Post.Summary == "")
+                    {
+                        <div class="Summary">@ThemeServ.DoSummary(SysServ.PLDR.GetContent(ID), 100)</div>
+                    }
+                    else
+                    {
+                        <div class="Summary">@Post.Summary</div>
+                    }
+                </div>
+
+                <div class="AtBox L bRds-b">
+                    @if (ThemeServ.ToTimeFromNow(Post.CT) == null)
+                    {
+                        <div class="Date">@ThemeServ.OnlyDate(Post.CT, "-")</div>
+                    }
+                    else
+                    {
+                        <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
+                    }
+                    <div class="UVCount">@Post.UVCount</div>
+                    <div class="CommentCount">@CommentLake.GetCommentCount(ID)</div>
+                    <div class="StarCount">@Post.StarCount</div>
+                </div>
+
+            </div>
+        }
+    }
+
+
+
+    <!-- 其他文章输出 -->
+    @foreach (int ID in SysServ.PLDR.GetIDList(其他))
+    {
+        Post Post = PLDU.Join(SysServ.PLDR.GetIndex(ID), SysServ.PLDR.GetPrimary(ID));
+
+        if (Post.Type == "p")
+        {
+            <div class="Card L M bSha bRds">
+
+                <div onclick="up();showPost(@ID)" class="contain L cur">
+                    <!-- 前置样式 -->
+                    @Html.Raw(Post.Cover)
+                    <div class="Title">@Post.Title</div>
+                    @if (Post.Summary == "")
+                    {
+                        <div class="Summary">@ThemeServ.DoSummary(SysServ.PLDR.GetContent(ID), 100)</div>
+                    }
+                    else
+                    {
+                        <div class="Summary">@Post.Summary</div>
+                    }
+                </div>
+
+                <div class="AtBox L bRds-b">
+                    @if (ThemeServ.ToTimeFromNow(Post.CT) == null)
+                    {
+                        <div class="Date">@ThemeServ.OnlyDate(Post.CT, "-")</div>
+                    }
+                    else
+                    {
+                        <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
+                    }
+                    <div class="UVCount">@Post.UVCount</div>
+                    <div class="CommentCount">@CommentLake.GetCommentCount(ID)</div>
+                    <div class="StarCount">@Post.StarCount</div>
+                </div>
+            </div>
+        }
+        else if (Post.Type == "n")
+        {
+            <div class="Card L M bSha bRds">
+                <div class="contain L bRds">
+                    <!-- 前置样式 -->
+                    @Html.Raw(Post.Cover)
+                    <div class="NoteContent bRds-t">
+                        @Html.Raw(Markdown.ToHtml(SysServ.PLDR.GetContent(ID), pipeline))
+                    </div>
+                </div>
+                <div class="AtBox L bRds-b">
+                    @if (ThemeServ.ToTimeFromNow(Post.CT) == null)
+                    {
+                        <div class="Date">@ThemeServ.OnlyDate(Post.CT, "-")</div>
+                    }
+                    else
+                    {
+                        <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
+                    }
+                    <div class="UVCount">@Post.UVCount</div>
+                    <div class="CommentCount">@CommentLake.GetCommentCount(ID)</div>
+                    <div class="StarCount">@Post.StarCount</div>
+                </div>
+            </div>
+        }
+    }
+}
+
+
