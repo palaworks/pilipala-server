@@ -1,0 +1,23 @@
+pre {
+    border-radius: 4px;
+    padding: 0 0.3em 0.4em 0.3em;
+    margin-top: 6px;
+    margin-bottom: 6px;
+
+    font-family: 'Source Sans Pro', monospace;
+    font-size: 1em;
+
+    text-align: right;
+    white-space: pre-wrap;
+
+    color: rgba(200, 200, 200, 1.00);
+
+    box-shadow: 0px 0px 3px 0.2px rgba(0, 0, 0, 0.4);
+}
+
+code {
+    text-align: left;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9em;
+    line-height: 1.4em;
+}
