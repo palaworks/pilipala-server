@@ -183,17 +183,21 @@ namespace WaterLibrary.com.MySQL
         /// 启动连接（重载一：启动HandlerConnection）
         /// </summary>
         /// <param name="DataSource">数据源</param>
+        /// <param name="DataBase">数据库</param>
         /// <param name="Port">端口</param>
         /// <param name="User">用户名</param>
         /// <param name="PWD">密码</param>
         /// <returns>返回true，错误则返回null</returns>
-        public bool Start(string DataSource, string Port, string User, string PWD)
+        public bool Start(string DataSource, string DataBase, string Port, string User, string PWD)
         {
             //组建连接信息并创建连接
             HandlerConnection = new MySqlConnection
                 (
-                "Data source=" + DataSource + ";port="
-                + Port + ";User Id=" + User + ";password=" + PWD + ";"
+                "Data Source=" + DataSource +
+                ";Database=" + DataBase +
+                ";Port=" + Port +
+                ";User Id=" + User +
+                ";Password=" + PWD + ";"
                 );
             return Start(HandlerConnection);
         }
@@ -207,8 +211,11 @@ namespace WaterLibrary.com.MySQL
             //组建连接信息并创建连接
             HandlerConnection = new MySqlConnection
                 (
-                "Data source=" + MySqlConn.DataSource + ";port=" +
-                MySqlConn.Port + ";User Id=" + MySqlConn.User + ";password=" + MySqlConn.PWD + ";"
+                "Data Source=" + MySqlConn.DataSource +
+                ";Database=" + MySqlConn.DataBase +
+                ";Port=" + MySqlConn.Port +
+                ";User Id=" + MySqlConn.User +
+                ";Password=" + MySqlConn.PWD + ";"
                 );
             return Start(HandlerConnection);
         }
@@ -313,8 +320,8 @@ namespace WaterLibrary.com.MySQL
         {
             try
             {
-                string SQL = string.Format("SELECT {0} FROM {1}.{2} WHERE {3}='{4}';",
-                    KeyName, MySqlKey.DataBase, MySqlKey.Table, MySqlKey.Name, MySqlKey.Val);
+                string SQL = string.Format("SELECT {0} FROM {1} WHERE {2}='{3}';",
+                    KeyName, MySqlKey.Table, MySqlKey.Name, MySqlKey.Val);
 
                 /* 如果结果集为空，该方法返回null */
                 return (T)new MySqlCommand(SQL, HandlerConnection).ExecuteScalar();
@@ -337,8 +344,8 @@ namespace WaterLibrary.com.MySQL
         {
             try
             {
-                string SQL = string.Format("SELECT {0} FROM {1}.{2} WHERE {3}='{4}';",
-                    KeyName, MySqlKey.DataBase, MySqlKey.Table, MySqlKey.Name, MySqlKey.Val);
+                string SQL = string.Format("SELECT {0} FROM {1} WHERE {2}='{3}';",
+                    KeyName, MySqlKey.Table, MySqlKey.Name, MySqlKey.Val);
 
                 /* 如果结果集为空，该方法返回null */
                 return (T)new MySqlCommand(SQL, MySqlConnection).ExecuteScalar();
@@ -620,8 +627,8 @@ namespace WaterLibrary.com.MySQL
         /// <returns></returns>
         public bool UpdateKey(MySqlKey MySqlKey, string KeyName, string KeyValue)
         {
-            string SQL = string.Format("UPDATE {0}.{1} SET {2} = ?KeyValue WHERE {3} = ?Val"
-                , MySqlKey.DataBase, MySqlKey.Table, KeyName, MySqlKey.Name);
+            string SQL = string.Format("UPDATE {0} SET {1} = ?KeyValue WHERE {2} = ?Val"
+                , MySqlKey.Table, KeyName, MySqlKey.Name);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -660,8 +667,8 @@ namespace WaterLibrary.com.MySQL
         /// <returns></returns>
         public bool UpdateKey(MySqlConnection MySqlConnection, MySqlKey MySqlKey, string KeyName, string KeyValue)
         {
-            string SQL = string.Format("UPDATE {0}.{1} SET {2} = ?KeyValue WHERE {3} = ?Val"
-                , MySqlKey.DataBase, MySqlKey.Table, KeyName, MySqlKey.Name);
+            string SQL = string.Format("UPDATE {0} SET {1} = ?KeyValue WHERE {2} = ?Val"
+                , MySqlKey.Table, KeyName, MySqlKey.Name);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {

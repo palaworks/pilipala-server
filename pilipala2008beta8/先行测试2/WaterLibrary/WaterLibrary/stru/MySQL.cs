@@ -13,14 +13,9 @@ namespace WaterLibrary.stru.MySQL
     public struct MySqlKey
     {
         /// <summary>
-        /// 数据库名
-        /// </summary>
-        public string DataBase { get; set; }
-        /// <summary>
         /// 表名
         /// </summary>
         public string Table { get; set; }
-
         /// <summary>
         /// 主键名
         /// </summary>
@@ -39,6 +34,10 @@ namespace WaterLibrary.stru.MySQL
         /// 数据源
         /// </summary>
         public string DataSource { get; set; }
+        /// <summary>
+        /// 数据库
+        /// </summary>
+        public string DataBase { get; set; }
         /// <summary>
         /// 端口
         /// </summary>
