@@ -20,10 +20,6 @@ namespace WaterLibrary.stru.pilipala
         interface IPLDB
         {
             /// <summary>
-            /// Pala数据表所在数据库
-            /// </summary>
-            string DataBase { get; }
-            /// <summary>
             /// 文本表
             /// </summary>
             PLTables Tables { get; }
@@ -154,25 +150,25 @@ namespace WaterLibrary.stru.pilipala
             /// <parmm name="IndexTable"></parmm>
             /// <parmm name="PrimaryTable"></parmm>
             /// <parmm name="text_sub"></parmm>
-            public PLTables(string UserTable, string IndexTable, string PrimaryTable) : this()
+            public PLTables(string User, string Index, string Primary) : this()
             {
-                this.UserTable = UserTable;
-                this.IndexTable = IndexTable;
-                this.PrimaryTable = PrimaryTable;
+                this.User = User;
+                this.Index = Index;
+                this.Primary = Primary;
             }
 
             /// <summary>
-            /// 
+            /// 用户表
             /// </summary>
-            public string UserTable { get; set; }
+            public string User { get; set; }
             /// <summary>
-            /// 
+            /// 索引表
             /// </summary>
-            public string IndexTable { get; set; }
+            public string Index { get; set; }
             /// <summary>
-            /// 
+            /// 主表
             /// </summary>
-            public string PrimaryTable { get; set; }
+            public string Primary { get; set; }
         }
         /// <summary>
         /// 数据库视图视图集合
@@ -182,21 +178,27 @@ namespace WaterLibrary.stru.pilipala
             /// <summary>
             /// 初始化视图名结构
             /// </summary>
-            /// <param name="IndexView"></param>
-            /// <param name="PrimaryView"></param>
-            public PLViews(string IndexView, string PrimaryView) : this()
+            /// <param name="Index"></param>
+            /// <param name="Primary"></param>
+            /// <param name="Total"></param>
+            public PLViews(string Index, string Primary, string Total) : this()
             {
-                this.IndexView = IndexView;
-                this.PrimaryView = PrimaryView;
+                this.Index = Index;
+                this.Primary = Primary;
+                this.Total = Total;
             }
             /// <summary>
-            /// 
+            /// 索引视图
             /// </summary>
-            public string IndexView { get; set; }
+            public string Index { get; set; }
             /// <summary>
-            /// 
+            /// 主视图
             /// </summary>
-            public string PrimaryView { get; set; }
+            public string Primary { get; set; }
+            /// <summary>
+            /// 总视图(索引表JOIN主表)
+            /// </summary>
+            public string Total { get; set; }
         }
 
         /// <summary>
@@ -204,10 +206,6 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         public struct PLDB : IPLDB
         {
-            /// <summary>
-            /// Pala数据表所在数据库
-            /// </summary>
-            public string DataBase { get; set; }
             /// <summary>
             /// 文本表
             /// </summary>
@@ -254,10 +252,10 @@ namespace WaterLibrary.stru.pilipala
         /// <summary>
         /// 通用文章匹配器
         /// </summary>
-        /// <typeparmm name="T">继承自IKey的类型</typeparmm>
-        /// <parmm name="OBJ">继承自IKey的对象实例</parmm>
+        /// <typeparmm name="T">被匹配的键类型</typeparmm>
+        /// <parmm name="Value">被匹配的键值</parmm>
         /// <returns></returns>
-        List<int> MatchPost<T>(T obj) where T : PostKey.IKey;
+        List<int> MatchPost<T>(string Value) where T : PostKey.IKey;
 
         /// <summary>
         /// 获得符合ID的文本索引数据
@@ -316,14 +314,15 @@ namespace WaterLibrary.stru.pilipala
         bool ArchivReg(int ID);
 
         /// <summary>
-        /// 通用文章键更改器
+        /// 通用文章属性更新器
         /// </summary>
-        /// <typeparam name="T">继承自IKey的类型</typeparam>
-        /// <param name="OBJ">继承自IKey的对象实例</param>
+        /// <typeparam name="T">文章属性类型</typeparam>
+        /// <param name="ID">目标文章ID</param>
+        /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        bool UpdateKey<T>(T OBJ) where T : PostKey.IKey;
+        bool Update<T>(int ID, string Value) where T : PostKey.IKey;
     }
-    
+
     /// <summary>
     /// 用户结构
     /// </summary>
@@ -351,7 +350,11 @@ namespace WaterLibrary.stru.pilipala
     /// </summary>
     public struct Post : ITableIndex, ITablePrimary
     {
-        /* 索引器 */
+        /// <summary>
+        /// 索引器
+        /// </summary>
+        /// <param name="Key">索引名</param>
+        /// <returns></returns>
         public object this[string Key]
         {
             get
@@ -399,7 +402,11 @@ namespace WaterLibrary.stru.pilipala
                 }
             }
         }
-        /* 迭代器 */
+
+        /// <summary>
+        /// 迭代器
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<object> ItemArray()
         {
             yield return ID;
