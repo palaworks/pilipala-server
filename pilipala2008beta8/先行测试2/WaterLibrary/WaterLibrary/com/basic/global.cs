@@ -211,7 +211,7 @@ namespace WaterLibrary.com.basic
         /// <param name="str">待切割字符串</param>
         /// <param name="Delimiter">分隔符</param>
         /// <returns>返回切割结果集</returns>
-        public static List<string> ToStringList(string str, char Delimiter)
+        public static List<string> StringToList(string str, char Delimiter)
         {
             List<string> StringList = new List<string>();
             foreach (string el in str.Split(Delimiter))
@@ -220,6 +220,22 @@ namespace WaterLibrary.com.basic
             }
             return StringList;
         }
+        /// <summary>
+        /// 将字符串集合按照分隔符合并为一个字符串
+        /// </summary>
+        /// <param name="List">待合并string集合</param>
+        /// <param name="Delimiter">分隔符</param>
+        /// <returns></returns>
+        public static string ListToString(List<string> List, char Delimiter)
+        {
+            string Result = "";
+            foreach (string temp in List)
+            {
+                Result += temp + Delimiter;
+            }
+            return Result.Substring(0, Result.Length - 1);
+        }
+
         /// <summary>
         /// Html过滤器
         /// </summary>
