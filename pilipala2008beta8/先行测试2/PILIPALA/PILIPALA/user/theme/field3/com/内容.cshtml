@@ -2,16 +2,19 @@
     Layout = "~/user/theme/field3/com/框架.cshtml";
 }
 <!-- 引用 -->
+@using System.Web.Configuration;
+
+@using WaterLibrary.stru.MySQL;
 @using WaterLibrary.stru.pilipala;
+@using WaterLibrary.stru.pilipala.PostKey;
 @using WaterLibrary.com.pilipala;
 @using WaterLibrary.com.basic;
 @using PILIPALA.system.serv;
 @using PILIPALA.user.theme.field3.serv;
+
 @using CommentLake;
 @using CommentLake.stru;
 @using Markdig;
-@using System.Web.Configuration;
-@using WaterLibrary.stru.MySQL;
 <!-- 服务初始化 -->
 @{ SysServ SysServ = new SysServ(); }
 <!-- 变量初始化 -->
@@ -89,11 +92,11 @@
             <div>
                 @if (NextID != -1)
                 {
-                    <div class="nxtBtn L bRds cur" onclick="up();showPost(@NextID)">@SysServ.PLDR.GetTitle(NextID)</div>
+                    <div class="nxtBtn L bRds cur" onclick="up();showPost(@NextID)">@(SysServ.PLDR.Get<Title>(NextID))</div>
                 }
                 @if (PrevID != -1)
                 {
-                    <div class="pvsBtn R bRds cur" onclick="up();showPost(@PrevID)">@SysServ.PLDR.GetTitle(PrevID)</div>
+                    <div class="pvsBtn R bRds cur" onclick="up();showPost(@PrevID)">@(SysServ.PLDR.Get<Title>(PrevID))</div>
                 }
             </div>
         </div>
@@ -126,7 +129,7 @@
             }
             @if (Post.Label != "")
             {/* 标签不为空时输出 */
-                foreach (string str in WaterLibrary.com.basic.ConvertH.ToStringList(Post.Label, '$'))
+                foreach (string str in WaterLibrary.com.basic.ConvertH.StringToList(Post.Label, '$'))
                 {
                     <div class="Label">@str</div>
                 }

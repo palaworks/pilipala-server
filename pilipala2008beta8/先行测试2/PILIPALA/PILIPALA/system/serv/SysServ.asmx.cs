@@ -7,9 +7,9 @@ using System.Web.Services;
 using System.Web.Configuration;
 
 using WaterLibrary.stru.MySQL;
-using WaterLibrary.stru.pilipala;
+using WaterLibrary.stru.pilipala.PostKey;
+using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.com.MySQL;
-using WaterLibrary.com.basic;
 using WaterLibrary.com.pilipala;
 
 
@@ -37,7 +37,6 @@ namespace PILIPALA.system.serv
             /* 初始化噼里啪啦用户、数据库、表、连接控制器 */
             PLDB PLDB = new PLDB
             {
-                DataBase = WebConfigurationManager.AppSettings["DataBase"],
                 Tables = PLSYS.DefTables,
                 Views = PLSYS.DefViews,
                 MySqlManager = new MySqlManager()
@@ -51,6 +50,7 @@ namespace PILIPALA.system.serv
             PLSYS.DBCHINIT(new MySqlConn
             {
                 DataSource = WebConfigurationManager.AppSettings["DataSource"],
+                DataBase = WebConfigurationManager.AppSettings["DataBase"],
                 Port = WebConfigurationManager.AppSettings["Port"],
                 User = WebConfigurationManager.AppSettings["User"],
                 PWD = WebConfigurationManager.AppSettings["PWD"]
@@ -72,7 +72,7 @@ namespace PILIPALA.system.serv
             SysServ SysServ = new SysServ();
             int StarCount = SysServ.PLDR.GetIndex(ID).StarCount;
 
-            SysServ.PLDU.UpdateStarCount(ID, StarCount - 1);
+            SysServ.PLDU.UpdateIndex<StarCount>(ID, StarCount - 1);
 
             return StarCount - 1;
         }
@@ -86,7 +86,7 @@ namespace PILIPALA.system.serv
             SysServ SysServ = new SysServ();
             int StarCount = SysServ.PLDR.GetIndex(ID).StarCount;
 
-            SysServ.PLDU.UpdateStarCount(ID, StarCount + 1);
+            SysServ.PLDU.UpdateIndex<StarCount>(ID, StarCount + 1);
 
             return StarCount + 1;
         }
@@ -100,7 +100,7 @@ namespace PILIPALA.system.serv
             SysServ SysServ = new SysServ();
             int UVCount = SysServ.PLDR.GetIndex(ID).UVCount;
 
-            SysServ.PLDU.UpdateUVCount(ID, UVCount + 1);
+            SysServ.PLDU.UpdateIndex<UVCount>(ID, UVCount + 1);
 
             return UVCount + 1;
         }
