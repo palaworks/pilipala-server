@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
 using WaterLibrary.stru.pilipala.DB;
+using WaterLibrary.stru.pilipala.PostKey;
 
 namespace WaterLibrary.stru.pilipala
 {
@@ -320,7 +321,15 @@ namespace WaterLibrary.stru.pilipala
         /// <param name="ID">目标文章ID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        bool Update<T>(int ID, string Value) where T : PostKey.IKey;
+        bool UpdateIndex<T>(int ID, object Value) where T : PostKey.IKey;
+        /// <summary>
+        /// 通用文章属性更新器
+        /// </summary>
+        /// <typeparam name="T">文章属性类型</typeparam>
+        /// <param name="ID">目标文章ID</param>
+        /// <param name="Value">新属性值</param>
+        /// <returns></returns>
+        bool UpdatePrimary<T>(int ID, object Value) where T : PostKey.IKey;
     }
 
     /// <summary>
@@ -402,7 +411,6 @@ namespace WaterLibrary.stru.pilipala
                 }
             }
         }
-
         /// <summary>
         /// 迭代器
         /// </summary>
@@ -431,6 +439,32 @@ namespace WaterLibrary.stru.pilipala
             yield return StarCount;
         }
 
+        /// <summary>
+        /// 变量初始化
+        /// </summary>
+        public void INIT()
+        {
+            ID = new int();
+            GUID = "";
+
+            Title = "";
+            Summary = "";
+            Content = "";
+            Cover = "";
+
+            Archiv = "";
+            Label = "";
+
+            Mode = "";
+            Type = "";
+            User = "";
+
+            CT = new DateTime();
+            LCT = new DateTime();
+
+            UVCount = new int();
+            StarCount = new int();
+        }
 
         /// <summary>
         /// 索引
@@ -514,6 +548,21 @@ namespace WaterLibrary.stru.pilipala
             /// 值
             /// </summary>
             string Val { get; set; }/* 为减少拆装箱为SQL的性能损耗，Val值规定为string */
+        }
+
+        /// <summary>
+        /// 文章全局标识
+        /// </summary>
+        public struct GUID : IKey
+        {
+            /// <summary>
+            /// 索引
+            /// </summary>
+            public int ID { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string Val { get; set; }
         }
 
         /// <summary>

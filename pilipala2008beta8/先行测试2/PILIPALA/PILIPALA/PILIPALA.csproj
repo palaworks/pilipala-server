@@ -98,7 +98,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="WaterLibrary">
+    <Reference Include="WaterLibrary, Version=1.1.6.5, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -108,6 +109,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="index.cshtml" />
     <Content Include="system\serv\SysServ.asmx" />
     <Content Include="user\theme\field3\com\field.js" />
     <Content Include="user\theme\field3\serv\ThemeServ.asmx" />
