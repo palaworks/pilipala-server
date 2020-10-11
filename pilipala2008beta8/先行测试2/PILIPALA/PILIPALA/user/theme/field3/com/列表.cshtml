@@ -3,29 +3,23 @@
 }
 <!-- 引用 -->
 @using System.Web.Configuration;
-@using WaterLibrary.stru.pilipala;
+
 @using WaterLibrary.stru.MySQL;
-@using WaterLibrary.com.pilipala;
-@using WaterLibrary.com.basic;
+@using WaterLibrary.stru.pilipala;
+@using WaterLibrary.stru.pilipala.PostKey;
 @using PILIPALA.system.serv;
 @using PILIPALA.user.theme.field3.serv;
-@using CommentLake.stru;
+
 @using CommentLake;
 @using Markdig;
+
+@using Type = WaterLibrary.stru.pilipala.PostKey.Type;
 <!-- 服务初始化 -->
 @{ SysServ SysServ = new SysServ(); }
 <!-- 其他初始化 -->
 @{
-    List<Archiv> 置顶 = new List<Archiv>
-{
-    new Archiv(){ Val = "置顶" },
-    };
-
-    List<Archiv> 其他 = new List<Archiv>
-{
-    new Archiv(){ Val = "技术" },
-    new Archiv(){ Val = "生活" }
-    };
+    List<string> 置顶 = new List<string> { "置顶" };
+    List<string> 其他 = new List<string> { "技术", "生活" };
 
     /* mkd */
     var builder = new Markdig.MarkdownPipelineBuilder();
@@ -38,6 +32,7 @@
     CommentLake.DBCHINIT(new MySqlConn
     {
         DataSource = WebConfigurationManager.AppSettings["DataSource"],
+        DataBase = WebConfigurationManager.AppSettings["DataBase"],
         Port = WebConfigurationManager.AppSettings["Port"],
         User = WebConfigurationManager.AppSettings["User"],
         PWD = WebConfigurationManager.AppSettings["PWD"]
@@ -48,7 +43,8 @@
     <!-- 置顶文章输出 -->
 
 
-    @foreach (Post Post in SysServ.PLDR.GetList(置顶))
+    @foreach (Post Post in SysServ.PLDR.GetList<Archiv>
+        (置顶, typeof(Title), typeof(Summary), typeof(Content), typeof(Cover), typeof(Type), typeof(CT), typeof(UVCount), typeof(StarCount)))
     {
 
         if (Post.Type == "n")
@@ -72,7 +68,7 @@
                         <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
                     }
                     <div class="UVCount">@Post.UVCount</div>
-                    <div class="CommentCount">@CommentLake.GetCommentCount(ID)</div>
+                    <div class="CommentCount">@CommentLake.GetCommentCount(Post.ID)</div>
                     <div class="StarCount">@Post.StarCount</div>
                 </div>
             </div>
@@ -81,7 +77,7 @@
         {
             <div class="Card L M bSha bRds">
 
-                <div onclick="up();showPost(@ID)" class="contain L cur">
+                <div onclick="up();showPost(@Post.ID)" class="contain L cur">
                     <!-- 前置样式 -->
                     @Html.Raw(Post.Cover)
                     <div class="Title">@Post.Title</div>
@@ -105,7 +101,7 @@
                         <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
                     }
                     <div class="UVCount">@Post.UVCount</div>
-                    <div class="CommentCount">@CommentLake.GetCommentCount(ID)</div>
+                    <div class="CommentCount">@CommentLake.GetCommentCount(Post.ID)</div>
                     <div class="StarCount">@Post.StarCount</div>
                 </div>
 
@@ -116,15 +112,15 @@
 
 
     <!-- 其他文章输出 -->
-    @foreach (int ID in SysServ.PLDR.GetIDList(其他))
+    @foreach (Post Post in SysServ.PLDR.GetList<Archiv>
+        (其他, typeof(Title), typeof(Summary), typeof(Content), typeof(Cover), typeof(Type), typeof(CT), typeof(UVCount), typeof(StarCount)))
     {
-        Post Post = PLDU.Join(SysServ.PLDR.GetIndex(ID), SysServ.PLDR.GetPrimary(ID));
 
         if (Post.Type == "p")
         {
             <div class="Card L M bSha bRds">
 
-                <div onclick="up();showPost(@ID)" class="contain L cur">
+                <div onclick="up();showPost(@Post.ID)" class="contain L cur">
                     <!-- 前置样式 -->
                     @Html.Raw(Post.Cover)
                     <div class="Title">@Post.Title</div>
@@ -148,7 +144,7 @@
                         <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
                     }
                     <div class="UVCount">@Post.UVCount</div>
-                    <div class="CommentCount">@CommentLake.GetCommentCount(ID)</div>
+                    <div class="CommentCount">@CommentLake.GetCommentCount(Post.ID)</div>
                     <div class="StarCount">@Post.StarCount</div>
                 </div>
             </div>
@@ -173,7 +169,7 @@
                         <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
                     }
                     <div class="UVCount">@Post.UVCount</div>
-                    <div class="CommentCount">@CommentLake.GetCommentCount(ID)</div>
+                    <div class="CommentCount">@CommentLake.GetCommentCount(Post.ID)</div>
                     <div class="StarCount">@Post.StarCount</div>
                 </div>
             </div>

@@ -194,23 +194,6 @@ namespace WaterLibrary.com.pilipala
             MySqlManager = PLSYS.MySqlManager;
         }
 
-        /// <summary>
-        /// 将属性集合按照分隔符合并为一个字符串（私有）
-        /// </summary>
-        /// <typeparam name="T">属性集合的属性类型</typeparam>
-        /// <param name="List">待合并string集合</param>
-        /// <param name="Delimiter">分隔符</param>
-        /// <returns></returns>
-        private string ListToString<T>(List<T> List, char Delimiter) where T : IKey
-        {
-            string Result = "";
-            foreach (T temp in List)
-            {
-                Result += temp.Val + Delimiter;
-            }
-            return Result.Substring(0, Result.Length - 1);
-        }
-
         /* 注意！读取器读取到的数据不包含设置隐藏的文章 */
 
         /// <summary>
@@ -226,6 +209,7 @@ namespace WaterLibrary.com.pilipala
             {
                 KeysStr += "," + Type.Name;
             }
+            KeysStr.Substring(0, KeysStr.Length - 1);
 
             string SQL = string.Format("SELECT ID{0} FROM `view>total`", KeysStr);
 
@@ -235,11 +219,12 @@ namespace WaterLibrary.com.pilipala
             {
                 Post Post = new Post();
 
-                int ColIndex = 0;
-                foreach (string Value in Row.ItemArray)
+                /* ID列赋值 */
+                Post["ID"] = Row.ItemArray[0];
+                for (int i = 1; i < Row.ItemArray.Length; i++)
                 {
-                    Post[PropertyType[ColIndex].Name] = Convert.ChangeType(Value, Post[PropertyType[ColIndex].Name].GetType());
-                    ColIndex++;
+                    /* ItemArray比PropertyType在首部多出一个ID列，使用i-1可正确匹配 */
+                    Post[PropertyType[i - 1].Name] = Row.ItemArray[i];
                 }
 
                 PostList.Add(Post);
@@ -254,38 +239,35 @@ namespace WaterLibrary.com.pilipala
         /// <param name="MatchList">属性匹配列表</param>
         /// <param name="PropertyType">所需属性类型</param>
         /// <returns></returns>
-        public virtual List<Post> GetList<T>(List<T> MatchList, params System.Type[] PropertyType) where T : IKey
+        public virtual List<Post> GetList<T>(List<string> MatchList, params System.Type[] PropertyType) where T : IKey
         {
-            /* 正则表达式格式化 */
-            string RegExp = ListToString(MatchList, '|');
             /* 键名字符串格式化 */
             string KeysStr = "";
-
             foreach (System.Type Type in PropertyType)
             {
                 KeysStr += "," + Type.Name;
             }
+            /* 正则表达式格式化 */
+            string RegExp = ConvertH.ListToString(MatchList, '|');
 
             string SQL = string.Format("SELECT ID{0} FROM `view>total` WHERE {1} REGEXP ?RegExp", KeysStr, typeof(T).Name);
 
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?RegExp", Val = RegExp }
-                };
-
             List<Post> PostList = new List<Post>();
 
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL,
+                new MySqlParm() { Name = "?RegExp", Val = RegExp }
+                ))
             {
                 foreach (DataRow Row in MySqlManager.GetTable(MySqlCommand).Rows)
                 {
                     Post Post = new Post();
 
-                    int ColIndex = 0;
-                    foreach (string Value in Row.ItemArray)
+                    /* ID列赋值 */
+                    Post["ID"] = Row.ItemArray[0];
+                    for (int i = 1; i < Row.ItemArray.Length; i++)
                     {
-                        Post[PropertyType[ColIndex].Name] = Convert.ChangeType(Value, Post[PropertyType[ColIndex].Name].GetType());
-                        ColIndex++;
+                        /* ItemArray比PropertyType在首部多出一个ID列，使用i-1可正确匹配 */
+                        Post[PropertyType[i - 1].Name] = Row.ItemArray[i];
                     }
 
                     PostList.Add(Post);
@@ -436,18 +418,19 @@ namespace WaterLibrary.com.pilipala
         /// <typeparam name="T">属性匹配列表的属性类型</typeparam>
         /// <param name="MatchList">属性匹配列表</param>
         /// <returns></returns>
-        public virtual List<int> GetIDList<T>(List<T> MatchList) where T : IKey
+        public virtual List<int> GetIDList<T>(List<string> MatchList) where T : IKey
         {
             List<int> IDList = new List<int>();
 
-            string RegExp = ListToString(MatchList, '|');
+            /* 正则表达式格式化 */
+            string str = ConvertH.ListToString(MatchList, '|');
 
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE ?Key REGEXP ?RegExp", Views.Index);
+            string SQL = string.Format("SELECT ID FROM `{0}` WHERE ?Key REGEXP ?str", Views.Index);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
                     new MySqlParm() { Name = "?Key", Val = typeof(T).Name },
-                    new MySqlParm() { Name = "?RegExp", Val = RegExp }
+                    new MySqlParm() { Name = "?str", Val = str }
                 };
 
             using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
@@ -467,18 +450,19 @@ namespace WaterLibrary.com.pilipala
         /// <param name="OrderKey">排序类型，可选值：asc(升序)或desc(降序)，不区分大小写</param>
         /// <param name="OrderType">排序类型</param>
         /// <returns></returns>
-        public virtual List<int> GetIDList<T>(List<T> MatchList, string OrderKey, string OrderType) where T : IKey
+        public virtual List<int> GetIDList<T>(List<string> MatchList, string OrderKey, string OrderType) where T : IKey
         {
             List<int> IDList = new List<int>();
 
-            string RegExp = ListToString(MatchList, '|');
+            /* 正则表达式格式化 */
+            string str = ConvertH.ListToString(MatchList, '|');
 
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE ?Key REGEXP ?RegExp ORDER BY ?OrderKey ?OrderType", Views.Index);
+            string SQL = string.Format("SELECT ID FROM `{0}` WHERE ?Key REGEXP ?str ORDER BY ?OrderKey ?OrderType", Views.Index);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
                     new MySqlParm() { Name = "?Key", Val = typeof(T).Name },
-                    new MySqlParm() { Name = "?RegExp", Val = RegExp },
+                    new MySqlParm() { Name = "?str", Val = str },
 
                     new MySqlParm() { Name = "?OrderKey", Val = OrderKey },
                     new MySqlParm() { Name = "?OrderType", Val = OrderType }
@@ -502,18 +486,19 @@ namespace WaterLibrary.com.pilipala
         /// <param name="OrderType">排序类型，可选值：asc(升序)或desc(降序)，不区分大小写</param>
         /// <param name="Length">最大取用长度</param>
         /// <returns></returns>
-        public virtual List<int> GetIDList<T>(List<T> MatchList, string OrderProperty, string OrderType, int Length) where T : IKey
+        public virtual List<int> GetIDList<T>(List<string> MatchList, string OrderProperty, string OrderType, int Length) where T : IKey
         {
             List<int> IDList = new List<int>();
 
-            string RegExp = ListToString(MatchList, '|');
+            /* 正则表达式格式化 */
+            string str = ConvertH.ListToString(MatchList, '|');
 
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE ?Key REGEXP ?RegExp ORDER BY ?Key ?OrderType LIMIT 0,?Length", Views.Index);
+            string SQL = string.Format("SELECT ID FROM `{0}` WHERE ?Key REGEXP ?str ORDER BY ?Key ?OrderType LIMIT 0,?Length", Views.Index);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
                     new MySqlParm() { Name = "?Key", Val = typeof(T).Name },
-                    new MySqlParm() { Name = "?RegExp", Val = RegExp },
+                    new MySqlParm() { Name = "?str", Val = str },
 
                     new MySqlParm() { Name = "?OrderKey", Val = OrderProperty },
                     new MySqlParm() { Name = "?OrderType", Val = OrderType },
@@ -772,17 +757,17 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 取得目标文章ID 的下一个文章ID（在正则表达式匹配到的归档范围内，按ID升序查找）
         /// </summary>
-        /// <param name="RegExp">正则表达式</param>
+        /// <param name="str">正则表达式</param>
         /// <param name="ID">目标文章ID</param>
         /// <returns>不存在符合要求的ID时，返回-1</returns>
-        public virtual int NextID(string RegExp, int ID)
+        public virtual int NextID(string str, int ID)
         {
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE ID =( SELECT min(ID) FROM `{0}` WHERE ID > ?ID AND Archiv REGEXP ?RegExp);", Views.Primary);
+            string SQL = string.Format("SELECT ID FROM `{0}` WHERE ID =( SELECT min(ID) FROM `{0}` WHERE ID > ?ID AND Archiv REGEXP ?str);", Views.Primary);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
                     new MySqlParm() { Name = "?ID", Val = ID },
-                    new MySqlParm() { Name = "?RegExp", Val = RegExp }
+                    new MySqlParm() { Name = "?str", Val = str }
                 };
 
             using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
@@ -863,18 +848,18 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 取得指定目标文章ID 的上一个文章ID（在正则表达式匹配到的归档范围内，按ID升序查找）
         /// </summary>
-        /// <param name="RegExp">正则表达式</param>
+        /// <param name="str">正则表达式</param>
         /// <param name="ID">目标文章ID</param>
         /// <returns>不存在符合要求的ID时，返回-1</returns>
-        public virtual int PrevID(string RegExp, int ID)
+        public virtual int PrevID(string str, int ID)
         {
             string SQL = string.Format("SELECT ID FROM `{0}` WHERE " +
-                         "ID =( SELECT max(ID) FROM `{0}` WHERE ID < ?ID AND Archiv REGEXP ?RegExp);", Views.Primary);
+                         "ID =( SELECT max(ID) FROM `{0}` WHERE ID < ?ID AND Archiv REGEXP ?str);", Views.Primary);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
                     new MySqlParm() { Name = "?ID", Val = ID },
-                    new MySqlParm() { Name = "?RegExp", Val = RegExp }
+                    new MySqlParm() { Name = "?str", Val = str }
                 };
 
             using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
@@ -1143,11 +1128,29 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 通用文章属性更新器
         /// </summary>
-        /// <typeparam name="T">文章属性类型</typeparam>
+        /// <typeparam name="T">目标属性类型</typeparam>
         /// <param name="ID">目标文章ID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        public bool Update<T>(int ID, string Value) where T : IKey
+        public bool UpdateIndex<T>(int ID, object Value) where T : IKey
+        {
+            //初始化键定位
+            MySqlKey MySqlKey = new MySqlKey
+            {
+                Table = Tables.Index,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Convert.ToString(Value));
+        }
+        /// <summary>
+        /// 通用文章属性更新器
+        /// </summary>
+        /// <typeparam name="T">目标属性类型</typeparam>
+        /// <param name="ID">目标文章ID</param>
+        /// <param name="Value">新属性值</param>
+        /// <returns></returns>
+        public bool UpdatePrimary<T>(int ID, object Value) where T : IKey
         {
             //初始化键定位
             MySqlKey MySqlKey = new MySqlKey
@@ -1156,7 +1159,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Value);
+            return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Convert.ToString(Value));
         }
 
         /// <summary>
