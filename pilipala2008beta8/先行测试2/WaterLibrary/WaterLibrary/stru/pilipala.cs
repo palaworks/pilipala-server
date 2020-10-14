@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using WaterLibrary.com.MySQL;
-using WaterLibrary.com.pilipala;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.stru.pilipala.PostKey;
 
@@ -321,7 +320,7 @@ namespace WaterLibrary.stru.pilipala
         /// <param name="ID">目标文章ID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        bool UpdateIndex<T>(int ID, object Value) where T : PostKey.IKey;
+        bool UpdateIndex<T>(int ID, object Value) where T : IKey;
         /// <summary>
         /// 通用文章属性更新器
         /// </summary>
@@ -329,7 +328,7 @@ namespace WaterLibrary.stru.pilipala
         /// <param name="ID">目标文章ID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        bool UpdatePrimary<T>(int ID, object Value) where T : PostKey.IKey;
+        bool UpdatePrimary<T>(int ID, object Value) where T : IKey;
     }
 
     /// <summary>

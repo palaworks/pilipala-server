@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.IO;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -67,72 +66,58 @@ namespace WaterLibrary.com.basic
         /// </summary>
         /// <param name="value">被检索值</param>
         /// <param name="array">数组,顺序由小到大</param>
-        /// <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
+        /// <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         public static int BinarySearch(int value, int[] array)
         {
-            try//二分法主体
+            int low = 0;
+            int high = array.Length - 1;
+            while (low <= high)
             {
-                int low = 0;
-                int high = array.Length - 1;
-                while (low <= high)
-                {
-                    int mid = (low + high) / 2;
+                int mid = (low + high) / 2;
 
-                    if (value == array[mid])
-                    {
-                        return mid;
-                    }
-                    if (value > array[mid])
-                    {
-                        low = mid + 1;
-                    }
-                    if (value < array[mid])
-                    {
-                        high = mid - 1;
-                    }
+                if (value == array[mid])
+                {
+                    return mid;
                 }
-                return -1;
+                if (value > array[mid])
+                {
+                    low = mid + 1;
+                }
+                if (value < array[mid])
+                {
+                    high = mid - 1;
+                }
             }
-            catch
-            {
-                return -2;
-            }
+            return -1;
         }
         /// <summary>
         /// 二分法检索(重载二),适用于双精度浮点检索
         /// </summary>
         /// <param name="value">被检索值</param>
         /// <param name="array">数组，顺序由小到大</param>
-        /// <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
+        /// <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         public static double BinarySearch(double value, double[] array)
         {
-            try//二分法主体
+            double low = 0;
+            double high = array.Length - 1;
+            while (low <= high)
             {
-                double low = 0;
-                double high = array.Length - 1;
-                while (low <= high)
-                {
-                    int mid = (int)(low + high) / 2;
+                int mid = (int)(low + high) / 2;
 
-                    if (value == array[mid])
-                    {
-                        return mid;
-                    }
-                    if (value > array[mid])
-                    {
-                        low = mid + 1;
-                    }
-                    if (value < array[mid])
-                    {
-                        high = mid - 1;
-                    }
+                if (value == array[mid])
+                {
+                    return mid;
                 }
-                return -1;
+                if (value > array[mid])
+                {
+                    low = mid + 1;
+                }
+                if (value < array[mid])
+                {
+                    high = mid - 1;
+                }
             }
-            catch
-            {
-                return -2;
-            }
+            return -1;
         }
     }
 
@@ -145,34 +130,27 @@ namespace WaterLibrary.com.basic
         /// 冒泡排序
         /// </summary>
         /// <param name="array">被排序的数组</param>
-        /// <returns>通常返回有序数组(由小到大)，报错则返回null</returns>
+        /// <returns>通常返回有序数组(由小到大)</returns>
         public static T[] BubbleSort<T>(T[] array) where T : IComparable
         {
-            try
+            for (int path = 0; path < array.Length; path++)//正被有序的起始位
             {
-                for (int path = 0; path < array.Length; path++)//正被有序的起始位
+                for (int i = 0; i < array.Length; i++)//临近元素排序
                 {
-                    for (int i = 0; i < array.Length; i++)//临近元素排序
+                    if (i + 1 < array.Length)//元素交换
                     {
-                        if (i + 1 < array.Length)//元素交换
+                        T tmp; ;
+                        if (array[i].CompareTo(array[i + 1]) > 0)
                         {
-                            T tmp; ;
-                            if (array[i].CompareTo(array[i + 1]) > 0)
-                            {
-                                tmp = array[i];
-                                array[i] = array[i + 1];
-                                array[i + 1] = tmp;
-                            }
+                            tmp = array[i];
+                            array[i] = array[i + 1];
+                            array[i + 1] = tmp;
                         }
-
                     }
+
                 }
-                return array;
             }
-            catch
-            {
-                return null;
-            }
+            return array;
         }
         /// <summary>
         /// 希尔排序

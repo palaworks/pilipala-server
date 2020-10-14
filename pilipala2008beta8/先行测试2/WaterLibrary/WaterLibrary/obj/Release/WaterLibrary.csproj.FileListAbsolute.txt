@@ -5,5 +5,5 @@ H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\obj\Re
 H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.csproj.CopyComplete
 H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.dll
 H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.pdb
-H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.csprojAssemblyReference.cache
 H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\bin\Release\WaterLibrary.xml
+H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.csprojAssemblyReference.cache

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace WaterLibrary.stru.MySQL
 {
-
     /// <summary>
     /// 键（用于键匹配查询）
     /// </summary>
@@ -65,5 +64,4 @@ namespace WaterLibrary.stru.MySQL
         /// </summary>
         public object Val { get; set; }
     }
-
 }

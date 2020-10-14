@@ -1,1 +1,1 @@
-﻿<%@ WebService Language="C#" CodeBehind="ThemeServ.asmx.cs" Class="PILIPALA.user.theme.field3.serv.ThemeServ" %>
+这是预编译工具生成的标记文件，不应删除!
