@@ -49,7 +49,7 @@
             </summary>
             <param name="value">被检索值</param>
             <param name="array">数组,顺序由小到大</param>
-            <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
+            <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         </member>
         <member name="M:WaterLibrary.com.basic.SearchH.BinarySearch(System.Double,System.Double[])">
             <summary>
@@ -57,7 +57,7 @@
             </summary>
             <param name="value">被检索值</param>
             <param name="array">数组，顺序由小到大</param>
-            <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
+            <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         </member>
         <member name="T:WaterLibrary.com.basic.SortH">
             <summary>
@@ -69,7 +69,7 @@
             冒泡排序
             </summary>
             <param name="array">被排序的数组</param>
-            <returns>通常返回有序数组(由小到大)，报错则返回null</returns>
+            <returns>通常返回有序数组(由小到大)</returns>
         </member>
         <member name="M:WaterLibrary.com.basic.SortH.ShellSort(System.Int32[])">
             <summary>
@@ -287,27 +287,24 @@
             <param name="Parm">查询参数</param>
             <returns>返回建立的参数化查询CMD对象</returns>
         </member>
-        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey``1(System.String)">
+        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey(System.String)">
             <summary>
             取得首个键值（键匹配查询）
             </summary>
-            <typeparam name="T">元素类型</typeparam>
             <param name="SQL">SQL语句</param>
             <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
         </member>
-        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey``1(MySql.Data.MySqlClient.MySqlCommand)">
+        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey(MySql.Data.MySqlClient.MySqlCommand)">
             <summary>
             取得首个键值（键匹配查询）
             </summary>
-            <typeparam name="T">元素类型</typeparam>
             <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
             <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
         </member>
-        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey``1(WaterLibrary.stru.MySQL.MySqlKey,System.String)">
+        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey(WaterLibrary.stru.MySQL.MySqlKey,System.String)">
             <summary>
             取得首个键值（键匹配查询）
             </summary>
-            <typeparam name="T">元素类型</typeparam>
             <param name="MySqlKey">操作定位器</param>
             <param name="KeyName">键名</param>
             <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
@@ -512,6 +509,7 @@
         <member name="M:WaterLibrary.com.pilipala.PLDR.GetList(System.Type[])">
             <summary>
             获得文章数据列表(使用MatchList匹配)
+            注意！在单次查询量较低时使用此方法会带来严重的性能损耗
             </summary>
             <param name="PropertyType">所需属性类型</param>
             <returns>返回根据所需类型填充的Post集合</returns>
@@ -519,6 +517,7 @@
         <member name="M:WaterLibrary.com.pilipala.PLDR.GetList``1(System.Collections.Generic.List{System.String},System.Type[])">
             <summary>
             获得文章数据列表(使用MatchList匹配)
+            注意！在单次查询量较低时使用此方法会带来严重的性能损耗
             </summary>
             <typeparam name="T">属性匹配列表的属性类型</typeparam>
             <param name="MatchList">属性匹配列表</param>
@@ -609,18 +608,25 @@
             <param name="ID"></param>
             <returns></returns>
         </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDR.GetPrimary(System.Int32)">
+            <summary>
+            通过ID获取Primary表中的目标文章数据
+            </summary>
+            <param name="ID">目标文章ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDR.GetTotal(System.Int32)">
+            <summary>
+            通过ID获取Total视图中的目标文章数据(Index Join Primary)
+            </summary>
+            <param name="ID">目标文章ID</param>
+            <returns></returns>
+        </member>
         <member name="M:WaterLibrary.com.pilipala.PLDR.GetIndex``1(System.Int32)">
             <summary>
             获取Index表中目标文章的指定属性
             </summary>
             <typeparam name="T">目标属性类型</typeparam>
-            <param name="ID">目标文章ID</param>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDR.GetPrimary(System.Int32)">
-            <summary>
-            通过ID获取Primary表中的目标文章数据
-            </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
@@ -668,7 +674,7 @@
             <summary>
             取得目标文章ID 的下一个文章ID（在正则表达式匹配到的归档范围内，按ID升序查找）
             </summary>
-            <param name="str">正则表达式</param>
+            <param name="REGEXP">正则表达式</param>
             <param name="ID">目标文章ID</param>
             <returns>不存在符合要求的ID时，返回-1</returns>
         </member>
@@ -691,7 +697,7 @@
             <summary>
             取得指定目标文章ID 的上一个文章ID（在正则表达式匹配到的归档范围内，按ID升序查找）
             </summary>
-            <param name="str">正则表达式</param>
+            <param name="REGEXP">正则表达式</param>
             <param name="ID">目标文章ID</param>
             <returns>不存在符合要求的ID时，返回-1</returns>
         </member>

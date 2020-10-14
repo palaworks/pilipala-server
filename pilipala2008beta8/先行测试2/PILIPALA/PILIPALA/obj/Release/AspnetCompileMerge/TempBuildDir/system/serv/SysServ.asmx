@@ -1,1 +1,1 @@
-﻿<%@ WebService Language="C#" CodeBehind="SysServ.asmx.cs" Class="PILIPALA.system.serv.SysServ" %>
+这是预编译工具生成的标记文件，不应删除!

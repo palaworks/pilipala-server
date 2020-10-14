@@ -100,7 +100,7 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="WaterLibrary, Version=1.1.6.5, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.dll</HintPath>
+      <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Release\WaterLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -109,7 +109,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="index.cshtml" />
     <Content Include="system\serv\SysServ.asmx" />
     <Content Include="user\theme\field3\com\field.js" />
     <Content Include="user\theme\field3\serv\ThemeServ.asmx" />
@@ -127,6 +126,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="index.cshtml" />
     <None Include="packages.config" />
     <Content Include="user\theme\field3\com\框架.cshtml" />
     <Content Include="user\theme\field3\com\脚本.cshtml" />
@@ -135,6 +135,7 @@
     <Content Include="user\theme\field3\com\手机菜单.cshtml" />
     <Content Include="user\theme\field3\com\列表.cshtml" />
     <Content Include="user\theme\field3\com\内容.cshtml" />
+    <Content Include="post.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
