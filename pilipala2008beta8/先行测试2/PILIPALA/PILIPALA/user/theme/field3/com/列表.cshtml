@@ -43,10 +43,12 @@
     <!-- 置顶文章输出 -->
 
 
-    @foreach (Post Post in SysServ.PLDR.GetList<Archiv>
-        (置顶, typeof(Title), typeof(Summary), typeof(Content), typeof(Cover), typeof(Type), typeof(CT), typeof(UVCount), typeof(StarCount)))
+    @foreach (Post Post in SysServ.PLDR.GetList<Archiv>(置顶,
+        typeof(Title), typeof(Summary), typeof(Content), typeof(Cover),
+        typeof(CT),
+        typeof(UVCount), typeof(StarCount),
+        typeof(Type)))
     {
-
         if (Post.Type == "n")
         {
             <div class="Card L M bSha bRds">
@@ -112,10 +114,12 @@
 
 
     <!-- 其他文章输出 -->
-    @foreach (Post Post in SysServ.PLDR.GetList<Archiv>
-        (其他, typeof(Title), typeof(Summary), typeof(Content), typeof(Cover), typeof(Type), typeof(CT), typeof(UVCount), typeof(StarCount)))
+    @foreach (Post Post in SysServ.PLDR.GetList<Archiv>(其他,
+        typeof(Title), typeof(Summary), typeof(Content), typeof(Cover),
+        typeof(CT),
+        typeof(UVCount), typeof(StarCount),
+        typeof(Type)))
     {
-
         if (Post.Type == "p")
         {
             <div class="Card L M bSha bRds">

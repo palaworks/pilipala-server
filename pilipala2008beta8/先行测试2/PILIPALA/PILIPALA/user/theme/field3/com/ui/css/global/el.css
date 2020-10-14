@@ -9,7 +9,9 @@ input:focus {
 textarea {
     outline: none;
 }
-
+button{
+    border-radius: 2px;
+}
 textarea:focus {
     outline: none;
 }

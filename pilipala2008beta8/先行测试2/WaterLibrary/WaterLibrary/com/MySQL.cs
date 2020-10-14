@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.IO;
-using System.Xml;
-using MySql.Data.MySqlClient;
 using System.Data;
+using MySql.Data.MySqlClient;
 
 using WaterLibrary.stru.MySQL;
 
@@ -26,31 +24,24 @@ namespace WaterLibrary.com.MySQL
         /// <returns>成功返回ture，反之或报错返回false</returns>
         public bool CloseHandlerConnection()
         {
-            try
+            switch (HandlerConnection.State)
             {
-                switch (HandlerConnection.State)
-                {
-                    case ConnectionState.Open:
-                        HandlerConnection.Close();
-                        if (HandlerConnection.State == ConnectionState.Closed)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-
-                    case ConnectionState.Closed:
+                case ConnectionState.Open:
+                    HandlerConnection.Close();
+                    if (HandlerConnection.State == ConnectionState.Closed)
+                    {
                         return true;
-
-                    default:
+                    }
+                    else
+                    {
                         return false;
-                }
-            }
-            catch
-            {
-                return false;
+                    }
+
+                case ConnectionState.Closed:
+                    return true;
+
+                default:
+                    return false;
             }
         }
         /// <summary>
@@ -59,31 +50,24 @@ namespace WaterLibrary.com.MySQL
         /// <returns>成功返回ture，反之或报错返回false</returns>
         public bool DisposeHandlerConnection()
         {
-            try
+            switch (HandlerConnection.State)
             {
-                switch (HandlerConnection.State)
-                {
-                    case ConnectionState.Open:
-                        HandlerConnection.Dispose();
-                        if (HandlerConnection.State == ConnectionState.Closed)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-
-                    case ConnectionState.Closed:
+                case ConnectionState.Open:
+                    HandlerConnection.Dispose();
+                    if (HandlerConnection.State == ConnectionState.Closed)
+                    {
                         return true;
-
-                    default:
+                    }
+                    else
+                    {
                         return false;
-                }
-            }
-            catch
-            {
-                return false;
+                    }
+
+                case ConnectionState.Closed:
+                    return true;
+
+                default:
+                    return false;
             }
         }
         /// <summary>
@@ -92,15 +76,8 @@ namespace WaterLibrary.com.MySQL
         /// <returns>成功返回ture，反之或报错返回false</returns>
         public bool NullHandlerConnection()
         {
-            try
-            {
-                HandlerConnection = null;
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            HandlerConnection = null;
+            return true;
         }
         /// <summary>
         /// 重启主连接（须以主连接定义完成为前提）
@@ -108,28 +85,20 @@ namespace WaterLibrary.com.MySQL
         /// <returns>成功返回ture，反之或报错返回false</returns>
         public bool ReStartHandlerConnection()
         {
-            try
+            //考虑到重启连接需花费一定时间的假设，该方法只提供了重启操作，而不去判断是否执行成功。
+            switch (HandlerConnection.State)
             {
-                //考虑到重启连接需花费一定时间的假设，该方法只提供了重启操作，而不去判断是否执行成功。
-                switch (HandlerConnection.State)
-                {
-                    case ConnectionState.Closed:
-                        HandlerConnection.Open();
-                        return true;
+                case ConnectionState.Closed:
+                    HandlerConnection.Open();
+                    return true;
 
-                    case ConnectionState.Open:
-                        HandlerConnection.Close();
-                        HandlerConnection.Open();
+                case ConnectionState.Open:
+                    HandlerConnection.Close();
+                    HandlerConnection.Open();
+                    return true;
 
-                        return true;
-
-                    default:
-                        return false;
-                }
-            }
-            catch
-            {
-                return false;
+                default:
+                    return false;
             }
         }
 
@@ -140,19 +109,12 @@ namespace WaterLibrary.com.MySQL
         /// <returns>返回一个MySqlConnection对象，错误则返回null</returns>
         public MySqlConnection GetSqlConnection(MySqlConn MySqlConn)
         {
-            try
-            {
-                //返回创建的连接
-                return new MySqlConnection
-                    (//组建连接信息
-                    "Data source=" + MySqlConn.DataSource + ";port=" +
-                    MySqlConn.Port + ";User Id=" + MySqlConn.User + ";password=" + MySqlConn.PWD + ";"
-                    );
-            }
-            catch
-            {
-                return null;
-            }
+            //返回创建的连接
+            return new MySqlConnection
+                (//组建连接信息
+                "Data source=" + MySqlConn.DataSource + ";port=" +
+                MySqlConn.Port + ";User Id=" + MySqlConn.User + ";password=" + MySqlConn.PWD + ";"
+                );
         }
         /// <summary>
         /// 生成MySqlConnection（重载二）
@@ -164,19 +126,12 @@ namespace WaterLibrary.com.MySQL
         /// <returns>返回一个MySqlConnection对象，错误则返回null</returns>
         public MySqlConnection GetSqlConnection(string DataSource, string Port, string User, string PWD)
         {
-            try
-            {
-                //返回创建的连接
-                return new MySqlConnection
-                    (//组建连接信息
-                    "Data source=" + DataSource + ";port="
-                    + Port + ";User Id=" + User + ";password=" + PWD + ";"
-                    );
-            }
-            catch
-            {
-                return null;
-            }
+            //返回创建的连接
+            return new MySqlConnection
+                (//组建连接信息
+                "Data source=" + DataSource + ";port="
+                + Port + ";User Id=" + User + ";password=" + PWD + ";"
+                );
         }
 
         /// <summary>
@@ -254,70 +209,45 @@ namespace WaterLibrary.com.MySQL
                 MySqlCommand.Parameters.AddWithValue(p.Name, p.Val);//添加参数
             }
             return MySqlCommand;
-
         }
 
 
         /// <summary>
         /// 取得首个键值（键匹配查询）
         /// </summary>
-        /// <typeparam name="T">元素类型</typeparam>
         /// <param name="SQL">SQL语句</param>
         /// <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
-        public T GetKey<T>(string SQL)
+        public object GetKey(string SQL)
         {
-            try
-            {
-                /* 如果结果集为空，该方法返回null */
-                return (T)new MySqlCommand(SQL, HandlerConnection).ExecuteScalar();
-            }
-            catch
-            {
-                return default;
-            }
+            /* 如果结果集为空，该方法返回null */
+            return new MySqlCommand(SQL, HandlerConnection).ExecuteScalar();
         }
         /// <summary>
         /// 取得首个键值（键匹配查询）
         /// </summary>
-        /// <typeparam name="T">元素类型</typeparam>
         /// <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
         /// <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
-        public T GetKey<T>(MySqlCommand MySqlCommand)
+        public object GetKey(MySqlCommand MySqlCommand)
         {
-            try
-            {
-                //将外来CMD设置为基于HandlerConnection执行
-                MySqlCommand.Connection = HandlerConnection;
+            //将外来CMD设置为基于HandlerConnection执行
+            MySqlCommand.Connection = HandlerConnection;
 
-                /* 如果结果集为空，该方法返回null */
-                return (T)MySqlCommand.ExecuteScalar();
-            }
-            catch
-            {
-                return default;
-            }
+            /* 如果结果集为空，该方法返回null */
+            return MySqlCommand.ExecuteScalar();
         }
         /// <summary>
         /// 取得首个键值（键匹配查询）
         /// </summary>
-        /// <typeparam name="T">元素类型</typeparam>
         /// <param name="MySqlKey">操作定位器</param>
         /// <param name="KeyName">键名</param>
         /// <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
-        public T GetKey<T>(MySqlKey MySqlKey, string KeyName)
+        public object GetKey(MySqlKey MySqlKey, string KeyName)
         {
-            try
-            {
-                string SQL = string.Format("SELECT {0} FROM {1} WHERE {2}='{3}';",
-                    KeyName, MySqlKey.Table, MySqlKey.Name, MySqlKey.Val);
+            string SQL = string.Format("SELECT {0} FROM {1} WHERE {2}='{3}';",
+                KeyName, MySqlKey.Table, MySqlKey.Name, MySqlKey.Val);
 
-                /* 如果结果集为空，该方法返回null */
-                return (T)new MySqlCommand(SQL, HandlerConnection).ExecuteScalar();
-            }
-            catch
-            {
-                return default;
-            }
+            /* 如果结果集为空，该方法返回null */
+            return new MySqlCommand(SQL, HandlerConnection).ExecuteScalar();
         }
 
 
@@ -328,14 +258,7 @@ namespace WaterLibrary.com.MySQL
         /// <returns>操作异常或目标行不存在时，返回null</returns>
         public DataRow GetRow(string SQL)
         {
-            try
-            {
-                return GetTable(SQL).Rows[0];
-            }
-            catch
-            {
-                return null;
-            }
+            return GetTable(SQL).Rows[0];
         }
         /// <summary>
         /// 获得数据行（适用于参数化查询）
@@ -344,17 +267,10 @@ namespace WaterLibrary.com.MySQL
         /// <returns>操作异常或目标行不存在时，返回null</returns>
         public DataRow GetRow(MySqlCommand MySqlCommand)
         {
-            try
-            {
-                //将外来CMD设置为基于HandlerConnection执行
-                MySqlCommand.Connection = HandlerConnection;
+            //将外来CMD设置为基于HandlerConnection执行
+            MySqlCommand.Connection = HandlerConnection;
 
-                return GetTable(MySqlCommand).Rows[0];
-            }
-            catch
-            {
-                return null;
-            }
+            return GetTable(MySqlCommand).Rows[0];
         }
         /// <summary>
         /// 从DataTable中提取指定行
@@ -384,12 +300,12 @@ namespace WaterLibrary.com.MySQL
         /// <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
         public DataTable GetTable(string SQL)
         {
-                DataTable table = new DataTable();
+            DataTable table = new DataTable();
 
-                /* 新建MySqlDataAdapter后填表 */
-                new MySqlDataAdapter(SQL, HandlerConnection).Fill(table);
+            /* 新建MySqlDataAdapter后填表 */
+            new MySqlDataAdapter(SQL, HandlerConnection).Fill(table);
 
-                return table;
+            return table;
         }
         /// <summary>
         /// 获取一张数据表（适用于参数化查询）

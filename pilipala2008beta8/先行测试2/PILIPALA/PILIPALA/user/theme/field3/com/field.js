@@ -9,7 +9,7 @@ function showPost(ID) {
 function showPost_origin(ID) {
     $.ajax({
         type: "post",
-        url: "/post?ID=" + ID,
+        url: "/post.cshtml?ID=" + ID,
         data: "",
         dataType: "html",/* html返回类型 */
         beforeSend: function () {
@@ -21,7 +21,7 @@ function showPost_origin(ID) {
 
             /* 更改URL地址 */
             const state = { 'ID': ID };
-            history.replaceState(state, '', 'post?ID=' + ID);
+            history.replaceState(state, '', 'post.cshtml?ID=' + ID);
 
 
             refre_UVCount(ID);/* 刷新UVCount计数 */
@@ -56,7 +56,7 @@ function showHome() {
 function showHome_origin() {
     $.ajax({
         type: "post",
-        url: "/",
+        url: "/index.cshtml",
         data: "",
         dataType: "html",/* html返回类型 */
         beforeSend: function () {
