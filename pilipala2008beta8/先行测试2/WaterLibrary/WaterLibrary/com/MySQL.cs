@@ -16,6 +16,7 @@ namespace WaterLibrary.com.MySQL
     /// </summary>
     public class MySqlManager
     {
+        /* 注意！所有的查询均不会使用参数化 */
         private MySqlConnection HandlerConnection;
 
         /// <summary>

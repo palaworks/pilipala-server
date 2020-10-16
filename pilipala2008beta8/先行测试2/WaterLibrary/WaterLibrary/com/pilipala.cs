@@ -512,9 +512,9 @@ namespace WaterLibrary.com.pilipala
         /// 通用文章匹配器
         /// </summary>
         /// <typeparmm name="T">被匹配的属性类型</typeparmm>
-        /// <parmm name="Value">被匹配的属性值</parmm>
+        /// <parmm name="REGEXP">正则表达式</parmm>
         /// <returns></returns>
-        public virtual List<int> MatchPost<T>(string Value) where T : IKey
+        public virtual List<int> MatchID<T>(string REGEXP) where T : IKey
         {
             List<int> IDList = new List<int>();
 
@@ -522,7 +522,7 @@ namespace WaterLibrary.com.pilipala
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
-                    new MySqlParm() { Name = "REGEXP", Val = Value }
+                    new MySqlParm() { Name = "REGEXP", Val = REGEXP }
                 };
 
             using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
@@ -534,6 +534,54 @@ namespace WaterLibrary.com.pilipala
             }
             return IDList;
         }
+        /// <summary>
+        /// 通用文章匹配器
+        /// </summary>
+        /// <typeparmm name="T">被匹配的属性类型</typeparmm>
+        /// <parmm name="REGEXP">正则表达式</parmm>
+        /// <returns></returns>
+        public virtual List<Post> MatchPost<T>(string REGEXP) where T : IKey
+        {
+            List<Post> PostList = new List<Post>();
+
+            string SQL = string.Format("SELECT * FROM `{0}` WHERE {1} REGEXP ?REGEXP", Views.Total, typeof(T).Name);
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+                {
+                    new MySqlParm() { Name = "REGEXP", Val = REGEXP }
+                };
+
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
+            {
+                foreach (DataRow Row in MySqlManager.GetTable(MySqlCommand).Rows)
+                {
+                    PostList.Add(new Post
+                    {
+                        ID = Convert.ToInt32(Row["ID"]),
+                        GUID = Convert.ToString(Row["GUID"]),
+
+                        CT = Convert.ToDateTime(Row["CT"]),
+                        LCT = Convert.ToDateTime(Row["LCT"]),
+                        Title = Convert.ToString(Row["Title"]),
+                        Summary = Convert.ToString(Row["Summary"]),
+                        Content = Convert.ToString(Row["Content"]),
+
+                        Archiv = Convert.ToString(Row["Archiv"]),
+                        Label = Convert.ToString(Row["Label"]),
+                        Cover = Convert.ToString(Row["Cover"]),
+
+                        Mode = Convert.ToString(Row["Mode"]),
+                        Type = Convert.ToString(Row["Type"]),
+                        User = Convert.ToString(Row["User"]),
+
+                        UVCount = Convert.ToInt32(Row["UVCount"]),
+                        StarCount = Convert.ToInt32(Row["StarCount"])
+                    });
+                }
+            }
+            return PostList;
+        }
+
 
         /// <summary>
         /// 通过ID获取Index表中的目标文章数据
@@ -682,7 +730,7 @@ namespace WaterLibrary.com.pilipala
         }
 
         /// <summary>
-        /// 取得文章文本型属性（从Primary视图）
+        /// 以字符串形式取得文章属性
         /// </summary>
         /// <typeparam name="T">目标属性类型</typeparam>
         /// <param name="ID">目标文章ID</param>
@@ -702,7 +750,7 @@ namespace WaterLibrary.com.pilipala
             }
         }
         /// <summary>
-        /// 取得文章文本型属性（从Primary视图，限制最大取用长度）
+        /// 以字符串形式取得文章属性（限制最大取用长度）
         /// </summary>
         /// <typeparam name="T">目标属性类型</typeparam>
         /// <param name="ID">目标文章ID</param>
