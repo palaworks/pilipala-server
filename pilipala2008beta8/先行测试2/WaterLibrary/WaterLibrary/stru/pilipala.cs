@@ -255,7 +255,7 @@ namespace WaterLibrary.stru.pilipala
         /// <typeparmm name="T">被匹配的键类型</typeparmm>
         /// <parmm name="Value">被匹配的键值</parmm>
         /// <returns></returns>
-        List<int> MatchPost<T>(string Value) where T : PostKey.IKey;
+        List<int> MatchID<T>(string Value) where T : PostKey.IKey;
 
         /// <summary>
         /// 获得符合ID的文本索引数据
