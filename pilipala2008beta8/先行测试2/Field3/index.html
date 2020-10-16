@@ -288,7 +288,7 @@
           </div>
         </div>
 
-        <div class="CommentBox  L M bRds bSha">
+        <div id="CommentBox" class="CommentBox  L M bRds bSha">
           <div class="Content">
             <div class="Logo"></div>
             <div class="ReplyLogo"></div>
@@ -297,11 +297,11 @@
           </div>
           <div class="Name">
             <div class="Logo"></div>
-            <input placeholder="昵称" />
+            <input v-model="Name" placeholder="昵称" />
           </div>
           <div class="Email">
             <div class="Logo"></div>
-            <input placeholder="邮箱" />
+            <input v-model="Email" placeholder="邮箱" />
           </div>
           <div class="WebSite">
             <div class="Logo"></div>
@@ -311,7 +311,7 @@
             <div class="Logo"></div>
             <input class="Captcha" placeholder="验证码" />
           </div>
-          <button class="CommitBtn bb">提交</button>
+          <button v-on:click="click" class="CommitBtn bb">提交</button>
         </div>
       </div>
       <div class="LoadLine-"></div>
@@ -410,6 +410,70 @@
       ]
     },
   })
+</script>
+<!-- vue-email -->
+<script>
+  var CommentBox = new Vue({
+    el: '#CommentBox',
+    data: {
+      Name: '',
+      Email: ''
+    },
+    methods: {
+      click: function () {
+        if (EmailCheck(this.Email) == true && NameCheck(this.Name) == true) {
+          window.alert("COMMITED!");
+        } else {
+          window.alert("FALSE!");
+        }
+      }
+    }
+  })
+  var ContentCheck = (value) => {
+    if (value === '') {
+      return false;
+    } else {
+      if (value !== '') {
+        
+      }
+    }
+  };
+  var NameCheck = (value) => {
+    if (value === '') {
+      return false;
+    } else {
+      if (value !== '') {
+        if (value.length > 16) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    }
+  };
+  var EmailCheck = (value) => {
+    if (value === '') {
+      return false;
+    } else {
+      if (value !== '') {
+        var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+        if (!reg.test(value)) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    }
+  };
+  var WebSiteCheck = (value) => {
+    if (value === '') {
+      return false;
+    } else {
+      if (value !== '') {
+        
+      }
+    }
+  };
 </script>
 <script>
   var SiderList = new Vue({
