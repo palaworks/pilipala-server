@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.stru.MySQL;
 using CommentLake.stru;
-using MySql.Data;
 using MySql.Data.MySqlClient;
-using MySql;
 using System.Data;
 
 namespace CommentLake
@@ -54,10 +52,10 @@ namespace CommentLake
             }
         }
 
-        /* 评论删除功能列为第二优先级 */
+        /* 评论删除功能列为第二优先级（待开发） */
 
         /// <summary>
-        /// 添加一条评论
+        /// 添加一条评论（CommentID Time参数由系统自动生成，初始化无需传入）
         /// </summary>
         /// <param name="PostID">评论归属的文章ID</param>
         /// <param name="Comment">评论内容</param>
@@ -67,20 +65,23 @@ namespace CommentLake
         {
             string SQL = string.Format(
                 "INSERT INTO {0}.`{1}` " +
-                "(`CommentID`, `PostID`, `Name`, `Email`, `Content`, `WebSite`, `HEAD`) VALUES " +
-                "(`?CommentID`,`?PostID`,`?Name`,`?Email`,`?Content`,`?WebSite`,`?HEAD`);"
+                "(`CommentID`, `PostID`, `Name`, `Email`, `Content`, `WebSite`, `HEAD`, `Time`) VALUES " +
+                "(`?CommentID`,`?PostID`,`?Name`,`?Email`,`?Content`,`?WebSite`,`?HEAD`,`?Time`);"
 
                 , DataBase, CommentTable);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
             {
-                new MySqlParm() { Name = "?CommentID", Val = GetMaxCommentID() + 1 },
-                new MySqlParm() { Name = "?PostID", Val =  Comment.PostID},
-                new MySqlParm() { Name = "?Name", Val =  Comment.Name},
-                new MySqlParm() { Name = "?Content", Val =  Comment.Content},
-                new MySqlParm() { Name = "?Content", Val =  Comment.Content},
-                new MySqlParm() { Name = "?Content", Val =  Comment.Content},
-                new MySqlParm() { Name = "?HEAD", Val =  Comment.HEAD},
+                new MySqlParm() { Name = "CommentID", Val = GetMaxCommentID() + 1 },
+
+                new MySqlParm() { Name = "PostID", Val =  Comment.PostID},
+                new MySqlParm() { Name = "Name", Val =  Comment.Name},
+                new MySqlParm() { Name = "Email", Val =  Comment.Email},
+                new MySqlParm() { Name = "Content", Val =  Comment.Content},
+                new MySqlParm() { Name = "WebSite", Val =  Comment.WebSite},
+                new MySqlParm() { Name = "HEAD", Val =  Comment.HEAD},
+
+                new MySqlParm() { Name = "Time", Val =  DateTime.Now}
             };
 
             if (MySqlManager.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
@@ -144,7 +145,7 @@ namespace CommentLake
                         Name = Convert.ToString(Row["Name"]),
                         Email = Convert.ToString(Row["Email"]),
                         Content = Convert.ToString(Row["Content"]),
-                        WebSIte = Convert.ToString(Row["WebSite"]),
+                        WebSite = Convert.ToString(Row["WebSite"]),
                         HEAD = Convert.ToInt32(Row["HEAD"].ToString() == "" ? -1 : Row["HEAD"]),/* HEAD为空值时赋值为-1 */
                         Time = Convert.ToDateTime(Row["Time"]),
 

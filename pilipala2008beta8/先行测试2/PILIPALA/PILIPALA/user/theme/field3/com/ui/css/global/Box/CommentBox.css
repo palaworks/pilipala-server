@@ -1,17 +1,28 @@
 .CommentBox {
     display: grid;
     grid-template-columns: 35% 20% 35% 10%;
-    grid-template-rows: auto 40px 40px 40px;
+    grid-template-rows: auto 38px 38px;
 
     padding: 2px;
 }
 
-/* 屏幕宽度大于500时 */
-@media screen and (min-width: 490px) {
+/* 屏幕宽度大于1001时 */
+@media screen and (min-width: 1001px) {
     .CommentBox {
-        width: 80%;
-        margin-left: 10%;
-        margin-right: 10%;
+        margin: auto;
+        width: 70%;
+        min-width: 600px;
+        max-width: 700px;
+    }
+}
+
+/* 屏幕宽度大于491，小于1490时 */
+@media (max-width: 1000px) and (min-width:491px) {
+    .CommentBox {
+        margin: auto;
+        width: 86%;
+        min-width: 482px;
+        max-width: 700px;
     }
 }
 
@@ -19,7 +30,7 @@
 @media screen and (max-width: 490px) {
     .CommentBox {
         width: 100%;
-        box-sizing:border-box;
+        box-sizing: border-box;
     }
 }
 
@@ -68,6 +79,15 @@
     grid-column-end: 5;
 }
 
+.CommentBox>.Captcha>.CaptchaLine {
+    font-size: 16px;
+    min-width: 0;
+    flex: 1;
+    border-radius: 0;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
 
 .CommentBox>.Content {
     grid-column-start: 1;
@@ -92,7 +112,7 @@
     min-height: 74px;
     padding-top: 4px;
     padding-left: 8px;
-    
+
     border: 0;
 
     border-top-right-radius: 2px;
@@ -100,27 +120,6 @@
     border-bottom-left-radius: 2px;
 
     resize: none;
-}
-
-.CommentBox>.CommitBtn {
-    grid-column-start: 1;
-    grid-column-end: 5;
-    margin: 2px;
-    color: black;
-    font-weight: 600;
-
-    border: 0;
-
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
-}
-
-.CommentBox>.CommitBtn:hover {
-    color: black;
-}
-
-.CommentBox>.CommitBtn:focus {
-    outline: 0;
 }
 
 .CommentBox>.Content>.Logo {
@@ -132,7 +131,7 @@
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
     line-height: 2.2em;
-    padding-left: 10px;
+    padding-left: 8px;
     padding-right: 8px;
     color: rgba(130, 130, 130, 1);
 }

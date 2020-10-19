@@ -32,9 +32,9 @@ namespace CommentLake.stru
         /// <summary>
         /// 评论人的个人站点
         /// </summary>
-        public string WebSIte { get; set; }
+        public string WebSite { get; set; }
         /// <summary>
-        /// 回复到的ID（为空时表示不回复）
+        /// 回复到的评论ID（为空时表示不回复）
         /// </summary>
         public int HEAD { get; set; }
         /// <summary>

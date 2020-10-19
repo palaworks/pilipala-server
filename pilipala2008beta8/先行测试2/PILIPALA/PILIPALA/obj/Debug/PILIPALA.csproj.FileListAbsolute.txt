@@ -130,3 +130,7 @@ H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\obj\Debug\PILI
 H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\obj\Debug\PILIPALA.dll
 H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\obj\Debug\PILIPALA.pdb
 H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\obj\Debug\PILIPALA.csprojAssemblyReference.cache
+H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\bin\aliyun-net-sdk-afs.dll
+H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\bin\aliyun-net-sdk-core.dll
+H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\bin\aliyun-net-sdk-afs.pdb
+H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\bin\aliyun-net-sdk-core.pdb

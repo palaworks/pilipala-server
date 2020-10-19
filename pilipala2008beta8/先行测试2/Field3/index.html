@@ -18,6 +18,22 @@
   <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
 
   <script src="ui/js/global.js"></script>
+
+  <!-- 版权绘 -->
+  <script>
+    let c =
+      'background:#00CED1; padding:10px 20px 12px 20px; font-family:\'Source Sans Pro\'; font-size:22px; color:#fff; border-radius: 3px 0 0 3px;'
+    let d =
+      'background:#1E90FF; padding:10px 20px 12px 20px; font-family:\'Source Sans Pro\'; font-size:22px; color:#fff; border-radius: 0 3px 3px 0;'
+    console.log(`%c 噼哩啪啦 %cBETA 8`, c, d)
+  </script>
+  <script>
+    let a =
+      'background: #FFA500; padding:4px 10px 4px 10px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 3px 0 0 3px;'
+    let b =
+      'background: #606060; padding:4px 10px 4px 10px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 0 3px 3px 0;'
+    console.log(`  %cTheme%c氛V3 Designed By Thaumy`, a, b)
+  </script>
 </head>
 
 <body>
@@ -288,12 +304,12 @@
           </div>
         </div>
 
-        <div id="CommentBox" class="CommentBox  L M bRds bSha">
+        <div id="CommentBox" class="CommentBox M bRds bSha">
           <div class="Content">
             <div class="Logo"></div>
             <div class="ReplyLogo"></div>
             <div class="ReplyFloor">3F</div>
-            <textarea placeholder="评论内容"></textarea>
+            <textarea v-model="Content" placeholder="评论内容"></textarea>
           </div>
           <div class="Name">
             <div class="Logo"></div>
@@ -305,13 +321,12 @@
           </div>
           <div class="WebSite">
             <div class="Logo"></div>
-            <input placeholder="网站" />
+            <input v-model="WebSite" placeholder="网站" />
           </div>
           <div class="Captcha">
             <div class="Logo"></div>
-            <input class="Captcha" placeholder="验证码" />
+            <div class="CaptchaLine"></div>
           </div>
-          <button v-on:click="click" class="CommitBtn bb">提交</button>
         </div>
       </div>
       <div class="LoadLine-"></div>
@@ -411,67 +426,81 @@
     },
   })
 </script>
-<!-- vue-email -->
+<!-- vue-commentCheck -->
 <script>
   var CommentBox = new Vue({
     el: '#CommentBox',
     data: {
+      Content: '',
       Name: '',
-      Email: ''
+      Email: '',
+      WebSite: ''
     },
     methods: {
       click: function () {
-        if (EmailCheck(this.Email) == true && NameCheck(this.Name) == true) {
-          window.alert("COMMITED!");
+
+        if (ContentCheck(this.Content) &
+          NameCheck(this.Name) &
+          EmailCheck(this.Email) &
+          WebSiteCheck(this.WebSite)) {
+          console.log("***SUCCESS!");
         } else {
-          window.alert("FALSE!");
+          console.log("***FALSE!")
+        }
+
+        if (WebSiteCheck(this.WebSite)) {
+          console.log("web --- SUCCESS!");
+        } else {
+          console.log("web --- FALSE!");
         }
       }
     }
   })
   var ContentCheck = (value) => {
-    if (value === '') {
+    if (value == "") {
       return false;
     } else {
-      if (value !== '') {
-        
+      if (value.length > 320) {
+        return false;
+      } else {
+        return true;
       }
     }
   };
   var NameCheck = (value) => {
-    if (value === '') {
+    if (value == "") {
       return false;
     } else {
-      if (value !== '') {
-        if (value.length > 16) {
-          return false;
-        } else {
-          return true;
-        }
+      if (value.length > 12) {
+        return false;
+      } else {
+        return true;
       }
     }
   };
   var EmailCheck = (value) => {
-    if (value === '') {
+    if (value == "") {
       return false;
     } else {
-      if (value !== '') {
-        var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-        if (!reg.test(value)) {
-          return false;
-        } else {
-          return true;
-        }
+      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      if (!reg.test(value)) {
+        return false;
+      } else {
+        return true;
       }
     }
   };
   var WebSiteCheck = (value) => {
-    if (value === '') {
+    if (value == "") {
       return false;
     } else {
-      if (value !== '') {
-        
+      var reg0 = /^(http|https|ftp)\:\/\/([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}(\/)?$/;
+      if (!reg0.test(value)) {
+        return false;
+      } else {
+        return true;
       }
+
     }
   };
 </script>
