@@ -198,7 +198,8 @@
             </div>
         }
 
-        <div class="CommentBox L M bRds bSha">
+
+        <div class="CommentBox M bRds bSha">
             <div class="Content">
                 <div class="Logo"></div>
                 <div class="ReplyLogo"></div>
@@ -219,9 +220,129 @@
             </div>
             <div class="Captcha">
                 <div class="Logo"></div>
-                <input class="Captcha" placeholder="验证码" />
+                <!--No-Captcha渲染的位置，其中 class 中必须包含 nc-container-->
+                <div id="ali-safe" class="nc-container CaptchaLine"></div>
             </div>
-            <button class="CommitBtn">提交</button>
         </div>
+
+
+        <!-- 阿里云Captcha -->
+        <script type="text/javascript">
+            var nc_token = ["FFFF0N0000000000987D", (new Date()).getTime(), Math.random()].join(':');
+            var NC_Opt =
+            {
+                renderTo: "#ali-safe",
+                appkey: "FFFF0N0000000000987D",
+                scene: "nc_bbs",
+                token: nc_token,
+                trans: { "key1": "code0" },
+                elementID: ["usernameID"],
+                is_Opt: 0,
+                language: "cn",
+                isEnabled: true,
+                timeout: 3000,
+                times: 5,
+                apimap: {
+                    // 'analyze': '//a.com/nocaptcha/analyze.jsonp',
+                    // 'get_captcha': '//b.com/get_captcha/ver3',
+                    // 'get_captcha': '//pin3.aliyun.com/get_captcha/ver3'
+                    // 'get_img': '//c.com/get_img',
+                    // 'checkcode': '//d.com/captcha/checkcode.jsonp',
+                    // 'umid_Url': '//e.com/security/umscript/3.2.1/um.js',
+                    // 'uab_Url': '//aeu.alicdn.com/js/uac/909.js',
+                    // 'umid_serUrl': 'https://g.com/service/um.json'
+                },
+                callback: function (data) {
+                    Captcha(nc_token, data.csessionid, data.sig);
+                    AddComment();
+                }
+            }
+            var nc = new noCaptcha(NC_Opt)
+            nc.upLang('cn', {
+                _startTEXT: "人机验证",
+                _yesTEXT: "许可通过",
+                _error300: "有内鬼，终止交易！",
+                _errorNetwork: "网络错误",
+            })
+        </script>
+
+        <!-- vue-commentCheck -->
+        <script>
+            var CommentBox = new Vue({
+                el: '#CommentBox',
+                data: {
+                    Content: '',
+                    Name: '',
+                    Email: '',
+                    WebSite: ''
+                },
+                methods: {
+                    click: function () {
+
+                        if (ContentCheck(this.Content) &
+                            NameCheck(this.Name) &
+                            EmailCheck(this.Email) &
+                            WebSiteCheck(this.WebSite)) {
+                            console.log("***SUCCESS!");
+                        } else {
+                            console.log("***FALSE!")
+                        }
+
+                        if (WebSiteCheck(this.WebSite)) {
+                            console.log("web --- SUCCESS!");
+                        } else {
+                            console.log("web --- FALSE!");
+                        }
+                    }
+                }
+            })
+            var ContentCheck = (value) => {
+                if (value == "") {
+                    return false;
+                } else {
+                    if (value.length > 320) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            };
+            var NameCheck = (value) => {
+                if (value == "") {
+                    return false;
+                } else {
+                    if (value.length > 12) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            };
+            var EmailCheck = (value) => {
+                if (value == "") {
+                    return false;
+                } else {
+                    var reg = /^([A-Za-z0-9_\-\.])+\@@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                    if (!reg.test(value)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            };
+            var WebSiteCheck = (value) => {
+                if (value == "") {
+                    return false;
+                } else {
+                    var reg0 = /^(http|https|ftp)\:\/\/([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}(\/)?$/;
+                    if (!reg0.test(value)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+
+                }
+            };
+        </script>
     </div>
 }

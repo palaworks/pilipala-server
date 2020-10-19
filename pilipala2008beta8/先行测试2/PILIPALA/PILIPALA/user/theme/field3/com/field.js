@@ -80,6 +80,30 @@ function showHome_origin() {
     });
 };
 
+/* 阿里云Captcha */
+/* 技术验证型评论提交（不安全） */
+function Captcha(Token, SessionId, Sig) {
+    d = "{'Token':'" + Token +
+        "','SessionId':'" + SessionId +
+        "','Sig':'" + Sig +
+        "','PostID':'" + PostID +
+        "','Name':'" + Name +
+        "','Email':'" + Email +
+        "','Content':'" + Content +
+        "','WebSite':'" + WebSite +
+        "','HEAD':'" + HEAD + "'}";
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        url: "/system/serv/CaptchaServ.asmx/CommentLakeCaptcha",
+        data: d,
+        dataType: "json",
+        success: function (result) {
+            console.log(result.d);
+        }
+    });
+}
+
 /* 刷新StarCount计数（AJAX） */
 function refre_StarCount(ID) {
     if ($.cookie('isStar' + ID) == 'true') {

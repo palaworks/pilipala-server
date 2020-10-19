@@ -22,12 +22,6 @@
     background: var(--b40);
 }
 
-.CommentBox>.CommitBtn {
-    /* 颜色模式 */
-    background: rgb(0, 156, 228);
-}
-
-.CommentBox>.CommitBtn:hover {
-    /* 颜色模式 */
-    background: rgb(0, 204, 255);
+.CommentBox>.Captcha>.CaptchaLine {
+    background: rgba(16, 16, 16, 1);
 }
