@@ -43,6 +43,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="aliyun-net-sdk-afs">
+      <HintPath>C:\Users\studi\Desktop\aliyun-net-sdk-afs-20180112\aliyun-net-sdk-afs-20180112\aliyun-net-sdk-afs.dll</HintPath>
+    </Reference>
+    <Reference Include="aliyun-net-sdk-core">
+      <HintPath>C:\Users\studi\Desktop\aliyun-net-sdk-afs-20180112\aliyun-net-sdk-afs-20180112\aliyun-net-sdk-core.dll</HintPath>
+    </Reference>
     <Reference Include="CommentLake, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CommentLake\CommentLake\bin\Release\CommentLake.dll</HintPath>
@@ -109,6 +115,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="system\serv\CaptchaServ.asmx" />
     <Content Include="system\serv\SysServ.asmx" />
     <Content Include="user\theme\field3\com\field.js" />
     <Content Include="user\theme\field3\serv\ThemeServ.asmx" />
@@ -116,6 +123,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="system\serv\CaptchaServ.asmx.cs">
+      <DependentUpon>CaptchaServ.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="system\serv\SysServ.asmx.cs">
       <DependentUpon>SysServ.asmx</DependentUpon>
       <SubType>Component</SubType>

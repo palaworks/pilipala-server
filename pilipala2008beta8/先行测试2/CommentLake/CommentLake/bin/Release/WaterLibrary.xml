@@ -49,7 +49,7 @@
             </summary>
             <param name="value">被检索值</param>
             <param name="array">数组,顺序由小到大</param>
-            <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
+            <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         </member>
         <member name="M:WaterLibrary.com.basic.SearchH.BinarySearch(System.Double,System.Double[])">
             <summary>
@@ -57,7 +57,7 @@
             </summary>
             <param name="value">被检索值</param>
             <param name="array">数组，顺序由小到大</param>
-            <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
+            <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         </member>
         <member name="T:WaterLibrary.com.basic.SortH">
             <summary>
@@ -69,7 +69,7 @@
             冒泡排序
             </summary>
             <param name="array">被排序的数组</param>
-            <returns>通常返回有序数组(由小到大)，报错则返回null</returns>
+            <returns>通常返回有序数组(由小到大)</returns>
         </member>
         <member name="M:WaterLibrary.com.basic.SortH.ShellSort(System.Int32[])">
             <summary>
@@ -255,7 +255,7 @@
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.Start(System.String,System.String,System.String,System.String,System.String)">
             <summary>
-            启动连接（重载一：启动HandlerConnection）
+            启动连接
             </summary>
             <param name="DataSource">数据源</param>
             <param name="DataBase">数据库</param>
@@ -266,7 +266,7 @@
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.Start(WaterLibrary.stru.MySQL.MySqlConn)">
             <summary>
-            启动连接（重载二：启动HandlerConnection）
+            启动连接
             </summary>
             <param name="MySqlConn">连接签名</param>
             <returns>返回true，错误则返回false</returns>
@@ -287,44 +287,38 @@
             <param name="Parm">查询参数</param>
             <returns>返回建立的参数化查询CMD对象</returns>
         </member>
-        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey``1(System.String)">
+        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey(System.String)">
             <summary>
             取得首个键值（键匹配查询）
-            （重载一：使用HandlerConnection查询）
             </summary>
-            <typeparam name="T">元素类型</typeparam>
             <param name="SQL">SQL语句</param>
             <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
         </member>
-        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey``1(MySql.Data.MySqlClient.MySqlCommand)">
+        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey(MySql.Data.MySqlClient.MySqlCommand)">
             <summary>
             取得首个键值（键匹配查询）
-            （重载二：使用HandlerConnection查询）
             </summary>
-            <typeparam name="T">元素类型</typeparam>
             <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
             <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
         </member>
-        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey``1(WaterLibrary.stru.MySQL.MySqlKey,System.String)">
+        <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetKey(WaterLibrary.stru.MySQL.MySqlKey,System.String)">
             <summary>
             取得首个键值（键匹配查询）
-            （重载三：使用HandlerConnection查询）
             </summary>
-            <typeparam name="T">元素类型</typeparam>
             <param name="MySqlKey">操作定位器</param>
             <param name="KeyName">键名</param>
             <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetRow(System.String)">
             <summary>
-            获得数据行（重载一：使用HandlerConnection查询）
+            获得数据行
             </summary>
             <param name="SQL">SQL语句</param>
             <returns>操作异常或目标行不存在时，返回null</returns>
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetRow(MySql.Data.MySqlClient.MySqlCommand)">
             <summary>
-            获得数据行（重载二：使用HandlerConnection查询）（适用于参数化查询）
+            获得数据行（适用于参数化查询）
             </summary>
             <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
             <returns>操作异常或目标行不存在时，返回null</returns>
@@ -340,21 +334,21 @@
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetTable(System.String)">
             <summary>
-            获取一张数据表（重载一：使用HandlerConnection查询）
+            获取一张数据表
             </summary>
             <param name="SQL">SQL语句，用于查询数据表</param>
             <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetTable(MySql.Data.MySqlClient.MySqlCommand)">
             <summary>
-            获取一张数据表（重载二：使用HandlerConnection查询）（适用于参数化查询）
+            获取一张数据表（适用于参数化查询）
             </summary>
             <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
             <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetColumn``1(System.String)">
             <summary>
-            取得查询结果中的第一列（重载一：使用HandlerConnection查询）
+            取得查询结果中的第一列
             </summary>
             <typeparam name="T">元素类型</typeparam>
             <param name="SQL">用于查询的SQL语句</param>
@@ -362,7 +356,7 @@
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetColumn``1(System.String,System.String)">
             <summary>
-            取得查询结果中的指定列（重载二：使用HandlerConnection查询）
+            取得查询结果中的指定列
             </summary>
             <typeparam name="T">元素类型</typeparam>
             <param name="SQL">用于查询的SQL语句</param>
@@ -371,7 +365,7 @@
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetColumn``1(MySql.Data.MySqlClient.MySqlCommand)">
             <summary>
-            取得查询结果中的第一列（重载三：使用HandlerConnection查询）（适用于参数化查询）
+            取得查询结果中的第一列（适用于参数化查询）
             </summary>
             <typeparam name="T">元素类型</typeparam>
             <param name="MySqlCommand">CMD实例</param>
@@ -379,7 +373,7 @@
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetColumn``1(MySql.Data.MySqlClient.MySqlCommand,System.String)">
             <summary>
-            取得查询结果中的指定列（重载四：使用HandlerConnection查询）（适用于参数化查询）
+            取得查询结果中的指定列（适用于参数化查询）
             </summary>
             <typeparam name="T">元素类型</typeparam>
             <param name="MySqlCommand">CMD实例</param>
@@ -405,8 +399,7 @@
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.UpdateKey(WaterLibrary.stru.MySQL.MySqlKey,System.String,System.String)">
             <summary>
-            设置(更新)一个键值（键匹配查询）
-            （重载一：使用HandlerConnection查询）
+            设置(更新)一个键值
             </summary>
             <param name="MySqlKey">操作定位器</param>
             <param name="KeyName">操作于键名</param>
@@ -516,13 +509,15 @@
         <member name="M:WaterLibrary.com.pilipala.PLDR.GetList(System.Type[])">
             <summary>
             获得文章数据列表(使用MatchList匹配)
+            注意！在单次查询量较低时使用此方法会带来严重的性能损耗
             </summary>
             <param name="PropertyType">所需属性类型</param>
             <returns>返回根据所需类型填充的Post集合</returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDR.GetList``1(System.Collections.Generic.List{``0},System.Type[])">
+        <member name="M:WaterLibrary.com.pilipala.PLDR.GetList``1(System.Collections.Generic.List{System.String},System.Type[])">
             <summary>
             获得文章数据列表(使用MatchList匹配)
+            注意！在单次查询量较低时使用此方法会带来严重的性能损耗
             </summary>
             <typeparam name="T">属性匹配列表的属性类型</typeparam>
             <param name="MatchList">属性匹配列表</param>
@@ -569,7 +564,7 @@
             <param name="Length">截止长度</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDR.GetIDList``1(System.Collections.Generic.List{``0})">
+        <member name="M:WaterLibrary.com.pilipala.PLDR.GetIDList``1(System.Collections.Generic.List{System.String})">
             <summary>
             匹配得到指定类型的文章ID列表
             </summary>
@@ -577,7 +572,7 @@
             <param name="MatchList">属性匹配列表</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDR.GetIDList``1(System.Collections.Generic.List{``0},System.String,System.String)">
+        <member name="M:WaterLibrary.com.pilipala.PLDR.GetIDList``1(System.Collections.Generic.List{System.String},System.String,System.String)">
             <summary>
             匹配得到指定类型的文章ID列表（重排序）
             </summary>
@@ -587,7 +582,7 @@
             <param name="OrderType">排序类型</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDR.GetIDList``1(System.Collections.Generic.List{``0},System.String,System.String,System.Int32)">
+        <member name="M:WaterLibrary.com.pilipala.PLDR.GetIDList``1(System.Collections.Generic.List{System.String},System.String,System.String,System.Int32)">
             <summary>
             获得指定类型的文章ID列表（重排序，限制列表的最大长度）
             </summary>
@@ -613,18 +608,25 @@
             <param name="ID"></param>
             <returns></returns>
         </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDR.GetPrimary(System.Int32)">
+            <summary>
+            通过ID获取Primary表中的目标文章数据
+            </summary>
+            <param name="ID">目标文章ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDR.GetTotal(System.Int32)">
+            <summary>
+            通过ID获取Total视图中的目标文章数据(Index Join Primary)
+            </summary>
+            <param name="ID">目标文章ID</param>
+            <returns></returns>
+        </member>
         <member name="M:WaterLibrary.com.pilipala.PLDR.GetIndex``1(System.Int32)">
             <summary>
             获取Index表中目标文章的指定属性
             </summary>
             <typeparam name="T">目标属性类型</typeparam>
-            <param name="ID">目标文章ID</param>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDR.GetPrimary(System.Int32)">
-            <summary>
-            通过ID获取Primary表中的目标文章数据
-            </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
@@ -672,7 +674,7 @@
             <summary>
             取得目标文章ID 的下一个文章ID（在正则表达式匹配到的归档范围内，按ID升序查找）
             </summary>
-            <param name="str">正则表达式</param>
+            <param name="REGEXP">正则表达式</param>
             <param name="ID">目标文章ID</param>
             <returns>不存在符合要求的ID时，返回-1</returns>
         </member>
@@ -695,7 +697,7 @@
             <summary>
             取得指定目标文章ID 的上一个文章ID（在正则表达式匹配到的归档范围内，按ID升序查找）
             </summary>
-            <param name="str">正则表达式</param>
+            <param name="REGEXP">正则表达式</param>
             <param name="ID">目标文章ID</param>
             <returns>不存在符合要求的ID时，返回-1</returns>
         </member>
@@ -787,7 +789,16 @@
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.Update``1(System.Int32,System.Object)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.UpdateIndex``1(System.Int32,System.Object)">
+            <summary>
+            通用文章属性更新器
+            </summary>
+            <typeparam name="T">目标属性类型</typeparam>
+            <param name="ID">目标文章ID</param>
+            <param name="Value">新属性值</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDU.UpdatePrimary``1(System.Int32,System.Object)">
             <summary>
             通用文章属性更新器
             </summary>
@@ -1191,7 +1202,16 @@
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.Update``1(System.Int32,System.Object)">
+        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.UpdateIndex``1(System.Int32,System.Object)">
+            <summary>
+            通用文章属性更新器
+            </summary>
+            <typeparam name="T">文章属性类型</typeparam>
+            <param name="ID">目标文章ID</param>
+            <param name="Value">新属性值</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.UpdatePrimary``1(System.Int32,System.Object)">
             <summary>
             通用文章属性更新器
             </summary>
