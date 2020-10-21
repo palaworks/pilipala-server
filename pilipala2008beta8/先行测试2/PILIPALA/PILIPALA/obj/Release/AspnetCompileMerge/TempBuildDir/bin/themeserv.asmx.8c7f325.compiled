@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/user/theme/field3/serv/ThemeServ.asmx" hash="fffffffff9d57aef" filehash="2d4e9fbd6685" flags="130000" assembly="PILIPALA" type="PILIPALA.user.theme.field3.serv.ThemeServ">
+    <filedeps>
+        <filedep name="/user/theme/field3/serv/ThemeServ.asmx" />
+    </filedeps>
+</preserve>

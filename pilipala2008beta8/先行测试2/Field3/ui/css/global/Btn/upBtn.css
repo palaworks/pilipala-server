@@ -16,8 +16,8 @@
     content: "\e3005";
 }
 
-/* 屏幕宽度大于1491时 */
-@media (min-width: 1490px) {
+/* 屏幕宽度 [ 1491 , + ) */
+@media (min-width: 1491px) {
     .upBtn {
         font-size: 22px;
 
@@ -33,8 +33,8 @@
     }
 }
 
-/* 屏幕宽度大于1001，小于1490时 */
-@media (max-width: 1490px) and (min-width:1001px) {
+/* 屏幕宽度 [ 1001 , 1490 ] */
+@media (min-width:1001px) and (max-width: 1490px) {
     .upBtn {
         font-size: 22px;
 
@@ -44,12 +44,13 @@
 
         right: 2%;
     }
+
     .upBtn::before {
         font-size: 14px;
     }
 }
 
-/* 屏幕宽度小于1000时 */
+/* 屏幕宽度 ( - , 1000 ] */
 @media (max-width: 1000px) {
     .upBtn {
         font-size: 18px;
@@ -60,6 +61,7 @@
 
         left: 2%;
     }
+
     .upBtn::before {
         font-size: 12px;
     }

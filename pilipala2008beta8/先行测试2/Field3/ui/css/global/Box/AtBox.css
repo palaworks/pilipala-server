@@ -10,15 +10,15 @@
     border-top-right-radius: 4px;
 }
 
-/* 屏幕宽度大于1000时 */
-@media screen and (min-width: 1000px) {
+/* 屏幕宽度 [ 1001 , + ) */
+@media (min-width: 1001px) {
     .AtBox {
         background-size: 20px 20px;
     }
 }
 
-/* 屏幕宽度小于1000时 */
-@media screen and (max-width: 1000px) {
+/* 屏幕宽度 ( - , 1000 ] */
+@media (max-width: 1000px) {
     .AtBox {
         background-size: 14px 14px;
     }
@@ -38,14 +38,14 @@
     border-radius: 4px;
 }
 
-/* 屏幕宽度大于1000时 */
-@media (min-width: 1000px) {
+/* 屏幕宽度 [ 1001 , + ) */
+@media (min-width: 1001px) {
     .AtBox>div {
         font-size: 0.8em;
     }
 }
 
-/* 屏幕宽度小于1000时 */
+/* 屏幕宽度 ( - , 1000 ] */
 @media (max-width: 1000px) {
     .AtBox>div {
         font-size: 0.6em;

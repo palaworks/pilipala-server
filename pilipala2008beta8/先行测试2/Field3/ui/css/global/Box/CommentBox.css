@@ -6,8 +6,8 @@
     padding: 2px;
 }
 
-/* 屏幕宽度大于1001时 */
-@media screen and (min-width: 1001px) {
+/* 屏幕宽度 [ 1001 , + ) */
+@media (min-width: 1001px) {
     .CommentBox {
         margin: auto;
         width: 70%;
@@ -16,8 +16,8 @@
     }
 }
 
-/* 屏幕宽度大于491，小于1490时 */
-@media (max-width: 1000px) and (min-width:491px) {
+/* 屏幕宽度 [ 491 , 1000 ] */
+@media (min-width:491px) and (max-width: 1000px) {
     .CommentBox {
         margin: auto;
         width: 86%;
@@ -26,8 +26,8 @@
     }
 }
 
-/* 屏幕宽度小于500时 */
-@media screen and (max-width: 490px) {
+/* 屏幕宽度 ( - , 490 ] */
+@media (max-width: 490px) {
     .CommentBox {
         width: 100%;
         box-sizing: border-box;
@@ -160,9 +160,6 @@
 .CommentBox>.Content>.Logo::before {
     content: "\e3010";
 }
-
-
-
 
 .CommentBox>.Content>.ReplyLogo {
     margin: auto;

@@ -967,12 +967,12 @@ namespace WaterLibrary.com.pilipala
 
             string SQL = string.Format(
                 "INSERT INTO `{0}`" +
-                " (`ID`, `GUID`, `CT`, `Mode`, `Type`, `User`, `UVCount`, `StarCount`) VALUES" +
-                " ('?ID','?GUID', '?CT','?Mode','?Type','?User','?UVCount','?StarCount');"
+                " (`ID`,`GUID`,`CT`,`Mode`,`Type`,`User`,`UVCount`,`StarCount`) VALUES" +
+                " (?ID, ?GUID, ?CT, ?Mode, ?Type, ?User, ?UVCount, ?StarCount);"
                 +
                 "INSERT INTO `{1}`" +
-                " (`ID`, `GUID`, `LCT`, `Title`, `Summary`, `Content`, `Archiv`, `Label`, `Cover`) VALUES" +
-                " ('?ID','?GUID','?LCT','?Title','?Summary','?Content','?Archiv','?Label','?Cover');"
+                " (`ID`,`GUID`,`LCT`,`Title`,`Summary`,`Content`,`Archiv`,`Label`,`Cover`) VALUES" +
+                " (?ID, ?GUID, ?LCT, ?Title, ?Summary, ?Content, ?Archiv, ?Label, ?Cover);"
 
                 , Tables.Index, Tables.Primary);
 
@@ -1016,11 +1016,11 @@ namespace WaterLibrary.com.pilipala
 
             string SQL = string.Format(
                 "UPDATE `{0}` SET" +
-                " GUID='?GUID', Mode='?Mode', Type='?Type', UVCount='?UVCount', StarCount='?StarCount' WHERE ID = ?ID;"
+                " GUID=?GUID, Mode=?Mode, Type=?Type, UVCount=?UVCount, StarCount=?StarCount WHERE ID = ?ID;"
                 +
                 "INSERT INTO `{1}`" +
-                " (`ID`, `GUID`, `LCT`, `Title`, `Summary`, `Content`, `Archiv`, `Label`, `Cover`) VALUES" +
-                " ('?ID','?GUID','?LCT','?Title','?Summary','?Content','?Archiv','?Label','?Cover');"
+                " (`ID`,`GUID`,`LCT`,`Title`,`Summary`,`Content`,`Archiv`,`Label`,`Cover`) VALUES" +
+                " (?ID, ?GUID, ?LCT, ?Title, ?Summary, ?Content, ?Archiv, ?Label, ?Cover);"
 
                 , Tables.Index, Tables.Primary);
 

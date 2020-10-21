@@ -16,13 +16,11 @@ namespace CommentLake
     {
         #region WL数据库操作标准配置
 
-        public string DataBase { get; private set; }
         public string CommentTable { get; private set; }
         public MySqlManager MySqlManager { get; private set; }
 
-        public CommentLake(string DataBase, string CommentTable)
+        public CommentLake(string CommentTable)
         {
-            this.DataBase = DataBase;
             this.CommentTable = CommentTable;
         }
 
@@ -42,7 +40,7 @@ namespace CommentLake
         {
             try
             {
-                string SQL = string.Format("SELECT max(CommentID) FROM {0}.`{1}`", DataBase, CommentTable);
+                string SQL = string.Format("SELECT max(CommentID) FROM {0}", CommentTable);
 
                 return Convert.ToInt32(MySqlManager.GetRow(SQL)[0]);
             }
@@ -64,11 +62,11 @@ namespace CommentLake
         public bool AddComment(Comment Comment)
         {
             string SQL = string.Format(
-                "INSERT INTO {0}.`{1}` " +
+                "INSERT INTO {0} " +
                 "(`CommentID`, `PostID`, `Name`, `Email`, `Content`, `WebSite`, `HEAD`, `Time`) VALUES " +
-                "(`?CommentID`,`?PostID`,`?Name`,`?Email`,`?Content`,`?WebSite`,`?HEAD`,`?Time`);"
+                "(?CommentID, ?PostID, ?Name, ?Email, ?Content, ?WebSite, ?HEAD, ?Time);"
 
-                , DataBase, CommentTable);
+                , CommentTable);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
             {
@@ -84,10 +82,13 @@ namespace CommentLake
                 new MySqlParm() { Name = "Time", Val =  DateTime.Now}
             };
 
-            if (MySqlManager.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
-                return true;
-            else
-                throw new Exception("多行操作异常");
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
+            {
+                if (MySqlManager.QueryOnly(MySqlCommand) == 1)
+                    return true;
+                else
+                    throw new Exception("多行操作异常");
+            }
         }
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace CommentLake
         public int GetCommentCount(int PostID)
         {
             /* 按时间从早到晚排序 */
-            string SQL = string.Format("SELECT COUNT(*) FROM {0}.`{1}` WHERE PostID = ?PostID", DataBase, CommentTable);
+            string SQL = string.Format("SELECT COUNT(*) FROM {0} WHERE PostID = ?PostID", CommentTable);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -121,7 +122,7 @@ namespace CommentLake
             List<Comment> CommentList = new List<Comment>();
 
             /* 按时间从早到晚排序 */
-            string SQL = string.Format("SELECT * FROM {0}.`{1}` WHERE PostID = ?PostID ORDER BY Time", DataBase, CommentTable);
+            string SQL = string.Format("SELECT * FROM {0} WHERE PostID = ?PostID ORDER BY Time", CommentTable);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -146,7 +147,7 @@ namespace CommentLake
                         Email = Convert.ToString(Row["Email"]),
                         Content = Convert.ToString(Row["Content"]),
                         WebSite = Convert.ToString(Row["WebSite"]),
-                        HEAD = Convert.ToInt32(Row["HEAD"].ToString() == "" ? -1 : Row["HEAD"]),/* HEAD为空值时赋值为-1 */
+                        HEAD = Convert.ToInt32(Row["HEAD"]),
                         Time = Convert.ToDateTime(Row["Time"]),
 
                         /* 计算后得到的量 */
