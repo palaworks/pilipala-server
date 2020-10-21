@@ -1,0 +1,14 @@
+.CoBox {
+    /* 颜色模式 */
+    background: rgba(30, 30, 30, 1.00);
+}
+
+.CoBox>.AtBox>.StarCount {
+    /* 颜色模式 */
+    background: rgba(0,194,185,1);
+}
+
+.CoBox>.AtBox>.CommentCount {
+    /* 颜色模式 */
+    background: rgba(1, 153, 255, 1);
+}

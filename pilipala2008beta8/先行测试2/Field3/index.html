@@ -336,8 +336,7 @@
 </body>
 
 
-
-<!-- vue-compo -->
+<!-- vue特效 -->
 <script>
   Vue.component("pc-nav_card", {
     props: ["item"],
@@ -377,9 +376,6 @@
       }
     }
   })
-</script>
-<!-- vue -->
-<script>
   var pcNavList = new Vue({
     el: '#pcNavList',
     data: {
@@ -425,94 +421,12 @@
       ]
     },
   })
-</script>
-<!-- vue-commentCheck -->
-<script>
-  var CommentBox = new Vue({
-    el: '#CommentBox',
-    data: {
-      Content: '',
-      Name: '',
-      Email: '',
-      WebSite: ''
-    },
-    methods: {
-      click: function () {
-
-        if (ContentCheck(this.Content) &
-          NameCheck(this.Name) &
-          EmailCheck(this.Email) &
-          WebSiteCheck(this.WebSite)) {
-          console.log("***SUCCESS!");
-        } else {
-          console.log("***FALSE!")
-        }
-
-        if (WebSiteCheck(this.WebSite)) {
-          console.log("web --- SUCCESS!");
-        } else {
-          console.log("web --- FALSE!");
-        }
-      }
-    }
-  })
-  var ContentCheck = (value) => {
-    if (value == "") {
-      return false;
-    } else {
-      if (value.length > 320) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-  };
-  var NameCheck = (value) => {
-    if (value == "") {
-      return false;
-    } else {
-      if (value.length > 12) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-  };
-  var EmailCheck = (value) => {
-    if (value == "") {
-      return false;
-    } else {
-      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-      if (!reg.test(value)) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-  };
-  var WebSiteCheck = (value) => {
-    if (value == "") {
-      return false;
-    } else {
-      var reg0 = /^(http|https|ftp)\:\/\/([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}(\/)?$/;
-      if (!reg0.test(value)) {
-        return false;
-      } else {
-        return true;
-      }
-
-    }
-  };
-</script>
-<script>
   var SiderList = new Vue({
     el: '#SiderList',
     data: {
       List: pcNavList.List
     },
   })
-</script>
-<script>
   var AvaOutline = new Vue({
     el: '#Ava-outline',
     data: {
@@ -558,7 +472,7 @@
 <script>
   /* 返顶按钮淡入淡出 */
   $(window).scroll(function () {
-    if ($(window).scrollTop() > 1000) {
+    if ($(window).scrollTop() >= 1000) {
       $(".upBtn").fadeIn(350);
     } else {
       $(".upBtn").fadeOut(350);
@@ -567,11 +481,11 @@
 </script>
 <script>
   /* 向上滚动NavLine展开 */
-  var p = 0;
+  p = 0;
   t = 0;
   $(window).scroll(debounce(function () {
     /* 触发宽度 */
-    if ($(window).width() < 1000) {
+    if ($(window).width() <= 1000) {
       p = $(this).scrollTop();
       if (t <= p) {
         /* 防止触发遮住文本首部 */
@@ -592,8 +506,10 @@
 
   /* 触发宽度外，收起NavLine */
   $(window).resize(function () {
-    if ($(window).width() >= 1000) {
+    if ($(window).width() >= 1001) {
       $("#NavLine").slideUp(200);
+    } else {
+      $("#NavLine").slideDown(200);
     }
   });
 </script>
