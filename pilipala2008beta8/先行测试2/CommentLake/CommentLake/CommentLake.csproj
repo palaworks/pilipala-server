@@ -43,9 +43,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WaterLibrary, Version=1.1.6.4, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="WaterLibrary, Version=1.1.6.5, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.dll</HintPath>
+      <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Release\WaterLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

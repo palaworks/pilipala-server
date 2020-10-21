@@ -1,0 +1,20 @@
+.CommentBox {
+    /* 颜色模式 */
+    color: rgba(240, 240, 240, 1.00);
+    background: rgba(246, 246, 246, 1.00);
+}
+
+.CommentBox input {
+    /* 颜色模式 */
+    background: rgba(210, 210, 210, 1);
+}
+
+.CommentBox>.Content>textarea {
+    /* 颜色模式 */
+    color: rgba(80, 80, 80, 1);
+    background: rgba(210, 210, 210, 1);
+}
+
+.CommentBox>.Captcha>.CaptchaLine {
+    background: rgba(210, 210, 210, 1);
+}

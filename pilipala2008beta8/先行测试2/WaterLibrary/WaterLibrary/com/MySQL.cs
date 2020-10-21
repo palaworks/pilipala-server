@@ -441,5 +441,25 @@ namespace WaterLibrary.com.MySQL
                 return false;
             }
         }
+
+        /// <summary>
+        /// 单纯执行SQL查询
+        /// </summary>
+        /// <param name="SQL">用于查询的SQL语句</param>
+        /// <returns>返回受影响的行数</returns>
+        public int QueryOnly(string SQL)
+        {
+            return new MySqlCommand(SQL, HandlerConnection).ExecuteNonQuery();
+        }
+        /// <summary>
+        /// 单纯执行SQL查询（适用于参数化查询）
+        /// </summary>
+        /// <param name="MySqlCommand">CMD实例</param>
+        /// <returns>返回受影响的行数</returns>
+        public int QueryOnly(MySqlCommand MySqlCommand)
+        {
+            MySqlCommand.Connection = HandlerConnection;
+            return MySqlCommand.ExecuteNonQuery();
+        }
     }
 }
