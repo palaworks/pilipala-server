@@ -146,9 +146,6 @@
                 <div class="CommentTip bSha">
                     <div class="con">评论尚无，快来吃个螃蟹！</div>
                 </div>
-                <div class="WarningTip bSha">
-                    <div class="con">CommentLake评论系统的回复功能尚处于开发状态。回复功能尚不可用。</div>
-                </div>
             </div>
         }
         else
@@ -156,7 +153,7 @@
             <div class="CommentList L M bSha bRds">
                 @foreach (Comment Comment in CommentList)
                 {
-                    <div class="Box bSha">
+                    <div class="Box bSha" onmouseover="CommentList_Over(this)" onmouseleave="CommentList_Leave(this)">
                         @if (Comment.HEAD == 0)
                         {
                             <div class="Name">@Comment.Name</div>
@@ -178,27 +175,25 @@
                             }
                         }
 
-                        <div class="Floor">@Comment.Floor</div>
+                        <div class="Floor cur bSha" data-f="@Comment.Floor" data-id="@Comment.CommentID" onclick="CommentBox.doReply(this)">@Comment.Floor</div>
                         <div class="Email">@Comment.Email</div>
                         <div class="Time">@ThemeServ.OnlyDate(Comment.Time, "-") | @ThemeServ.OnlyTime(Comment.Time)</div>
                         <div class="Content">@Comment.Content</div>
                     </div>
                 }
             </div>
-
-            <div class="ShadowBox L M">
-                <div class="WarningTip bSha">
-                    <div class="con">CommentLake评论系统的回复功能尚处于开发状态。回复功能尚不可用。</div>
-                </div>
-            </div>
         }
-
 
         <div id="CommentBox" class="CommentBox M bRds bSha">
             <div class="Content">
                 <div class="Logo"></div>
-                <div class="ReplyLogo"></div>
-                <div class="ReplyFloor">NA</div>
+                <div class="ReplyLogo" v-show="HEAD"></div>
+                <transition name="fade">
+                    <div class="ReplyFloor cur" v-show="HEAD" v-on:click="closeReply" onmouseover="CommentBox_ReplyBtn_Over()"
+                         onmouseleave="CommentBox_ReplyBtn_Leave()">
+                        {{FloorText}}
+                    </div>
+                </transition>
                 <textarea v-model="Content" placeholder="评论内容(必填)"></textarea>
             </div>
             <div class="Name">
@@ -219,15 +214,18 @@
                 <div id="ali-safe" class="nc-container CaptchaLine"></div>
             </div>
         </div>
+
     </div>
 
 
 
-    <!-- vue评论 -->
+    <!-- 评论组件 -->
     <script>
         var CommentBox = new Vue({
             el: '#CommentBox',
             data: {
+                FloorText: '0F',
+
                 HEAD: 0,
                 Content: '',
                 Name: '',
@@ -241,7 +239,6 @@
                         EmailCheck(this.Email) &
                         WebSiteCheck(this.WebSite)) {
                         //TODO
-                        //window.alert("评论已提交");
                         return true;
                     } else {
                         //TODO
@@ -249,11 +246,51 @@
                         window.alert("请检查填写是否有误");
                         return false;
                     }
+                },
+                doReply: function (el) {
+                    this.FloorText = el.dataset.f + "F";
+                    this.HEAD = el.dataset.id;
+                },
+                closeReply: function () {
+                    /* HEAD为0时，回复不会显示 */
+                    this.HEAD = 0;
                 }
             }
         })
 
-        var ContentCheck = (value) => {
+        /* 鼠标移入移出回复按钮事件 */
+        var FloorText_temp;
+        function CommentBox_ReplyBtn_Over() {
+            FloorText_temp = CommentBox.FloorText;
+            CommentBox.FloorText = "取消";
+        }
+        function CommentBox_ReplyBtn_Leave() {
+            CommentBox.FloorText = FloorText_temp;
+        }
+        function CommentList_Over(el) {
+            $(el).children(".Floor").text("回复");
+            $(el).children(".Floor").css({
+                "height": "22px",
+                "width": "32px",
+
+                "font-size": "0.8em",
+                "font-weight": "500",
+                "font-family": "Source Sans Pro",
+                "color": "rgb(255, 255, 255)",
+                "line-height": "22px",
+
+                "background": "rgb(0, 180, 255)"
+            });
+        }
+        function CommentList_Leave(el) {
+            /* 把属性data-f赋给内容 */
+            $(el).children(".Floor").text($(el).children(".Floor").attr("data-f"));
+            /* 移除添加的样式 */
+            $(el).children(".Floor").removeAttr("style", "");
+        }
+
+        /*评论检查*/
+        function ContentCheck(value) {
             if (value == "") {
                 return false;
             } else {
@@ -264,7 +301,7 @@
                 }
             }
         };
-        var NameCheck = (value) => {
+        function NameCheck(value) {
             if (value == "") {
                 return false;
             } else {
@@ -275,7 +312,7 @@
                 }
             }
         };
-        var EmailCheck = (value) => {
+        function EmailCheck(value) {
             if (value == "") {
                 return false;
             } else {
@@ -287,7 +324,7 @@
                 }
             }
         };
-        var WebSiteCheck = (value) => {
+        function WebSiteCheck(value) {
             if (value == "") {
                 return true;
             } else {
@@ -300,6 +337,7 @@
             }
         };
     </script>
+
     <!-- 评论Captcha -->
     <script>
         var nc_token = ["FFFF0N0000000000987D", (new Date()).getTime(), Math.random()].join(':');

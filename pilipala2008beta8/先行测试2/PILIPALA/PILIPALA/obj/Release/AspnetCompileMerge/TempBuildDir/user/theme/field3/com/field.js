@@ -8,7 +8,6 @@ function showPost(ID) {
 /* 查看文章，无防护（AJAX） */
 function showPost_origin(ID) {
     $.ajax({
-        async: false,
         type: "post",
         url: "/post.cshtml?ID=" + ID,
         data: "",
