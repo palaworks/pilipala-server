@@ -56,6 +56,7 @@
     </Compile>
     <Compile Include="com\MySQL.cs" />
     <Compile Include="com\pilipala.cs" />
+    <Compile Include="Assembly.cs" />
     <Compile Include="stru\basic\global.cs" />
     <Compile Include="stru\basic\web.cs" />
     <Compile Include="stru\MySQL.cs" />
