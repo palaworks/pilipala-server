@@ -27,8 +27,7 @@
     border-style: solid;
     border-radius: 100px;
 
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
+    transition: all 0.2s ease;
 }
 
 #NavCol>.box>.AvaBox>.Ava-outline>.Ava {
@@ -101,8 +100,7 @@
     background-color: rgba(1, 153, 255, 1);
     border-radius: 2px;
 
-    transition-timing-function: ease;
-    transition-duration: 0.2s;
+    transition: all 0.2s ease;
 }
 
 #NavCol>.List>.box>.Card {
@@ -118,8 +116,7 @@
     letter-spacing: 1px;
     color: rgba(230, 230, 230, 1.00);
 
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
+    transition: all 0.2s ease;
 }
 
 #NavCol>.List>.box>.Card::after {
@@ -151,8 +148,7 @@
 
     width: 94%;
 
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
+    transition: all 0.2s ease;
 }
 
 #NavCol>.Co-outline>.Co {
