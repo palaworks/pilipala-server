@@ -1000,10 +1000,24 @@ namespace WaterLibrary.com.pilipala
                 new MySqlParm() { Name = "Label", Val = Post.Label },
                 new MySqlParm() { Name = "Cover", Val = Post.Cover }
             };
-            if (MySqlManager.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
+
+            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+
+            /* 开始事务 */
+            MySqlManager.BeginTransaction(ref MySqlCommand);
+
+            if (MySqlCommand.ExecuteNonQuery() == 2)
+            {
+                /* 操作行数正常，提交事务 */
+                MySqlManager.CommitTransaction(ref MySqlCommand);
                 return true;
+            }
             else
-                throw new Exception("多行操作异常");
+            {
+                /* 操作行数异常，回滚事务 */
+                MySqlManager.RollbackTransaction(ref MySqlCommand);
+                throw new Exception("操作行数异常，事务已回滚");
+            }
         }
         /// <summary>
         /// 更新文章
@@ -1045,15 +1059,29 @@ namespace WaterLibrary.com.pilipala
                 new MySqlParm() { Name = "Label", Val = Post.Label },
                 new MySqlParm() { Name = "Cover", Val = Post.Cover }
             };
-            if (MySqlManager.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() == 2)
+
+            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+
+            /* 开始事务 */
+            MySqlManager.BeginTransaction(ref MySqlCommand);
+
+            if (MySqlCommand.ExecuteNonQuery() == 2)
+            {
+                /* 操作行数正常，提交事务 */
+                MySqlManager.CommitTransaction(ref MySqlCommand);
                 return true;
+            }
             else
-                throw new Exception("多行操作异常");
+            {
+                /* 操作行数异常，回滚事务 */
+                MySqlManager.RollbackTransaction(ref MySqlCommand);
+                throw new Exception("操作行数异常，事务已回滚");
+            }
         }
 
         /* 风险性功能，需要周全的开发逻辑以防止生产用数据库的意外灾难 */
         /// <summary>
-        /// 注销文章（删除所有副本）
+        /// 注销文章（删除所有Primary副本并注销Index）
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
@@ -1066,10 +1094,23 @@ namespace WaterLibrary.com.pilipala
                 new MySqlParm() { Name = "ID", Val = ID }
             };
 
-            if (MySqlManager.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() >= 2)
+            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+
+            /* 开始事务 */
+            MySqlManager.BeginTransaction(ref MySqlCommand);
+
+            if (MySqlCommand.ExecuteNonQuery() >= 2)
+            {
+                /* 操作行数正常，提交事务 */
+                MySqlManager.CommitTransaction(ref MySqlCommand);
                 return true;
+            }
             else
-                throw new Exception("多行操作异常");
+            {
+                /* 操作行数异常，回滚事务 */
+                MySqlManager.RollbackTransaction(ref MySqlCommand);
+                throw new Exception("操作行数异常，事务已回滚");
+            }
         }
         /// <summary>
         /// 删除副本（仅单个副本）
@@ -1085,10 +1126,23 @@ namespace WaterLibrary.com.pilipala
                 new MySqlParm() { Name = "GUID", Val = GUID }
             };
 
-            if (MySqlManager.ParmQueryCMD(SQL, ParmList).ExecuteNonQuery() >= 1)
+            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+
+            /* 开始事务 */
+            MySqlManager.BeginTransaction(ref MySqlCommand);
+
+            if (MySqlCommand.ExecuteNonQuery() == 1)
+            {
+                /* 操作行数正常，提交事务 */
+                MySqlManager.CommitTransaction(ref MySqlCommand);
                 return true;
+            }
             else
-                throw new Exception("多行操作异常");
+            {
+                /* 操作行数异常，回滚事务 */
+                MySqlManager.RollbackTransaction(ref MySqlCommand);
+                throw new Exception("操作行数异常，事务已回滚");
+            }
         }
 
         /// <summary>

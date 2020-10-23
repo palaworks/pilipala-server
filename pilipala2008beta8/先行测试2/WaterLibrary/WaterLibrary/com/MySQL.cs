@@ -461,5 +461,30 @@ namespace WaterLibrary.com.MySQL
             MySqlCommand.Connection = HandlerConnection;
             return MySqlCommand.ExecuteNonQuery();
         }
+
+        /// <summary>
+        /// 开始事务
+        /// </summary>
+        /// <param name="MySqlCommand">执行事务的MySqlCommand</param>
+        public void BeginTransaction(ref MySqlCommand MySqlCommand)
+        {
+            MySqlCommand.Transaction = HandlerConnection.BeginTransaction();
+        }
+        /// <summary>
+        /// 提交事务
+        /// </summary>
+        /// <param name="MySqlCommand">执行事务的MySqlCommand</param>
+        public void CommitTransaction(ref MySqlCommand MySqlCommand)
+        {
+            MySqlCommand.Transaction.Commit();
+        }
+        /// <summary>
+        /// 回滚事务
+        /// </summary>
+        /// <param name="MySqlCommand">执行事务的MySqlCommand</param>
+        public void RollbackTransaction(ref MySqlCommand MySqlCommand)
+        {
+            MySqlCommand.Transaction.Rollback();
+        }
     }
 }
