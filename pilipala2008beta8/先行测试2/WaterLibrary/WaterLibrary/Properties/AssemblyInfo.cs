@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("1.16")]
 [assembly: AssemblyCompany("H2OMELON'SOCIE")]
 [assembly: AssemblyProduct("WaterLibrary 1.16 'Magallan'")]
-[assembly: AssemblyCopyright("Copyright © 2019-2020 H2OMELON'SOCIE All Rights Reserved")]
+[assembly: AssemblyCopyright("Copyright 2019-2020 H2OMELON'SOCIE All Rights Reserved")]
 [assembly: AssemblyTrademark("WaterLibrary")]
 [assembly: AssemblyCulture("neutral")]
 
