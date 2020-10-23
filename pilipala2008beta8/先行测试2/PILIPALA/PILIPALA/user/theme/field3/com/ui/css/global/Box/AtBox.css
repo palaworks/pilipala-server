@@ -59,8 +59,7 @@
 
 .AtBox>.CommentCount,
 .AtBox>.StarCount {
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
+    transition: all 0.2s ease;
 }
 
 .AtBox>.Date::before {
