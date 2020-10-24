@@ -104,5 +104,15 @@ namespace PILIPALA.system.serv
 
             return UVCount + 1;
         }
+
+        /// <summary>
+        /// 取得内核版本
+        /// </summary>
+        /// <returns>返回内核版本</returns>
+        [WebMethod]
+        public string GetCoreVersion()
+        {
+            return WaterLibrary.Assembly.Version;
+        }
     }
 }
