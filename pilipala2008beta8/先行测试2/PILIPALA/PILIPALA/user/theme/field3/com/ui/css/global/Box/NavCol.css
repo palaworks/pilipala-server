@@ -11,7 +11,7 @@
 
     height: 21vh;
     max-height: 160px;
-    min-height: 130px;
+    min-height: 150px;
 }
 
 #NavCol>.box>.AvaBox>.Ava-outline {
@@ -40,7 +40,7 @@
 
     margin: auto;
 
-    background: transparent url("http://thblog-img.test.upcdn.net/ui_img/p200.jpg");
+    background: transparent url("http://q1.qlogo.cn/g?b=qq&nk=1951327599&s=640");
     background-position: center;
     background-size: cover;
 

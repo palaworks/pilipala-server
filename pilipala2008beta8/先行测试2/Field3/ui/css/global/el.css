@@ -9,9 +9,11 @@ input:focus {
 textarea {
     outline: none;
 }
-button{
+
+button {
     border-radius: 2px;
 }
+
 textarea:focus {
     outline: none;
 }
@@ -49,4 +51,12 @@ th {
 td {
     font-size: 14px;
     line-height: 20px;
+}
+
+p {
+    display: block;
+    margin-block-start: 0.8em;
+    margin-block-end: 0.4em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
 }
