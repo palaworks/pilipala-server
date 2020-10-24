@@ -212,3 +212,18 @@ function wordCount(data) {
     /*向上取整到10位*/
     return Math.ceil(count / 10) * 10;
 }
+
+function CoreVersion() {
+    var ver;
+    $.ajax({
+        async: false,
+        type: "post",
+        contentType: "application/json",
+        url: "/system/serv/SysServ.asmx/GetCoreVersion",
+        dataType: "json",
+        success: function (result) {
+            ver = result.d;
+        }
+    });
+    return ver;
+}

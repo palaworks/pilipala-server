@@ -420,6 +420,24 @@
             <param name="MySqlCommand">CMD实例</param>
             <returns>返回受影响的行数</returns>
         </member>
+        <member name="M:WaterLibrary.com.MySQL.MySqlManager.BeginTransaction(MySql.Data.MySqlClient.MySqlCommand@)">
+            <summary>
+            开始事务
+            </summary>
+            <param name="MySqlCommand">执行事务的MySqlCommand</param>
+        </member>
+        <member name="M:WaterLibrary.com.MySQL.MySqlManager.CommitTransaction(MySql.Data.MySqlClient.MySqlCommand@)">
+            <summary>
+            提交事务
+            </summary>
+            <param name="MySqlCommand">执行事务的MySqlCommand</param>
+        </member>
+        <member name="M:WaterLibrary.com.MySQL.MySqlManager.RollbackTransaction(MySql.Data.MySqlClient.MySqlCommand@)">
+            <summary>
+            回滚事务
+            </summary>
+            <param name="MySqlCommand">执行事务的MySqlCommand</param>
+        </member>
         <member name="T:WaterLibrary.com.pilipala.PLSYS">
             <summary>
             啪啦系统
@@ -771,7 +789,7 @@
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDU.DisposeReg(System.Int32)">
             <summary>
-            注销文章（删除所有副本）
+            注销文章（删除所有Primary副本并注销Index）
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
@@ -844,6 +862,41 @@
             <parmm name="Index">索引表Post实例</parmm>
             <parmm name="Primary">主表Post实例</parmm>
             <returns>始终返回以Index的ID、GUID为最终合并结果的Post实例</returns>
+        </member>
+        <member name="T:WaterLibrary.Assembly">
+            <summary>
+            程序集属性
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.Assembly.Title">
+            <summary>
+            程序集说明
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.Assembly.Version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.Assembly.Description">
+            <summary>
+            文本说明
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.Assembly.Product">
+            <summary>
+            产品属性
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.Assembly.Copyright">
+            <summary>
+            版权信息
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.Assembly.Company">
+            <summary>
+            公司
+            </summary>
         </member>
         <member name="T:WaterLibrary.stru.MySQL.MySqlKey">
             <summary>
