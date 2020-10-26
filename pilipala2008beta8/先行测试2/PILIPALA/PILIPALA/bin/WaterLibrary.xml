@@ -38,12 +38,7 @@
             <param name="format">生成格式，可选值有N、D、B、P、X</param>
             <returns></returns>
         </member>
-        <member name="T:WaterLibrary.com.basic.SearchH">
-            <summary>
-            检索管理器
-            </summary>
-        </member>
-        <member name="M:WaterLibrary.com.basic.SearchH.BinarySearch(System.Int32,System.Int32[])">
+        <member name="M:WaterLibrary.com.basic.MathH.BinarySearch(System.Int32,System.Int32[])">
             <summary>
             二分法检索(重载一),适用于整型检索
             </summary>
@@ -51,7 +46,7 @@
             <param name="array">数组,顺序由小到大</param>
             <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         </member>
-        <member name="M:WaterLibrary.com.basic.SearchH.BinarySearch(System.Double,System.Double[])">
+        <member name="M:WaterLibrary.com.basic.MathH.BinarySearch(System.Double,System.Double[])">
             <summary>
             二分法检索(重载二),适用于双精度浮点检索
             </summary>
@@ -59,19 +54,14 @@
             <param name="array">数组，顺序由小到大</param>
             <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         </member>
-        <member name="T:WaterLibrary.com.basic.SortH">
-            <summary>
-            排序管理器
-            </summary>
-        </member>
-        <member name="M:WaterLibrary.com.basic.SortH.BubbleSort``1(``0[])">
+        <member name="M:WaterLibrary.com.basic.MathH.BubbleSort``1(``0[])">
             <summary>
             冒泡排序
             </summary>
             <param name="array">被排序的数组</param>
             <returns>通常返回有序数组(由小到大)</returns>
         </member>
-        <member name="M:WaterLibrary.com.basic.SortH.ShellSort(System.Int32[])">
+        <member name="M:WaterLibrary.com.basic.MathH.ShellSort(System.Int32[])">
             <summary>
             希尔排序
             </summary>
@@ -129,6 +119,11 @@
             <typeparam name="T">待转换对象对应的类型</typeparam>
             <param name="obj">待转换对象</param>
             <returns>返回处理后得到的字符串</returns>
+        </member>
+        <member name="T:WaterLibrary.com.basic.AsyncH">
+            <summary>
+            异步管理器
+            </summary>
         </member>
         <member name="T:WaterLibrary.com.basic.WebH">
             <summary>
@@ -413,7 +408,7 @@
             <param name="SQL">用于查询的SQL语句</param>
             <returns>返回受影响的行数</returns>
         </member>
-        <member name="M:WaterLibrary.com.MySQL.MySqlManager.QueryOnly(MySql.Data.MySqlClient.MySqlCommand)">
+        <member name="M:WaterLibrary.com.MySQL.MySqlManager.QueryOnly(MySql.Data.MySqlClient.MySqlCommand@)">
             <summary>
             单纯执行SQL查询（适用于参数化查询）
             </summary>

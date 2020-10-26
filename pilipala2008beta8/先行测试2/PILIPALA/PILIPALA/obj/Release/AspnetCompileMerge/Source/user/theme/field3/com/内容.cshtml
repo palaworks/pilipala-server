@@ -76,11 +76,11 @@
             <!-- 状态信息输出 -->
             @if (Post.Mode == "scheduled")
             {
-                <div class="ArchivTip bSha"><div class="con">计划中的项目。此文章将会于近期更新</div></div>
+                <div class="SchedulTip bSha"><div class="con">计划中的项目。此文章将会于近期更新</div></div>
             }
             @if (Post.Mode == "archived")
             {
-                <div class="SchedulTip bSha"><div class="con">此文章已归档。这意味着其内容将不受维护，但仍具有一定的参考价值。</div></div>
+                <div class="ArchivTip bSha"><div class="con">此文章已归档。这意味着其内容将不受维护，但仍具有一定的参考价值。</div></div>
             }
 
             <div class="ReadTimeTip bSha">

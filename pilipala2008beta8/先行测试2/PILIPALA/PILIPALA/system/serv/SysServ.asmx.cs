@@ -34,7 +34,7 @@ namespace PILIPALA.system.serv
 
         public SysServ()
         {
-            /* 初始化噼里啪啦用户、数据库、表、连接控制器 */
+            /* 初始化噼里啪啦数据库信息和MySql控制器 */
             PLDB PLDB = new PLDB
             {
                 Tables = PLSYS.DefTables,
