@@ -49,33 +49,7 @@
         typeof(UVCount), typeof(StarCount),
         typeof(Type)))
     {
-        if (Post.Type == "n")
-        {
-            <div class="Card L M bSha bRds">
-                <div class="contain L bRds">
-                    <!-- 前置样式 -->
-                    @Html.Raw(Post.Cover)
-
-                    <div class="NoteContent bRds-t">
-                        @Html.Raw(Markdown.ToHtml(Post.Content, pipeline))
-                    </div>
-                </div>
-                <div class="AtBox L bRds-b">
-                    @if (ThemeServ.ToTimeFromNow(Post.CT) == null)
-                    {
-                        <div class="Date">@ThemeServ.OnlyDate(Post.CT, "-")</div>
-                    }
-                    else
-                    {
-                        <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
-                    }
-                    <div class="UVCount">@Post.UVCount</div>
-                    <div class="CommentCount">@CommentLake.GetCommentCount(Post.ID)</div>
-                    <div class="StarCount">@Post.StarCount</div>
-                </div>
-            </div>
-        }
-        else if (Post.Type == "p")
+        if (Post.Type == "p")
         {
             <div class="Card L M bSha bRds">
 
@@ -107,6 +81,32 @@
                     <div class="StarCount">@Post.StarCount</div>
                 </div>
 
+            </div>
+        }
+        else if (Post.Type == "note")
+        {
+            <div class="Card L M bSha bRds">
+                <div class="contain cur L bRds" onclick="up();showPost(@Post.ID)">
+                    <!-- 前置样式 -->
+                    @Html.Raw(Post.Cover)
+
+                    <div class="NoteContent bRds-t">
+                        @Html.Raw(Markdown.ToHtml(Post.Content, pipeline))
+                    </div>
+                </div>
+                <div class="AtBox L bRds-b">
+                    @if (ThemeServ.ToTimeFromNow(Post.CT) == null)
+                    {
+                        <div class="Date">@ThemeServ.OnlyDate(Post.CT, "-")</div>
+                    }
+                    else
+                    {
+                        <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
+                    }
+                    <div class="UVCount">@Post.UVCount</div>
+                    <div class="CommentCount">@CommentLake.GetCommentCount(Post.ID)</div>
+                    <div class="StarCount">@Post.StarCount</div>
+                </div>
             </div>
         }
     }
@@ -153,10 +153,10 @@
                 </div>
             </div>
         }
-        else if (Post.Type == "n")
+        else if (Post.Type == "note")
         {
             <div class="Card L M bSha bRds">
-                <div class="contain L bRds">
+                <div class="contain cur L bRds" onclick="up();showPost(@Post.ID)">
                     <!-- 前置样式 -->
                     @Html.Raw(Post.Cover)
                     <div class="NoteContent bRds-t">
