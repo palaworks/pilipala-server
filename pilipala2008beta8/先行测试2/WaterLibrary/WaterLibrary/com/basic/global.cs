@@ -54,13 +54,7 @@ namespace WaterLibrary.com.basic
         {
             return Guid.NewGuid().ToString(format);
         }
-    }
 
-    /// <summary>
-    /// 检索管理器
-    /// </summary>
-    public static class SearchH
-    {
         /// <summary>
         /// 二分法检索(重载一),适用于整型检索
         /// </summary>
@@ -119,13 +113,7 @@ namespace WaterLibrary.com.basic
             }
             return -1;
         }
-    }
 
-    /// <summary>
-    /// 排序管理器
-    /// </summary>
-    public static class SortH
-    {
         /// <summary>
         /// 冒泡排序
         /// </summary>
@@ -296,5 +284,13 @@ namespace WaterLibrary.com.basic
 
             return sha256.ToString();
         }
+    }
+
+    /// <summary>
+    /// 异步管理器
+    /// </summary>
+    public class AsyncH
+    {
+
     }
 }

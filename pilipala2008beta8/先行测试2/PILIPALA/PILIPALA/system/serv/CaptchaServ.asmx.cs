@@ -14,7 +14,6 @@ using Aliyun.Acs.afs.Model.V20180112;
 using CommentLake;
 using CommentLake.stru;
 using WaterLibrary.stru.MySQL;
-using System.Web.UI.WebControls;
 
 namespace PILIPALA.system.serv
 {
@@ -33,8 +32,11 @@ namespace PILIPALA.system.serv
         [WebMethod]
         public string CommentLakeCaptcha(string Token, string SessionId, string Sig, int PostID, int HEAD, string Content, string Name, string Email, string WebSite)
         {
+            string ACCESS_KEY = WebConfigurationManager.AppSettings["ACCESS_KEY"];
+            string ACCESS_SECRET = WebConfigurationManager.AppSettings["ACCESS_SECRET"];
+
             //YOUR ACCESS_KEY、YOUR ACCESS_SECRET请替换成您的阿里云accesskey id和secret 
-            IClientProfile profile = DefaultProfile.GetProfile("cn-hangzhou", "", "");
+            IClientProfile profile = DefaultProfile.GetProfile("cn-hangzhou", ACCESS_KEY, ACCESS_SECRET);
             IAcsClient client = new DefaultAcsClient(profile);
 
             DefaultProfile.AddEndpoint("cn-hangzhou", "cn-hangzhou", "afs", "afs.aliyuncs.com");

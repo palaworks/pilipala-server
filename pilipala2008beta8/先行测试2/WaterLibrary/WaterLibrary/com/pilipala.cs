@@ -804,8 +804,8 @@ namespace WaterLibrary.com.pilipala
         {
             /* 取得比当前 ID 大的一行，实现对下一条数据的抓取 */
             string SQL = string.Format("SELECT ID FROM `{0}` WHERE " +
-                         "{1} =( SELECT min(?Key) FROM `{0}` WHERE " +
-                         "{1} >( SELECT ?Key FROM `{0}` WHERE ID = ?ID ))", Views.Index, typeof(T).Name);
+                         "{1} =( SELECT min({1}) FROM `{0}` WHERE " +
+                         "{1} >( SELECT {1} FROM `{0}` WHERE ID = ?ID ))", Views.Total, typeof(T).Name);
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
@@ -875,8 +875,8 @@ namespace WaterLibrary.com.pilipala
         public virtual int PrevID<T>(int ID)
         {
             string SQL = string.Format("SELECT ID FROM `{0}` WHERE " +
-                         "{1} =( SELECT max(?Key) FROM `{0}` WHERE " +
-                         "{1} <( SELECT ?Key FROM `{0}` WHERE ID = ?ID ))", Views.Index, typeof(T).Name);
+                         "{1} =( SELECT max({1}) FROM `{0}` WHERE " +
+                         "{1} <( SELECT {1} FROM `{0}` WHERE ID = ?ID ))", Views.Total, typeof(T).Name);
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
@@ -985,6 +985,7 @@ namespace WaterLibrary.com.pilipala
                 new MySqlParm() { Name = "CT", Val = t },
                 new MySqlParm() { Name = "LCT", Val = t },
 
+                /* 可传参数 */
                 new MySqlParm() { Name = "Mode", Val = Post.Mode },
                 new MySqlParm() { Name = "Type", Val = Post.Type },
                 new MySqlParm() { Name = "User", Val = Post.User },
@@ -1002,20 +1003,21 @@ namespace WaterLibrary.com.pilipala
             };
 
             MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            MySqlCommand.Connection = MySqlManager.Connection;
 
             /* 开始事务 */
-            MySqlManager.BeginTransaction(ref MySqlCommand);
+            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
 
-            if (MySqlCommand.ExecuteNonQuery() == 2)
+            if (MySqlManager.QueryOnly(ref MySqlCommand) >= 2)
             {
                 /* 操作行数正常，提交事务 */
-                MySqlManager.CommitTransaction(ref MySqlCommand);
+                MySqlCommand.Transaction.Commit();
                 return true;
             }
             else
             {
                 /* 操作行数异常，回滚事务 */
-                MySqlManager.RollbackTransaction(ref MySqlCommand);
+                MySqlCommand.Transaction.Rollback();
                 throw new Exception("操作行数异常，事务已回滚");
             }
         }
@@ -1061,20 +1063,21 @@ namespace WaterLibrary.com.pilipala
             };
 
             MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            MySqlCommand.Connection = MySqlManager.Connection;
 
             /* 开始事务 */
-            MySqlManager.BeginTransaction(ref MySqlCommand);
+            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
 
-            if (MySqlCommand.ExecuteNonQuery() == 2)
+            if (MySqlManager.QueryOnly(ref MySqlCommand) >= 2)
             {
                 /* 操作行数正常，提交事务 */
-                MySqlManager.CommitTransaction(ref MySqlCommand);
+                MySqlCommand.Transaction.Commit();
                 return true;
             }
             else
             {
                 /* 操作行数异常，回滚事务 */
-                MySqlManager.RollbackTransaction(ref MySqlCommand);
+                MySqlCommand.Transaction.Rollback();
                 throw new Exception("操作行数异常，事务已回滚");
             }
         }
@@ -1095,20 +1098,21 @@ namespace WaterLibrary.com.pilipala
             };
 
             MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            MySqlCommand.Connection = MySqlManager.Connection;
 
             /* 开始事务 */
-            MySqlManager.BeginTransaction(ref MySqlCommand);
+            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
 
-            if (MySqlCommand.ExecuteNonQuery() >= 2)
+            if (MySqlManager.QueryOnly(ref MySqlCommand) >= 2)
             {
                 /* 操作行数正常，提交事务 */
-                MySqlManager.CommitTransaction(ref MySqlCommand);
+                MySqlCommand.Transaction.Commit();
                 return true;
             }
             else
             {
                 /* 操作行数异常，回滚事务 */
-                MySqlManager.RollbackTransaction(ref MySqlCommand);
+                MySqlCommand.Transaction.Rollback();
                 throw new Exception("操作行数异常，事务已回滚");
             }
         }
@@ -1127,20 +1131,21 @@ namespace WaterLibrary.com.pilipala
             };
 
             MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            MySqlCommand.Connection = MySqlManager.Connection;
 
             /* 开始事务 */
-            MySqlManager.BeginTransaction(ref MySqlCommand);
+            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
 
-            if (MySqlCommand.ExecuteNonQuery() == 1)
+            if (MySqlManager.QueryOnly(ref MySqlCommand) >= 2)
             {
                 /* 操作行数正常，提交事务 */
-                MySqlManager.CommitTransaction(ref MySqlCommand);
+                MySqlCommand.Transaction.Commit();
                 return true;
             }
             else
             {
                 /* 操作行数异常，回滚事务 */
-                MySqlManager.RollbackTransaction(ref MySqlCommand);
+                MySqlCommand.Transaction.Rollback();
                 throw new Exception("操作行数异常，事务已回滚");
             }
         }

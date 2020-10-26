@@ -20,6 +20,14 @@ namespace WaterLibrary.com.MySQL
         private MySqlConnection HandlerConnection;
 
         /// <summary>
+        /// MySql控制器的数据库连接
+        /// </summary>
+        public MySqlConnection Connection
+        {
+            get { return HandlerConnection; }
+        }
+
+        /// <summary>
         /// Close主连接
         /// </summary>
         /// <returns>成功返回ture，反之或报错返回false</returns>
@@ -456,7 +464,7 @@ namespace WaterLibrary.com.MySQL
         /// </summary>
         /// <param name="MySqlCommand">CMD实例</param>
         /// <returns>返回受影响的行数</returns>
-        public int QueryOnly(MySqlCommand MySqlCommand)
+        public int QueryOnly(ref MySqlCommand MySqlCommand)
         {
             MySqlCommand.Connection = HandlerConnection;
             return MySqlCommand.ExecuteNonQuery();
