@@ -154,15 +154,18 @@ namespace WaterLibrary.com.MySQL
         /// <returns>返回true，错误则返回null</returns>
         public void Start(string DataSource, string DataBase, string Port, string User, string PWD)
         {
-            //组建连接信息并创建连接
+            /* 拼接连接字符串 */
             HandlerConnection = new MySqlConnection
                 (
-                "Data Source=" + DataSource +
-                ";Database=" + DataBase +
+                "DataSource=" + DataSource +
+                ";DataBase=" + DataBase +
                 ";Port=" + Port +
-                ";User Id=" + User +
-                ";Password=" + PWD + ";"
+                ";UserID=" + User +
+                ";Password=" + PWD +
+                /* 设置UPDATE语句返回受影响的行数而不是符合查询条件的行数 */
+                ";UseAffectedRows=TRUE;"
                 );
+            /* 打开连接 */
             HandlerConnection.Open();
         }
         /// <summary>
@@ -172,16 +175,13 @@ namespace WaterLibrary.com.MySQL
         /// <returns>返回true，错误则返回false</returns>
         public void Start(MySqlConn MySqlConn)
         {
-            //组建连接信息并创建连接
-            HandlerConnection = new MySqlConnection
-                (
-                "Data Source=" + MySqlConn.DataSource +
-                ";Database=" + MySqlConn.DataBase +
-                ";Port=" + MySqlConn.Port +
-                ";User Id=" + MySqlConn.User +
-                ";Password=" + MySqlConn.PWD + ";"
+            Start(
+                MySqlConn.DataSource,
+                MySqlConn.DataBase,
+                MySqlConn.Port,
+                MySqlConn.User,
+                MySqlConn.PWD
                 );
-            HandlerConnection.Open();
         }
 
         /// <summary>

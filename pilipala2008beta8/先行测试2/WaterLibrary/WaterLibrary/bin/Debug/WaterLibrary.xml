@@ -777,61 +777,82 @@
             <summary>
             注册文章
             </summary>
-            <param name="Post">文章数据（ID、GUID、CT、LCT、User由系统生成）</param>
+            <param name="Post">文章数据（其中的ID、GUID、CT、LCT、User由系统生成）</param>
             <returns>返回受影响的行数</returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.UpdatePost(WaterLibrary.stru.pilipala.Post)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Dispose(System.Int32)">
+            <summary>
+            注销文章
+            </summary>
+            <param name="ID">目标文章ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Update(WaterLibrary.stru.pilipala.Post)">
             <summary>
             更新文章
             </summary>
             <param name="Post">文章数据</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.DisposeReg(System.Int32)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Delete(System.String)">
             <summary>
-            注销文章（删除所有Primary副本并注销Index）
-            </summary>
-            <param name="ID">目标文章ID</param>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.DeletePost(System.String)">
-            <summary>
-            删除副本（仅单个副本）
+            删除拷贝
             </summary>
             <param name="GUID">目标文章的GUID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.ShowReg(System.Int32)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Apply(System.String)">
             <summary>
-            将目标文章状态标记为展示
+            应用拷贝
+            </summary>
+            <param name="GUID">目标拷贝的GUID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Rollback(System.Int32)">
+            <summary>
+            回滚拷贝
+            </summary>
+            <param name="ID">目标文章的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Release(System.Int32)">
+            <summary>
+            释放拷贝
+            </summary>
+            <param name="ID">目标文章的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDU.ShowMode(System.Int32)">
+            <summary>
+            将目标文章指向的模式设为：展示
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.CloseReg(System.Int32)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.CloseMode(System.Int32)">
             <summary>
-            将目标文章状态标记为隐藏
+            将目标文章指向的模式设为：隐藏
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.ScheduleReg(System.Int32)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.ScheduleMode(System.Int32)">
             <summary>
-            将目标文章状态标记为计划中
+            将目标文章指向的模式设为：计划中
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.ArchivReg(System.Int32)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.ArchivMode(System.Int32)">
             <summary>
-            将目标文章状态标记为已归档
+            将目标文章指向的模式设为：已归档
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDU.UpdateIndex``1(System.Int32,System.Object)">
             <summary>
-            通用文章属性更新器
+            通用文章指向更新器
             </summary>
             <typeparam name="T">目标属性类型</typeparam>
             <param name="ID">目标文章ID</param>
@@ -840,10 +861,10 @@
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDU.UpdatePrimary``1(System.Int32,System.Object)">
             <summary>
-            通用文章属性更新器
+            通用文章拷贝更新器
             </summary>
             <typeparam name="T">目标属性类型</typeparam>
-            <param name="ID">目标文章ID</param>
+            <param name="GUID">目标拷贝GUID</param>
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
@@ -1249,28 +1270,28 @@
             啪啦数据修改器接口
             </summary>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.ShowReg(System.Int32)">
+        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.ShowMode(System.Int32)">
             <summary>
             将目标文章状态标记为展示
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.CloseReg(System.Int32)">
+        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.CloseMode(System.Int32)">
             <summary>
             将目标文章状态标记为隐藏
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.ScheduleReg(System.Int32)">
+        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.ScheduleMode(System.Int32)">
             <summary>
             将目标文章状态标记为计划中
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.ArchivReg(System.Int32)">
+        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.ArchivMode(System.Int32)">
             <summary>
             将目标文章状态标记为已归档
             </summary>

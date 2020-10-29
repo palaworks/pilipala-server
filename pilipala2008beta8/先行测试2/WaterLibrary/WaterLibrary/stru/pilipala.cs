@@ -293,25 +293,25 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        bool ShowReg(int ID);
+        bool ShowMode(int ID);
         /// <summary>
         /// 将目标文章状态标记为隐藏
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        bool CloseReg(int ID);
+        bool CloseMode(int ID);
         /// <summary>
         /// 将目标文章状态标记为计划中
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        bool ScheduleReg(int ID);
+        bool ScheduleMode(int ID);
         /// <summary>
         /// 将目标文章状态标记为已归档
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        bool ArchivReg(int ID);
+        bool ArchivMode(int ID);
 
         /// <summary>
         /// 通用文章属性更新器

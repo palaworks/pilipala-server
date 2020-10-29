@@ -15,6 +15,7 @@ using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.stru.pilipala.PostKey;
 
 using Type = WaterLibrary.stru.pilipala.PostKey.Type;
+using System.Web.UI.HtmlControls;
 
 namespace WaterLibrary.com.pilipala
 {
@@ -204,7 +205,7 @@ namespace WaterLibrary.com.pilipala
             }
             KeysStr.Substring(0, KeysStr.Length - 1);
 
-            string SQL = string.Format("SELECT ID{0} FROM `view>total`", KeysStr);
+            string SQL = string.Format("SELECT ID{0} FROM `{1}`", KeysStr, Views.Total);
 
             List<Post> PostList = new List<Post>();
 
@@ -243,7 +244,11 @@ namespace WaterLibrary.com.pilipala
             /* 正则表达式格式化 */
             string REGEXP = ConvertH.ListToString(MatchList, '|');
 
-            string SQL = string.Format("SELECT ID{0} FROM `view>total` WHERE {1} REGEXP ?REGEXP", KeysStr, typeof(T).Name);
+            string SQL = string.Format
+                (
+                "SELECT ID{0} FROM `{1}` WHERE {2} REGEXP ?REGEXP"
+                , KeysStr, Views.Total, typeof(T).Name
+                );
 
             List<Post> PostList = new List<Post>();
 
@@ -301,7 +306,11 @@ namespace WaterLibrary.com.pilipala
             List<int> IDList = new List<int>();
 
             /* 此处以时间降序排列查询 */
-            string SQL = string.Format("SELECT ID FROM `{0}` ORDER BY CT DESC LIMIT ?Start , ?Length", Views.Index);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` ORDER BY CT DESC LIMIT ?Start , ?Length"
+                , Views.Index
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -331,7 +340,11 @@ namespace WaterLibrary.com.pilipala
             List<int> IDList = new List<int>();
 
             /* 此处以时间降序排列查询 */
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE Type = ?Type ORDER BY CT DESC LIMIT ?Start , ?Length", Views.Index);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE Type = ?Type ORDER BY CT DESC LIMIT ?Start , ?Length"
+                , Views.Index
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -360,7 +373,11 @@ namespace WaterLibrary.com.pilipala
         {
             List<int> IDList = new List<int>();
 
-            string SQL = string.Format("SELECT ID FROM `{0}` ORDER BY ?OrderKey ?OrderType", Views.Index);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` ORDER BY ?OrderKey ?OrderType"
+                , Views.Index
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -388,7 +405,11 @@ namespace WaterLibrary.com.pilipala
         {
             List<int> IDList = new List<int>();
 
-            string SQL = string.Format("SELECT ID FROM `{0}` ORDER BY ?OrderKey ?OrderType LIMIT 0,?Length", Views.Index);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` ORDER BY ?OrderKey ?OrderType LIMIT 0,?Length"
+                , Views.Index
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -420,7 +441,11 @@ namespace WaterLibrary.com.pilipala
             /* 正则表达式格式化 */
             string REGEXP = ConvertH.ListToString(MatchList, '|');
 
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP", Views.Total, typeof(T).Name);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP"
+                , Views.Total, typeof(T).Name
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -451,7 +476,11 @@ namespace WaterLibrary.com.pilipala
             /* 正则表达式格式化 */
             string REGEXP = ConvertH.ListToString(MatchList, '|');
 
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP ORDER BY ?OrderKey ?OrderType", Views.Total, typeof(T).Name);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP ORDER BY ?OrderKey ?OrderType"
+                , Views.Total, typeof(T).Name
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -486,7 +515,11 @@ namespace WaterLibrary.com.pilipala
             /* 正则表达式格式化 */
             string REGEXP = ConvertH.ListToString(MatchList, '|');
 
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP ORDER BY ?Key ?OrderType LIMIT 0,?Length", Views.Total, typeof(T).Name);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP ORDER BY ?Key ?OrderType LIMIT 0,?Length"
+                , Views.Total, typeof(T).Name
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -518,7 +551,11 @@ namespace WaterLibrary.com.pilipala
         {
             List<int> IDList = new List<int>();
 
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP", Views.Total, typeof(T).Name);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP"
+                , Views.Total, typeof(T).Name
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -544,7 +581,11 @@ namespace WaterLibrary.com.pilipala
         {
             List<Post> PostList = new List<Post>();
 
-            string SQL = string.Format("SELECT * FROM `{0}` WHERE {1} REGEXP ?REGEXP", Views.Total, typeof(T).Name);
+            string SQL = string.Format
+                (
+                "SELECT * FROM `{0}` WHERE {1} REGEXP ?REGEXP"
+                , Views.Total, typeof(T).Name
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -696,7 +737,11 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual object GetIndex<T>(int ID) where T : IKey
         {
-            string SQL = string.Format("SELECT {0} FROM `{1}` WHERE ID = ?ID", typeof(T).Name, Views.Index);
+            string SQL = string.Format
+                (
+                "SELECT {0} FROM `{1}` WHERE ID = ?ID"
+                , typeof(T).Name, Views.Index
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
@@ -716,7 +761,11 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual object GetPrimary<T>(int ID) where T : IKey
         {
-            string SQL = string.Format("SELECT {0} FROM `{1}` WHERE ID = ?ID", typeof(T).Name, Views.Primary);
+            string SQL = string.Format
+                (
+                "SELECT {0} FROM `{1}` WHERE ID = ?ID"
+                , typeof(T).Name, Views.Primary
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
@@ -737,7 +786,11 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual string Get<T>(int ID) where T : IKey
         {
-            string SQL = string.Format("SELECT {0} FROM `{1}` WHERE ID = ?ID", typeof(T).Name, Views.Total);
+            string SQL = string.Format
+                (
+                "SELECT {0} FROM `{1}` WHERE ID = ?ID"
+                , typeof(T).Name, Views.Total
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
@@ -758,7 +811,11 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public virtual string Get<T>(int ID, int Length) where T : IKey
         {
-            string SQL = string.Format("SELECT SUBSTRING(( SELECT {0} FROM `{1}` WHERE ID = ?ID ) FROM 1 FOR ?Length)", typeof(T).Name, Views.Total);
+            string SQL = string.Format
+                (
+                "SELECT SUBSTRING(( SELECT {0} FROM `{1}` WHERE ID = ?ID ) FROM 1 FOR ?Length)"
+                , typeof(T).Name, Views.Total
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
@@ -780,7 +837,11 @@ namespace WaterLibrary.com.pilipala
         public virtual int NextID(int ID)
         {
             /* 取得比当前 ID 大的一行，实现对下一条数据的抓取 */
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE ID =( SELECT min(ID) FROM `{0}` WHERE ID > ?ID );", Views.Index);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE ID=( SELECT min(ID) FROM `{0}` WHERE ID > ?ID );"
+                , Views.Index
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
@@ -803,9 +864,13 @@ namespace WaterLibrary.com.pilipala
         public virtual int NextID<T>(int ID)
         {
             /* 取得比当前 ID 大的一行，实现对下一条数据的抓取 */
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE " +
-                         "{1} =( SELECT min({1}) FROM `{0}` WHERE " +
-                         "{1} >( SELECT {1} FROM `{0}` WHERE ID = ?ID ))", Views.Total, typeof(T).Name);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE " +
+                "{1} =( SELECT min({1}) FROM `{0}` WHERE " +
+                "{1} >( SELECT {1} FROM `{0}` WHERE ID = ?ID ))"
+                , Views.Total, typeof(T).Name
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
@@ -827,7 +892,11 @@ namespace WaterLibrary.com.pilipala
         /// <returns>不存在符合要求的ID时，返回-1</returns>
         public virtual int NextID(string REGEXP, int ID)
         {
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE ID =( SELECT min(ID) FROM `{0}` WHERE ID > ?ID AND Archiv REGEXP ?REGEXP);", Views.Primary);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE ID=( SELECT min(ID) FROM `{0}` WHERE ID > ?ID AND Archiv REGEXP ?REGEXP )"
+                , Views.Primary
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -851,8 +920,12 @@ namespace WaterLibrary.com.pilipala
         public virtual int PrevID(int ID)
         {
             /* 取得比当前 ID 小的一行，实现对上一条数据的抓取 */
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE " +
-                         "ID =( SELECT max(ID) FROM `{0}` WHERE ID < ?ID );", Views.Index);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE " +
+                "ID =( SELECT max(ID) FROM `{0}` WHERE ID < ?ID )"
+                , Views.Index
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -874,9 +947,13 @@ namespace WaterLibrary.com.pilipala
         /// <returns>不存在符合要求的ID时，返回-1</returns>
         public virtual int PrevID<T>(int ID)
         {
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE " +
-                         "{1} =( SELECT max({1}) FROM `{0}` WHERE " +
-                         "{1} <( SELECT {1} FROM `{0}` WHERE ID = ?ID ))", Views.Total, typeof(T).Name);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE " +
+                "{1} =( SELECT max({1}) FROM `{0}` WHERE " +
+                "{1} <( SELECT {1} FROM `{0}` WHERE ID = ?ID ))"
+                , Views.Total, typeof(T).Name
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
@@ -898,8 +975,11 @@ namespace WaterLibrary.com.pilipala
         /// <returns>不存在符合要求的ID时，返回-1</returns>
         public virtual int PrevID(string REGEXP, int ID)
         {
-            string SQL = string.Format("SELECT ID FROM `{0}` WHERE " +
-                         "ID =( SELECT max(ID) FROM `{0}` WHERE ID < ?ID AND Archiv REGEXP ?REGEXP);", Views.Primary);
+            string SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE ID=(SELECT max(ID) FROM `{0}` WHERE ID < ?ID AND Archiv REGEXP ?REGEXP)"
+                , Views.Primary
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -940,8 +1020,9 @@ namespace WaterLibrary.com.pilipala
         private int GetMaxID()
         {
             string SQL = string.Format("SELECT max(ID) FROM `{0}`", Tables.Index);
-
-            return Convert.ToInt32(MySqlManager.GetKey(SQL));
+            var value = MySqlManager.GetKey(SQL);
+            /* 若取不到最大ID(没有任何文章时)，返回12000作为初始ID */
+            return Convert.ToInt32(value.GetType() == typeof(DBNull) ? 12000 : value);
         }
 
         /// <summary>
@@ -955,26 +1036,36 @@ namespace WaterLibrary.com.pilipala
             MySqlManager = PLSYS.MySqlManager;
         }
 
+        /*
+        Reg       注册文章：新建一个拷贝，并将index指向该拷贝
+        Dispose   注销文章：删除所有拷贝和index指向
+
+        Update    更新拷贝：新建一个拷贝，并将index更改为指向该拷贝
+        Delete    删除拷贝：删除指定拷贝，且该拷贝不能为当前index指向
+        Apply     应用拷贝：将现有index指向删除（顶出），然后将index指向设置为指定文章拷贝
+        Rollback  回滚拷贝：将现有index指向删除（顶出），然后将index指向设置到另一个最近更新的拷贝
+        Release   释放拷贝：删除非当前index指向的所有拷贝
+        */
 
         /// <summary>
         /// 注册文章
         /// </summary>
-        /// <param name="Post">文章数据（ID、GUID、CT、LCT、User由系统生成）</param>
+        /// <param name="Post">文章数据（其中的ID、GUID、CT、LCT、User由系统生成）</param>
         /// <returns>返回受影响的行数</returns>
         public bool Reg(Post Post)
         {
             DateTime t = DateTime.Now;
 
-            string SQL = string.Format(
-                "INSERT INTO `{0}`" +
-                " (`ID`,`GUID`,`CT`,`Mode`,`Type`,`User`,`UVCount`,`StarCount`) VALUES" +
-                " (?ID, ?GUID, ?CT, ?Mode, ?Type, ?User, ?UVCount, ?StarCount);"
-                +
-                "INSERT INTO `{1}`" +
-                " (`ID`,`GUID`,`LCT`,`Title`,`Summary`,`Content`,`Archiv`,`Label`,`Cover`) VALUES" +
-                " (?ID, ?GUID, ?LCT, ?Title, ?Summary, ?Content, ?Archiv, ?Label, ?Cover);"
-
-                , Tables.Index, Tables.Primary);
+            string SQL = string.Format
+                (
+                "INSERT INTO {0}" +
+                " ( ID, GUID, CT, Mode, Type, User, UVCount, StarCount) VALUES" +
+                " (?ID,?GUID,?CT,?Mode,?Type,?User,?UVCount,?StarCount);" +
+                "INSERT INTO {1}" +
+                " ( ID, GUID, LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
+                " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);"
+                , Tables.Index, Tables.Primary
+                );
 
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -1008,9 +1099,47 @@ namespace WaterLibrary.com.pilipala
             /* 开始事务 */
             MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
 
+            if (MySqlCommand.ExecuteNonQuery() == 2)
+            {
+                /* 指向表和拷贝表分别添加1行数据 */
+                MySqlCommand.Transaction.Commit();
+                return true;
+            }
+            else
+            {
+                /* 操作行数异常，回滚事务 */
+                MySqlCommand.Transaction.Rollback();
+                throw new Exception("操作行数异常，事务已回滚");
+            }
+        }
+        /// <summary>
+        /// 注销文章
+        /// </summary>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns></returns>
+        public bool Dispose(int ID)
+        {
+            string SQL = string.Format
+                (
+                "DELETE FROM {0} WHERE ID=?ID;" +
+                "DELETE FROM {1} WHERE ID=?ID;"
+                , Tables.Index, Tables.Primary
+                );
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+            {
+                new MySqlParm() { Name = "ID", Val = ID }
+            };
+
+            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            MySqlCommand.Connection = MySqlManager.Connection;
+
+            /* 开始事务 */
+            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
+
             if (MySqlManager.QueryOnly(ref MySqlCommand) >= 2)
             {
-                /* 操作行数正常，提交事务 */
+                /* 指向表只删除1行数据，拷贝表至少删除1行数据 */
                 MySqlCommand.Transaction.Commit();
                 return true;
             }
@@ -1026,27 +1155,25 @@ namespace WaterLibrary.com.pilipala
         /// </summary>
         /// <param name="Post">文章数据</param>
         /// <returns></returns>
-        public bool UpdatePost(Post Post)
+        public bool Update(Post Post)
         {
-            DateTime t = DateTime.Now;
-
-            string SQL = string.Format(
-                "UPDATE `{0}` SET" +
-                " GUID=?GUID, Mode=?Mode, Type=?Type, UVCount=?UVCount, StarCount=?StarCount WHERE ID = ?ID;"
-                +
-                "INSERT INTO `{1}`" +
-                " (`ID`,`GUID`,`LCT`,`Title`,`Summary`,`Content`,`Archiv`,`Label`,`Cover`) VALUES" +
-                " (?ID, ?GUID, ?LCT, ?Title, ?Summary, ?Content, ?Archiv, ?Label, ?Cover);"
-
-                , Tables.Index, Tables.Primary);
+            string SQL = string.Format
+                (
+                "UPDATE {0} SET GUID=?GUID, Mode=?Mode, Type=?Type, UVCount=?UVCount, StarCount=?StarCount WHERE ID=?ID;" +
+                "INSERT INTO {1}" +
+                " ( ID, GUID, LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
+                " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);"
+                , Tables.Index, Tables.Primary
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
             {
-                new MySqlParm() { Name = "ID", Val = GetMaxID() + 1 },
+                new MySqlParm() { Name = "ID", Val = Post.ID },
                 new MySqlParm() { Name = "GUID", Val = MathH.GenerateGUID("D") },
 
-                new MySqlParm() { Name = "LCT", Val = t },
+                new MySqlParm() { Name = "LCT", Val = DateTime.Now },
 
+                /* 可传参数 */
                 new MySqlParm() { Name = "Mode", Val = Post.Mode },
                 new MySqlParm() { Name = "Type", Val = Post.Type },
 
@@ -1068,9 +1195,9 @@ namespace WaterLibrary.com.pilipala
             /* 开始事务 */
             MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
 
-            if (MySqlManager.QueryOnly(ref MySqlCommand) >= 2)
+            if (MySqlManager.QueryOnly(ref MySqlCommand) == 2)
             {
-                /* 操作行数正常，提交事务 */
+                /* 指向表修改1行数据，拷贝表添加1行数据 */
                 MySqlCommand.Transaction.Commit();
                 return true;
             }
@@ -1079,51 +1206,22 @@ namespace WaterLibrary.com.pilipala
                 /* 操作行数异常，回滚事务 */
                 MySqlCommand.Transaction.Rollback();
                 throw new Exception("操作行数异常，事务已回滚");
+                /* 由于GUID更新，影响行始终为2，若出现其他情况则一定为错误 */
             }
         }
 
-        /* 风险性功能，需要周全的开发逻辑以防止生产用数据库的意外灾难 */
         /// <summary>
-        /// 注销文章（删除所有Primary副本并注销Index）
-        /// </summary>
-        /// <param name="ID">目标文章ID</param>
-        /// <returns></returns>
-        public bool DisposeReg(int ID)
-        {
-            string SQL = string.Format("DELETE FROM `{0}` WHERE ID = ?ID; DELETE FROM `{1}` WHERE ID = ?ID;", Tables.Index, Tables.Primary);
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
-            {
-                new MySqlParm() { Name = "ID", Val = ID }
-            };
-
-            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-            MySqlCommand.Connection = MySqlManager.Connection;
-
-            /* 开始事务 */
-            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
-
-            if (MySqlManager.QueryOnly(ref MySqlCommand) >= 2)
-            {
-                /* 操作行数正常，提交事务 */
-                MySqlCommand.Transaction.Commit();
-                return true;
-            }
-            else
-            {
-                /* 操作行数异常，回滚事务 */
-                MySqlCommand.Transaction.Rollback();
-                throw new Exception("操作行数异常，事务已回滚");
-            }
-        }
-        /// <summary>
-        /// 删除副本（仅单个副本）
+        /// 删除拷贝
         /// </summary>
         /// <param name="GUID">目标文章的GUID</param>
         /// <returns></returns>
-        public bool DeletePost(string GUID)
+        public bool Delete(string GUID)
         {
-            string SQL = string.Format("DELETE FROM `{0}` WHERE GUID = ?GUID;", Tables.Primary);
+            string SQL = string.Format
+                (
+                "DELETE {1} FROM {0},{1} WHERE ({0}.GUID <> ?GUID) AND ({1}.GUID = ?GUID) AND ({0}.ID = {1}.ID)"
+                , Tables.Index, Tables.Primary
+                );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
             {
@@ -1136,9 +1234,129 @@ namespace WaterLibrary.com.pilipala
             /* 开始事务 */
             MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
 
-            if (MySqlManager.QueryOnly(ref MySqlCommand) >= 2)
+            if (MySqlManager.QueryOnly(ref MySqlCommand) == 1)
             {
-                /* 操作行数正常，提交事务 */
+                /* 拷贝表删除一行数据 */
+                MySqlCommand.Transaction.Commit();
+                return true;
+            }
+            else
+            {
+                /* 操作行数异常，回滚事务 */
+                MySqlCommand.Transaction.Rollback();
+                throw new Exception("操作行数异常，事务已回滚");
+            }
+        }
+        /// <summary>
+        /// 应用拷贝
+        /// </summary>
+        /// <param name="GUID">目标拷贝的GUID</param>
+        /// <returns></returns>
+        public bool Apply(string GUID)
+        {
+            /* 此处，即使SQL注入造成了ID错误，由于第二步参数化查询的作用，GUID也会造成错误无法成功攻击 */
+            object ID = MySqlManager.GetKey
+                (
+                string.Format("SELECT ID FROM {0} WHERE GUID = '{1}'", Tables.Primary, GUID)
+                );
+
+            string SQL = string.Format
+                (
+                "DELETE FROM {1} WHERE GUID = (SELECT GUID FROM {0} WHERE ID = ?ID);" +
+                "UPDATE {0} SET GUID = ?GUID WHERE ID = ?ID;"
+                , Tables.Index, Tables.Primary
+                );
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+            {
+                new MySqlParm() { Name = "ID", Val = ID },
+                new MySqlParm() { Name = "GUID", Val = GUID }
+            };
+
+            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            MySqlCommand.Connection = MySqlManager.Connection;
+
+            /* 开始事务 */
+            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
+
+            if (MySqlManager.QueryOnly(ref MySqlCommand) == 2)
+            {
+                /* 指向表修改1行数据，拷贝表删除一行数据 */
+                MySqlCommand.Transaction.Commit();
+                return true;
+            }
+            else
+            {
+                /* 操作行数异常，回滚事务 */
+                MySqlCommand.Transaction.Rollback();
+                throw new Exception("操作行数异常，事务已回滚");
+            }
+        }
+        /// <summary>
+        /// 回滚拷贝
+        /// </summary>
+        /// <param name="ID">目标文章的ID</param>
+        /// <returns></returns>
+        public bool Rollback(int ID)
+        {
+            string SQL = string.Format
+                (
+                "DELETE {1} FROM {0},{1} WHERE ({0}.GUID = {1}.GUID) AND ({0}.ID = ?ID);" +
+                "UPDATE {0} SET GUID = (SELECT GUID FROM {1} WHERE ID=?ID ORDER BY LCT DESC LIMIT 0,1) WHERE ID=?ID;"
+                , Tables.Index, Tables.Primary
+                );
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+            {
+                new MySqlParm() { Name = "ID", Val = ID }
+            };
+
+            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            MySqlCommand.Connection = MySqlManager.Connection;
+
+            /* 开始事务 */
+            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
+
+            if (MySqlManager.QueryOnly(ref MySqlCommand) == 2)
+            {
+                /* 指向表修改1行数据，拷贝表删除1行数据 */
+                MySqlCommand.Transaction.Commit();
+                return true;
+            }
+            else
+            {
+                /* 操作行数异常，回滚事务 */
+                MySqlCommand.Transaction.Rollback();
+                throw new Exception("操作行数异常，事务已回滚");
+            }
+        }
+        /// <summary>
+        /// 释放拷贝
+        /// </summary>
+        /// <param name="ID">目标文章的ID</param>
+        /// <returns></returns>
+        public bool Release(int ID)
+        {
+            string SQL = string.Format
+                (
+                "DELETE {1} FROM {0},{1} WHERE ({0}.ID = {1}.ID) AND ({0}.GUID <> {1}.GUID) AND ({0}.ID = ?ID)"
+                , Tables.Index, Tables.Primary
+                );
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+            {
+                new MySqlParm() { Name = "?ID", Val = ID }
+            };
+
+            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            MySqlCommand.Connection = MySqlManager.Connection;
+
+            /* 开始事务 */
+            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
+
+            if (MySqlManager.QueryOnly(ref MySqlCommand) >= 0)
+            {
+                /* 删除拷贝表的所有冗余，不存在冗余时影响行数为0 */
                 MySqlCommand.Transaction.Commit();
                 return true;
             }
@@ -1151,11 +1369,11 @@ namespace WaterLibrary.com.pilipala
         }
 
         /// <summary>
-        /// 将目标文章状态标记为展示
+        /// 将目标文章指向的模式设为：展示
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public bool ShowReg(int ID)
+        public bool ShowMode(int ID)
         {
             //初始化键定位
             MySqlKey MySqlKey = new MySqlKey
@@ -1167,11 +1385,11 @@ namespace WaterLibrary.com.pilipala
             return MySqlManager.UpdateKey(MySqlKey, "Mode", "show");
         }
         /// <summary>
-        /// 将目标文章状态标记为隐藏
+        /// 将目标文章指向的模式设为：隐藏
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public bool CloseReg(int ID)
+        public bool CloseMode(int ID)
         {
             //初始化键定位
             MySqlKey MySqlKey = new MySqlKey
@@ -1183,11 +1401,11 @@ namespace WaterLibrary.com.pilipala
             return MySqlManager.UpdateKey(MySqlKey, "Mode", "closed");
         }
         /// <summary>
-        /// 将目标文章状态标记为计划中
+        /// 将目标文章指向的模式设为：计划中
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public bool ScheduleReg(int ID)
+        public bool ScheduleMode(int ID)
         {
             //初始化键定位
             MySqlKey MySqlKey = new MySqlKey
@@ -1199,11 +1417,11 @@ namespace WaterLibrary.com.pilipala
             return MySqlManager.UpdateKey(MySqlKey, "Mode", "scheduled");
         }
         /// <summary>
-        /// 将目标文章状态标记为已归档
+        /// 将目标文章指向的模式设为：已归档
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public bool ArchivReg(int ID)
+        public bool ArchivMode(int ID)
         {
             //初始化键定位
             MySqlKey MySqlKey = new MySqlKey
@@ -1216,7 +1434,7 @@ namespace WaterLibrary.com.pilipala
         }
 
         /// <summary>
-        /// 通用文章属性更新器
+        /// 通用文章指向更新器
         /// </summary>
         /// <typeparam name="T">目标属性类型</typeparam>
         /// <param name="ID">目标文章ID</param>
@@ -1234,23 +1452,24 @@ namespace WaterLibrary.com.pilipala
             return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Convert.ToString(Value));
         }
         /// <summary>
-        /// 通用文章属性更新器
+        /// 通用文章拷贝更新器
         /// </summary>
         /// <typeparam name="T">目标属性类型</typeparam>
-        /// <param name="ID">目标文章ID</param>
+        /// <param name="GUID">目标拷贝GUID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        public bool UpdatePrimary<T>(int ID, object Value) where T : IKey
+        public bool UpdatePrimary<T>(int GUID, object Value) where T : IKey
         {
             //初始化键定位
             MySqlKey MySqlKey = new MySqlKey
             {
                 Table = Tables.Primary,
-                Name = "ID",
-                Val = ID.ToString()
+                Name = "GUID",
+                Val = GUID.ToString()
             };
             return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Convert.ToString(Value));
         }
+        //ID更改方式需要编写
 
         /// <summary>
         /// 检测ID、GUID是否匹配，之后合并Post数据表
