@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("PalaBenchmarkFiller")]
+[assembly: AssemblyTitle("palaBenchmark")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PalaBenchmarkFiller")]
+[assembly: AssemblyProduct("palaBenchmark")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("cd3e8f7f-af05-4cd4-b2ea-a4b5bf12b125")]
+[assembly: Guid("65c43ea3-e7cf-469d-864d-42e71e1e9b09")]
 
 // 程序集的版本信息由下列四个值组成: 
 //

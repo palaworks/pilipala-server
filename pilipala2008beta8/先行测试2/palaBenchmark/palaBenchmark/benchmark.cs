@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using WaterLibrary.stru.MySQL;
-using WaterLibrary.stru.pilipala.PostKey;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
 
-namespace PalaBenchmarkFiller
+namespace palaBenchmark
 {
     class Benchmark
     {
@@ -18,7 +17,7 @@ namespace PalaBenchmarkFiller
         public PLDR PLDR;
         public PLDU PLDU;
 
-        public void Benchmark_INIT()
+        public void INIT()
         {
             /* 初始化噼里啪啦数据库信息和MySql控制器 */
             PLDB PLDB = new PLDB
