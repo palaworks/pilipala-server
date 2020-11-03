@@ -1,0 +1,29 @@
+body {
+    display: grid;
+    grid-template-columns: 20vw 80vw;
+    grid-template-rows: 14vh 14vh 14vh 14vh 14vh 14vh 14vh;
+    background-color: rgb(50, 50, 50);
+    margin: 0;
+}
+
+.Box {
+    grid-row-start: 1;
+    grid-row-end: 8;
+    grid-column-start: 2;
+    grid-column-end: 5;
+
+
+    display: grid;
+    grid-template-columns: 20vw 20vw 20vw 20vw;
+    grid-template-rows: 14vh 14vh 14vh 14vh 14vh;
+    background-color: rgb(60, 60, 60);
+}
+
+button {
+    border: 0;
+    margin: 0;
+}
+
+.aspNetHidden {
+    display: none;
+}

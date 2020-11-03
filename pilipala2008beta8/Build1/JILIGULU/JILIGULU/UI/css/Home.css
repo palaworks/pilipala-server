@@ -1,0 +1,44 @@
+.Home {
+
+    font-size: 22px;
+    text-align: center;
+
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 2;
+
+    background-color: rgb(120, 120, 120);
+
+    border-style: dotted;
+    border-width: 1px;
+    border-color: rgb(80, 80, 80);
+}
+
+.PostCount,
+.CopyCount,
+.CommentCount,
+.ShowCount,
+.ScheduleCount,
+.DisableCount,
+.ArchivCount {
+    font-size: 16px;
+    line-height: 14vh;
+    text-align: center;
+    background-color: rgb(200, 200, 200);
+}
+
+
+.PostCount {}
+
+.CopyCount {}
+
+.CommentCount {}
+
+.ShowCount {}
+
+.ScheduleCount {}
+
+.DisableCount {}
+
+.ArchivCount {}

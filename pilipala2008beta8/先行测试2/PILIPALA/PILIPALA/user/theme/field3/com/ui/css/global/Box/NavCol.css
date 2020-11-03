@@ -11,7 +11,7 @@
 
     height: 21vh;
     max-height: 160px;
-    min-height: 130px;
+    min-height: 150px;
 }
 
 #NavCol>.box>.AvaBox>.Ava-outline {
@@ -27,8 +27,7 @@
     border-style: solid;
     border-radius: 100px;
 
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
+    transition: all 0.2s ease;
 }
 
 #NavCol>.box>.AvaBox>.Ava-outline>.Ava {
@@ -41,7 +40,7 @@
 
     margin: auto;
 
-    background: transparent url("http://thblog-img.test.upcdn.net/ui_img/p200.jpg");
+    background: transparent url("http://q1.qlogo.cn/g?b=qq&nk=1951327599&s=640");
     background-position: center;
     background-size: cover;
 
@@ -101,8 +100,7 @@
     background-color: rgba(1, 153, 255, 1);
     border-radius: 2px;
 
-    transition-timing-function: ease;
-    transition-duration: 0.2s;
+    transition: all 0.2s ease;
 }
 
 #NavCol>.List>.box>.Card {
@@ -118,8 +116,7 @@
     letter-spacing: 1px;
     color: rgba(230, 230, 230, 1.00);
 
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
+    transition: all 0.2s ease;
 }
 
 #NavCol>.List>.box>.Card::after {
@@ -151,8 +148,7 @@
 
     width: 94%;
 
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
+    transition: all 0.2s ease;
 }
 
 #NavCol>.Co-outline>.Co {
@@ -168,8 +164,8 @@
     line-height: 17px;
 }
 
-/* 屏幕宽度大于1000时 */
-@media screen and (min-width: 1000px) {
+/* 屏幕宽度 [ 1001 , + ) */
+@media (min-width: 1001px) {
     #NavCol {
         width: 23%;
         min-width: 230px;
@@ -179,7 +175,7 @@
     }
 }
 
-/* 屏幕宽度小于1000时 */
+/* 屏幕宽度 ( - , 1000 ] */
 @media screen and (max-width: 1000px) {
     #NavCol {
         display: none;
