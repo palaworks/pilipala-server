@@ -69,14 +69,14 @@
     background: rgba(0, 0, 0);
 }
 
-/* 屏幕宽度大于1000时 */
-@media (min-width: 1000px) {
+/* 屏幕宽度 [ 1001 , + ) */
+@media (min-width: 1001px) {
     #SiderList {
         display: none;
     }
 }
 
-/* 屏幕宽度小于1000时 */
+/* 屏幕宽度 ( - , 1000 ] */
 @media (max-width: 1000px) {
     #SiderList {
         display: unset;
