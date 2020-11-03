@@ -1,5 +1,5 @@
 ﻿<div id="NavLine" class="L M bSha">
-    <div class="contain cur bRds" onclick="up();showPost(12387)">
+    <div class="contain cur bRds" onclick="up();showPost(12387,'我')">
         <div class="Avatar bSha"></div>
         <div class="Name">THAUMY的小站</div>
     </div>
@@ -10,7 +10,7 @@
 
     <m-card v-for="d in List" v-bind:item="d" v-bind:key="d.index"></m-card>
 
-    <div class="Co cur" onclick="up();showPost(12388);ListToggle()">
+    <div class="Co cur" onclick="up();showPost(12388,'关于博客');ListToggle()">
         Thaumy的博客©2016-2020保留所有权利<br>
         基于pilipala构建<br>
         Field Theme Designed By Thaumy<br>
@@ -19,6 +19,7 @@
 
 <div class="Shadow" onclick="ListToggle()"></div>
 
+<!-- vue导航组件 -->
 <script>
     Vue.component('m-card', {
         props: ['item'],

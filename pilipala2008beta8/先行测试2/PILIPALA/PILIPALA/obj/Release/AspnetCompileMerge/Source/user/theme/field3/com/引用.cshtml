@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="~/user/theme/field3/com/ui/css/global.css">
 
 <!-- 自动切换主题颜色 -->
-@if (DateTime.Now.Hour >= 19 || DateTime.Now.Hour <= 6)
+@if (DateTime.Now.Hour >= 20 || DateTime.Now.Hour <= 7)
 {
     <link rel="stylesheet" href="~/user/theme/field3/com/ui/css/dark.css">
 }
@@ -25,17 +25,26 @@ else
 
 <script src="~/user/theme/field3/com/ui/js/global.js"></script>
 
-
-
-<!-- 泛生库引入 -->
-<script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-
-<!--
-<script type="text/javascript" src="https://cdn.bootcss.com/marked/0.8.0/marked.min.js"></script>
--->
+<!-- jq -->
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <!-- 主题脚本 -->
 <script src="~/user/theme/field3/com/field.js"></script>
 <!-- CNZZ -->
 <div style="display:none">
-    <script type="text/javascript" src="https://s19.cnzz.com/z_stat.php?id=1262285427&web_id=1262285427"></script>
+    <script src="https://s19.cnzz.com/z_stat.php?id=1262285427&web_id=1262285427"></script>
 </div>
+<!-- 评论Captcha -->
+<script src="https://g.alicdn.com/sd/ncpc/nc.js?t=2015052012"></script>
+
+<!-- 版权绘 -->
+<script>
+    let a =
+        'background: #FFA500; padding:4px 0px 4px 0px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 3px 0 0 3px;'
+    let b =
+        'background: #606060; padding:4px 0px 4px 0px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 0 3px 3px 0;'
+
+    console.log("%c  Core  %c  WaterLibrary " + CoreVersion() + "  ", a, b)
+    console.log("%c  pilipala  %c  beta8  ", a, b)
+    console.log("%c  Theme  %c  Field  ", a, b)
+    
+</script>

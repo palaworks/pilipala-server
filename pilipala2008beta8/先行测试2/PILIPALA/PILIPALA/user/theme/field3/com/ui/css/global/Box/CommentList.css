@@ -6,7 +6,7 @@
 .CommentList>.Box {
     display: grid;
     grid-template-columns: 50% 46% 4%;
-    grid-template-rows: 22px 20px auto;
+    grid-template-rows: 24px 20px auto;
 
     padding: 4px;
 
@@ -19,17 +19,21 @@
     grid-column-start: 1;
     grid-column-end: 3;
 
+    max-width: 93.4%;
     padding-left: 3px;
 
     font-size: 1.1em;
     font-weight: 400;
     line-height: 1.2em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .CommentList .ReplyFloor {
     float: right;
 
-    color: black;
+    color: rgb(0, 0, 0);
     font-size: 12px;
     font-weight: 600;
     line-height: 18px;
@@ -41,8 +45,9 @@
     margin-left: 4px;
     margin-right: 4px;
 
-    background: rgb(0, 180, 255, 1);
+    background: rgb(0, 180, 255);
     border-radius: 4px;
+    box-shadow: 0px 0px 3px 0.2px rgba(0, 0, 0, 0.4);
 }
 
 .CommentList .ReplyLogo {
@@ -55,7 +60,7 @@
 .CommentList .ReplyLogo::before {
     font-family: 'field-icon';
     font-size: 0.88em;
-    color: rgb(255 159 0);
+    color: rgb(255, 159, 0);
     content: "\e3020";
 }
 
@@ -65,7 +70,7 @@
     grid-column-end: 4;
 
     font-size: 0.7em;
-    color: rgba(0, 0, 0, 1);
+    color: rgba(170, 170, 170, 1);
 }
 
 .CommentList>.Box>.Email {
@@ -86,11 +91,15 @@
 
     font-size: 0.6em;
     font-family: 'Roboto Mono', monospace;
-    color: rgba(0, 0, 0, 1);
+    color: rgb(0, 0, 0);
+    overflow: hidden;
     text-align: center;
     line-height: 13px;
 
+
     border-radius: 2px;
+
+    transition: all 0.2s ease;
 }
 
 .CommentList>.Box>.Content {

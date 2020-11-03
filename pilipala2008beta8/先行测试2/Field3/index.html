@@ -18,6 +18,22 @@
   <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
 
   <script src="ui/js/global.js"></script>
+
+  <!-- 版权绘 -->
+  <script>
+    let c =
+      'background:#00CED1; padding:10px 20px 12px 20px; font-family:\'Source Sans Pro\'; font-size:22px; color:#fff; border-radius: 3px 0 0 3px;'
+    let d =
+      'background:#1E90FF; padding:10px 20px 12px 20px; font-family:\'Source Sans Pro\'; font-size:22px; color:#fff; border-radius: 0 3px 3px 0;'
+    console.log(`%c 噼哩啪啦 %cBETA 8`, c, d)
+  </script>
+  <script>
+    let a =
+      'background: #FFA500; padding:4px 10px 4px 10px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 3px 0 0 3px;'
+    let b =
+      'background: #606060; padding:4px 10px 4px 10px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 0 3px 3px 0;'
+    console.log(`  %cTheme%c氛V3 Designed By Thaumy`, a, b)
+  </script>
 </head>
 
 <body>
@@ -86,7 +102,7 @@
     <div id="CardCol" class="R">
       <div class="Col">
         <div class="Card L M bSha bRds">
-          <div class="contain L bRds">
+          <div class="contain cur L bRds" onclick="up()">
             <div class="NoteContent bRds-t">
               这是一条笔记，适合短文本发布。
             </div>
@@ -251,25 +267,30 @@
         </div>
 
         <div class="CommentList L M bSha bRds">
-          <div class="Box bSha">
+          <div class="Box bSha" onmouseover="CommentList_Over(this)" onmouseleave="CommentList_Leave(this)">
             <div class="Name">雅爱方雏丶YAMAHA</div>
-            <div class="Floor">1</div>
+            <div class="Floor cur bSha" data-f="1" data-id="12384" onclick="CommentBox.doReply(this)">1
+            </div>
             <div class="Email">studio_ai@outlook.com</div>
             <div class="Time">20-09-12 | 01:34</div>
             <div class="Content">
               来自雅爱方雏的钦定！雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈雅马哈
             </div>
           </div>
-          <div class="Box bSha">
-            <div class="Name">王晟睿(回复)<span class="ReplyLogo"></span><span class="ReplyFloor">2F</span>雅爱方雏丶YAMAHA</div>
-            <div class="Floor">2</div>
+          <div class="Box bSha" onmouseover="CommentList_Over(this)" onmouseleave="CommentList_Leave(this)">
+            <div class="Name">SoulStar(回复)<span class="ReplyLogo"></span><span class="ReplyFloor">1F</span>雅爱方雏丶YAMAHA
+            </div>
+            <div class="Floor cur bSha" data-f="2" data-id="12384" onclick="CommentBox.doReply(this)">2
+            </div>
             <div class="Email">studio_ai@outlook.com</div>
             <div class="Time">20-09-13 | 23:33</div>
-            <div class="Content">雅子我爱你呀~哼哼哼啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</div>
+            <div class="Content">
+              雅子我爱你呀~哼哼哼啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</div>
           </div>
-          <div class="Box bSha">
-            <div class="Name">Thaumy(回复)<span class="ReplyLogo"></span><span class="ReplyFloor">3F</span>王晟睿</div>
-            <div class="Floor">3</div>
+          <div class="Box bSha" onmouseover="CommentList_Over(this)" onmouseleave="CommentList_Leave(this)">
+            <div class="Name">Thaumy(回复)<span class="ReplyLogo"></span><span class="ReplyFloor">2F</span>SoulStar</div>
+            <div class="Floor cur bSha" data-f="3" data-id="12384" onclick="CommentBox.doReply(this)">3
+            </div>
             <div class="Email">studio_ai@outlook.com</div>
             <div class="Time">20-09-13 | 23:34</div>
             <div class="Content">我看你是欠日</div>
@@ -288,30 +309,33 @@
           </div>
         </div>
 
-        <div class="CommentBox  L M bRds bSha">
+        <div id="CommentBox" class="CommentBox M bRds bSha">
           <div class="Content">
             <div class="Logo"></div>
-            <div class="ReplyLogo"></div>
-            <div class="ReplyFloor">3F</div>
-            <textarea placeholder="评论内容"></textarea>
+            <div class="ReplyLogo" v-show="HEAD"></div>
+            <transition name="fade">
+              <div class="ReplyFloor cur" v-show="HEAD" v-on:click="closeReply" onmouseover="CommentBox_ReplyBtn_Over()"
+                onmouseleave="CommentBox_ReplyBtn_Leave()">{{FloorText}}
+              </div>
+            </transition>
+            <textarea v-model="Content" placeholder="评论内容(必填)"></textarea>
           </div>
           <div class="Name">
             <div class="Logo"></div>
-            <input placeholder="昵称" />
+            <input v-model="Name" placeholder="昵称(必填)" />
           </div>
           <div class="Email">
             <div class="Logo"></div>
-            <input placeholder="邮箱" />
+            <input v-model="Email" placeholder="邮箱(必填)" />
           </div>
           <div class="WebSite">
             <div class="Logo"></div>
-            <input placeholder="网站" />
+            <input v-model="WebSite" placeholder="网站(可选)" />
           </div>
           <div class="Captcha">
             <div class="Logo"></div>
-            <input class="Captcha" placeholder="验证码" />
+            <div class="CaptchaLine"></div>
           </div>
-          <button class="CommitBtn bb">提交</button>
         </div>
       </div>
       <div class="LoadLine-"></div>
@@ -321,8 +345,7 @@
 </body>
 
 
-
-<!-- vue-compo -->
+<!-- vue特效 -->
 <script>
   Vue.component("pc-nav_card", {
     props: ["item"],
@@ -362,9 +385,6 @@
       }
     }
   })
-</script>
-<!-- vue -->
-<script>
   var pcNavList = new Vue({
     el: '#pcNavList',
     data: {
@@ -410,16 +430,12 @@
       ]
     },
   })
-</script>
-<script>
   var SiderList = new Vue({
     el: '#SiderList',
     data: {
       List: pcNavList.List
     },
   })
-</script>
-<script>
   var AvaOutline = new Vue({
     el: '#Ava-outline',
     data: {
@@ -458,6 +474,128 @@
       }
     }
   })
+  var CommentBox = new Vue({
+    el: '#CommentBox',
+    data: {
+      FloorText: '0F',
+
+      HEAD: 0,
+      Content: '',
+      Name: '',
+      Email: '',
+      WebSite: ''
+    },
+    methods: {
+      check: function () {
+        if (ContentCheck(this.Content) &
+          NameCheck(this.Name) &
+          EmailCheck(this.Email) &
+          WebSiteCheck(this.WebSite)) {
+          //TODO
+          return true;
+        } else {
+          //TODO
+          __nc.reload();
+          window.alert("请检查填写是否有误");
+          return false;
+        }
+      },
+      doReply: function (el) {
+        this.FloorText = el.dataset.f + "F";
+        this.HEAD = el.dataset.id;
+      },
+      closeReply: function () {
+        /* HEAD为0时，回复不会显示 */
+        this.HEAD = 0;
+      }
+    }
+  })
+
+  var FloorText_temp;
+
+/* 鼠标移入移出回复按钮事件 */
+  function CommentBox_ReplyBtn_Over() {
+    FloorText_temp = CommentBox.FloorText;
+    CommentBox.FloorText = "取消";
+  }
+
+  function CommentBox_ReplyBtn_Leave() {
+    CommentBox.FloorText = FloorText_temp;
+  }
+
+  function CommentList_Over(el) {
+    $(el).children(".Floor").text("回复");
+    $(el).children(".Floor").css({
+      "height": "22px",
+      "width": "32px",
+
+      "font-size": "0.8em",
+      "font-weight": "500",
+      "font-family": "Source Sans Pro",
+      "color": "rgb(255, 255, 255)",
+      "line-height": "22px",
+
+      "background": "rgb(0, 180, 255)"
+    });
+  }
+
+  function CommentList_Leave(el) {
+    /* 把属性data-f赋给内容 */
+    $(el).children(".Floor").text($(el).children(".Floor").attr("data-f"));
+    /* 移除添加的样式 */
+    $(el).children(".Floor").removeAttr("style", "");
+  }
+
+  /*评论检查*/
+  function ContentCheck(value) {
+    if (value == "") {
+      return false;
+    } else {
+      if (value.length > 320) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
+
+  function NameCheck(value) {
+    if (value == "") {
+      return false;
+    } else {
+      if (value.length > 12) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
+
+  function EmailCheck(value) {
+    if (value == "") {
+      return false;
+    } else {
+      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      if (!reg.test(value)) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
+
+  function WebSiteCheck(value) {
+    if (value == "") {
+      return true;
+    } else {
+      var reg0 = /^(http|https|ftp)\:\/\/([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}(\/)?$/;
+      if (!reg0.test(value)) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
 </script>
 
 <!-- js特效 -->
@@ -465,7 +603,7 @@
 <script>
   /* 返顶按钮淡入淡出 */
   $(window).scroll(function () {
-    if ($(window).scrollTop() > 1000) {
+    if ($(window).scrollTop() >= 1000) {
       $(".upBtn").fadeIn(350);
     } else {
       $(".upBtn").fadeOut(350);
@@ -474,11 +612,11 @@
 </script>
 <script>
   /* 向上滚动NavLine展开 */
-  var p = 0;
+  p = 0;
   t = 0;
   $(window).scroll(debounce(function () {
     /* 触发宽度 */
-    if ($(window).width() < 1000) {
+    if ($(window).width() <= 1000) {
       p = $(this).scrollTop();
       if (t <= p) {
         /* 防止触发遮住文本首部 */
@@ -499,8 +637,10 @@
 
   /* 触发宽度外，收起NavLine */
   $(window).resize(function () {
-    if ($(window).width() >= 1000) {
+    if ($(window).width() >= 1001) {
       $("#NavLine").slideUp(200);
+    } else {
+      $("#NavLine").slideDown(200);
     }
   });
 </script>

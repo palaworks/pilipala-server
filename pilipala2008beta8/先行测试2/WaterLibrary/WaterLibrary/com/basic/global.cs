@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.IO;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -55,124 +54,91 @@ namespace WaterLibrary.com.basic
         {
             return Guid.NewGuid().ToString(format);
         }
-    }
 
-    /// <summary>
-    /// 检索管理器
-    /// </summary>
-    public static class SearchH
-    {
         /// <summary>
         /// 二分法检索(重载一),适用于整型检索
         /// </summary>
         /// <param name="value">被检索值</param>
         /// <param name="array">数组,顺序由小到大</param>
-        /// <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
+        /// <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         public static int BinarySearch(int value, int[] array)
         {
-            try//二分法主体
+            int low = 0;
+            int high = array.Length - 1;
+            while (low <= high)
             {
-                int low = 0;
-                int high = array.Length - 1;
-                while (low <= high)
-                {
-                    int mid = (low + high) / 2;
+                int mid = (low + high) / 2;
 
-                    if (value == array[mid])
-                    {
-                        return mid;
-                    }
-                    if (value > array[mid])
-                    {
-                        low = mid + 1;
-                    }
-                    if (value < array[mid])
-                    {
-                        high = mid - 1;
-                    }
+                if (value == array[mid])
+                {
+                    return mid;
                 }
-                return -1;
+                if (value > array[mid])
+                {
+                    low = mid + 1;
+                }
+                if (value < array[mid])
+                {
+                    high = mid - 1;
+                }
             }
-            catch
-            {
-                return -2;
-            }
+            return -1;
         }
         /// <summary>
         /// 二分法检索(重载二),适用于双精度浮点检索
         /// </summary>
         /// <param name="value">被检索值</param>
         /// <param name="array">数组，顺序由小到大</param>
-        /// <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1,报错则返回-2</returns>
+        /// <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         public static double BinarySearch(double value, double[] array)
         {
-            try//二分法主体
+            double low = 0;
+            double high = array.Length - 1;
+            while (low <= high)
             {
-                double low = 0;
-                double high = array.Length - 1;
-                while (low <= high)
+                int mid = (int)(low + high) / 2;
+
+                if (value == array[mid])
                 {
-                    int mid = (int)(low + high) / 2;
-
-                    if (value == array[mid])
-                    {
-                        return mid;
-                    }
-                    if (value > array[mid])
-                    {
-                        low = mid + 1;
-                    }
-                    if (value < array[mid])
-                    {
-                        high = mid - 1;
-                    }
+                    return mid;
                 }
-                return -1;
+                if (value > array[mid])
+                {
+                    low = mid + 1;
+                }
+                if (value < array[mid])
+                {
+                    high = mid - 1;
+                }
             }
-            catch
-            {
-                return -2;
-            }
+            return -1;
         }
-    }
 
-    /// <summary>
-    /// 排序管理器
-    /// </summary>
-    public static class SortH
-    {
         /// <summary>
         /// 冒泡排序
         /// </summary>
         /// <param name="array">被排序的数组</param>
-        /// <returns>通常返回有序数组(由小到大)，报错则返回null</returns>
+        /// <returns>通常返回有序数组(由小到大)</returns>
         public static T[] BubbleSort<T>(T[] array) where T : IComparable
         {
-            try
+            for (int path = 0; path < array.Length; path++)//正被有序的起始位
             {
-                for (int path = 0; path < array.Length; path++)//正被有序的起始位
+                for (int i = 0; i < array.Length; i++)//临近元素排序
                 {
-                    for (int i = 0; i < array.Length; i++)//临近元素排序
+                    if (i + 1 < array.Length)//元素交换
                     {
-                        if (i + 1 < array.Length)//元素交换
+                        T tmp; ;
+                        if (array[i].CompareTo(array[i + 1]) > 0)
                         {
-                            T tmp; ;
-                            if (array[i].CompareTo(array[i + 1]) > 0)
-                            {
-                                tmp = array[i];
-                                array[i] = array[i + 1];
-                                array[i + 1] = tmp;
-                            }
+                            tmp = array[i];
+                            array[i] = array[i + 1];
+                            array[i + 1] = tmp;
                         }
-
                     }
+
                 }
-                return array;
             }
-            catch
-            {
-                return null;
-            }
+            return array;
         }
         /// <summary>
         /// 希尔排序
@@ -211,7 +177,7 @@ namespace WaterLibrary.com.basic
         /// <param name="str">待切割字符串</param>
         /// <param name="Delimiter">分隔符</param>
         /// <returns>返回切割结果集</returns>
-        public static List<string> ToStringList(string str, char Delimiter)
+        public static List<string> StringToList(string str, char Delimiter)
         {
             List<string> StringList = new List<string>();
             foreach (string el in str.Split(Delimiter))
@@ -220,6 +186,22 @@ namespace WaterLibrary.com.basic
             }
             return StringList;
         }
+        /// <summary>
+        /// 将字符串集合按照分隔符合并为一个字符串
+        /// </summary>
+        /// <param name="List">待合并string集合</param>
+        /// <param name="Delimiter">分隔符</param>
+        /// <returns></returns>
+        public static string ListToString(List<string> List, char Delimiter)
+        {
+            string Result = "";
+            foreach (string temp in List)
+            {
+                Result += temp + Delimiter;
+            }
+            return Result.Substring(0, Result.Length - 1);
+        }
+
         /// <summary>
         /// Html过滤器
         /// </summary>
@@ -302,5 +284,13 @@ namespace WaterLibrary.com.basic
 
             return sha256.ToString();
         }
+    }
+
+    /// <summary>
+    /// 异步管理器
+    /// </summary>
+    public class AsyncH
+    {
+
     }
 }

@@ -1,21 +1,16 @@
 ﻿<!-- 所需引用 -->
 @using WaterLibrary.stru.pilipala;
-@using WaterLibrary.com.pilipala;
-@using WaterLibrary.com.basic;
+@using WaterLibrary.stru.pilipala.PostKey;
 @using PILIPALA.system.serv;
-@using PILIPALA.user.theme.field3.serv;
 <!-- 通用初始化 -->
 @{ SysServ SysServ = new SysServ(); }
 <!-- 变量初始化 -->
 @{List<int> IDList; }
 <!-- 其他初始化 -->
 @{
-    List<Archiv> 菜单 = new List<Archiv>
-{
-    new Archiv(){ Val = "页面" },
-    new Archiv(){ Val = "友情链接" },
-};
-    IDList = SysServ.PLDR.GetIDList(菜单);
+    List<string> 菜单 = new List<string> { "页面", "友情链接" };
+
+    IDList = SysServ.PLDR.GetIDList<Archiv>(菜单);
 }
 
 <div class="box bSha bRds-t">
@@ -48,6 +43,7 @@
     </div>
 </div>
 
+<!-- vue导航组件 -->
 <script>
     Vue.component("pc-card", {
         props: ["item"],
@@ -90,7 +86,7 @@
                 @foreach(int ID in IDList)
                 {
                     i++;
-                    <text>{ index:@i , ID:@ID, Title:'@Html.Raw(SysServ.PLDR.GetTitle(ID))' },</text>
+                    <text>{ index:@i , ID:@ID, Title:'@Html.Raw(SysServ.PLDR.Get<Title>(ID))' },</text>
                 }
             ]
         },

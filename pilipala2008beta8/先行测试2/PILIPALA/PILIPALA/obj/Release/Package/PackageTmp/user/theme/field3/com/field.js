@@ -9,15 +9,21 @@ function showPost(ID) {
 function showPost_origin(ID) {
     $.ajax({
         type: "post",
-        url: "/user/theme/field3/com/内容.cshtml?ID=" + ID,
+        url: "/post.cshtml?ID=" + ID,
         data: "",
         dataType: "html",/* html返回类型 */
         beforeSend: function () {
             $("#CardCol").append('<div class="LoadLine"></div>');
         },
         success: function (result) {
-
+            /* 刷入新内容 */
             $("#CardCol>.Col").html($(result).find("#CardCol>.Col").html());
+
+            /* 更改URL地址 */
+            const state = { 'ID': ID };
+            history.replaceState(state, '', 'post.cshtml?ID=' + ID);
+
+
             refre_UVCount(ID);/* 刷新UVCount计数 */
 
             if ($.cookie('isStar' + ID) == 'true') {/* 如果cookie显示目前文本已点赞 */
@@ -57,7 +63,12 @@ function showHome_origin() {
             $("#CardCol").append('<div class="LoadLine"></div>');
         },
         success: function (result) {
-            $("#CardCol>.Col").html($(result).find("#CardCol>.Col").html());/* 以ajax异步请求到的页面#CardCol>.Col替换原有#CardCol>.Col */
+            /* 以ajax异步请求到的页面#CardCol>.Col替换原有#CardCol>.Col */
+            $("#CardCol>.Col").html($(result).find("#CardCol>.Col").html());
+
+            /* 更改URL地址 */
+            const state = { 'ID': 0 };
+            history.replaceState(state, '', '/');
         },
         complete: function () {
             $('.LoadLine').attr('style', 'animation: LoadLine 0.6s cubic-bezier(0.5, 0.4, 0.5, 1)');
@@ -68,6 +79,31 @@ function showHome_origin() {
         }
     });
 };
+
+/* 阿里云Captcha */
+/* 技术验证型评论提交（不安全） */
+function Captcha(Token, SessionId, Sig, PostID, HEAD, Content, Name, Email, WebSite) {
+    d = "{'Token':'" + Token + "'," +
+        "'SessionId':'" + SessionId + "'," +
+        "'Sig':'" + Sig + "'," +
+        "'PostID':'" + PostID + "'," +
+        "'HEAD':'" + HEAD + "'," +
+        "'Content':'" + Content + "'," +
+        "'Name':'" + Name + "'," +
+        "'Email':'" + Email + "'," +
+        "'WebSite':'" + WebSite + "'}";
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        url: "/system/serv/CaptchaServ.asmx/CommentLakeCaptcha",
+        data: d,
+        dataType: "json",
+        success: function (result) {
+            showPost(PostID);
+            console.log(result.d);
+        }
+    });
+}
 
 /* 刷新StarCount计数（AJAX） */
 function refre_StarCount(ID) {
@@ -175,4 +211,19 @@ function wordCount(data) {
     }
     /*向上取整到10位*/
     return Math.ceil(count / 10) * 10;
+}
+
+function CoreVersion() {
+    var ver;
+    $.ajax({
+        async: false,
+        type: "post",
+        contentType: "application/json",
+        url: "/system/serv/SysServ.asmx/GetCoreVersion",
+        dataType: "json",
+        success: function (result) {
+            ver = result.d;
+        }
+    });
+    return ver;
 }

@@ -1,8 +1,4 @@
-﻿<!-- vue-compo -->
-<script>
-
-</script>
-<!-- vue -->
+﻿<!-- vue特效 -->
 <script>
     var AvaOutline = new Vue({
         el: '#Ava-outline',
@@ -45,12 +41,13 @@
         }
     })
 </script>
+
 <!-- js特效 -->
 <script src="~/user/theme/field3/com/ui/js/more/note.js"></script>
 <script>
     /* 返顶按钮淡入淡出 */
     $(window).scroll(function () {
-        if ($(window).scrollTop() > 1000) {
+        if ($(window).scrollTop() >= 1000) {
             $(".upBtn").fadeIn(350);
         } else {
             $(".upBtn").fadeOut(350);
@@ -59,11 +56,11 @@
 </script>
 <script>
     /* 向上滚动NavLine展开 */
-    var p = 0;
+    p = 0;
     t = 0;
     $(window).scroll(debounce(function () {
         /* 触发宽度 */
-        if ($(window).width() < 1000) {
+        if ($(window).width() <= 1000) {
             p = $(this).scrollTop();
             if (t <= p) {
                 /* 防止触发遮住文本首部 */
@@ -84,8 +81,10 @@
 
     /* 触发宽度外，收起NavLine */
     $(window).resize(function () {
-        if ($(window).width() >= 1000) {
+        if ($(window).width() >= 1001) {
             $("#NavLine").slideUp(200);
+        } else {
+            $("#NavLine").slideDown(200);
         }
     });
 </script>
