@@ -163,15 +163,15 @@ namespace WaterLibrary.com.pilipala
     public class PLDR : IPLDataReader
     {
         /// <summary>
-        /// 
+        /// 表集
         /// </summary>
         public PLTables Tables { get; }
         /// <summary>
-        /// 
+        /// 视图集
         /// </summary>
         public PLViews Views { get; }
         /// <summary>
-        /// 
+        /// MySql数据库管理器
         /// </summary>
         public MySqlManager MySqlManager { get; set; }
 
@@ -991,15 +991,15 @@ namespace WaterLibrary.com.pilipala
     public class PLDU : IPLDataUpdater
     {
         /// <summary>
-        /// 
+        /// 表集
         /// </summary>
         public PLTables Tables { get; }
         /// <summary>
-        /// 
+        /// 视图集
         /// </summary>
         public PLViews Views { get; }
         /// <summary>
-        /// 
+        /// MySql数据库管理器
         /// </summary>
         public MySqlManager MySqlManager { get; set; }
 
@@ -1542,15 +1542,15 @@ namespace WaterLibrary.com.pilipala
     public class PLCH
     {
         /// <summary>
-        /// 
+        /// 表集
         /// </summary>
         public PLTables Tables { get; }
         /// <summary>
-        /// 
+        /// 视图集
         /// </summary>
         public PLViews Views { get; }
         /// <summary>
-        /// 
+        /// MySql数据库管理器
         /// </summary>
         public MySqlManager MySqlManager { get; set; }
 
