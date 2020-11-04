@@ -54,11 +54,13 @@
     <Compile Include="com\basic\web.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="com\CommentLake.cs" />
     <Compile Include="com\MySQL.cs" />
     <Compile Include="com\pilipala.cs" />
     <Compile Include="Assembly.cs" />
     <Compile Include="stru\basic\global.cs" />
     <Compile Include="stru\basic\web.cs" />
+    <Compile Include="stru\CommentLake.cs" />
     <Compile Include="stru\MySQL.cs" />
     <Compile Include="stru\pilipala.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
