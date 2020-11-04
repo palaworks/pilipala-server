@@ -334,29 +334,7 @@ namespace WaterLibrary.stru.pilipala
     /// <summary>
     /// 用户结构
     /// </summary>
-    public struct User : ITableUser
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public int ID { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string GUID { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Note { get; set; }
-    }
-    /// <summary>
-    /// 文章结构
-    /// </summary>
-    public class Post : ITableIndex, ITablePrimary
+    public class User : ITableUser
     {
         /// <summary>
         /// 索引器
@@ -378,127 +356,23 @@ namespace WaterLibrary.stru.pilipala
                 ThisType.GetProperty(Key).SetValue(this, Convert.ChangeType(value, KeyType));
             }
         }
-        /// <summary>
-        /// 迭代器
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<object> ItemArray()
-        {
-            yield return ID;
-            yield return GUID;
-
-            yield return Title;
-            yield return Summary;
-            yield return Content;
-            yield return Cover;
-
-            yield return Archiv;
-            yield return Label;
-
-            yield return Mode;
-            yield return Type;
-            yield return User;
-
-            yield return CT;
-            yield return LCT;
-
-            yield return UVCount;
-            yield return StarCount;
-        }
 
         /// <summary>
-        /// 初始化
-        /// </summary>
-        public Post()
-        {
-            /* ID初始化为-1，这与数据库ID只能为正值有别，以防止错误写入 */
-            ID = -1;
-            GUID = "";
-
-            Title = "";
-            Summary = "";
-            Content = "";
-            Cover = "";
-
-            Archiv = "";
-            Label = "";
-
-            Mode = "";
-            Type = "";
-            User = "";
-
-            CT = new DateTime();
-            LCT = new DateTime();
-
-            UVCount = new int();
-            StarCount = new int();
-        }
-
-        /// <summary>
-        /// 索引
+        /// 
         /// </summary>
         public int ID { get; set; }
         /// <summary>
-        /// 全局标识
+        /// 
         /// </summary>
         public string GUID { get; set; }
-
-        /// <summary>
-        /// 标题
-        /// </summary>
-        public string Title { get; set; }
-        /// <summary>
-        /// 概要
-        /// </summary>
-        public string Summary { get; set; }
-        /// <summary>
-        /// 内容
-        /// </summary>
-        public string Content { get; set; }
-        /// <summary>
-        /// 封面
-        /// </summary>
-        public string Cover { get; set; }
-
         /// <summary>
         /// 
         /// </summary>
-        public string Archiv { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public string Label { get; set; }
-
-        /// <summary>
-        /// 文章模式
-        /// </summary>
-        public string Mode { get; set; }
-        /// <summary>
-        /// 文章类型
-        /// </summary>
-        public string Type { get; set; }
-        /// <summary>
-        /// 归属用户
-        /// </summary>
-        public string User { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CT { get; set; }
-        /// <summary>
-        /// 最后修改时间
-        /// </summary>
-        public DateTime LCT { get; set; }
-
-        /// <summary>
-        /// 访问计数
-        /// </summary>
-        public int UVCount { get; set; }
-        /// <summary>
-        /// 星星计数
-        /// </summary>
-        public int StarCount { get; set; }
+        public string Note { get; set; }
     }
 
     namespace PostKey
@@ -719,5 +593,152 @@ namespace WaterLibrary.stru.pilipala
             /// </summary>
             public string Val { get; set; }
         }
+    }
+    /// <summary>
+    /// 文章结构
+    /// </summary>
+    public class Post : ITableIndex, ITablePrimary
+    {
+        /// <summary>
+        /// 索引器
+        /// </summary>
+        /// <param name="Key">索引名</param>
+        /// <returns></returns>
+        public object this[string Key]
+        {
+            get
+            {
+                /* 通过反射获取属性 */
+                return GetType().GetProperty(Key).GetValue(this);
+            }
+            set
+            {
+                /* 通过反射设置属性 */
+                System.Type ThisType = GetType();
+                System.Type KeyType = ThisType.GetProperty(Key).GetValue(this).GetType();
+                ThisType.GetProperty(Key).SetValue(this, Convert.ChangeType(value, KeyType));
+            }
+        }
+        /// <summary>
+        /// 迭代器
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<object> ItemArray()
+        {
+            yield return ID;
+            yield return GUID;
+
+            yield return Title;
+            yield return Summary;
+            yield return Content;
+            yield return Cover;
+
+            yield return Archiv;
+            yield return Label;
+
+            yield return Mode;
+            yield return Type;
+            yield return User;
+
+            yield return CT;
+            yield return LCT;
+
+            yield return UVCount;
+            yield return StarCount;
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public Post()
+        {
+            /* ID初始化为-1，这与数据库ID只能为正值有别，以防止错误写入 */
+            ID = -1;
+            GUID = "";
+
+            Title = "";
+            Summary = "";
+            Content = "";
+            Cover = "";
+
+            Archiv = "";
+            Label = "";
+
+            Mode = "";
+            Type = "";
+            User = "";
+
+            CT = new DateTime();
+            LCT = new DateTime();
+
+            UVCount = new int();
+            StarCount = new int();
+        }
+
+        /// <summary>
+        /// 索引
+        /// </summary>
+        public int ID { get; set; }
+        /// <summary>
+        /// 全局标识
+        /// </summary>
+        public string GUID { get; set; }
+
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public string Title { get; set; }
+        /// <summary>
+        /// 概要
+        /// </summary>
+        public string Summary { get; set; }
+        /// <summary>
+        /// 内容
+        /// </summary>
+        public string Content { get; set; }
+        /// <summary>
+        /// 封面
+        /// </summary>
+        public string Cover { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Archiv { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Label { get; set; }
+
+        /// <summary>
+        /// 文章模式
+        /// </summary>
+        public string Mode { get; set; }
+        /// <summary>
+        /// 文章类型
+        /// </summary>
+        public string Type { get; set; }
+        /// <summary>
+        /// 归属用户
+        /// </summary>
+        public string User { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CT { get; set; }
+        /// <summary>
+        /// 最后修改时间
+        /// </summary>
+        public DateTime LCT { get; set; }
+
+        /// <summary>
+        /// 访问计数
+        /// </summary>
+        public int UVCount { get; set; }
+        /// <summary>
+        /// 星星计数
+        /// </summary>
+        public int StarCount { get; set; }
     }
 }
