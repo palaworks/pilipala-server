@@ -6,6 +6,137 @@ using System.Threading.Tasks;
 
 namespace WaterLibrary.stru.CommentLake
 {
+    namespace CommentKey
+    {
+        /// <summary>
+        /// 表键值接口
+        /// </summary>
+        public interface ICommentKey
+        {
+            /// <summary>
+            /// 索引
+            /// </summary>
+            int CommentID { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            string Val { get; set; }/* 为减少拆装箱为SQL的性能损耗，Val值规定为string */
+        }
+
+        /// <summary>
+        /// 被评论的文章ID
+        /// </summary>
+        public struct PostID : ICommentKey
+        {
+            /// <summary>
+            /// 索引
+            /// </summary>
+            public int CommentID { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string Val { get; set; }
+        }
+        /// <summary>
+        /// 评论用户
+        /// </summary>
+        public struct User : ICommentKey
+        {
+            /// <summary>
+            /// 索引
+            /// </summary>
+            public int CommentID { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string Val { get; set; }
+        }
+        /// <summary>
+        /// 用户邮箱
+        /// </summary>
+        public struct Email : ICommentKey
+        {
+            /// <summary>
+            /// 索引
+            /// </summary>
+            public int CommentID { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string Val { get; set; }
+        }
+        /// <summary>
+        /// 评论内容
+        /// </summary>
+        public struct Content : ICommentKey
+        {
+            /// <summary>
+            /// 索引
+            /// </summary>
+            public int CommentID { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string Val { get; set; }
+        }
+        /// <summary>
+        /// 用户站点
+        /// </summary>
+        public struct WebSite : ICommentKey
+        {
+            /// <summary>
+            /// 索引
+            /// </summary>
+            public int CommentID { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string Val { get; set; }
+        }
+        /// <summary>
+        /// 回复到的评论ID
+        /// </summary>
+        public struct HEAD : ICommentKey
+        {
+            /// <summary>
+            /// 索引
+            /// </summary>
+            public int CommentID { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string Val { get; set; }
+        }
+        /// <summary>
+        /// 评论创建时间
+        /// </summary>
+        public struct Time : ICommentKey
+        {
+            /// <summary>
+            /// 索引
+            /// </summary>
+            public int CommentID { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string Val { get; set; }
+        }
+
+        /// <summary>
+        /// 所在楼层
+        /// </summary>
+        public struct Floor : ICommentKey
+        {
+            /// <summary>
+            /// 索引
+            /// </summary>
+            public int CommentID { get; set; }
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string Val { get; set; }
+        }
+    }
     /// <summary>
     /// 评论结构
     /// </summary>
@@ -42,11 +173,11 @@ namespace WaterLibrary.stru.CommentLake
         /// </summary>
         public int PostID { get; set; }
         /// <summary>
-        /// 评论用户名
+        /// 评论用户
         /// </summary>
-        public string Name { get; set; }
+        public string User { get; set; }
         /// <summary>
-        /// 评论用户的电子邮件
+        /// 用户邮箱
         /// </summary>
         public string Email { get; set; }
         /// <summary>
@@ -54,15 +185,15 @@ namespace WaterLibrary.stru.CommentLake
         /// </summary>
         public string Content { get; set; }
         /// <summary>
-        /// 评论人的个人站点
+        /// 用户站点
         /// </summary>
         public string WebSite { get; set; }
         /// <summary>
-        /// 回复到的评论ID（为空时表示不回复）
+        /// 回复到的评论ID
         /// </summary>
         public int HEAD { get; set; }
         /// <summary>
-        /// 评论的创建时间
+        /// 评论创建时间
         /// </summary>
         public DateTime Time { get; set; }
 

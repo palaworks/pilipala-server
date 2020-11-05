@@ -357,7 +357,7 @@ namespace WaterLibrary.com.pilipala
         /// 取得全部文章ID列表
         /// </summary>
         /// <param name="OrderProperty">排序属性</param>
-        /// <param name="OrderType">asc(升序)或desc(降序)，不区分大小写</param>
+        /// <param name="OrderType">ASC(升序)或DESC(降序)，不区分大小写</param>
         /// <returns></returns>
         public virtual List<int> GetIDList(string OrderProperty, string OrderType)
         {
@@ -388,7 +388,7 @@ namespace WaterLibrary.com.pilipala
         /// 取得指定长度的文章ID列表
         /// </summary>
         /// <param name="OrderProperty">排序属性</param>
-        /// <param name="OrderType">排序类型，可选值：asc(升序)或desc(降序)，不区分大小写</param>
+        /// <param name="OrderType">排序类型，可选值：ASC(升序)或DESC(降序)，不区分大小写</param>
         /// <param name="Length">截止长度</param>
         /// <returns></returns>
         public virtual List<int> GetIDList(string OrderProperty, string OrderType, int Length)
@@ -456,7 +456,7 @@ namespace WaterLibrary.com.pilipala
         /// </summary>
         /// <typeparam name="T">属性匹配列表的属性类型</typeparam>
         /// <param name="MatchList">属性匹配列表</param>
-        /// <param name="OrderKey">排序类型，可选值：asc(升序)或desc(降序)，不区分大小写</param>
+        /// <param name="OrderKey">排序类型，选值：ASC(升序)或DESC(降序)，不区分大小写</param>
         /// <param name="OrderType">排序类型</param>
         /// <returns></returns>
         public virtual List<int> GetIDList<T>(List<string> MatchList, string OrderKey, string OrderType) where T : IPostKey
@@ -495,7 +495,7 @@ namespace WaterLibrary.com.pilipala
         /// <typeparam name="T">属性匹配列表的属性类型</typeparam>
         /// <param name="MatchList">属性匹配列表</param>
         /// <param name="OrderProperty">排序属性</param>
-        /// <param name="OrderType">排序类型，可选值：asc(升序)或desc(降序)，不区分大小写</param>
+        /// <param name="OrderType">排序类型，可选值：ASC(升序)或DESC(降序)，不区分大小写</param>
         /// <param name="Length">最大取用长度</param>
         /// <returns></returns>
         public virtual List<int> GetIDList<T>(List<string> MatchList, string OrderProperty, string OrderType, int Length) where T : IPostKey
@@ -1151,8 +1151,8 @@ namespace WaterLibrary.com.pilipala
                 (
                 "UPDATE {0} SET GUID=?GUID, Mode=?Mode, Type=?Type, UVCount=?UVCount, StarCount=?StarCount WHERE ID=?ID;" +
                 "INSERT INTO {1}" +
-                " ( ID, GUID, LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
-                " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);"
+                " ( ID, GUID,   LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
+                " (?ID,?GUID,  ?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);"
                 , Tables.Index, Tables.Primary
                 );
 
@@ -1539,7 +1539,7 @@ namespace WaterLibrary.com.pilipala
     /// <summary>
     /// 啪啦计数管理器
     /// </summary>
-    public class PLCH
+    public class PLDC: IPLDataCounter
     {
         /// <summary>
         /// 表集
@@ -1558,7 +1558,7 @@ namespace WaterLibrary.com.pilipala
         /// 初始化啪啦数据修改器
         /// </summary>
         /// <parmm name="PLDB">啪啦数据库信息</parmm>
-        public PLCH(PLSYS PLSYS)
+        public PLDC(PLSYS PLSYS)
         {
             Tables = PLSYS.SysTables;
             Views = PLSYS.SysViews;
@@ -1578,13 +1578,6 @@ namespace WaterLibrary.com.pilipala
         public int CopyCount
         {
             get { return GetCopyCount(); }
-        }
-        /// <summary>
-        /// 评论计数
-        /// </summary>
-        public int CommentCount
-        {
-            get { return GetCommentCount(); }
         }
 
         /// <summary>
@@ -1627,10 +1620,6 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID;", Tables.Index, Tables.Primary);
 
             return Convert.ToInt32(MySqlManager.GetKey(SQL));
-        }
-        private int GetCommentCount()
-        {
-            return Convert.ToInt32(MySqlManager.GetKey("SELECT COUNT(*) FROM comment_lake;"));
         }
     }
 }
