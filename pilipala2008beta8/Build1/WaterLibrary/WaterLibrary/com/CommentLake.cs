@@ -10,7 +10,7 @@ using MySql.Data.MySqlClient;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.CommentLake;
-
+using WaterLibrary.stru.CommentLake.CommentKey;
 
 namespace WaterLibrary.com.CommentLake
 {
@@ -43,23 +43,37 @@ namespace WaterLibrary.com.CommentLake
         /// <summary>
         /// 得到最大评论ID（私有）
         /// </summary>
-        /// <returns>错误则返回-1</returns>
+        /// <returns></returns>
         private int GetMaxCommentID()
         {
-            try
-            {
-                string SQL = string.Format("SELECT max(CommentID) FROM {0}", CommentTable);
+            string SQL = string.Format("SELECT max(CommentID) FROM {0}", CommentTable);
 
-                return Convert.ToInt32(MySqlManager.GetRow(SQL)[0]);
-            }
-            catch
-            {
-                return -1;
-            }
+            return Convert.ToInt32(MySqlManager.GetKey(SQL));
+        }
+        /// <summary>
+        /// 获得目标文章下的最大评论楼层（私有）
+        /// </summary>
+        /// <returns></returns>
+        private int GetMaxFloor(int PostID)
+        {
+            string SQL = string.Format("SELECT max(Floor) FROM {0} WHERE PostID = {1}", CommentTable, PostID);
+
+            return Convert.ToInt32(MySqlManager.GetKey(SQL));
         }
 
-        /* 评论删除功能列为第二优先级（待开发） */
-
+        /// <summary>
+        /// 评论总计数
+        /// </summary>
+        public int CommentCount
+        {
+            get
+            {
+                return Convert.ToInt32
+                (
+                MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0}", CommentTable))
+                );
+            }
+        }
         /// <summary>
         /// 得到目标文章的评论计数
         /// </summary>
@@ -67,52 +81,30 @@ namespace WaterLibrary.com.CommentLake
         /// <returns></returns>
         public int GetCommentCount(int PostID)
         {
-            /* 按时间从早到晚排序 */
-            string SQL = string.Format("SELECT COUNT(*) FROM {0} WHERE PostID = ?PostID", CommentTable);
+            string SQL = string.Format("SELECT COUNT(*) FROM {0} WHERE PostID = {1}", CommentTable, PostID);
 
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?PostID", Val = PostID }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-            {
-                return Convert.ToInt32(MySqlManager.GetRow(MySqlCommand)[0]);
-            }
-        }
-
-
-        public string GetCommentPostID(int CommentID)
-        {
-
-        }
-        public string GetCommentUser(int CommentID)
-        {
-            
-        }
-        public string GetCommentEmail(int CommentID)
-        {
-
-        }
-        public string GetCommentContent(int CommentID)
-        {
-
-        }
-        public string GetCommentWebSite(int CommentID)
-        {
-
-        }
-        public string GetCommentHEAD(int CommentID)
-        {
-
-        }
-        public string GetCommentTime(int CommentID)
-        {
-
+            return Convert.ToInt32(MySqlManager.GetKey(SQL));
         }
 
         /// <summary>
-        /// 得到目标文章下的评论列表
+        /// 获得评论属性
+        /// </summary>
+        /// <typeparam name="T">属性类型</typeparam>
+        /// <param name="CommentID">目标评论ID</param>
+        /// <returns></returns>
+        public string GetComment<T>(int CommentID) where T : ICommentKey
+        {
+            /* int类型传入，SQL注入无效 */
+            string SQL = string.Format
+                (
+                "SELECT {0} FROM {1} WHERE CommentID = {2}"
+                , typeof(T).Name, CommentTable, CommentID
+                );
+            return MySqlManager.GetKey(SQL).ToString();
+        }
+
+        /// <summary>
+        /// 获得目标文章的评论列表
         /// </summary>
         /// <param name="PostID">目标文章ID</param>
         /// <returns></returns>
@@ -121,7 +113,7 @@ namespace WaterLibrary.com.CommentLake
             List<Comment> CommentList = new List<Comment>();
 
             /* 按时间从早到晚排序 */
-            string SQL = string.Format("SELECT * FROM {0} WHERE PostID = ?PostID ORDER BY Time", CommentTable);
+            string SQL = string.Format("SELECT * FROM {0} WHERE PostID = ?PostID ORDER BY Floor", CommentTable);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -132,33 +124,55 @@ namespace WaterLibrary.com.CommentLake
             {
                 DataTable result = MySqlManager.GetTable(MySqlCommand);
 
-                /* 楼层暂存变量 */
-                ushort f = 0;
-
                 foreach (DataRow Row in result.Rows)
                 {
                     CommentList.Add(new Comment
                     {
-                        /* 数据库中的量 */
                         CommentID = Convert.ToInt32(Row["CommentID"]),
+                        HEAD = Convert.ToInt32(Row["HEAD"]),
                         PostID = Convert.ToInt32(Row["PostID"]),
-                        Name = Convert.ToString(Row["Name"]),
+                        Floor = Convert.ToInt32(Row["Floor"]),
+
+                        User = Convert.ToString(Row["User"]),
                         Email = Convert.ToString(Row["Email"]),
                         Content = Convert.ToString(Row["Content"]),
                         WebSite = Convert.ToString(Row["WebSite"]),
-                        HEAD = Convert.ToInt32(Row["HEAD"]),
                         Time = Convert.ToDateTime(Row["Time"]),
-
-                        /* 计算后得到的量 */
-                        Floor = ++f
                     });
                 }
                 return CommentList;
             }
         }
+        /// <summary>
+        /// 获得目标评论的回复列表
+        /// </summary>
+        /// <param name="CommentID"></param>
+        /// <returns></returns>
         public List<Comment> GetCommentReplyList(int CommentID)
         {
+            List<Comment> CommentList = new List<Comment>();
 
+            DataTable result =
+                MySqlManager.GetTable(string.Format("SELECT * FROM {0} WHERE HEAD={1} ORDER BY Floor", CommentTable, CommentID));
+
+            foreach (DataRow Row in result.Rows)
+            {
+                CommentList.Add(new Comment
+                {
+                    /* 数据库中的量 */
+                    CommentID = Convert.ToInt32(Row["CommentID"]),
+                    HEAD = Convert.ToInt32(Row["HEAD"]),
+                    PostID = Convert.ToInt32(Row["PostID"]),
+                    Floor = Convert.ToInt32(Row["Floor"]),
+
+                    User = Convert.ToString(Row["User"]),
+                    Email = Convert.ToString(Row["Email"]),
+                    Content = Convert.ToString(Row["Content"]),
+                    WebSite = Convert.ToString(Row["WebSite"]),
+                    Time = Convert.ToDateTime(Row["Time"]),
+                });
+            }
+            return CommentList;
         }
 
         /// <summary>
@@ -170,23 +184,23 @@ namespace WaterLibrary.com.CommentLake
         {
             string SQL = string.Format(
                 "INSERT INTO {0} " +
-                "(`CommentID`, `PostID`, `Name`, `Email`, `Content`, `WebSite`, `HEAD`, `Time`) VALUES " +
-                "(?CommentID, ?PostID, ?Name, ?Email, ?Content, ?WebSite, ?HEAD, ?Time);"
+                "(CommentID , HEAD, PostID, Floor,   User, Email, Content, WebSite, Time) VALUES " +
+                "(?CommentID,?HEAD,?PostID,?Floor,  ?User,?Email,?Content,?WebSite,?Time)"
 
                 , CommentTable);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
             {
                 new MySqlParm() { Name = "CommentID", Val = GetMaxCommentID() + 1 },
-
+                new MySqlParm() { Name = "HEAD", Val =  Comment.HEAD},
                 new MySqlParm() { Name = "PostID", Val =  Comment.PostID},
-                new MySqlParm() { Name = "Name", Val =  Comment.Name},
+                new MySqlParm() { Name = "Floor", Val =  GetMaxFloor(Comment.PostID) + 1 },
+
+                new MySqlParm() { Name = "User", Val =  Comment.User},
                 new MySqlParm() { Name = "Email", Val =  Comment.Email},
                 new MySqlParm() { Name = "Content", Val =  Comment.Content},
                 new MySqlParm() { Name = "WebSite", Val =  Comment.WebSite},
-                new MySqlParm() { Name = "HEAD", Val =  Comment.HEAD},
-
-                new MySqlParm() { Name = "Time", Val =  DateTime.Now}
+                new MySqlParm() { Name = "Time", Val =  DateTime.Now},
             };
 
             using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
@@ -197,7 +211,6 @@ namespace WaterLibrary.com.CommentLake
                     throw new Exception("多行操作异常");
             }
         }
-
         /// <summary>
         /// 删除评论(相关回复不会被删除)
         /// </summary>
@@ -205,7 +218,27 @@ namespace WaterLibrary.com.CommentLake
         /// <returns></returns>
         public bool DelComment(int CommentID)
         {
-            
+            MySqlCommand MySqlCommand = new MySqlCommand
+            {
+                CommandText = string.Format("DELETE FROM {0} WHERE CommentID = {1}", CommentTable, CommentID),
+                Connection = MySqlManager.Connection,
+
+                /* 开始事务 */
+                Transaction = MySqlManager.Connection.BeginTransaction()
+            };
+
+            if (MySqlManager.QueryOnly(ref MySqlCommand) == 1)
+            {
+                /* 删除1条评论，操作行为1 */
+                MySqlCommand.Transaction.Commit();
+                return true;
+            }
+            else
+            {
+                /* 操作行数异常，回滚事务 */
+                MySqlCommand.Transaction.Rollback();
+                throw new Exception("操作行数异常，事务已回滚");
+            }
         }
     }
 }
