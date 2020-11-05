@@ -231,24 +231,6 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         /// <returns></returns>
         List<int> GetIDList();
-
-
-        /// <summary>
-        /// 取得文本ID列表（步进式）
-        /// </summary>
-        /// <parmm name="Start">步进起始行（包含该行）</parmm>
-        /// <parmm name="Length">加载行数</parmm>
-        /// <returns></returns>
-        List<int> GetIDList(int Start, int Length);
-        /// <summary>
-        /// 取得指定类型的文本ID列表（步进式）
-        /// </summary>
-        /// <parmm name="Start">步进起始行（包含该行）</parmm>
-        /// <parmm name="Length">加载行数</parmm>
-        /// <parmm name="Type">自定义文本类型</parmm>
-        /// <returns></returns>
-        List<int> GetIDList(int Start, int Length, string Type);
-
         /// <summary>
         /// 通用文章匹配器
         /// </summary>
@@ -329,6 +311,20 @@ namespace WaterLibrary.stru.pilipala
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
         bool UpdatePrimary<T>(int ID, object Value) where T : IPostKey;
+    }
+    /// <summary>
+    /// 啪啦数据计数器接口
+    /// </summary>
+    interface IPLDataCounter
+    {
+        /// <summary>
+        /// 文章计数
+        /// </summary>
+        int PostCount { get; }
+        /// <summary>
+        /// 拷贝计数
+        /// </summary>
+        int CopyCount { get; }
     }
 
     /// <summary>
