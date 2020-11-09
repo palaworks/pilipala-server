@@ -7,8 +7,7 @@ using System.Web.UI.WebControls;
 
 using System.Web.Configuration;
 
-using CommentLake;
-using CommentLake.stru;
+using WaterLibrary.com.CommentLake;
 using WaterLibrary.stru.MySQL;
 
 namespace JILIGULU
@@ -24,7 +23,6 @@ namespace JILIGULU
         public int HiddenCount;
         public int ArchivedCount;
 
-        public CommentLake.CommentLake CommentLake;
         protected void Page_Load(object sender, EventArgs e)
         {
             Core.Sys Sys = new Core.Sys();
@@ -32,7 +30,7 @@ namespace JILIGULU
 
             PostCount = Sys.PLCH.PostCount;
             CopyCount = Sys.PLCH.CopyCount;
-            CommentCount = Sys.PLCH.CommentCount;
+            CommentCount = Sys.CommentLake.CommentCount;
 
             OnDisplayCount = Sys.PLCH.OnDisplayCount;
             ScheduledCount = Sys.PLCH.ScheduledCount;

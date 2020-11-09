@@ -163,15 +163,40 @@ namespace WaterLibrary.stru.CommentLake
             }
         }
 
-        /* 数据库中的量 */
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public Comment()
+        {
+            /* -1表示未被赋值，同时也于数据库的非负冲突 */
+            CommentID = -1;
+            HEAD = -1;
+            PostID = -1;
+            Floor = -1;
+
+            User = "";
+            Email = "";
+            Content = "";
+            WebSite = "";
+            Time = new DateTime();
+        }
+
         /// <summary>
         /// 评论ID
         /// </summary>
         public int CommentID { get; set; }
         /// <summary>
+        /// 回复到的评论ID
+        /// </summary>
+        public int HEAD { get; set; }
+        /// <summary>
         /// 被评论的文章ID
         /// </summary>
         public int PostID { get; set; }
+        /// <summary>
+        /// 所在楼层
+        /// </summary>
+        public int Floor { get; set; }
         /// <summary>
         /// 评论用户
         /// </summary>
@@ -189,18 +214,9 @@ namespace WaterLibrary.stru.CommentLake
         /// </summary>
         public string WebSite { get; set; }
         /// <summary>
-        /// 回复到的评论ID
-        /// </summary>
-        public int HEAD { get; set; }
-        /// <summary>
         /// 评论创建时间
         /// </summary>
         public DateTime Time { get; set; }
 
-        /* 计算得到的量 */
-        /// <summary>
-        /// 所在楼层
-        /// </summary>
-        public int Floor { get; set; }
     }
 }

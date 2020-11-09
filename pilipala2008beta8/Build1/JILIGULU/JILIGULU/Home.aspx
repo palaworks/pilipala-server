@@ -38,7 +38,7 @@
 
         <div class="PostCount">文章 : <% =PostCount%></div>
         <div class="CopyCount">拷贝数 : <%=CopyCount %></div>
-        <div class="CommentCount">评论数 : <%=CopyCount %></div>
+        <div class="CommentCount">评论数 : <%=CommentCount %></div>
 
         <div class="ShowCount">展示中 : <%=OnDisplayCount %></div>
         <div class="ScheduleCount">计划中 : <%=ScheduledCount %></div>

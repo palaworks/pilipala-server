@@ -71,13 +71,11 @@ H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\roslyn\vbc.exe.co
 H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\roslyn\vbc.rsp
 H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\roslyn\VBCSCompiler.exe
 H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\roslyn\VBCSCompiler.exe.config
-H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\CommentLake.dll
 H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\WaterLibrary.dll
 H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\MySql.Data.dll
 H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\BouncyCastle.Crypto.dll
 H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\Renci.SshNet.dll
-H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\CommentLake.pdb
 H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\WaterLibrary.pdb
 H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\WaterLibrary.xml
 H:\博客项目\pilipala2008beta8\Build1\JILIGULU\JILIGULU\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml

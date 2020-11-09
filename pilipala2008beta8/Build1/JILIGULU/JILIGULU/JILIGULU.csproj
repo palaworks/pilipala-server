@@ -43,10 +43,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommentLake, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>H:\博客项目\pilipala2008beta8\Build1\CommentLake\CommentLake\bin\Release\CommentLake.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -64,8 +60,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="WaterLibrary">
-      <HintPath>H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.dll</HintPath>
+    <Reference Include="WaterLibrary, Version=1.1.6.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
