@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,7 +28,7 @@ namespace WaterLibrary.stru.pilipala
             /// <summary>
             /// 数据库管理器实例
             /// </summary>
-            MySqlManager MySqlManager { get; set; }
+            MySqlManager MySqlManager { get; }
         }
 
         /// <summary>
@@ -310,7 +308,7 @@ namespace WaterLibrary.stru.pilipala
         /// <param name="ID">目标文章ID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        bool UpdatePrimary<T>(int ID, object Value) where T : IPostKey;
+        bool UpdateCopy<T>(int ID, object Value) where T : IPostKey;
     }
     /// <summary>
     /// 啪啦数据计数器接口
@@ -648,7 +646,7 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         public Post()
         {
-            /* ID初始化为-1，这与数据库ID只能为正值有别，以防止错误写入 */
+            /* -1表示未被赋值，同时也于数据库的非负冲突 */
             ID = -1;
             GUID = "";
 
@@ -667,8 +665,8 @@ namespace WaterLibrary.stru.pilipala
             CT = new DateTime();
             LCT = new DateTime();
 
-            UVCount = new int();
-            StarCount = new int();
+            UVCount = -1;
+            StarCount = -1;
         }
 
         /// <summary>

@@ -120,28 +120,26 @@ namespace WaterLibrary.com.CommentLake
                     new MySqlParm() { Name = "?PostID", Val = PostID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
+            using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            DataTable result = MySqlManager.GetTable(MySqlCommand);
+
+            foreach (DataRow Row in result.Rows)
             {
-                DataTable result = MySqlManager.GetTable(MySqlCommand);
-
-                foreach (DataRow Row in result.Rows)
+                CommentList.Add(new Comment
                 {
-                    CommentList.Add(new Comment
-                    {
-                        CommentID = Convert.ToInt32(Row["CommentID"]),
-                        HEAD = Convert.ToInt32(Row["HEAD"]),
-                        PostID = Convert.ToInt32(Row["PostID"]),
-                        Floor = Convert.ToInt32(Row["Floor"]),
+                    CommentID = Convert.ToInt32(Row["CommentID"]),
+                    HEAD = Convert.ToInt32(Row["HEAD"]),
+                    PostID = Convert.ToInt32(Row["PostID"]),
+                    Floor = Convert.ToInt32(Row["Floor"]),
 
-                        User = Convert.ToString(Row["User"]),
-                        Email = Convert.ToString(Row["Email"]),
-                        Content = Convert.ToString(Row["Content"]),
-                        WebSite = Convert.ToString(Row["WebSite"]),
-                        Time = Convert.ToDateTime(Row["Time"]),
-                    });
-                }
-                return CommentList;
+                    User = Convert.ToString(Row["User"]),
+                    Email = Convert.ToString(Row["Email"]),
+                    Content = Convert.ToString(Row["Content"]),
+                    WebSite = Convert.ToString(Row["WebSite"]),
+                    Time = Convert.ToDateTime(Row["Time"]),
+                });
             }
+            return CommentList;
         }
         /// <summary>
         /// 获得目标评论的回复列表
@@ -184,8 +182,8 @@ namespace WaterLibrary.com.CommentLake
         {
             string SQL = string.Format(
                 "INSERT INTO {0} " +
-                "(CommentID , HEAD, PostID, Floor,   User, Email, Content, WebSite, Time) VALUES " +
-                "(?CommentID,?HEAD,?PostID,?Floor,  ?User,?Email,?Content,?WebSite,?Time)"
+                "(CommentID , HEAD, PostID, Floor, User, Email, Content, WebSite, Time) VALUES " +
+                "(?CommentID,?HEAD,?PostID,?Floor,?User,?Email,?Content,?WebSite,?Time)"
 
                 , CommentTable);
 
@@ -203,12 +201,22 @@ namespace WaterLibrary.com.CommentLake
                 new MySqlParm() { Name = "Time", Val =  DateTime.Now},
             };
 
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
+            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            MySqlCommand.Connection = MySqlManager.Connection;
+
+            /* 开始事务 */
+            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
+
+            if (MySqlCommand.ExecuteNonQuery() == 1)
             {
-                if (MySqlCommand.ExecuteNonQuery() == 1)
-                    return true;
-                else
-                    throw new Exception("多行操作异常");
+                /* 指向表和拷贝表分别添加1行数据 */
+                MySqlCommand.Transaction.Commit();
+                return true;
+            }
+            else
+            {
+                MySqlCommand.Transaction.Rollback();
+                return false;
             }
         }
         /// <summary>
@@ -235,9 +243,8 @@ namespace WaterLibrary.com.CommentLake
             }
             else
             {
-                /* 操作行数异常，回滚事务 */
                 MySqlCommand.Transaction.Rollback();
-                throw new Exception("操作行数异常，事务已回滚");
+                return false;
             }
         }
     }

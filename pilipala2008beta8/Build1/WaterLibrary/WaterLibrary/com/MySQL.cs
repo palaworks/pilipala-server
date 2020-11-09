@@ -16,16 +16,10 @@ namespace WaterLibrary.com.MySQL
     /// </summary>
     public class MySqlManager
     {
-        /* 注意！所有的查询均不会使用参数化 */
-        private MySqlConnection HandlerConnection;
-
         /// <summary>
         /// MySql控制器的数据库连接
         /// </summary>
-        public MySqlConnection Connection
-        {
-            get { return HandlerConnection; }
-        }
+        public MySqlConnection Connection { get; private set; }
 
         /// <summary>
         /// Close主连接
@@ -33,11 +27,11 @@ namespace WaterLibrary.com.MySQL
         /// <returns>成功返回ture，反之或报错返回false</returns>
         public bool CloseHandlerConnection()
         {
-            switch (HandlerConnection.State)
+            switch (Connection.State)
             {
                 case ConnectionState.Open:
-                    HandlerConnection.Close();
-                    if (HandlerConnection.State == ConnectionState.Closed)
+                    Connection.Close();
+                    if (Connection.State == ConnectionState.Closed)
                     {
                         return true;
                     }
@@ -59,11 +53,11 @@ namespace WaterLibrary.com.MySQL
         /// <returns>成功返回ture，反之或报错返回false</returns>
         public bool DisposeHandlerConnection()
         {
-            switch (HandlerConnection.State)
+            switch (Connection.State)
             {
                 case ConnectionState.Open:
-                    HandlerConnection.Dispose();
-                    if (HandlerConnection.State == ConnectionState.Closed)
+                    Connection.Dispose();
+                    if (Connection.State == ConnectionState.Closed)
                     {
                         return true;
                     }
@@ -85,7 +79,7 @@ namespace WaterLibrary.com.MySQL
         /// <returns>成功返回ture，反之或报错返回false</returns>
         public bool NullHandlerConnection()
         {
-            HandlerConnection = null;
+            Connection = null;
             return true;
         }
         /// <summary>
@@ -95,15 +89,15 @@ namespace WaterLibrary.com.MySQL
         public bool ReStartHandlerConnection()
         {
             //考虑到重启连接需花费一定时间的假设，该方法只提供了重启操作，而不去判断是否执行成功。
-            switch (HandlerConnection.State)
+            switch (Connection.State)
             {
                 case ConnectionState.Closed:
-                    HandlerConnection.Open();
+                    Connection.Open();
                     return true;
 
                 case ConnectionState.Open:
-                    HandlerConnection.Close();
-                    HandlerConnection.Open();
+                    Connection.Close();
+                    Connection.Open();
                     return true;
 
                 default:
@@ -155,7 +149,7 @@ namespace WaterLibrary.com.MySQL
         public void Start(string DataSource, string DataBase, string Port, string User, string PWD)
         {
             /* 拼接连接字符串 */
-            HandlerConnection = new MySqlConnection
+            Connection = new MySqlConnection
                 (
                 "DataSource=" + DataSource +
                 ";DataBase=" + DataBase +
@@ -166,7 +160,7 @@ namespace WaterLibrary.com.MySQL
                 ";UseAffectedRows=TRUE;"
                 );
             /* 打开连接 */
-            HandlerConnection.Open();
+            Connection.Open();
         }
         /// <summary>
         /// 启动连接
@@ -193,14 +187,12 @@ namespace WaterLibrary.com.MySQL
         public MySqlCommand ParmQueryCMD(string SQL, List<MySqlParm> ParmList)
         {
             //建立CMD对象，用于执行参数化查询
-            using (MySqlCommand MySqlCommand = new MySqlCommand(SQL))
+            using MySqlCommand MySqlCommand = new MySqlCommand(SQL);
+            foreach (MySqlParm Parm in ParmList)
             {
-                foreach (MySqlParm Parm in ParmList)
-                {
-                    MySqlCommand.Parameters.AddWithValue(Parm.Name, Parm.Val);//添加参数
-                }
-                return MySqlCommand;
+                MySqlCommand.Parameters.AddWithValue(Parm.Name, Parm.Val);//添加参数
             }
+            return MySqlCommand;
         }
         /// <summary>
         /// 建立参数化查询CMD对象
@@ -229,7 +221,7 @@ namespace WaterLibrary.com.MySQL
         public object GetKey(string SQL)
         {
             /* 如果结果集为空，该方法返回null */
-            return new MySqlCommand(SQL, HandlerConnection).ExecuteScalar();
+            return new MySqlCommand(SQL, Connection).ExecuteScalar();
         }
         /// <summary>
         /// 取得首个键值（键匹配查询）
@@ -239,7 +231,7 @@ namespace WaterLibrary.com.MySQL
         public object GetKey(MySqlCommand MySqlCommand)
         {
             //将外来CMD设置为基于HandlerConnection执行
-            MySqlCommand.Connection = HandlerConnection;
+            MySqlCommand.Connection = Connection;
 
             /* 如果结果集为空，该方法返回null */
             return MySqlCommand.ExecuteScalar();
@@ -256,7 +248,7 @@ namespace WaterLibrary.com.MySQL
                 KeyName, MySqlKey.Table, MySqlKey.Name, MySqlKey.Val);
 
             /* 如果结果集为空，该方法返回null */
-            return new MySqlCommand(SQL, HandlerConnection).ExecuteScalar();
+            return new MySqlCommand(SQL, Connection).ExecuteScalar();
         }
 
 
@@ -277,7 +269,7 @@ namespace WaterLibrary.com.MySQL
         public DataRow GetRow(MySqlCommand MySqlCommand)
         {
             //将外来CMD设置为基于HandlerConnection执行
-            MySqlCommand.Connection = HandlerConnection;
+            MySqlCommand.Connection = Connection;
 
             return GetTable(MySqlCommand).Rows[0];
         }
@@ -303,7 +295,7 @@ namespace WaterLibrary.com.MySQL
 
 
         /// <summary>
-        /// 获取一张数据表
+        /// 获取单张数据表
         /// </summary>
         /// <param name="SQL">SQL语句，用于查询数据表</param>
         /// <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
@@ -312,19 +304,19 @@ namespace WaterLibrary.com.MySQL
             DataTable table = new DataTable();
 
             /* 新建MySqlDataAdapter后填表 */
-            new MySqlDataAdapter(SQL, HandlerConnection).Fill(table);
+            new MySqlDataAdapter(SQL, Connection).Fill(table);
 
             return table;
         }
         /// <summary>
-        /// 获取一张数据表（适用于参数化查询）
+        /// 获取单张数据表（适用于参数化查询）
         /// </summary>
         /// <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
         /// <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
         public DataTable GetTable(MySqlCommand MySqlCommand)
         {
             //将外来CMD设置为基于HandlerConnection执行
-            MySqlCommand.Connection = HandlerConnection;
+            MySqlCommand.Connection = Connection;
 
             DataTable table = new DataTable();
 
@@ -412,44 +404,42 @@ namespace WaterLibrary.com.MySQL
         }
 
         /// <summary>
-        /// 设置(更新)一个键值
+        /// 更新单个键值
         /// </summary>
         /// <param name="MySqlKey">操作定位器</param>
-        /// <param name="KeyName">操作于键名</param>
-        /// <param name="KeyValue">更改为该键值</param>
+        /// <param name="Key">要更改的键</param>
+        /// <param name="NewValue">新键值</param>
         /// <returns></returns>
-        public bool UpdateKey(MySqlKey MySqlKey, string KeyName, string KeyValue)
+        public bool UpdateKey(MySqlKey MySqlKey, string Key, string NewValue)
         {
-            string SQL = string.Format("UPDATE {0} SET {1} = ?KeyValue WHERE {2} = ?Val"
-                , MySqlKey.Table, KeyName, MySqlKey.Name);
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "KeyValue", Val = KeyValue },
-                    new MySqlParm() { Name = "Val", Val = MySqlKey.Val }
-                };
-
-            using (MySqlCommand MySqlCommand = ParmQueryCMD(SQL, ParmList))
+            using MySqlCommand MySqlCommand = new MySqlCommand
             {
-                MySqlCommand.Connection = HandlerConnection;/* 使用控制器内部连接执行查询 */
-                ushort result = (ushort)MySqlCommand.ExecuteNonQuery();/* 性能优化尝试 */
+                CommandText = string.Format
+                (
+                "UPDATE {0} SET {1}=?NewValue WHERE {2}=?Val"
+                , MySqlKey.Table, Key, MySqlKey.Name
+                ),
+                Connection = Connection,
+                Transaction = Connection.BeginTransaction()
+            };
 
-                if (result == 1)
-                {
-                    return true;/* 只有出现只有一行被更改时，才能返回true */
-                }
-                else if (result > 1)
-                {
-                    throw new Exception("操作了多个数据行");
-                }
-                else if (result == 0)
-                {
-                    throw new Exception("语句未作用于任何数据行");
-                }
+            MySqlCommand.Parameters.AddWithValue("NewValue", NewValue);
+            MySqlCommand.Parameters.AddWithValue("Val", MySqlKey.Val);
+
+            if (MySqlCommand.ExecuteNonQuery() == 1)
+            {
+                MySqlCommand.Transaction.Commit();
+                return true;
+            }
+            else
+            {
+                MySqlCommand.Transaction.Rollback();
                 return false;
             }
         }
 
+
+        /* 实验型内容，不建议使用 */
         /// <summary>
         /// 单纯执行SQL查询
         /// </summary>
@@ -457,7 +447,7 @@ namespace WaterLibrary.com.MySQL
         /// <returns>返回受影响的行数</returns>
         public int QueryOnly(string SQL)
         {
-            return new MySqlCommand(SQL, HandlerConnection).ExecuteNonQuery();
+            return new MySqlCommand(SQL, Connection).ExecuteNonQuery();
         }
         /// <summary>
         /// 单纯执行SQL查询（适用于参数化查询）
@@ -466,7 +456,7 @@ namespace WaterLibrary.com.MySQL
         /// <returns>返回受影响的行数</returns>
         public int QueryOnly(ref MySqlCommand MySqlCommand)
         {
-            MySqlCommand.Connection = HandlerConnection;
+            MySqlCommand.Connection = Connection;
             return MySqlCommand.ExecuteNonQuery();
         }
 
@@ -476,7 +466,7 @@ namespace WaterLibrary.com.MySQL
         /// <param name="MySqlCommand">执行事务的MySqlCommand</param>
         public void BeginTransaction(ref MySqlCommand MySqlCommand)
         {
-            MySqlCommand.Transaction = HandlerConnection.BeginTransaction();
+            MySqlCommand.Transaction = Connection.BeginTransaction();
         }
         /// <summary>
         /// 提交事务

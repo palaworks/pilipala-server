@@ -9,6 +9,7 @@ using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
+using WaterLibrary.com.CommentLake;
 
 namespace JILIGULU.Core
 {
@@ -17,7 +18,8 @@ namespace JILIGULU.Core
         public PLSYS PLSYS;
         public PLDR PLDR;
         public PLDU PLDU;
-        public PLCH PLCH;
+        public PLDC PLCH;
+        public CommentLake CommentLake;
 
         public void INIT()
         {
@@ -33,8 +35,7 @@ namespace JILIGULU.Core
             PLSYS.DefaultSysTables();
             PLSYS.DefaultSysViews();
 
-            /* 初始化数据库连接 */
-            PLSYS.DBCHINIT(new MySqlConn
+            MySqlConn MySqlConn = new MySqlConn
             {
                 /* 基准测试数据集 */
                 DataSource = "localhost",
@@ -42,11 +43,15 @@ namespace JILIGULU.Core
                 Port = "3306",
                 User = "root",
                 PWD = "65a1561425f744e2b541303f628963f8"
-            });
+            };
+
+            /* 初始化数据库连接 */
+            PLSYS.DBCHINIT(MySqlConn);
 
             PLDR = new PLDR(PLSYS);
             PLDU = new PLDU(PLSYS);
-            PLCH = new PLCH(PLSYS);
+            PLCH = new PLDC(PLSYS);
+            CommentLake = new CommentLake(MySqlConn, "comment_lake");
         }
     }
 }
