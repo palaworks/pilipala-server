@@ -14,9 +14,6 @@ using WaterLibrary.stru.pilipala;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.stru.pilipala.PostKey;
 
-using Type = WaterLibrary.stru.pilipala.PostKey.Type;
-using System.Web.UI.HtmlControls;
-
 namespace WaterLibrary.com.pilipala
 {
     /// <summary>
@@ -165,15 +162,15 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 表集
         /// </summary>
-        public PLTables Tables { get; }
+        public PLTables Tables { get; private set; }
         /// <summary>
         /// 视图集
         /// </summary>
-        public PLViews Views { get; }
+        public PLViews Views { get; private set; }
         /// <summary>
         /// MySql数据库管理器
         /// </summary>
-        public MySqlManager MySqlManager { get; set; }
+        public MySqlManager MySqlManager { get; private set; }
 
 
         /// <summary>
@@ -993,26 +990,46 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 表集
         /// </summary>
-        public PLTables Tables { get; }
+        public PLTables Tables { get; private set; }
         /// <summary>
         /// 视图集
         /// </summary>
-        public PLViews Views { get; }
+        public PLViews Views { get; private set; }
         /// <summary>
         /// MySql数据库管理器
         /// </summary>
-        public MySqlManager MySqlManager { get; set; }
+        public MySqlManager MySqlManager { get; private set; }
 
         /// <summary>
         /// 得到最大文章ID（私有）
         /// </summary>
         /// <returns>错误则返回-1</returns>
-        private int GetMaxID()
+        internal int GetMaxID()
         {
-            string SQL = string.Format("SELECT max(ID) FROM `{0}`", Tables.Index);
+            string SQL = string.Format("SELECT MAX(ID) FROM {0}", Tables.Index);
             var value = MySqlManager.GetKey(SQL);
             /* 若取不到最大ID(没有任何文章时)，返回12000作为初始ID */
             return Convert.ToInt32(value.GetType() == typeof(DBNull) ? 12000 : value);
+        }
+        /// <summary>
+        /// 得到最小文章ID（私有）
+        /// </summary>
+        /// <returns>错误则返回-1</returns>
+        internal int GetMinID()
+        {
+            string SQL = string.Format("SELECT MIN(ID) FROM {0}", Tables.Index);
+            var value = MySqlManager.GetKey(SQL);
+            /* 若取不到最大ID(没有任何文章时)，返回12000作为初始ID */
+            return Convert.ToInt32(value.GetType() == typeof(DBNull) ? 12000 : value);
+        }
+        /// <summary>
+        /// 获取指定文章的活跃拷贝的GUID
+        /// </summary>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns></returns>
+        internal string GetActiveGUID(int ID)
+        {
+            return Convert.ToString(MySqlManager.GetKey(string.Format("SELECT GUID FROM {0} WHERE ID={1}", Tables.Index, ID)));
         }
 
         /// <summary>
@@ -1061,7 +1078,7 @@ namespace WaterLibrary.com.pilipala
             List<MySqlParm> ParmList = new List<MySqlParm>
             {
                 new MySqlParm() { Name = "ID", Val = GetMaxID() + 1 },
-                new MySqlParm() { Name = "GUID", Val = MathH.GenerateGUID("D") },
+                new MySqlParm() { Name = "GUID", Val = MathH.GenerateGUID("N") },
 
                 new MySqlParm() { Name = "CT", Val = t },
                 new MySqlParm() { Name = "LCT", Val = t },
@@ -1097,9 +1114,8 @@ namespace WaterLibrary.com.pilipala
             }
             else
             {
-                /* 操作行数异常，回滚事务 */
                 MySqlCommand.Transaction.Rollback();
-                throw new Exception("操作行数异常，事务已回滚");
+                return false;
             }
         }
         /// <summary>
@@ -1109,25 +1125,23 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public bool Dispose(int ID)
         {
-            string SQL = string.Format
-                (
-                "DELETE FROM {0} WHERE ID=?ID;" +
-                "DELETE FROM {1} WHERE ID=?ID;"
-                , Tables.Index, Tables.Primary
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
+            /* int参数无法用于参数化攻击 */
+            MySqlCommand MySqlCommand = new MySqlCommand
             {
-                new MySqlParm() { Name = "ID", Val = ID }
+                CommandText = string.Format
+                (
+                "DELETE FROM {0} WHERE ID={2};" +
+                "DELETE FROM {1} WHERE ID={2};"
+                , Tables.Index, Tables.Primary, ID
+                ),
+
+                Connection = MySqlManager.Connection,
+
+                /* 开始事务 */
+                Transaction = MySqlManager.Connection.BeginTransaction()
             };
 
-            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-            MySqlCommand.Connection = MySqlManager.Connection;
-
-            /* 开始事务 */
-            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
-
-            if (MySqlManager.QueryOnly(ref MySqlCommand) >= 2)
+            if (MySqlCommand.ExecuteNonQuery() >= 2)
             {
                 /* 指向表只删除1行数据，拷贝表至少删除1行数据 */
                 MySqlCommand.Transaction.Commit();
@@ -1135,9 +1149,8 @@ namespace WaterLibrary.com.pilipala
             }
             else
             {
-                /* 操作行数异常，回滚事务 */
                 MySqlCommand.Transaction.Rollback();
-                throw new Exception("操作行数异常，事务已回滚");
+                return false;
             }
         }
         /// <summary>
@@ -1151,15 +1164,15 @@ namespace WaterLibrary.com.pilipala
                 (
                 "UPDATE {0} SET GUID=?GUID, Mode=?Mode, Type=?Type, UVCount=?UVCount, StarCount=?StarCount WHERE ID=?ID;" +
                 "INSERT INTO {1}" +
-                " ( ID, GUID,   LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
-                " (?ID,?GUID,  ?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);"
+                " ( ID, GUID, LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
+                " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);"
                 , Tables.Index, Tables.Primary
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
             {
                 new MySqlParm() { Name = "ID", Val = Post.ID },
-                new MySqlParm() { Name = "GUID", Val = MathH.GenerateGUID("D") },
+                new MySqlParm() { Name = "GUID", Val = MathH.GenerateGUID("N") },
 
                 new MySqlParm() { Name = "LCT", Val = DateTime.Now },
 
@@ -1185,7 +1198,7 @@ namespace WaterLibrary.com.pilipala
             /* 开始事务 */
             MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
 
-            if (MySqlManager.QueryOnly(ref MySqlCommand) == 2)
+            if (MySqlCommand.ExecuteNonQuery() == 2)
             {
                 /* 指向表修改1行数据，拷贝表添加1行数据 */
                 MySqlCommand.Transaction.Commit();
@@ -1193,9 +1206,8 @@ namespace WaterLibrary.com.pilipala
             }
             else
             {
-                /* 操作行数异常，回滚事务 */
                 MySqlCommand.Transaction.Rollback();
-                throw new Exception("操作行数异常，事务已回滚");
+                return false;
                 /* 由于GUID更新，影响行始终为2，若出现其他情况则一定为错误 */
             }
         }
@@ -1209,7 +1221,7 @@ namespace WaterLibrary.com.pilipala
         {
             string SQL = string.Format
                 (
-                "DELETE {1} FROM {0},{1} WHERE ({0}.GUID <> ?GUID) AND ({1}.GUID = ?GUID) AND ({0}.ID = {1}.ID)"
+                "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID AND {1}.GUID = ?GUID"
                 , Tables.Index, Tables.Primary
                 );
 
@@ -1224,7 +1236,7 @@ namespace WaterLibrary.com.pilipala
             /* 开始事务 */
             MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
 
-            if (MySqlManager.QueryOnly(ref MySqlCommand) == 1)
+            if (MySqlCommand.ExecuteNonQuery() == 1)
             {
                 /* 拷贝表删除一行数据 */
                 MySqlCommand.Transaction.Commit();
@@ -1232,9 +1244,8 @@ namespace WaterLibrary.com.pilipala
             }
             else
             {
-                /* 操作行数异常，回滚事务 */
                 MySqlCommand.Transaction.Rollback();
-                throw new Exception("操作行数异常，事务已回滚");
+                return false;
             }
         }
         /// <summary>
@@ -1269,7 +1280,7 @@ namespace WaterLibrary.com.pilipala
             /* 开始事务 */
             MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
 
-            if (MySqlManager.QueryOnly(ref MySqlCommand) == 2)
+            if (MySqlCommand.ExecuteNonQuery() == 2)
             {
                 /* 指向表修改1行数据，拷贝表删除一行数据 */
                 MySqlCommand.Transaction.Commit();
@@ -1277,9 +1288,8 @@ namespace WaterLibrary.com.pilipala
             }
             else
             {
-                /* 操作行数异常，回滚事务 */
                 MySqlCommand.Transaction.Rollback();
-                throw new Exception("操作行数异常，事务已回滚");
+                return false;
             }
         }
         /// <summary>
@@ -1289,25 +1299,22 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public bool Rollback(int ID)
         {
-            string SQL = string.Format
-                (
-                "DELETE {1} FROM {0},{1} WHERE ({0}.GUID = {1}.GUID) AND ({0}.ID = ?ID);" +
-                "UPDATE {0} SET GUID = (SELECT GUID FROM {1} WHERE ID=?ID ORDER BY LCT DESC LIMIT 0,1) WHERE ID=?ID;"
-                , Tables.Index, Tables.Primary
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
+            MySqlCommand MySqlCommand = new MySqlCommand
             {
-                new MySqlParm() { Name = "ID", Val = ID }
+                CommandText = string.Format
+                (
+                "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.GUID={1}.GUID AND {0}.ID={2};" +
+                "UPDATE {0} SET GUID = (SELECT GUID FROM {1} WHERE ID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE ID={2};"
+                , Tables.Index, Tables.Primary, ID
+                ),
+
+                Connection = MySqlManager.Connection,
+
+                /* 开始事务 */
+                Transaction = MySqlManager.Connection.BeginTransaction()
             };
 
-            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-            MySqlCommand.Connection = MySqlManager.Connection;
-
-            /* 开始事务 */
-            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
-
-            if (MySqlManager.QueryOnly(ref MySqlCommand) == 2)
+            if (MySqlCommand.ExecuteNonQuery() == 2)
             {
                 /* 指向表修改1行数据，拷贝表删除1行数据 */
                 MySqlCommand.Transaction.Commit();
@@ -1315,9 +1322,8 @@ namespace WaterLibrary.com.pilipala
             }
             else
             {
-                /* 操作行数异常，回滚事务 */
                 MySqlCommand.Transaction.Rollback();
-                throw new Exception("操作行数异常，事务已回滚");
+                return false;
             }
         }
         /// <summary>
@@ -1327,24 +1333,21 @@ namespace WaterLibrary.com.pilipala
         /// <returns></returns>
         public bool Release(int ID)
         {
-            string SQL = string.Format
-                (
-                "DELETE {1} FROM {0},{1} WHERE ({0}.ID = {1}.ID) AND ({0}.GUID <> {1}.GUID) AND ({0}.ID = ?ID)"
-                , Tables.Index, Tables.Primary
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
+            MySqlCommand MySqlCommand = new MySqlCommand
             {
-                new MySqlParm() { Name = "?ID", Val = ID }
+                CommandText = string.Format
+               (
+               "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID AND {0}.ID={2}"
+               , Tables.Index, Tables.Primary, ID
+               ),
+
+                Connection = MySqlManager.Connection,
+
+                /* 开始事务 */
+                Transaction = MySqlManager.Connection.BeginTransaction()
             };
 
-            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-            MySqlCommand.Connection = MySqlManager.Connection;
-
-            /* 开始事务 */
-            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
-
-            if (MySqlManager.QueryOnly(ref MySqlCommand) >= 0)
+            if (MySqlCommand.ExecuteNonQuery() >= 0)
             {
                 /* 删除拷贝表的所有冗余，不存在冗余时影响行数为0 */
                 MySqlCommand.Transaction.Commit();
@@ -1352,9 +1355,8 @@ namespace WaterLibrary.com.pilipala
             }
             else
             {
-                /* 操作行数异常，回滚事务 */
                 MySqlCommand.Transaction.Rollback();
-                throw new Exception("操作行数异常，事务已回滚");
+                return false;
             }
         }
 
@@ -1445,17 +1447,17 @@ namespace WaterLibrary.com.pilipala
         /// 通用文章拷贝更新器
         /// </summary>
         /// <typeparam name="T">目标属性类型</typeparam>
-        /// <param name="GUID">目标拷贝GUID</param>
+        /// <param name="ID">目标拷贝GUID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        public bool UpdatePrimary<T>(int GUID, object Value) where T : IPostKey
+        public bool UpdateCopy<T>(int ID, object Value) where T : IPostKey
         {
             //初始化键定位
             MySqlKey MySqlKey = new MySqlKey
             {
                 Table = Tables.Primary,
                 Name = "GUID",
-                Val = GUID.ToString()
+                Val = GetActiveGUID(ID)
             };
             return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Convert.ToString(Value));
         }
@@ -1539,20 +1541,20 @@ namespace WaterLibrary.com.pilipala
     /// <summary>
     /// 啪啦计数管理器
     /// </summary>
-    public class PLDC: IPLDataCounter
+    public class PLDC : IPLDataCounter
     {
         /// <summary>
         /// 表集
         /// </summary>
-        public PLTables Tables { get; }
+        public PLTables Tables { get; private set; }
         /// <summary>
         /// 视图集
         /// </summary>
-        public PLViews Views { get; }
+        public PLViews Views { get; private set; }
         /// <summary>
         /// MySql数据库管理器
         /// </summary>
-        public MySqlManager MySqlManager { get; set; }
+        public MySqlManager MySqlManager { get; private set; }
 
         /// <summary>
         /// 初始化啪啦数据修改器
