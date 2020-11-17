@@ -11,8 +11,8 @@ using Aliyun.Acs.Core;
 using Aliyun.Acs.Core.Profile;
 using Aliyun.Acs.afs.Model.V20180112;
 
-using CommentLake;
-using CommentLake.stru;
+using WaterLibrary.com.CommentLake;
+using WaterLibrary.stru.CommentLake;
 using WaterLibrary.stru.MySQL;
 
 namespace PILIPALA.system.serv
@@ -30,7 +30,7 @@ namespace PILIPALA.system.serv
     public class CaptchaServ : System.Web.Services.WebService
     {
         [WebMethod]
-        public string CommentLakeCaptcha(string Token, string SessionId, string Sig, int PostID, int HEAD, string Content, string Name, string Email, string WebSite)
+        public string CommentLakeCaptcha(string Token, string SessionId, string Sig, int PostID, int HEAD, string Content, string User, string Email, string WebSite)
         {
             string ACCESS_KEY = WebConfigurationManager.AppSettings["ACCESS_KEY"];
             string ACCESS_SECRET = WebConfigurationManager.AppSettings["ACCESS_SECRET"];
@@ -58,20 +58,20 @@ namespace PILIPALA.system.serv
                 // TODO
                 if (response.Code == 100)
                 {
-                    CommentLake.CommentLake CommentLake = new CommentLake.CommentLake("comment_lake");
-                    CommentLake.DBCHINIT(new MySqlConn
+                    CommentLake CommentLake = new CommentLake(new MySqlConn
                     {
                         DataSource = WebConfigurationManager.AppSettings["DataSource"],
                         DataBase = WebConfigurationManager.AppSettings["DataBase"],
                         Port = WebConfigurationManager.AppSettings["Port"],
                         User = WebConfigurationManager.AppSettings["User"],
                         PWD = WebConfigurationManager.AppSettings["PWD"]
-                    });
+                    }, "comment_lake");
+
 
                     CommentLake.AddComment(new Comment()
                     {
                         PostID = PostID,
-                        Name = Name,
+                        User = User,
                         Email = Email,
                         Content = Content,
                         WebSite = WebSite,
