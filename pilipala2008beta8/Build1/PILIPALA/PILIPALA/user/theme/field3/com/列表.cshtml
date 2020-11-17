@@ -13,7 +13,9 @@
 @using CommentLake;
 @using Markdig;
 
-@using Type = WaterLibrary.stru.pilipala.PostKey.Type;
+@using pla_Type = WaterLibrary.stru.pilipala.PostKey.Type;
+@using sys_Type = System.Type;
+
 <!-- 服务初始化 -->
 @{ SysServ SysServ = new SysServ(); }
 <!-- 其他初始化 -->
@@ -47,7 +49,7 @@
         typeof(Title), typeof(Summary), typeof(Content), typeof(Cover),
         typeof(CT),
         typeof(UVCount), typeof(StarCount),
-        typeof(Type)))
+        typeof(pla_Type)))
     {
         if (Post.Type == "p")
         {
@@ -118,7 +120,7 @@
         typeof(Title), typeof(Summary), typeof(Content), typeof(Cover),
         typeof(CT),
         typeof(UVCount), typeof(StarCount),
-        typeof(Type)))
+        typeof(pla_Type)))
     {
         if (Post.Type == "p")
         {

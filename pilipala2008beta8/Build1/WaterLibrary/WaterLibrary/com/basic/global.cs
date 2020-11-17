@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Security;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Reflection;
@@ -165,6 +166,48 @@ namespace WaterLibrary.com.basic
 
             return array;
         }
+
+        /// <summary>
+        /// 生成RSA密钥对(BASE64)
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<string, string> GetRSAKeyPair()
+        {
+            RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
+
+            return new Dictionary<string, string>
+            {
+                { "PUBLIC", Convert.ToBase64String(RSA.ExportCspBlob(false)) },
+                { "PRIVATE", Convert.ToBase64String(RSA.ExportCspBlob(true)) }
+            };
+        }
+
+        /// <summary>
+        /// RSA加密(BASE64)
+        /// </summary>
+        /// <param name="PublicKey">RSA公钥(BASE64)</param>
+        /// <param name="PlainText">明文</param>
+        /// <returns></returns>
+        public static string RSAEncrypt(string PublicKey, string PlainText)
+        {
+            RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
+            RSA.ImportCspBlob(Convert.FromBase64String(PublicKey));
+
+            return Convert.ToBase64String(RSA.Encrypt(Encoding.UTF8.GetBytes(PlainText), false));
+        }
+        /// <summary>
+        /// RSA解密(BASE64)
+        /// </summary>
+        /// <param name="PrivateKey">RSA公钥(BASE64)</param>
+        /// <param name="CipherText">密文(BASE64)</param>
+        /// <returns></returns>
+        public static string RSADecrypt(string PrivateKey, string CipherText)
+        {
+            RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
+            RSA.ImportCspBlob(Convert.FromBase64String(PrivateKey));
+
+            return Encoding.UTF8.GetString(RSA.Decrypt(Convert.FromBase64String(CipherText), false));
+        }
     }
 
     /// <summary>
@@ -302,6 +345,8 @@ namespace WaterLibrary.com.basic
 
             return sha256.ToString();
         }
+
+
     }
 
     /// <summary>

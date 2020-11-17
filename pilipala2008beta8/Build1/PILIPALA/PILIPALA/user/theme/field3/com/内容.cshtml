@@ -11,9 +11,10 @@
 @using PILIPALA.system.serv;
 @using PILIPALA.user.theme.field3.serv;
 
-@using CommentLake;
-@using CommentLake.stru;
+@using WaterLibrary.com.CommentLake;
+@using WaterLibrary.stru.CommentLake;
 @using Markdig;
+
 <!-- 服务初始化 -->
 @{ SysServ SysServ = new SysServ(); }
 <!-- 变量初始化 -->
@@ -44,15 +45,15 @@
 }
 <!-- CommentLake评论系统初始化 -->
 @{
-    CommentLake CommentLake = new CommentLake("comment_lake");
-    CommentLake.DBCHINIT(new MySqlConn
+    CommentLake CommentLake = new CommentLake(new MySqlConn
     {
         DataSource = WebConfigurationManager.AppSettings["DataSource"],
         DataBase = WebConfigurationManager.AppSettings["DataBase"],
         Port = WebConfigurationManager.AppSettings["Port"],
         User = WebConfigurationManager.AppSettings["User"],
         PWD = WebConfigurationManager.AppSettings["PWD"]
-    });
+    }, "comment_lake");
+
     List<Comment> CommentList = CommentLake.GetCommentList(ID);
 }
 
@@ -112,11 +113,8 @@
     </div>
 
     <div class="CoBox L M bSha">
-        @{
-            string MD5 = ConvertH.ToMD5(Post.Content);
-        }
         <span class="text_auth L">由 @Post.User 最后编辑于 @ThemeServ.OnlyDate(Post.LCT, "/")</span>
-        <span title="文章唯一识别码 : @MD5" class="text_mId R">@MD5.Substring(0, 7)</span>
+        <span title="文章MD5签名 : @Post.MD5" class="text_mId R">@Post.MD5.Substring(0, 7)</span>
 
         <div class="AtBox L bRds-b">
             <div class="Date">于@(ThemeServ.OnlyDate(Post.CT, "-"))创建</div>
@@ -157,7 +155,7 @@
                     <div class="Box bSha" onmouseover="CommentList_Over(this)" onmouseleave="CommentList_Leave(this)">
                         @if (Comment.HEAD == 0)
                         {
-                            <div class="Name">@Comment.Name</div>
+                            <div class="Name">@Comment.User</div>
                         }
                         else
                         {
@@ -167,9 +165,9 @@
                                 if (temp.CommentID == Convert.ToInt32(Comment.HEAD))
                                 {
                                     <div class="Name">
-                                        @(Comment.Name)(回复)
+                                        @(Comment.User)(回复)
                                         <span class="ReplyLogo"></span>
-                                        <span class="ReplyFloor">@(temp.Floor)F</span>@temp.Name
+                                        <span class="ReplyFloor">@(temp.Floor)F</span>@temp.User
                                     </div>
                                     break;
                                 }
