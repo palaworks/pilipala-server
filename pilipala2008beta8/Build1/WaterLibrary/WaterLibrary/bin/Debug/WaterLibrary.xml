@@ -68,6 +68,28 @@
             <param name="array">待排序的整数组</param>
             <returns>返回排序完成的数组</returns>
         </member>
+        <member name="M:WaterLibrary.com.basic.MathH.GetRSAKeyPair">
+            <summary>
+            生成RSA密钥对(BASE64)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.basic.MathH.RSAEncrypt(System.String,System.String)">
+            <summary>
+            RSA加密(BASE64)
+            </summary>
+            <param name="PublicKey">RSA公钥(BASE64)</param>
+            <param name="PlainText">明文</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.basic.MathH.RSADecrypt(System.String,System.String)">
+            <summary>
+            RSA解密(BASE64)
+            </summary>
+            <param name="PrivateKey">RSA公钥(BASE64)</param>
+            <param name="CipherText">密文(BASE64)</param>
+            <returns></returns>
+        </member>
         <member name="T:WaterLibrary.com.basic.ConvertH">
             <summary>
             转换管理器
@@ -627,7 +649,7 @@
             <summary>
             初始化啪啦数据读取器
             </summary>
-            <parmm name="PLDB">啪啦数据库信息</parmm>
+            <parmm name="PLSYS">噼里啪啦系统对象</parmm>
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDR.GetList``1(System.Collections.Generic.List{System.String},System.Type[])">
             <summary>
@@ -641,7 +663,7 @@
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDR.GetList(System.Type[])">
             <summary>
-            获得文章数据列表(使用MatchList匹配)
+            获得文章数据列表
             注意！在单次查询量较低时使用此方法带来的性能收益可能不佳
             </summary>
             <param name="PropertyType">所需属性类型</param>
@@ -856,7 +878,7 @@
             <summary>
             得到最大文章ID（私有）
             </summary>
-            <returns>错误则返回-1</returns>
+            <returns></returns>
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDU.GetMinID">
             <summary>
@@ -875,7 +897,7 @@
             <summary>
             初始化啪啦数据修改器
             </summary>
-            <parmm name="PLDB">啪啦数据库信息</parmm>
+            <parmm name="PLSYS">噼里啪啦系统对象</parmm>
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDU.Reg(WaterLibrary.stru.pilipala.Post)">
             <summary>
@@ -1012,7 +1034,7 @@
             <summary>
             初始化啪啦数据修改器
             </summary>
-            <parmm name="PLDB">啪啦数据库信息</parmm>
+            <parmm name="PLSYS">噼里啪啦系统对象</parmm>
         </member>
         <member name="P:WaterLibrary.com.pilipala.PLDC.PostCount">
             <summary>
@@ -1077,6 +1099,27 @@
         <member name="P:WaterLibrary.Assembly.Company">
             <summary>
             公司
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.basic.KeyPair">
+            <summary>
+            RSA密钥对
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.stru.basic.KeyPair.#ctor(System.Boolean)">
+            <summary>
+            初始化密钥对
+            </summary>
+            <param name="IS_INIT">是否在初始化时自动填充密钥对，默认为false</param>
+        </member>
+        <member name="P:WaterLibrary.stru.basic.KeyPair.PublicKey">
+            <summary>
+            公钥
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.basic.KeyPair.PrivateKey">
+            <summary>
+            私钥
             </summary>
         </member>
         <member name="T:WaterLibrary.stru.CommentLake.CommentKey.ICommentKey">
@@ -1949,6 +1992,11 @@
         <member name="M:WaterLibrary.stru.pilipala.Post.#ctor">
             <summary>
             初始化
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.MD5">
+            <summary>
+            基于Title,Summary和Content的MD5签名(自动生成)
             </summary>
         </member>
         <member name="P:WaterLibrary.stru.pilipala.Post.ID">

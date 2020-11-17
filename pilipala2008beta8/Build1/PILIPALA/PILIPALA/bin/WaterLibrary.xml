@@ -68,6 +68,28 @@
             <param name="array">待排序的整数组</param>
             <returns>返回排序完成的数组</returns>
         </member>
+        <member name="M:WaterLibrary.com.basic.MathH.GetRSAKeyPair">
+            <summary>
+            生成RSA密钥对(BASE64)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.basic.MathH.RSAEncrypt(System.String,System.String)">
+            <summary>
+            RSA加密(BASE64)
+            </summary>
+            <param name="PublicKey">RSA公钥(BASE64)</param>
+            <param name="PlainText">明文</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.basic.MathH.RSADecrypt(System.String,System.String)">
+            <summary>
+            RSA解密(BASE64)
+            </summary>
+            <param name="PrivateKey">RSA公钥(BASE64)</param>
+            <param name="CipherText">密文(BASE64)</param>
+            <returns></returns>
+        </member>
         <member name="T:WaterLibrary.com.basic.ConvertH">
             <summary>
             转换管理器
@@ -86,6 +108,15 @@
             将字符串集合按照分隔符合并为一个字符串
             </summary>
             <param name="List">待合并string集合</param>
+            <param name="Delimiter">分隔符</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.basic.ConvertH.ListToString(System.Object,System.String,System.Char)">
+            <summary>
+            将可遍历对象的元素值按照分隔符合并为一个字符串
+            </summary>
+            <param name="List">可遍历对象，其中的元素需能通过指定属性获取值</param>
+            <param name="PropertyName">属性名</param>
             <param name="Delimiter">分隔符</param>
             <returns></returns>
         </member>
@@ -202,9 +233,96 @@
             <param name="Val">设置值</param>
             <returns>设置成功返回true，反之false</returns>
         </member>
+        <member name="T:WaterLibrary.com.CommentLake.CommentLake">
+            <summary>
+            评论湖
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.com.CommentLake.CommentLake.CommentTable">
+            <summary>
+            评论表
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.com.CommentLake.CommentLake.MySqlManager">
+            <summary>
+            MySql数据库管理器
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.#ctor(WaterLibrary.stru.MySQL.MySqlConn,System.String)">
+            <summary>
+            初始化CommentLake
+            </summary>
+            <param name="MySqlConn">MySql连接信息</param>
+            <param name="CommentTable">评论表</param>
+        </member>
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.GetMaxCommentID">
+            <summary>
+            得到最大评论ID（私有）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.GetMaxFloor(System.Int32)">
+            <summary>
+            获得目标文章下的最大评论楼层（私有）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:WaterLibrary.com.CommentLake.CommentLake.CommentCount">
+            <summary>
+            评论总计数
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.GetCommentCount(System.Int32)">
+            <summary>
+            得到目标文章的评论计数
+            </summary>
+            <param name="PostID">目标文章ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.GetComment``1(System.Int32)">
+            <summary>
+            获得评论属性
+            </summary>
+            <typeparam name="T">属性类型</typeparam>
+            <param name="CommentID">目标评论ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.GetCommentList(System.Int32)">
+            <summary>
+            获得目标文章的评论列表
+            </summary>
+            <param name="PostID">目标文章ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.GetCommentReplyList(System.Int32)">
+            <summary>
+            获得目标评论的回复列表
+            </summary>
+            <param name="CommentID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.AddComment(WaterLibrary.stru.CommentLake.Comment)">
+            <summary>
+            添加评论(CommentID和Time由系统生成，无需传入)
+            </summary>
+            <param name="Comment">评论内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.DelComment(System.Int32)">
+            <summary>
+            删除评论(相关回复不会被删除)
+            </summary>
+            <param name="CommentID"></param>
+            <returns></returns>
+        </member>
         <member name="T:WaterLibrary.com.MySQL.MySqlManager">
             <summary>
             MySql数据库管理器
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.com.MySQL.MySqlManager.Connection">
+            <summary>
+            MySql控制器的数据库连接
             </summary>
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.CloseHandlerConnection">
@@ -329,14 +447,14 @@
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetTable(System.String)">
             <summary>
-            获取一张数据表
+            获取单张数据表
             </summary>
             <param name="SQL">SQL语句，用于查询数据表</param>
             <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.GetTable(MySql.Data.MySqlClient.MySqlCommand)">
             <summary>
-            获取一张数据表（适用于参数化查询）
+            获取单张数据表（适用于参数化查询）
             </summary>
             <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
             <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
@@ -394,11 +512,11 @@
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.UpdateKey(WaterLibrary.stru.MySQL.MySqlKey,System.String,System.String)">
             <summary>
-            设置(更新)一个键值
+            更新单个键值
             </summary>
             <param name="MySqlKey">操作定位器</param>
-            <param name="KeyName">操作于键名</param>
-            <param name="KeyValue">更改为该键值</param>
+            <param name="Key">要更改的键</param>
+            <param name="NewValue">新键值</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.com.MySQL.MySqlManager.QueryOnly(System.String)">
@@ -514,32 +632,24 @@
         </member>
         <member name="P:WaterLibrary.com.pilipala.PLDR.Tables">
             <summary>
-            
+            表集
             </summary>
         </member>
         <member name="P:WaterLibrary.com.pilipala.PLDR.Views">
             <summary>
-            
+            视图集
             </summary>
         </member>
         <member name="P:WaterLibrary.com.pilipala.PLDR.MySqlManager">
             <summary>
-            
+            MySql数据库管理器
             </summary>
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDR.#ctor(WaterLibrary.com.pilipala.PLSYS)">
             <summary>
             初始化啪啦数据读取器
             </summary>
-            <parmm name="PLDB">啪啦数据库信息</parmm>
-        </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDR.GetList(System.Type[])">
-            <summary>
-            获得文章数据列表(使用MatchList匹配)
-            注意！在单次查询量较低时使用此方法带来的性能收益可能不佳
-            </summary>
-            <param name="PropertyType">所需属性类型</param>
-            <returns>返回根据所需类型填充的Post集合</returns>
+            <parmm name="PLSYS">噼里啪啦系统对象</parmm>
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDR.GetList``1(System.Collections.Generic.List{System.String},System.Type[])">
             <summary>
@@ -550,6 +660,14 @@
             <param name="MatchList">属性匹配列表</param>
             <param name="PropertyType">所需属性类型</param>
             <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDR.GetList(System.Type[])">
+            <summary>
+            获得文章数据列表
+            注意！在单次查询量较低时使用此方法带来的性能收益可能不佳
+            </summary>
+            <param name="PropertyType">所需属性类型</param>
+            <returns>返回根据所需类型填充的Post集合</returns>
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDR.GetIDList">
             <summary>
@@ -579,7 +697,7 @@
             取得全部文章ID列表
             </summary>
             <param name="OrderProperty">排序属性</param>
-            <param name="OrderType">asc(升序)或desc(降序)，不区分大小写</param>
+            <param name="OrderType">ASC(升序)或DESC(降序)，不区分大小写</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDR.GetIDList(System.String,System.String,System.Int32)">
@@ -587,7 +705,7 @@
             取得指定长度的文章ID列表
             </summary>
             <param name="OrderProperty">排序属性</param>
-            <param name="OrderType">排序类型，可选值：asc(升序)或desc(降序)，不区分大小写</param>
+            <param name="OrderType">排序类型，可选值：ASC(升序)或DESC(降序)，不区分大小写</param>
             <param name="Length">截止长度</param>
             <returns></returns>
         </member>
@@ -605,7 +723,7 @@
             </summary>
             <typeparam name="T">属性匹配列表的属性类型</typeparam>
             <param name="MatchList">属性匹配列表</param>
-            <param name="OrderKey">排序类型，可选值：asc(升序)或desc(降序)，不区分大小写</param>
+            <param name="OrderKey">排序类型，选值：ASC(升序)或DESC(降序)，不区分大小写</param>
             <param name="OrderType">排序类型</param>
             <returns></returns>
         </member>
@@ -616,7 +734,7 @@
             <typeparam name="T">属性匹配列表的属性类型</typeparam>
             <param name="MatchList">属性匹配列表</param>
             <param name="OrderProperty">排序属性</param>
-            <param name="OrderType">排序类型，可选值：asc(升序)或desc(降序)，不区分大小写</param>
+            <param name="OrderType">排序类型，可选值：ASC(升序)或DESC(降序)，不区分大小写</param>
             <param name="Length">最大取用长度</param>
             <returns></returns>
         </member>
@@ -743,17 +861,17 @@
         </member>
         <member name="P:WaterLibrary.com.pilipala.PLDU.Tables">
             <summary>
-            
+            表集
             </summary>
         </member>
         <member name="P:WaterLibrary.com.pilipala.PLDU.Views">
             <summary>
-            
+            视图集
             </summary>
         </member>
         <member name="P:WaterLibrary.com.pilipala.PLDU.MySqlManager">
             <summary>
-            
+            MySql数据库管理器
             </summary>
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDU.GetMaxID">
@@ -762,83 +880,117 @@
             </summary>
             <returns>错误则返回-1</returns>
         </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDU.GetMinID">
+            <summary>
+            得到最小文章ID（私有）
+            </summary>
+            <returns>错误则返回-1</returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDU.GetActiveGUID(System.Int32)">
+            <summary>
+            获取指定文章的活跃拷贝的GUID
+            </summary>
+            <param name="ID">目标文章ID</param>
+            <returns></returns>
+        </member>
         <member name="M:WaterLibrary.com.pilipala.PLDU.#ctor(WaterLibrary.com.pilipala.PLSYS)">
             <summary>
             初始化啪啦数据修改器
             </summary>
-            <parmm name="PLDB">啪啦数据库信息</parmm>
+            <parmm name="PLSYS">噼里啪啦系统对象</parmm>
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDU.Reg(WaterLibrary.stru.pilipala.Post)">
             <summary>
             注册文章
             </summary>
-            <param name="Post">文章数据（ID、GUID、CT、LCT、User由系统生成）</param>
+            <param name="Post">文章数据（其中的ID、GUID、CT、LCT、User由系统生成）</param>
             <returns>返回受影响的行数</returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.UpdatePost(WaterLibrary.stru.pilipala.Post)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Dispose(System.Int32)">
+            <summary>
+            注销文章
+            </summary>
+            <param name="ID">目标文章ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Update(WaterLibrary.stru.pilipala.Post)">
             <summary>
             更新文章
             </summary>
             <param name="Post">文章数据</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.DisposeReg(System.Int32)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Delete(System.String)">
             <summary>
-            注销文章（删除所有Primary副本并注销Index）
-            </summary>
-            <param name="ID">目标文章ID</param>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.DeletePost(System.String)">
-            <summary>
-            删除副本（仅单个副本）
+            删除拷贝
             </summary>
             <param name="GUID">目标文章的GUID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.ShowReg(System.Int32)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Apply(System.String)">
             <summary>
-            将目标文章状态标记为展示
+            应用拷贝
+            </summary>
+            <param name="GUID">目标拷贝的GUID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Rollback(System.Int32)">
+            <summary>
+            回滚拷贝
+            </summary>
+            <param name="ID">目标文章的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDU.Release(System.Int32)">
+            <summary>
+            释放拷贝
+            </summary>
+            <param name="ID">目标文章的ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDU.OnDisplayMode(System.Int32)">
+            <summary>
+            将目标文章指向的模式设为：展示
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.CloseReg(System.Int32)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.HiddenMode(System.Int32)">
             <summary>
-            将目标文章状态标记为隐藏
+            将目标文章指向的模式设为：隐藏
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.ScheduleReg(System.Int32)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.ScheduledMode(System.Int32)">
             <summary>
-            将目标文章状态标记为计划中
+            将目标文章指向的模式设为：计划中
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.ArchivReg(System.Int32)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.ArchivedMode(System.Int32)">
             <summary>
-            将目标文章状态标记为已归档
+            将目标文章指向的模式设为：已归档
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.com.pilipala.PLDU.UpdateIndex``1(System.Int32,System.Object)">
             <summary>
-            通用文章属性更新器
+            通用文章指向更新器
             </summary>
             <typeparam name="T">目标属性类型</typeparam>
             <param name="ID">目标文章ID</param>
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.PLDU.UpdatePrimary``1(System.Int32,System.Object)">
+        <member name="M:WaterLibrary.com.pilipala.PLDU.UpdateCopy``1(System.Int32,System.Object)">
             <summary>
-            通用文章属性更新器
+            通用文章拷贝更新器
             </summary>
             <typeparam name="T">目标属性类型</typeparam>
-            <param name="ID">目标文章ID</param>
+            <param name="ID">目标拷贝GUID</param>
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
@@ -857,6 +1009,62 @@
             <parmm name="Index">索引表Post实例</parmm>
             <parmm name="Primary">主表Post实例</parmm>
             <returns>始终返回以Index的ID、GUID为最终合并结果的Post实例</returns>
+        </member>
+        <member name="T:WaterLibrary.com.pilipala.PLDC">
+            <summary>
+            啪啦计数管理器
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.com.pilipala.PLDC.Tables">
+            <summary>
+            表集
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.com.pilipala.PLDC.Views">
+            <summary>
+            视图集
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.com.pilipala.PLDC.MySqlManager">
+            <summary>
+            MySql数据库管理器
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.com.pilipala.PLDC.#ctor(WaterLibrary.com.pilipala.PLSYS)">
+            <summary>
+            初始化啪啦数据修改器
+            </summary>
+            <parmm name="PLSYS">噼里啪啦系统对象</parmm>
+        </member>
+        <member name="P:WaterLibrary.com.pilipala.PLDC.PostCount">
+            <summary>
+            文章计数
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.com.pilipala.PLDC.CopyCount">
+            <summary>
+            拷贝计数
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.com.pilipala.PLDC.HiddenCount">
+            <summary>
+            隐藏文章计数
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.com.pilipala.PLDC.OnDisplayCount">
+            <summary>
+            展示中文章计数
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.com.pilipala.PLDC.ArchivedCount">
+            <summary>
+            归档中文章计数
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.com.pilipala.PLDC.ScheduledCount">
+            <summary>
+            计划中文章计数
+            </summary>
         </member>
         <member name="T:WaterLibrary.Assembly">
             <summary>
@@ -893,6 +1101,224 @@
             公司
             </summary>
         </member>
+        <member name="T:WaterLibrary.stru.basic.KeyPair">
+            <summary>
+            RSA密钥对
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.stru.basic.KeyPair.#ctor(System.Boolean)">
+            <summary>
+            初始化密钥对
+            </summary>
+            <param name="IS_INIT">是否在初始化时自动填充密钥对，默认为false</param>
+        </member>
+        <member name="P:WaterLibrary.stru.basic.KeyPair.PublicKey">
+            <summary>
+            公钥
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.basic.KeyPair.PrivateKey">
+            <summary>
+            私钥
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.CommentLake.CommentKey.ICommentKey">
+            <summary>
+            表键值接口
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.ICommentKey.CommentID">
+            <summary>
+            索引
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.ICommentKey.Val">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.CommentLake.CommentKey.PostID">
+            <summary>
+            被评论的文章ID
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.PostID.CommentID">
+            <summary>
+            索引
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.PostID.Val">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.CommentLake.CommentKey.User">
+            <summary>
+            评论用户
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.User.CommentID">
+            <summary>
+            索引
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.User.Val">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.CommentLake.CommentKey.Email">
+            <summary>
+            用户邮箱
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.Email.CommentID">
+            <summary>
+            索引
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.Email.Val">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.CommentLake.CommentKey.Content">
+            <summary>
+            评论内容
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.Content.CommentID">
+            <summary>
+            索引
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.Content.Val">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.CommentLake.CommentKey.WebSite">
+            <summary>
+            用户站点
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.WebSite.CommentID">
+            <summary>
+            索引
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.WebSite.Val">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.CommentLake.CommentKey.HEAD">
+            <summary>
+            回复到的评论ID
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.HEAD.CommentID">
+            <summary>
+            索引
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.HEAD.Val">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.CommentLake.CommentKey.Time">
+            <summary>
+            评论创建时间
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.Time.CommentID">
+            <summary>
+            索引
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.Time.Val">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.CommentLake.CommentKey.Floor">
+            <summary>
+            所在楼层
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.Floor.CommentID">
+            <summary>
+            索引
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.CommentKey.Floor.Val">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.CommentLake.Comment">
+            <summary>
+            评论结构
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.Comment.Item(System.String)">
+            <summary>
+            索引器
+            </summary>
+            <param name="Key">索引名</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.stru.CommentLake.Comment.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.Comment.CommentID">
+            <summary>
+            评论ID
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.Comment.HEAD">
+            <summary>
+            回复到的评论ID
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.Comment.PostID">
+            <summary>
+            被评论的文章ID
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.Comment.Floor">
+            <summary>
+            所在楼层
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.Comment.User">
+            <summary>
+            评论用户
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.Comment.Email">
+            <summary>
+            用户邮箱
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.Comment.Content">
+            <summary>
+            评论内容
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.Comment.WebSite">
+            <summary>
+            用户站点
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.CommentLake.Comment.Time">
+            <summary>
+            评论创建时间
+            </summary>
+        </member>
         <member name="T:WaterLibrary.stru.MySQL.MySqlKey">
             <summary>
             键（用于键匹配查询）
@@ -915,7 +1341,7 @@
         </member>
         <member name="T:WaterLibrary.stru.MySQL.MySqlConn">
             <summary>
-            连接信息
+            MySql连接信息
             </summary>
         </member>
         <member name="P:WaterLibrary.stru.MySQL.MySqlConn.DataSource">
@@ -958,22 +1384,22 @@
             参数值
             </summary>
         </member>
-        <member name="T:WaterLibrary.stru.pilipala.DB.IPLDB">
+        <member name="T:WaterLibrary.stru.pilipala.DB.IPLDataBase">
             <summary>
             啪啦数据库接口
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IPLDB.Tables">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IPLDataBase.Tables">
             <summary>
             文本表
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IPLDB.Views">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IPLDataBase.Views">
             <summary>
             文本视图
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IPLDB.MySqlManager">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IPLDataBase.MySqlManager">
             <summary>
             数据库管理器实例
             </summary>
@@ -1186,23 +1612,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataReader.GetIDList(System.Int32,System.Int32)">
-            <summary>
-            取得文本ID列表（步进式）
-            </summary>
-            <parmm name="Start">步进起始行（包含该行）</parmm>
-            <parmm name="Length">加载行数</parmm>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataReader.GetIDList(System.Int32,System.Int32,System.String)">
-            <summary>
-            取得指定类型的文本ID列表（步进式）
-            </summary>
-            <parmm name="Start">步进起始行（包含该行）</parmm>
-            <parmm name="Length">加载行数</parmm>
-            <parmm name="Type">自定义文本类型</parmm>
-            <returns></returns>
-        </member>
         <member name="M:WaterLibrary.stru.pilipala.IPLDataReader.MatchID``1(System.String)">
             <summary>
             通用文章匹配器
@@ -1244,28 +1653,28 @@
             啪啦数据修改器接口
             </summary>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.ShowReg(System.Int32)">
+        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.OnDisplayMode(System.Int32)">
             <summary>
             将目标文章状态标记为展示
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.CloseReg(System.Int32)">
+        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.HiddenMode(System.Int32)">
             <summary>
             将目标文章状态标记为隐藏
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.ScheduleReg(System.Int32)">
+        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.ScheduledMode(System.Int32)">
             <summary>
             将目标文章状态标记为计划中
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.ArchivReg(System.Int32)">
+        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.ArchivedMode(System.Int32)">
             <summary>
             将目标文章状态标记为已归档
             </summary>
@@ -1281,7 +1690,7 @@
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.UpdatePrimary``1(System.Int32,System.Object)">
+        <member name="M:WaterLibrary.stru.pilipala.IPLDataUpdater.UpdateCopy``1(System.Int32,System.Object)">
             <summary>
             通用文章属性更新器
             </summary>
@@ -1290,10 +1699,32 @@
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
+        <member name="T:WaterLibrary.stru.pilipala.IPLDataCounter">
+            <summary>
+            啪啦数据计数器接口
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.IPLDataCounter.PostCount">
+            <summary>
+            文章计数
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.IPLDataCounter.CopyCount">
+            <summary>
+            拷贝计数
+            </summary>
+        </member>
         <member name="T:WaterLibrary.stru.pilipala.User">
             <summary>
             用户结构
             </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.User.Item(System.String)">
+            <summary>
+            索引器
+            </summary>
+            <param name="Key">索引名</param>
+            <returns></returns>
         </member>
         <member name="P:WaterLibrary.stru.pilipala.User.ID">
             <summary>
@@ -1315,115 +1746,17 @@
             
             </summary>
         </member>
-        <member name="T:WaterLibrary.stru.pilipala.Post">
-            <summary>
-            文章结构
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.Item(System.String)">
-            <summary>
-            索引器
-            </summary>
-            <param name="Key">索引名</param>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.stru.pilipala.Post.ItemArray">
-            <summary>
-            迭代器
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.stru.pilipala.Post.INIT">
-            <summary>
-            变量初始化
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.ID">
-            <summary>
-            索引
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.GUID">
-            <summary>
-            全局标识
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.Title">
-            <summary>
-            标题
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.Summary">
-            <summary>
-            概要
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.Content">
-            <summary>
-            内容
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.Cover">
-            <summary>
-            封面
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.Archiv">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.Label">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.Mode">
-            <summary>
-            文章模式
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.Type">
-            <summary>
-            文章类型
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.User">
-            <summary>
-            归属用户
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.CT">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.LCT">
-            <summary>
-            最后修改时间
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.UVCount">
-            <summary>
-            访问计数
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.stru.pilipala.Post.StarCount">
-            <summary>
-            星星计数
-            </summary>
-        </member>
-        <member name="T:WaterLibrary.stru.pilipala.PostKey.IKey">
+        <member name="T:WaterLibrary.stru.pilipala.PostKey.IPostKey">
             <summary>
             表键值接口
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.PostKey.IKey.ID">
+        <member name="P:WaterLibrary.stru.pilipala.PostKey.IPostKey.ID">
             <summary>
             索引
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.PostKey.IKey.Val">
+        <member name="P:WaterLibrary.stru.pilipala.PostKey.IPostKey.Val">
             <summary>
             值
             </summary>
@@ -1636,6 +1969,109 @@
         <member name="P:WaterLibrary.stru.pilipala.PostKey.StarCount.Val">
             <summary>
             值
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.stru.pilipala.Post">
+            <summary>
+            文章结构
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.Item(System.String)">
+            <summary>
+            索引器
+            </summary>
+            <param name="Key">索引名</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.stru.pilipala.Post.ItemArray">
+            <summary>
+            迭代器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.stru.pilipala.Post.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.MD5">
+            <summary>
+            基于Title,Summary和Content的MD5签名(自动生成)
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.ID">
+            <summary>
+            索引
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.GUID">
+            <summary>
+            全局标识
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.Summary">
+            <summary>
+            概要
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.Cover">
+            <summary>
+            封面
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.Archiv">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.Label">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.Mode">
+            <summary>
+            文章模式
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.Type">
+            <summary>
+            文章类型
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.User">
+            <summary>
+            归属用户
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.CT">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.LCT">
+            <summary>
+            最后修改时间
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.UVCount">
+            <summary>
+            访问计数
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.StarCount">
+            <summary>
+            星星计数
             </summary>
         </member>
     </members>

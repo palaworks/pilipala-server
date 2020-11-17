@@ -13,6 +13,8 @@
 //#define 回滚拷贝
 //#define 释放拷贝
 
+//#define RSA测试
+
 #region 引用
 using System;
 using System.Collections.Generic;
@@ -93,13 +95,13 @@ namespace palaBenchmark
 #if 注册文章
             string ContentStr = "";
 
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i < 30; i++)
             {
                 ContentStr += "**标准性能基准测试标准性能基准测试标准性能基准测试标准性能基准测试  \n";
                 Console.WriteLine("生成Content中......");
             }
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100; i++)
             {
                 Post Post = new Post()
                 {
@@ -121,7 +123,7 @@ namespace palaBenchmark
             }
 #endif
 #if 注销文章
-            for (int i = 12001; i <= 13000; i++)
+            for (int i = 12001; i <= 12100; i++)
             {
                 benchmark.PLDU.Dispose(i);
                 Console.WriteLine("已注销：" + i);
@@ -129,13 +131,13 @@ namespace palaBenchmark
 #endif
 #if 更新文章
             string ContentStr2 = "";
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i < 20; i++)
             {
                 ContentStr2 += "##标准性能基准测试标准性能基准测试标准性能基准测试标准性能基准测试  \n";
                 Console.WriteLine("生成Content中......");
             }
 
-            for (int i = 12001; i <= 13000; i++)
+            for (int i = 12001; i <= 12100; i++)
             {
                 Post Post = new Post()
                 {
@@ -229,6 +231,28 @@ namespace palaBenchmark
                 Console.WriteLine("尝试更改对象：{0} / 状态：{1}"
                     , i, benchmark.PLDU.UpdateIndex<UVCount>(i, 123));
             }
+#endif
+
+#if RSA测试
+            string s = "stringstringstringstringstring";
+
+            WaterLibrary.stru.basic.KeyPair kp = new WaterLibrary.stru.basic.KeyPair(true);
+            Console.WriteLine("原文:\n" + s);
+
+            Console.WriteLine("公钥:\n" + kp.PublicKey);
+            Console.WriteLine("私钥:\n" + kp.PrivateKey);
+
+
+            /*
+            string CipherText = WaterLibrary.com.basic.MathH.RSAEncrypt(kp.PublicKey, s);
+            string PlainText = WaterLibrary.com.basic.MathH.RSADecrypt(kp.PrivateKey, CipherText);
+
+            Console.WriteLine("密文:\n" + CipherText);
+            Console.WriteLine("明文:\n" + PlainText);
+            */
+
+
+
 #endif
             Console.ReadKey();
         }

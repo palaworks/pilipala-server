@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using WaterLibrary.com.basic;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.stru.pilipala.PostKey;
@@ -667,6 +668,14 @@ namespace WaterLibrary.stru.pilipala
 
             UVCount = -1;
             StarCount = -1;
+        }
+
+        /// <summary>
+        /// 基于Title,Summary和Content的MD5签名(自动生成)
+        /// </summary>
+        public string MD5
+        {
+            get { return ConvertH.ToMD5(Title + Summary + Content); }
         }
 
         /// <summary>
