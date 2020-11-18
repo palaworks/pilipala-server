@@ -57,12 +57,12 @@ export default {
     return {
       new_data: {
         ID: this.$route.params.post_id,
-        Mode: "",
-        Type: "",
+        Mode: "o",
+        Type: "p",
         User: "",
 
-        UVCount: "",
-        StarCount: "",
+        UVCount: 0,
+        StarCount: 0,
 
         Title: "",
         Summary: "",

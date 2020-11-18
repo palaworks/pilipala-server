@@ -1,15 +1,7 @@
 <template>
   <v-app>
-    <div class="d-flex justify-center mt-2">
-      <v-btn class="mx-2" rounded small color="primary" @click="Rollback()">
-        <v-icon left>mdi-restart-alert</v-icon>回滚到上一次更改(Rollback)
-      </v-btn>
-      <v-btn class="mx-2" rounded small color="error" @click="Release()">
-        <v-icon left>mdi-delete-alert</v-icon>释放冗余(Release)
-      </v-btn>
-    </div>
-    <v-card class="mt-2 mx-auto" rounded width="90%">
-      <v-expansion-panels accordion>
+    <div class="mt-2 mb-11 mx-auto" style="width:98%">
+      <v-expansion-panels popout>
         <v-expansion-panel v-for="item in copy_list" :key="item.GUID">
           <v-expansion-panel-header>
             <div class="text-subtitle-1">{{item.Title}}</div>
@@ -30,47 +22,57 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-list-item-title class="text-h6">
-              {{item.GUID}}
               <v-btn
                 :disabled="item.GUID==active_guid"
-                class="ml-2 mb-1"
+                class="mb-1"
                 color="primary"
                 small
                 rounded
                 @click="Apply(item.GUID)"
               >应用</v-btn>
-
-              <v-btn
-                :disabled="item.GUID==active_guid"
-                class="ml-2 mb-1"
-                color="error"
-                small
-                rounded
-                @click="Delete(item.GUID)"
-              >删除</v-btn>
+              {{item.GUID}}
             </v-list-item-title>
-            <v-chip class="ma-1">
-              <v-icon left>mdi-cube-outline</v-icon>
+            <v-chip label small class="mr-4">
+              <v-icon small left>mdi-cube-outline</v-icon>
               {{item.MD5}}
             </v-chip>
-            <v-chip class="mx-1">
-              <v-icon left>mdi-slash-forward-box</v-icon>
-              {{item.Mode}}
-            </v-chip>
-            <v-chip class="mx-1">
-              <v-icon left>mdi-folder-outline</v-icon>
+            <v-chip
+              v-if="item.Mode=='o'?false:true"
+              text-color="white"
+              :color="item.Mode=='archived'?'amber accent-4':item.Mode=='sche'?'blue accent-5':item.Mode=='x'?'grey':null"
+            >{{item.Mode=='archived'?'已归档':item.Mode=='sche'?'计划':item.Mode=='x'?'隐藏':null}}</v-chip>
+            <v-chip class="ml-1">
+              <v-icon small left>mdi-folder-outline</v-icon>
               {{item.Archiv}}
             </v-chip>
-            <v-chip v-for="el in item.Label.split('$')" :key="el" class="mx-1">{{el}}</v-chip>
+            <v-chip v-for="el in item.Label.split('$')" :key="el" class="ml-1">{{el}}</v-chip>
             <v-list-item-subtitle class="text-subtitle-1 text--secondary my-2">{{ item.Summary }}</v-list-item-subtitle>
             <v-list-item-subtitle
               style="max-width: 78vw;"
               class="ml-3 text--disabled"
             >{{ item.Content }}</v-list-item-subtitle>
+            <v-row justify="end">
+              <v-btn
+                :disabled="item.GUID==active_guid"
+                color="error"
+                small
+                text
+                @click="Delete(item.GUID)"
+              >删除</v-btn>
+            </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
-    </v-card>
+    </div>
+
+    <div style="left:50%;transform:translateX(-50%);z-index:1;bottom:0;position:fixed;">
+      <v-btn small class="ma-1 mb-2" color="primary" @click="Rollback()">
+        <v-icon left>mdi-restart-alert</v-icon>回滚到上一次更改(Rollback)
+      </v-btn>
+      <v-btn small class="ma-1 mb-2" color="error" @click="Release()">
+        <v-icon left>mdi-delete-alert</v-icon>释放冗余(Release)
+      </v-btn>
+    </div>
   </v-app>
 </template>
 <script>

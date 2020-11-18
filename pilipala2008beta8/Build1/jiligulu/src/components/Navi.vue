@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer expand-on-hover v-model="drawer" width="280" floating permanent>
+    <v-navigation-drawer fixed expand-on-hover v-model="drawer" width="280" floating permanent>
       <v-list-item class="px-2">
         <v-list-item-avatar size="40">
           <v-img src="../assets/thaumy.jpg"></v-img>
