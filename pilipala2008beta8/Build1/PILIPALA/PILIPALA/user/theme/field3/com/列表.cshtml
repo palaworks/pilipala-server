@@ -5,12 +5,13 @@
 @using System.Web.Configuration;
 
 @using WaterLibrary.stru.MySQL;
+@using WaterLibrary.com.CommentLake;
+@using WaterLibrary.stru.CommentLake;
 @using WaterLibrary.stru.pilipala;
 @using WaterLibrary.stru.pilipala.PostKey;
 @using PILIPALA.system.serv;
 @using PILIPALA.user.theme.field3.serv;
 
-@using CommentLake;
 @using Markdig;
 
 @using pla_Type = WaterLibrary.stru.pilipala.PostKey.Type;
@@ -30,15 +31,14 @@
 }
 <!-- CommentLake评论系统初始化 -->
 @{
-    CommentLake CommentLake = new CommentLake("comment_lake");
-    CommentLake.DBCHINIT(new MySqlConn
+    CommentLake CommentLake = new CommentLake(new MySqlConnMsg
     {
         DataSource = WebConfigurationManager.AppSettings["DataSource"],
         DataBase = WebConfigurationManager.AppSettings["DataBase"],
         Port = WebConfigurationManager.AppSettings["Port"],
         User = WebConfigurationManager.AppSettings["User"],
         PWD = WebConfigurationManager.AppSettings["PWD"]
-    });
+    }, "comment_lake");
 }
 @section 列表
     {

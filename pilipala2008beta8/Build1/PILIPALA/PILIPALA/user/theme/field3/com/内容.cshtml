@@ -37,7 +37,7 @@
     ID = Convert.ToInt32(Request.Params["ID"]);
 
     /* 合并表 */
-    Post = SysServ.PLDR.GetTotal(ID);
+    Post = SysServ.PLDR.GetUnion(ID);
 
     /* 前后文章标题赋值 */
     PrevID = SysServ.PLDR.PrevID("生活|技术", ID);
@@ -45,7 +45,7 @@
 }
 <!-- CommentLake评论系统初始化 -->
 @{
-    CommentLake CommentLake = new CommentLake(new MySqlConn
+    CommentLake CommentLake = new CommentLake(new MySqlConnMsg
     {
         DataSource = WebConfigurationManager.AppSettings["DataSource"],
         DataBase = WebConfigurationManager.AppSettings["DataBase"],
