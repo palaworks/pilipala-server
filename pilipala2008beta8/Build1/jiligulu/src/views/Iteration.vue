@@ -4,21 +4,16 @@
       <v-expansion-panels popout>
         <v-expansion-panel v-for="item in copy_list" :key="item.GUID">
           <v-expansion-panel-header>
-            <div class="text-subtitle-1">{{item.Title}}</div>
-            <v-card flat class="text-right text--secondary">
+            <div
+              class="text-subtitle-1"
+              :class="item.Title==''?'text--disabled':'text--secondary'"
+            >{{item.Title==''?'无标题':item.Title}}</div>
+            <v-row justify="end" class="mr-4">
               <v-chip
-                v-if="item.GUID==active_guid"
-                class="ma-2"
-                color="green"
-                text-color="white"
-                close-icon="mdi-delete"
-              >
-                <v-avatar left>
-                  <v-icon small>mdi-source-branch-check</v-icon>
-                </v-avatar>当前
-              </v-chip>
-              {{item.LCT}}
-            </v-card>
+                :outlined="!item.GUID==active_guid"
+                :color="item.GUID==active_guid?'success':'transparent'"
+              >{{item.LCT}}</v-chip>
+            </v-row>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-list-item-title class="text-h6">
@@ -46,7 +41,10 @@
               {{item.Archiv}}
             </v-chip>
             <v-chip v-for="el in item.Label.split('$')" :key="el" class="ml-1">{{el}}</v-chip>
-            <v-list-item-subtitle class="text-subtitle-1 text--secondary my-2">{{ item.Summary }}</v-list-item-subtitle>
+            <v-list-item-subtitle
+              class="text-subtitle-1 my-2"
+              :class="item.Summary==''?'text--disabled':'text--secondary'"
+            >{{item.Summary==''?'无概要':item.Summary}}</v-list-item-subtitle>
             <v-list-item-subtitle
               style="max-width: 78vw;"
               class="ml-3 text--disabled"
@@ -90,7 +88,7 @@ export default {
     Rollback: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Rollback",
+        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Rollback",
         data: qs.stringify({
           ID: this.$route.params.post_id,
         }),
@@ -107,7 +105,7 @@ export default {
     Release: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Release",
+        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Release",
         data: qs.stringify({
           ID: this.$route.params.post_id,
         }),
@@ -124,7 +122,7 @@ export default {
     Apply: function (GUID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Apply",
+        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Apply",
         data: qs.stringify({
           GUID: GUID,
         }),
@@ -141,7 +139,7 @@ export default {
     Delete: function (GUID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Delete",
+        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Delete",
         data: qs.stringify({
           GUID: GUID,
         }),
@@ -159,7 +157,7 @@ export default {
       /* 得到拷贝列表 */
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/GetPostData",
+        url: "https://localhost:44334/system/serv/SysServ.asmx/Get_Post_Data",
         data: qs.stringify({
           ID: this.$route.params.post_id,
         }),
@@ -173,7 +171,7 @@ export default {
       /* 得到拷贝列表 */
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/GetCopys",
+        url: "https://localhost:44334/system/serv/SysServ.asmx/Get_Copy_DataList",
         data: qs.stringify({
           ID: this.$route.params.post_id,
         }),

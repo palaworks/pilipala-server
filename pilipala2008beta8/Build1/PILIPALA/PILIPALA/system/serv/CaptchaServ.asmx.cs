@@ -58,7 +58,7 @@ namespace PILIPALA.system.serv
                 // TODO
                 if (response.Code == 100)
                 {
-                    CommentLake CommentLake = new CommentLake(new MySqlConn
+                    CommentLake CommentLake = new CommentLake(new MySqlConnMsg
                     {
                         DataSource = WebConfigurationManager.AppSettings["DataSource"],
                         DataBase = WebConfigurationManager.AppSettings["DataBase"],

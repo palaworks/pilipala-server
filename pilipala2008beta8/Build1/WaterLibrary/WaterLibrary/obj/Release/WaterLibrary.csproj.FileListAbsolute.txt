@@ -1,9 +1,0 @@
-H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\bin\Release\WaterLibrary.dll
-H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\bin\Release\WaterLibrary.pdb
-H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\bin\Release\MySql.Data.dll
-H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.csproj.CoreCompileInputs.cache
-H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.csproj.CopyComplete
-H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.dll
-H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.pdb
-H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\bin\Release\WaterLibrary.xml
-H:\博客项目\pilipala2008beta8\先行测试2\WaterLibrary\WaterLibrary\obj\Release\WaterLibrary.csprojAssemblyReference.cache

@@ -106,7 +106,7 @@ namespace palaBenchmark
                 Post Post = new Post()
                 {
                     Mode = "o",
-                    Type = (i % 4 == 0) ? "n" : "p",
+                    Type = (i % 4 == 0) ? "note" : "",
                     User = "Pinn",
                     UVCount = 999,
                     StarCount = 999,
@@ -125,13 +125,12 @@ namespace palaBenchmark
 #if 注销文章
             for (int i = 12001; i <= 12100; i++)
             {
-                benchmark.PLDU.Dispose(i);
-                Console.WriteLine("已注销：" + i);
+                Console.WriteLine("尝试注销记录：{0} / 状态: {1}", i, benchmark.PLDU.Dispose(i));
             }
 #endif
 #if 更新文章
             string ContentStr2 = "";
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
                 ContentStr2 += "##标准性能基准测试标准性能基准测试标准性能基准测试标准性能基准测试  \n";
                 Console.WriteLine("生成Content中......");
@@ -142,10 +141,10 @@ namespace palaBenchmark
                 Post Post = new Post()
                 {
                     ID = i,
-                    Mode = i % 4 == 0 ? "o" :
+                    Mode = i % 4 == 0 ? "" :
                             i % 4 == 1 ? "archived" :
-                            i % 4 == 2 ? "sche" : "x",
-                    Type = (i % 4 == 0) ? "n" : "p",
+                            i % 4 == 2 ? "scheduled" : "hidden",
+                    Type = (i % 4 == 0) ? "note" : "",
                     User = "Pinn2",
                     UVCount = 99,
                     StarCount = 99,

@@ -16,107 +16,66 @@ namespace WaterLibrary.com.MySQL
     /// </summary>
     public class MySqlManager
     {
+        private MySqlConnMsg MySqlConnMsg { get; set; }
         /// <summary>
         /// MySql控制器的数据库连接
         /// </summary>
         public MySqlConnection Connection { get; private set; }
 
-        /// <summary>
-        /// Close主连接
-        /// </summary>
-        /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool CloseHandlerConnection()
+        public MySqlManager(MySqlConnMsg MySqlConnMsg)
         {
-            switch (Connection.State)
-            {
-                case ConnectionState.Open:
-                    Connection.Close();
-                    if (Connection.State == ConnectionState.Closed)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+            this.MySqlConnMsg = MySqlConnMsg;
+        }
 
-                case ConnectionState.Closed:
-                    return true;
-
-                default:
-                    return false;
-            }
+        /// <summary>
+        /// 启动连接
+        /// </summary>
+        public void Open()
+        {
+            /* 拼接连接字符串 */
+            Connection = new MySqlConnection
+                (
+                "DataSource=" + MySqlConnMsg.DataSource +
+                ";DataBase=" + MySqlConnMsg.DataBase +
+                ";Port=" + MySqlConnMsg.Port +
+                ";UserID=" + MySqlConnMsg.User +
+                ";Password=" + MySqlConnMsg.PWD +
+                /* 设置UPDATE语句返回受影响的行数而不是符合查询条件的行数 */
+                ";UseAffectedRows=TRUE;"
+                );
+            /* 打开连接 */
+            Connection.Open();
         }
         /// <summary>
-        /// Dispose主连接
+        /// 关闭连接
         /// </summary>
         /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool DisposeHandlerConnection()
+        public void Close()
         {
-            switch (Connection.State)
-            {
-                case ConnectionState.Open:
-                    Connection.Dispose();
-                    if (Connection.State == ConnectionState.Closed)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-
-                case ConnectionState.Closed:
-                    return true;
-
-                default:
-                    return false;
-            }
+            Connection.Close();
         }
         /// <summary>
-        /// 将主连接设置为null值
+        /// 注销连接
         /// </summary>
         /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool NullHandlerConnection()
+        public void Dispose()
         {
-            Connection = null;
-            return true;
+            Connection.Close();
         }
-        /// <summary>
-        /// 重启主连接（须以主连接定义完成为前提）
-        /// </summary>
-        /// <returns>成功返回ture，反之或报错返回false</returns>
-        public bool ReStartHandlerConnection()
-        {
-            //考虑到重启连接需花费一定时间的假设，该方法只提供了重启操作，而不去判断是否执行成功。
-            switch (Connection.State)
-            {
-                case ConnectionState.Closed:
-                    Connection.Open();
-                    return true;
 
-                case ConnectionState.Open:
-                    Connection.Close();
-                    Connection.Open();
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
 
         /// <summary>
         /// 生成MySqlConnection（重载一）
         /// </summary>
-        /// <param name="MySqlConn">连接签名</param>
+        /// <param name="MySqlConnMsg">连接签名</param>
         /// <returns>返回一个MySqlConnection对象，错误则返回null</returns>
-        public MySqlConnection GetSqlConnection(MySqlConn MySqlConn)
+        public MySqlConnection GetSqlConnection(MySqlConnMsg MySqlConnMsg)
         {
             //返回创建的连接
             return new MySqlConnection
                 (//组建连接信息
-                "Data source=" + MySqlConn.DataSource + ";port=" +
-                MySqlConn.Port + ";User Id=" + MySqlConn.User + ";password=" + MySqlConn.PWD + ";"
+                "Data source=" + MySqlConnMsg.DataSource + ";port=" +
+                MySqlConnMsg.Port + ";User Id=" + MySqlConnMsg.User + ";password=" + MySqlConnMsg.PWD + ";"
                 );
         }
         /// <summary>
@@ -137,46 +96,6 @@ namespace WaterLibrary.com.MySQL
                 );
         }
 
-        /// <summary>
-        /// 启动连接
-        /// </summary>
-        /// <param name="DataSource">数据源</param>
-        /// <param name="DataBase">数据库</param>
-        /// <param name="Port">端口</param>
-        /// <param name="User">用户名</param>
-        /// <param name="PWD">密码</param>
-        /// <returns>返回true，错误则返回null</returns>
-        public void Start(string DataSource, string DataBase, string Port, string User, string PWD)
-        {
-            /* 拼接连接字符串 */
-            Connection = new MySqlConnection
-                (
-                "DataSource=" + DataSource +
-                ";DataBase=" + DataBase +
-                ";Port=" + Port +
-                ";UserID=" + User +
-                ";Password=" + PWD +
-                /* 设置UPDATE语句返回受影响的行数而不是符合查询条件的行数 */
-                ";UseAffectedRows=TRUE;"
-                );
-            /* 打开连接 */
-            Connection.Open();
-        }
-        /// <summary>
-        /// 启动连接
-        /// </summary>
-        /// <param name="MySqlConn">连接签名</param>
-        /// <returns>返回true，错误则返回false</returns>
-        public void Start(MySqlConn MySqlConn)
-        {
-            Start(
-                MySqlConn.DataSource,
-                MySqlConn.DataBase,
-                MySqlConn.Port,
-                MySqlConn.User,
-                MySqlConn.PWD
-                );
-        }
 
         /// <summary>
         /// 建立参数化查询CMD对象
@@ -187,12 +106,14 @@ namespace WaterLibrary.com.MySQL
         public MySqlCommand ParmQueryCMD(string SQL, List<MySqlParm> ParmList)
         {
             //建立CMD对象，用于执行参数化查询
-            using MySqlCommand MySqlCommand = new MySqlCommand(SQL);
-            foreach (MySqlParm Parm in ParmList)
+            using (MySqlCommand MySqlCommand = new MySqlCommand(SQL))
             {
-                MySqlCommand.Parameters.AddWithValue(Parm.Name, Parm.Val);//添加参数
+                foreach (MySqlParm Parm in ParmList)
+                {
+                    MySqlCommand.Parameters.AddWithValue(Parm.Name, Parm.Val);//添加参数
+                }
+                return MySqlCommand;
             }
-            return MySqlCommand;
         }
         /// <summary>
         /// 建立参数化查询CMD对象
@@ -412,29 +333,31 @@ namespace WaterLibrary.com.MySQL
         /// <returns></returns>
         public bool UpdateKey(MySqlKey MySqlKey, string Key, string NewValue)
         {
-            using MySqlCommand MySqlCommand = new MySqlCommand
+            using (MySqlCommand MySqlCommand = new MySqlCommand
             {
                 CommandText = string.Format
-                (
-                "UPDATE {0} SET {1}=?NewValue WHERE {2}=?Val"
-                , MySqlKey.Table, Key, MySqlKey.Name
-                ),
+                 (
+                 "UPDATE {0} SET {1}=?NewValue WHERE {2}=?Val"
+                 , MySqlKey.Table, Key, MySqlKey.Name
+                 ),
                 Connection = Connection,
                 Transaction = Connection.BeginTransaction()
-            };
-
-            MySqlCommand.Parameters.AddWithValue("NewValue", NewValue);
-            MySqlCommand.Parameters.AddWithValue("Val", MySqlKey.Val);
-
-            if (MySqlCommand.ExecuteNonQuery() == 1)
+            })
             {
-                MySqlCommand.Transaction.Commit();
-                return true;
-            }
-            else
-            {
-                MySqlCommand.Transaction.Rollback();
-                return false;
+
+                MySqlCommand.Parameters.AddWithValue("NewValue", NewValue);
+                MySqlCommand.Parameters.AddWithValue("Val", MySqlKey.Val);
+
+                if (MySqlCommand.ExecuteNonQuery() == 1)
+                {
+                    MySqlCommand.Transaction.Commit();
+                    return true;
+                }
+                else
+                {
+                    MySqlCommand.Transaction.Rollback();
+                    return false;
+                }
             }
         }
 

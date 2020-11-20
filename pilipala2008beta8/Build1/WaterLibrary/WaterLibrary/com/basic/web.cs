@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 
-namespace WaterLibrary.com.basic
+namespace WaterLibrary.com.basic.web
 {
     /// <summary>
     /// 该类包含web编程常用的基本方法

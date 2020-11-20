@@ -27,7 +27,6 @@ H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\bin\Debug\p
 H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\bin\Debug\palaBenchmark.pdb
 H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\bin\Debug\MySql.Data.dll
 H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\bin\Debug\WaterLibrary.pdb
-H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\bin\Debug\WaterLibrary.xml
 H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\obj\Debug\palaBenchmark.csprojAssemblyReference.cache
 H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\obj\Debug\palaBenchmark.csproj.CoreCompileInputs.cache
 H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\obj\Debug\palaBenchmark.csproj.CopyComplete
