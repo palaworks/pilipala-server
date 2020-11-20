@@ -31,13 +31,13 @@ namespace WaterLibrary.com.CommentLake
         /// <summary>
         /// 初始化CommentLake
         /// </summary>
-        /// <param name="MySqlConn">MySql连接信息</param>
+        /// <param name="MySqlConnMsg">MySql连接信息</param>
         /// <param name="CommentTable">评论表</param>
-        public CommentLake(MySqlConn MySqlConn, string CommentTable)
+        public CommentLake(MySqlConnMsg MySqlConnMsg, string CommentTable)
         {
             this.CommentTable = CommentTable;
-            MySqlManager = new MySqlManager();
-            MySqlManager.Start(MySqlConn);
+            MySqlManager = new MySqlManager(MySqlConnMsg);
+            MySqlManager.Open();
         }
 
         /// <summary>
@@ -120,26 +120,28 @@ namespace WaterLibrary.com.CommentLake
                     new MySqlParm() { Name = "?PostID", Val = PostID }
                 };
 
-            using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-            DataTable result = MySqlManager.GetTable(MySqlCommand);
-
-            foreach (DataRow Row in result.Rows)
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
             {
-                CommentList.Add(new Comment
-                {
-                    CommentID = Convert.ToInt32(Row["CommentID"]),
-                    HEAD = Convert.ToInt32(Row["HEAD"]),
-                    PostID = Convert.ToInt32(Row["PostID"]),
-                    Floor = Convert.ToInt32(Row["Floor"]),
+                DataTable result = MySqlManager.GetTable(MySqlCommand);
 
-                    User = Convert.ToString(Row["User"]),
-                    Email = Convert.ToString(Row["Email"]),
-                    Content = Convert.ToString(Row["Content"]),
-                    WebSite = Convert.ToString(Row["WebSite"]),
-                    Time = Convert.ToDateTime(Row["Time"]),
-                });
+                foreach (DataRow Row in result.Rows)
+                {
+                    CommentList.Add(new Comment
+                    {
+                        CommentID = Convert.ToInt32(Row["CommentID"]),
+                        HEAD = Convert.ToInt32(Row["HEAD"]),
+                        PostID = Convert.ToInt32(Row["PostID"]),
+                        Floor = Convert.ToInt32(Row["Floor"]),
+
+                        User = Convert.ToString(Row["User"]),
+                        Email = Convert.ToString(Row["Email"]),
+                        Content = Convert.ToString(Row["Content"]),
+                        WebSite = Convert.ToString(Row["WebSite"]),
+                        Time = Convert.ToDateTime(Row["Time"]),
+                    });
+                }
+                return CommentList;
             }
-            return CommentList;
         }
         /// <summary>
         /// 获得目标评论的回复列表

@@ -36,7 +36,7 @@ namespace PILIPALA.system.serv
 
     public class SysServ : System.Web.Services.WebService
     {
-        public PLSYS PLSYS;
+        public CORE CORE;
         public PLDR PLDR;
         public PLDU PLDU;
         public PLDC PLDC;
@@ -46,28 +46,26 @@ namespace PILIPALA.system.serv
             /* 初始化噼里啪啦数据库信息和MySql控制器 */
             PLDB PLDB = new PLDB
             {
-                Tables = PLSYS.DefTables,
-                Views = PLSYS.DefViews,
-                MySqlManager = new MySqlManager()
+                MySqlManager = new MySqlManager(new MySqlConnMsg
+                {
+                    DataSource = WebConfigurationManager.AppSettings["DataSource"],
+                    DataBase = WebConfigurationManager.AppSettings["DataBase"],
+                    Port = WebConfigurationManager.AppSettings["Port"],
+                    User = WebConfigurationManager.AppSettings["User"],
+                    PWD = WebConfigurationManager.AppSettings["PWD"]
+                })
             };
-            PLSYS = new PLSYS(2, PLDB);
 
-            PLSYS.DefaultSysTables();
-            PLSYS.DefaultSysViews();
+            CORE = new CORE(PLDB);
+            CORE.SetTables();
+            CORE.SetViews();
 
-            /* 初始化数据库连接 */
-            PLSYS.DBCHINIT(new MySqlConn
-            {
-                DataSource = WebConfigurationManager.AppSettings["DataSource"],
-                DataBase = WebConfigurationManager.AppSettings["DataBase"],
-                Port = WebConfigurationManager.AppSettings["Port"],
-                User = WebConfigurationManager.AppSettings["User"],
-                PWD = WebConfigurationManager.AppSettings["PWD"]
-            });
+            /* 启动内核 */
+            CORE.Run();
 
-            PLDR = new PLDR(PLSYS);
-            PLDU = new PLDU(PLSYS);
-            PLDC = new PLDC(PLSYS);
+            PLDR = new PLDR(CORE);
+            PLDU = new PLDU(CORE);
+            PLDC = new PLDC(CORE);
         }
 
 
@@ -118,9 +116,9 @@ namespace PILIPALA.system.serv
 
 
         [WebMethod]
-        public void GetPostData(int ID)
+        public void Get_Post_Data(int ID)
         {
-            Post data = PLDR.GetTotal(ID);
+            Post data = PLDR.GetUnion(ID);
 
             var iso = new Newtonsoft.Json.Converters.IsoDateTimeConverter
             {
@@ -136,7 +134,7 @@ namespace PILIPALA.system.serv
         /// </summary>
         /// <returns>返回内核版本</returns>
         [WebMethod]
-        public void GetCoreVersion()
+        public void Get_CoreVersion()
         {
             Context.Response.Write(WaterLibrary.Assembly.Version);
             Context.Response.End();
@@ -145,12 +143,12 @@ namespace PILIPALA.system.serv
         /// 取得计数
         /// </summary>
         [WebMethod]
-        public void GetCounts()
+        public void Get_Count_DataList()
         {
             Hashtable data = new Hashtable()
             {
                 { "PostCount", PLDC.PostCount },
-                { "CopyCount",  PLDC.CopyCount },
+                { "CopyCount",  PLDC.BackupCount },
                 { "HiddenCount",  PLDC.HiddenCount },
                 { "OnDisplayCount",  PLDC.OnDisplayCount },
                 { "ArchivedCount",  PLDC.ArchivedCount },
@@ -164,15 +162,9 @@ namespace PILIPALA.system.serv
         /// 取得文章列表
         /// </summary>
         [WebMethod]
-        public void GetPosts()
+        public void Get_Post_DataList()
         {
-            List<Post> data = PLDR.GetList
-                (typeof(GUID),
-                typeof(Title), typeof(Summary), typeof(Content), typeof(Cover),
-                typeof(CT), typeof(LCT), typeof(Mode), typeof(Archiv),
-                typeof(UVCount), typeof(StarCount),
-                typeof(pla_Type)
-                );
+            List<Post> data = PLDR.GetList();
 
             var iso = new Newtonsoft.Json.Converters.IsoDateTimeConverter
             {
@@ -186,9 +178,9 @@ namespace PILIPALA.system.serv
         /// 取得拷贝列表
         /// </summary>
         [WebMethod]
-        public void GetCopys(int ID)
+        public void Get_Copy_DataList(int ID)
         {
-            List<Post> data = PLDR.GetCopyList(ID);
+            List<Post> data = PLDR.GetBackupList(ID);
 
             var iso = new Newtonsoft.Json.Converters.IsoDateTimeConverter
             {
@@ -202,7 +194,7 @@ namespace PILIPALA.system.serv
 
 
         [WebMethod]
-        public void Reg
+        public void Post_Reg
             (
             string Mode, string Type, string User,
             int UVCount, int StarCount,
@@ -230,13 +222,13 @@ namespace PILIPALA.system.serv
             Context.Response.End();
         }
         [WebMethod]
-        public void Dispose(int ID)
+        public void Post_Dispose(int ID)
         {
             Context.Response.Write(PLDU.Dispose(ID));
             Context.Response.End();
         }
         [WebMethod]
-        public void Update
+        public void Post_Update
             (
             int ID, string Mode, string Type,
             int UVCount, int StarCount,
@@ -265,25 +257,25 @@ namespace PILIPALA.system.serv
         }
 
         [WebMethod]
-        public void Delete(string GUID)
+        public void Post_Delete(string GUID)
         {
             Context.Response.Write(PLDU.Delete(GUID));
             Context.Response.End();
         }
         [WebMethod]
-        public void Apply(string GUID)
+        public void Post_Apply(string GUID)
         {
             Context.Response.Write(PLDU.Apply(GUID));
             Context.Response.End();
         }
         [WebMethod]
-        public void Rollback(int ID)
+        public void Post_Rollback(int ID)
         {
             Context.Response.Write(PLDU.Rollback(ID));
             Context.Response.End();
         }
         [WebMethod]
-        public void Release(int ID)
+        public void Post_Release(int ID)
         {
             Context.Response.Write(PLDU.Release(ID));
             Context.Response.End();

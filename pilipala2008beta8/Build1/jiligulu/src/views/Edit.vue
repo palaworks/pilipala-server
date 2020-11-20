@@ -1,5 +1,5 @@
 <template>
-  <v-container width="90%">
+  <div style="width:94%;margin:auto">
     <v-row>
       <v-col cols="6">
         <v-text-field
@@ -18,6 +18,9 @@
       <v-col cols="2">
         <v-text-field v-model="new_data.StarCount" type="number" label="星星计数" hint="StarCount"></v-text-field>
       </v-col>
+    </v-row>
+
+    <v-row>
       <v-col cols="10">
         <v-text-field
           :disabled="new_data.Type=='note'"
@@ -29,23 +32,37 @@
       <v-col cols="2">
         <v-text-field v-model="new_data.UVCount" type="number" label="浏览计数" hint="UVCount"></v-text-field>
       </v-col>
-      <v-col cols="12">
+    </v-row>
+
+    <v-row align="start">
+      <v-col cols="10">
         <v-textarea v-model="new_data.Content" label="文章内容" hint="Content" counter></v-textarea>
+        <v-row style="margin-top:1px">
+          <v-col cols="3">
+            <v-text-field v-model="new_data.Archiv" label="归档" hint="Archiv"></v-text-field>
+          </v-col>
+          <v-col cols="9">
+            <v-text-field v-model="new_data.Label" label="标签集合" hint="Label(请使用$分割)"></v-text-field>
+          </v-col>
+        </v-row>
       </v-col>
       <v-col cols="2">
-        <v-text-field v-model="new_data.Archiv" label="归档" hint="Archiv"></v-text-field>
-      </v-col>
-      <v-col cols="6">
-        <v-text-field v-model="new_data.Label" label="标签集合" hint="Label"></v-text-field>
-      </v-col>
-      <v-col class="justify-end d-flex">
-        <v-btn color="success" class="mt-2" @click="Push()">
-          <v-icon left small>mdi-subdirectory-arrow-right</v-icon>
-          {{new_data.ID == null ? '新建' : '编辑到 '+new_data.ID}}
-        </v-btn>
+        <v-textarea v-model="new_data.Cover" label="封面" hint="Cover" rows="8" counter class></v-textarea>
       </v-col>
     </v-row>
-  </v-container>
+
+    <v-btn
+      color="success"
+      fixed
+      bottom
+      elevation="4"
+      style="left:50%;transform:translateX(-50%);z-index:1"
+      @click="Push()"
+    >
+      <v-icon left small>mdi-subdirectory-arrow-right</v-icon>
+      {{new_data.ID == null ? '新建' : '编辑到 '+new_data.ID}}
+    </v-btn>
+  </div>
 </template>
 
 <script>
@@ -89,7 +106,7 @@ export default {
     Reg: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Reg",
+        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Reg",
         data: qs.stringify({
           Mode: this.new_data.Mode,
           Type: this.new_data.Type,
@@ -115,7 +132,7 @@ export default {
     Update: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Update",
+        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Update",
         data: qs.stringify({
           ID: this.new_data.ID,
           Mode: this.new_data.Mode,
@@ -143,7 +160,7 @@ export default {
     if (this.$route.params.post_id != null) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/GetPostData",
+        url: "https://localhost:44334/system/serv/SysServ.asmx/Get_Post_Data",
         data: qs.stringify({
           ID: this.$route.params.post_id,
         }),

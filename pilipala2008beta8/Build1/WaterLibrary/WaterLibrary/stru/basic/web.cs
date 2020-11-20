@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WaterLibrary.stru.basic
+namespace WaterLibrary.stru.basic.web
 {
-
+    
 }

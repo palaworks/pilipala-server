@@ -9,8 +9,6 @@
   </v-app>
 </template>
 
-  
-
 <script>
 import Navi from "./components/Navi";
 

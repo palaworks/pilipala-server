@@ -16,142 +16,43 @@ using WaterLibrary.stru.pilipala.PostKey;
 
 namespace WaterLibrary.com.pilipala
 {
-    /// <summary>
-    /// 啪啦系统
-    /// </summary>
-    public class PLSYS
+    public class CORE
     {
         /// <summary>
-        /// 用户ID访问器
-        /// </summary>
-        public int ID { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public PLTables SysTables { get; private set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public PLViews SysViews { get; private set; }
-        /// <summary>
-        /// 
+        /// MySql控制器
         /// </summary>
         public MySqlManager MySqlManager { get; private set; }
 
-        /// <summary>
-        /// 初始化啪啦系统
-        /// </summary>
-        /// <parmm name="ID">用户ID</parmm>
-        /// <parmm name="PLDB">啪啦数据库信息</parmm>
-        public PLSYS(int ID, PLDB PLDB)
-        {
-            this.ID = ID;
+        public PLTables Tables { get; private set; }
+        public PLViews Views { get; private set; }
 
-            SysTables = PLDB.Tables;
-            SysViews = PLDB.Views;
+        public CORE(PLDB PLDB)
+        {
             MySqlManager = PLDB.MySqlManager;
+            SetTables(PLDB.Tables.User, PLDB.Tables.Index, PLDB.Tables.Backup);
+            SetViews(PLDB.Views.Index, PLDB.Views.Backup, PLDB.Views.Union);
         }
 
-        /// <summary>
-        /// 获得当前操作噼里啪啦系统的用户数据
-        /// </summary>
-        /// <returns>错误则返回Name为ERROR的User实例</returns>
-        public stru.pilipala.User GetUser()
+        public void Run()
         {
-            string SQL = string.Format("SELECT * FROM {0} WHERE ID = ?ID", SysTables.Index);
-
-            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
-                {
-                    new MySqlParm() { Name = "ID", Val = ID }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-            {
-                DataRow Row = MySqlManager.GetRow(MySqlCommand);/* 得到一行数据，使用GetRow方法 */
-
-                return new stru.pilipala.User
-                {
-                    ID = Convert.ToInt32(Row["ID"]),
-                    GUID = Convert.ToString(Row["GUID"]),
-                    Name = Convert.ToString(Row["Name"]),
-                    Note = Convert.ToString(Row["Note"])
-                };
-            }
+            MySqlManager.Open();
         }
 
-        /// <summary>
-        /// 内置默认PL表
-        /// </summary>
-        private struct InnerDefTables
+        public void Shutdown()
         {
-            public static string User = "pl_user";
-            public static string Index = "pl_index";
-            public static string Primary = "pl_primary";
-        }
-        /// <summary>
-        /// 内置默认PL视图
-        /// </summary>
-        private struct InnerDefViews
-        {
-            public static string Index = "view>index";
-            public static string Primary = "view>primary";
-            public static string Total = "view>total";
+            MySqlManager.Close();
         }
 
-        /// <summary>
-        /// 默认PL表访问器
-        /// </summary>
-        public static PLTables DefTables
+        public void SetTables(string User = "pl_user", string Index = "pl_index", string Backup = "pl_backup")
         {
-            get { return new PLTables(InnerDefTables.User, InnerDefTables.Index, InnerDefTables.Primary); }
+            Tables = new PLTables(User, Index, Backup);
+
         }
-        /// <summary>
-        /// 默认PL视图访问器
-        /// </summary>
-        public static PLViews DefViews
+        public void SetViews(string Index = "view>index", string Backup = "view>backup", string Union = "view>union")
         {
-            get { return new PLViews(InnerDefViews.Index, InnerDefViews.Primary, InnerDefViews.Total); }
+            Views = new PLViews(Index, Backup, Union);
         }
 
-
-        /// <summary>
-        /// 以默认值定义表名
-        /// </summary>
-        public void DefaultSysTables()
-        {
-            PLTables T = new PLTables
-            {
-                User = InnerDefTables.User,
-                Index = InnerDefTables.Index,
-                Primary = InnerDefTables.Primary
-            };
-
-            SysTables = T;
-        }
-        /// <summary>
-        /// 以默认值定义视图名
-        /// </summary>
-        public void DefaultSysViews()
-        {
-            PLViews V = new PLViews
-            {
-                Index = InnerDefViews.Index,
-                Primary = InnerDefViews.Primary,
-                Total = InnerDefViews.Total
-            };
-
-            SysViews = V;
-        }
-
-        /// <summary>
-        /// 初始化数据库连接控制器
-        /// </summary>
-        /// <param name="MySqlConn">连接信息</param>
-        public void DBCHINIT(MySqlConn MySqlConn)
-        {
-            MySqlManager.Start(MySqlConn);
-        }
     }
 
     /// <summary>
@@ -172,23 +73,17 @@ namespace WaterLibrary.com.pilipala
         /// </summary>
         public MySqlManager MySqlManager { get; private set; }
 
-
-        /// <summary>
-        /// 初始化啪啦数据读取器
-        /// </summary>
-        /// <parmm name="PLSYS">噼里啪啦系统对象</parmm>
-        public PLDR(PLSYS PLSYS)
+        public PLDR(CORE CORE)
         {
-            Tables = PLSYS.SysTables;
-            Views = PLSYS.SysViews;
-            MySqlManager = PLSYS.MySqlManager;
+            Tables = CORE.Tables;
+            Views = CORE.Views;
+            MySqlManager = CORE.MySqlManager;
         }
 
-        /* 读取器不会发生脏读(读取到隐藏的文章) */
 
         /// <summary>
         /// 获得文章数据列表(使用MatchList匹配)
-        /// 注意！在单次查询量较低时使用此方法带来的性能收益可能不佳
+        /// 注意！在数据需求量较大或较小时，此方法性能损耗较大
         /// </summary>
         /// <typeparam name="T">属性匹配列表的属性类型</typeparam>
         /// <param name="MatchList">属性匹配列表</param>
@@ -204,7 +99,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format
                 (
                 "SELECT ID,{0} FROM `{1}` WHERE {2} REGEXP ?REGEXP"
-                , KeysStr, Views.Total, typeof(T).Name
+                , KeysStr, Views.Union, typeof(T).Name
                 );
 
             List<Post> PostList = new List<Post>();
@@ -235,7 +130,7 @@ namespace WaterLibrary.com.pilipala
         }
         /// <summary>
         /// 获得文章数据列表
-        /// 注意！在单次查询量较低时使用此方法带来的性能收益可能不佳
+        /// 注意！在数据需求量较大或较小时，此方法性能损耗较大
         /// </summary>
         /// <param name="PropertyType">所需属性类型</param>
         /// <returns>返回根据所需类型填充的Post集合</returns>
@@ -244,7 +139,7 @@ namespace WaterLibrary.com.pilipala
             /* 介于类型转到字符串而生成SQL的方式，此方法无需对SQL注入防护。 */
             string KeysStr = ConvertH.ListToString(PropertyType, "Name", ',');
 
-            string SQL = string.Format("SELECT ID,{0} FROM `{1}`", KeysStr, Views.Total);
+            string SQL = string.Format("SELECT ID,{0} FROM `{1}`", KeysStr, Views.Union);
 
             List<Post> PostList = new List<Post>();
 
@@ -263,6 +158,45 @@ namespace WaterLibrary.com.pilipala
                 PostList.Add(Post);
             }
             return PostList;
+        }
+        /// <summary>
+        /// 取得全部文章的全部数据列表
+        /// 注意！在数据需求量较小时，此方法性能损耗较大
+        /// </summary>
+        /// <returns></returns>
+        public List<Post> GetList()
+        {
+            string SQL = string.Format("SELECT * FROM `{0}`", Views.Union);
+
+            List<Post> List = new List<Post>();
+
+            foreach (DataRow Row in MySqlManager.GetTable(SQL).Rows)
+            {
+                List.Add(new Post
+                {
+                    ID = Convert.ToInt32(Row["ID"]),
+                    GUID = Convert.ToString(Row["GUID"]),
+
+                    CT = Convert.ToDateTime(Row["CT"]),
+                    LCT = Convert.ToDateTime(Row["LCT"]),
+                    Title = Convert.ToString(Row["Title"]),
+                    Summary = Convert.ToString(Row["Summary"]),
+                    Content = Convert.ToString(Row["Content"]),
+
+                    Archiv = Convert.ToString(Row["Archiv"]),
+                    Label = Convert.ToString(Row["Label"]),
+                    Cover = Convert.ToString(Row["Cover"]),
+
+                    Mode = Convert.ToString(Row["Mode"]),
+                    Type = Convert.ToString(Row["Type"]),
+                    User = Convert.ToString(Row["User"]),
+
+                    UVCount = Convert.ToInt32(Row["UVCount"]),
+                    StarCount = Convert.ToInt32(Row["StarCount"])
+                });
+            }
+
+            return List;
         }
 
         /// <summary>
@@ -431,7 +365,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format
                 (
                 "SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP"
-                , Views.Total, typeof(T).Name
+                , Views.Union, typeof(T).Name
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -466,7 +400,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format
                 (
                 "SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP ORDER BY ?OrderKey ?OrderType"
-                , Views.Total, typeof(T).Name
+                , Views.Union, typeof(T).Name
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -505,7 +439,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format
                 (
                 "SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP ORDER BY ?Key ?OrderType LIMIT 0,?Length"
-                , Views.Total, typeof(T).Name
+                , Views.Union, typeof(T).Name
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -541,7 +475,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format
                 (
                 "SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP"
-                , Views.Total, typeof(T).Name
+                , Views.Union, typeof(T).Name
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -571,7 +505,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format
                 (
                 "SELECT * FROM `{0}` WHERE {1} REGEXP ?REGEXP"
-                , Views.Total, typeof(T).Name
+                , Views.Union, typeof(T).Name
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -643,13 +577,13 @@ namespace WaterLibrary.com.pilipala
             }
         }
         /// <summary>
-        /// 通过ID获取Primary表中的目标文章数据
+        /// 通过ID获取Backup表中的目标文章数据
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public Post GetPrimary(int ID)
+        public Post GetBackup(int ID)
         {
-            string SQL = string.Format("SELECT * FROM `{0}` WHERE ID = ?ID", Views.Primary);
+            string SQL = string.Format("SELECT * FROM `{0}` WHERE ID = ?ID", Views.Backup);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -675,13 +609,13 @@ namespace WaterLibrary.com.pilipala
             }
         }
         /// <summary>
-        /// 通过ID获取Total视图中的目标文章数据(Index Join Primary)
+        /// 通过ID获取Union视图中的目标文章数据(Index Join Backup)
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public Post GetTotal(int ID)
+        public Post GetUnion(int ID)
         {
-            string SQL = string.Format("SELECT * FROM `{0}` WHERE ID = ?ID", Views.Total);
+            string SQL = string.Format("SELECT * FROM `{0}` WHERE ID = ?ID", Views.Union);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -741,17 +675,17 @@ namespace WaterLibrary.com.pilipala
             }
         }
         /// <summary>
-        /// 获取Primary表中目标文章的指定属性
+        /// 获取Backup表中目标文章的指定属性
         /// </summary>
         /// <typeparam name="T">目标属性类型</typeparam>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public object GetPrimary<T>(int ID) where T : IPostKey
+        public object GetBackup<T>(int ID) where T : IPostKey
         {
             string SQL = string.Format
                 (
                 "SELECT {0} FROM `{1}` WHERE ID = ?ID"
-                , typeof(T).Name, Views.Primary
+                , typeof(T).Name, Views.Backup
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
@@ -776,7 +710,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format
                 (
                 "SELECT {0} FROM `{1}` WHERE ID = ?ID"
-                , typeof(T).Name, Views.Total
+                , typeof(T).Name, Views.Union
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
@@ -801,7 +735,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format
                 (
                 "SELECT SUBSTRING(( SELECT {0} FROM `{1}` WHERE ID = ?ID ) FROM 1 FOR ?Length)"
-                , typeof(T).Name, Views.Total
+                , typeof(T).Name, Views.Union
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
@@ -856,7 +790,7 @@ namespace WaterLibrary.com.pilipala
                 "SELECT ID FROM `{0}` WHERE " +
                 "{1} =( SELECT min({1}) FROM `{0}` WHERE " +
                 "{1} >( SELECT {1} FROM `{0}` WHERE ID = ?ID ))"
-                , Views.Total, typeof(T).Name
+                , Views.Union, typeof(T).Name
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
@@ -882,7 +816,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format
                 (
                 "SELECT ID FROM `{0}` WHERE ID=( SELECT min(ID) FROM `{0}` WHERE ID > ?ID AND Archiv REGEXP ?REGEXP )"
-                , Views.Primary
+                , Views.Backup
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -939,7 +873,7 @@ namespace WaterLibrary.com.pilipala
                 "SELECT ID FROM `{0}` WHERE " +
                 "{1} =( SELECT max({1}) FROM `{0}` WHERE " +
                 "{1} <( SELECT {1} FROM `{0}` WHERE ID = ?ID ))"
-                , Views.Total, typeof(T).Name
+                , Views.Union, typeof(T).Name
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
@@ -965,7 +899,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format
                 (
                 "SELECT ID FROM `{0}` WHERE ID=(SELECT max(ID) FROM `{0}` WHERE ID < ?ID AND Archiv REGEXP ?REGEXP)"
-                , Views.Primary
+                , Views.Backup
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -982,13 +916,13 @@ namespace WaterLibrary.com.pilipala
             }
         }
 
-        public List<Post> GetCopyList(int ID)
+        public List<Post> GetBackupList(int ID)
         {
             string SQL = string.Format
                 (
                 "SELECT {0}.ID,{1}.GUID,CT,LCT,Title,Summary,Content,Archiv,Label,Cover,Mode,Type,User,UVCount,StarCount" +
                 " FROM {0} JOIN {1} ON {0}.ID={1}.ID WHERE {0}.ID=?ID"
-                , Tables.Index, Tables.Primary
+                , Tables.Index, Tables.Backup
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
@@ -1079,15 +1013,11 @@ namespace WaterLibrary.com.pilipala
             return Convert.ToString(MySqlManager.GetKey(string.Format("SELECT GUID FROM {0} WHERE ID={1}", Tables.Index, ID)));
         }
 
-        /// <summary>
-        /// 初始化啪啦数据修改器
-        /// </summary>
-        /// <parmm name="PLSYS">噼里啪啦系统对象</parmm>
-        public PLDU(PLSYS PLSYS)
+        public PLDU(CORE CORE)
         {
-            Tables = PLSYS.SysTables;
-            Views = PLSYS.SysViews;
-            MySqlManager = PLSYS.MySqlManager;
+            Tables = CORE.Tables;
+            Views = CORE.Views;
+            MySqlManager = CORE.MySqlManager;
         }
 
         /*
@@ -1118,7 +1048,7 @@ namespace WaterLibrary.com.pilipala
                 "INSERT INTO {1}" +
                 " ( ID, GUID, LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
                 " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);"
-                , Tables.Index, Tables.Primary
+                , Tables.Index, Tables.Backup
                 );
 
 
@@ -1179,7 +1109,7 @@ namespace WaterLibrary.com.pilipala
                 (
                 "DELETE FROM {0} WHERE ID={2};" +
                 "DELETE FROM {1} WHERE ID={2};"
-                , Tables.Index, Tables.Primary, ID
+                , Tables.Index, Tables.Backup, ID
                 ),
 
                 Connection = MySqlManager.Connection,
@@ -1213,7 +1143,7 @@ namespace WaterLibrary.com.pilipala
                 "INSERT INTO {1}" +
                 " ( ID, GUID, LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
                 " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);"
-                , Tables.Index, Tables.Primary
+                , Tables.Index, Tables.Backup
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -1269,7 +1199,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format
                 (
                 "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID AND {1}.GUID = ?GUID"
-                , Tables.Index, Tables.Primary
+                , Tables.Index, Tables.Backup
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -1305,14 +1235,14 @@ namespace WaterLibrary.com.pilipala
             /* 此处，即使SQL注入造成了ID错误，由于第二步参数化查询的作用，GUID也会造成错误无法成功攻击 */
             object ID = MySqlManager.GetKey
                 (
-                string.Format("SELECT ID FROM {0} WHERE GUID = '{1}'", Tables.Primary, GUID)
+                string.Format("SELECT ID FROM {0} WHERE GUID = '{1}'", Tables.Backup, GUID)
                 );
 
             string SQL = string.Format
                 (
                 "DELETE FROM {1} WHERE GUID = (SELECT GUID FROM {0} WHERE ID = ?ID);" +
                 "UPDATE {0} SET GUID = ?GUID WHERE ID = ?ID;"
-                , Tables.Index, Tables.Primary
+                , Tables.Index, Tables.Backup
                 );
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -1352,7 +1282,7 @@ namespace WaterLibrary.com.pilipala
                 (
                 "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.GUID={1}.GUID AND {0}.ID={2};" +
                 "UPDATE {0} SET GUID = (SELECT GUID FROM {1} WHERE ID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE ID={2};"
-                , Tables.Index, Tables.Primary, ID
+                , Tables.Index, Tables.Backup, ID
                 ),
 
                 Connection = MySqlManager.Connection,
@@ -1385,7 +1315,7 @@ namespace WaterLibrary.com.pilipala
                 CommandText = string.Format
                (
                "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID AND {0}.ID={2}"
-               , Tables.Index, Tables.Primary, ID
+               , Tables.Index, Tables.Backup, ID
                ),
 
                 Connection = MySqlManager.Connection,
@@ -1408,11 +1338,44 @@ namespace WaterLibrary.com.pilipala
         }
 
         /// <summary>
-        /// 将目标文章指向的模式设为：展示
+        /// 将目标文章指向的类型设为：未设置
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        public bool OnDisplayMode(int ID)
+        public bool UnsetType(int ID)
+        {
+            
+            MySqlKey MySqlKey = new MySqlKey
+            {
+                Table = Tables.Index,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlManager.UpdateKey(MySqlKey, "Type", "");
+        }
+        /// <summary>
+        /// 将目标文章指向的类型设为：便签
+        /// </summary>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns></returns>
+        public bool NoteType(int ID)
+        {
+            
+            MySqlKey MySqlKey = new MySqlKey
+            {
+                Table = Tables.Index,
+                Name = "ID",
+                Val = ID.ToString()
+            };
+            return MySqlManager.UpdateKey(MySqlKey, "Type", "note");
+        }
+        
+        /// <summary>
+        /// 将目标文章指向的模式设为：未设置
+        /// </summary>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns></returns>
+        public bool UnsetMode(int ID)
         {
             //初始化键定位
             MySqlKey MySqlKey = new MySqlKey
@@ -1421,7 +1384,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlManager.UpdateKey(MySqlKey, "Mode", "o");
+            return MySqlManager.UpdateKey(MySqlKey, "Mode", "");
         }
         /// <summary>
         /// 将目标文章指向的模式设为：隐藏
@@ -1437,7 +1400,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlManager.UpdateKey(MySqlKey, "Mode", "x");
+            return MySqlManager.UpdateKey(MySqlKey, "Mode", "hidden");
         }
         /// <summary>
         /// 将目标文章指向的模式设为：计划中
@@ -1453,7 +1416,7 @@ namespace WaterLibrary.com.pilipala
                 Name = "ID",
                 Val = ID.ToString()
             };
-            return MySqlManager.UpdateKey(MySqlKey, "Mode", "sche");
+            return MySqlManager.UpdateKey(MySqlKey, "Mode", "scheduled");
         }
         /// <summary>
         /// 将目标文章指向的模式设为：已归档
@@ -1497,12 +1460,12 @@ namespace WaterLibrary.com.pilipala
         /// <param name="ID">目标拷贝GUID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        public bool UpdateCopy<T>(int ID, object Value) where T : IPostKey
+        public bool UpdateBackup<T>(int ID, object Value) where T : IPostKey
         {
             //初始化键定位
             MySqlKey MySqlKey = new MySqlKey
             {
-                Table = Tables.Primary,
+                Table = Tables.Backup,
                 Name = "GUID",
                 Val = GetActiveGUID(ID)
             };
@@ -1514,11 +1477,11 @@ namespace WaterLibrary.com.pilipala
         /// 检测ID、GUID是否匹配，之后合并Post数据表
         /// </summary>
         /// <parmm name="Index">索引表Post实例</parmm>
-        /// <parmm name="Primary">主表Post实例</parmm>
+        /// <parmm name="Backup">主表Post实例</parmm>
         /// <returns></returns>
-        public static Post Join(Post Index, Post Primary)
+        public static Post Join(Post Index, Post Backup)
         {
-            if (Index.ID == Primary.ID && Index.GUID == Primary.GUID)
+            if (Index.ID == Backup.ID && Index.GUID == Backup.GUID)
             {
                 return new Post
                 {
@@ -1528,21 +1491,21 @@ namespace WaterLibrary.com.pilipala
                     Mode = Index.Mode,
                     Type = Index.Type,
 
-                    Title = Primary.Title,
-                    Summary = Primary.Summary,
-                    Content = Primary.Content,
+                    Title = Backup.Title,
+                    Summary = Backup.Summary,
+                    Content = Backup.Content,
 
                     User = Index.User,
-                    Archiv = Primary.Archiv,
-                    Label = Primary.Label,
+                    Archiv = Backup.Archiv,
+                    Label = Backup.Label,
 
                     CT = Index.CT,
-                    LCT = Primary.LCT,
+                    LCT = Backup.LCT,
 
                     UVCount = Index.UVCount,
                     StarCount = Index.StarCount,
 
-                    Cover = Primary.Cover
+                    Cover = Backup.Cover
                 };
             }
             else
@@ -1554,9 +1517,9 @@ namespace WaterLibrary.com.pilipala
         /// 强制合并Post数据表（风险性重载，不考虑ID、GUID是否匹配，调用不当易引发逻辑故障）
         /// </summary>
         /// <parmm name="Index">索引表Post实例</parmm>
-        /// <parmm name="Primary">主表Post实例</parmm>
+        /// <parmm name="Backup">主表Post实例</parmm>
         /// <returns>始终返回以Index的ID、GUID为最终合并结果的Post实例</returns>
-        public static Post ForcedJoin(Post Index, Post Primary)
+        public static Post ForcedJoin(Post Index, Post Backup)
         {
             return new Post
             {
@@ -1566,21 +1529,21 @@ namespace WaterLibrary.com.pilipala
                 Mode = Index.Mode,
                 Type = Index.Type,
 
-                Title = Primary.Title,
-                Summary = Primary.Summary,
-                Content = Primary.Content,
+                Title = Backup.Title,
+                Summary = Backup.Summary,
+                Content = Backup.Content,
 
                 User = Index.User,
-                Archiv = Primary.Archiv,
-                Label = Primary.Label,
+                Archiv = Backup.Archiv,
+                Label = Backup.Label,
 
                 CT = Index.CT,
-                LCT = Primary.LCT,
+                LCT = Backup.LCT,
 
                 UVCount = Index.UVCount,
                 StarCount = Index.StarCount,
 
-                Cover = Primary.Cover
+                Cover = Backup.Cover
             };
         }
     }
@@ -1603,16 +1566,13 @@ namespace WaterLibrary.com.pilipala
         /// </summary>
         public MySqlManager MySqlManager { get; private set; }
 
-        /// <summary>
-        /// 初始化啪啦数据修改器
-        /// </summary>
-        /// <parmm name="PLSYS">噼里啪啦系统对象</parmm>
-        public PLDC(PLSYS PLSYS)
+        public PLDC(CORE CORE)
         {
-            Tables = PLSYS.SysTables;
-            Views = PLSYS.SysViews;
-            MySqlManager = PLSYS.MySqlManager;
+            Tables = CORE.Tables;
+            Views = CORE.Views;
+            MySqlManager = CORE.MySqlManager;
         }
+
 
         /// <summary>
         /// 文章计数
@@ -1624,9 +1584,9 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 拷贝计数
         /// </summary>
-        public int CopyCount
+        public int BackupCount
         {
-            get { return GetCopyCount(); }
+            get { return GetBackupCount(); }
         }
 
         /// <summary>
@@ -1664,9 +1624,9 @@ namespace WaterLibrary.com.pilipala
 
             return Convert.ToInt32(MySqlManager.GetKey(SQL));
         }
-        private int GetCopyCount()
+        private int GetBackupCount()
         {
-            string SQL = string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID;", Tables.Index, Tables.Primary);
+            string SQL = string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID;", Tables.Index, Tables.Backup);
 
             return Convert.ToInt32(MySqlManager.GetKey(SQL));
         }

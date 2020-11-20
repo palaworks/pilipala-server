@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using WaterLibrary.com.basic;
 using WaterLibrary.com.MySQL;
+using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.stru.pilipala.PostKey;
 
@@ -73,9 +74,9 @@ namespace WaterLibrary.stru.pilipala
 
         }
         /// <summary>
-        /// 迭代表数据接口
+        /// 备份表数据接口
         /// </summary>
-        public interface ITablePrimary
+        public interface ITableBackup
         {
             /// <summary>
             /// 索引
@@ -147,13 +148,13 @@ namespace WaterLibrary.stru.pilipala
             /// </summary>
             /// <parmm name="root"></parmm>
             /// <parmm name="IndexTable"></parmm>
-            /// <parmm name="PrimaryTable"></parmm>
+            /// <parmm name="BackupTable"></parmm>
             /// <parmm name="text_sub"></parmm>
-            public PLTables(string User, string Index, string Primary) : this()
+            public PLTables(string User, string Index, string Backup) : this()
             {
                 this.User = User;
                 this.Index = Index;
-                this.Primary = Primary;
+                this.Backup = Backup;
             }
 
             /// <summary>
@@ -167,7 +168,7 @@ namespace WaterLibrary.stru.pilipala
             /// <summary>
             /// 主表
             /// </summary>
-            public string Primary { get; set; }
+            public string Backup { get; set; }
         }
         /// <summary>
         /// 数据库视图视图集合
@@ -177,27 +178,27 @@ namespace WaterLibrary.stru.pilipala
             /// <summary>
             /// 初始化视图名结构
             /// </summary>
-            /// <param name="Index"></param>
-            /// <param name="Primary"></param>
-            /// <param name="Total"></param>
-            public PLViews(string Index, string Primary, string Total) : this()
+            /// <param name="Index">索引视图</param>
+            /// <param name="Backup">备份视图</param>
+            /// <param name="Union">总视图</param>
+            public PLViews(string Index, string Backup, string Union) : this()
             {
                 this.Index = Index;
-                this.Primary = Primary;
-                this.Total = Total;
+                this.Backup = Backup;
+                this.Union = Union;
             }
             /// <summary>
             /// 索引视图
             /// </summary>
             public string Index { get; set; }
             /// <summary>
-            /// 主视图
+            /// 备份视图
             /// </summary>
-            public string Primary { get; set; }
+            public string Backup { get; set; }
             /// <summary>
-            /// 总视图(索引表JOIN主表)
+            /// 联合视图(索引表JOIN主表)
             /// </summary>
-            public string Total { get; set; }
+            public string Union { get; set; }
         }
 
         /// <summary>
@@ -206,11 +207,11 @@ namespace WaterLibrary.stru.pilipala
         public struct PLDB : IPLDataBase
         {
             /// <summary>
-            /// 文本表
+            /// 数据表
             /// </summary>
             public PLTables Tables { get; set; }
             /// <summary>
-            /// 文本视图
+            /// 数据视图
             /// </summary>
             public PLViews Views { get; set; }
             /// <summary>
@@ -249,7 +250,7 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         /// <parmm name="ID">文本序列号</parmm>
         /// <returns></returns>
-        Post GetPrimary(int ID);
+        Post GetBackup(int ID);
 
         /// <summary>
         /// 取得指定文本 ID 的下一个文本 ID（按照ID升序查找）
@@ -274,7 +275,7 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        bool OnDisplayMode(int ID);
+        bool UnsetMode(int ID);
         /// <summary>
         /// 将目标文章状态标记为隐藏
         /// </summary>
@@ -309,7 +310,7 @@ namespace WaterLibrary.stru.pilipala
         /// <param name="ID">目标文章ID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        bool UpdateCopy<T>(int ID, object Value) where T : IPostKey;
+        bool UpdateBackup<T>(int ID, object Value) where T : IPostKey;
     }
     /// <summary>
     /// 啪啦数据计数器接口
@@ -323,7 +324,7 @@ namespace WaterLibrary.stru.pilipala
         /// <summary>
         /// 拷贝计数
         /// </summary>
-        int CopyCount { get; }
+        int BackupCount { get; }
     }
 
     /// <summary>
@@ -592,7 +593,7 @@ namespace WaterLibrary.stru.pilipala
     /// <summary>
     /// 文章结构
     /// </summary>
-    public class Post : ITableIndex, ITablePrimary
+    public class Post : ITableIndex, ITableBackup
     {
         /// <summary>
         /// 索引器

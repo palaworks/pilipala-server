@@ -27,7 +27,7 @@ namespace WaterLibrary.stru.MySQL
     /// <summary>
     /// MySql连接信息
     /// </summary>
-    public struct MySqlConn
+    public struct MySqlConnMsg
     {
         /// <summary>
         /// 数据源
