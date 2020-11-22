@@ -21,7 +21,3 @@
     color: rgba(160, 160, 160, 1);
     background: var(--b40);
 }
-
-.CommentBox>.Captcha>.CaptchaLine {
-    background: rgba(16, 16, 16, 1);
-}

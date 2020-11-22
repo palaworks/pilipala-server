@@ -33,3 +33,4 @@ H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\obj\Debug\p
 H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\obj\Debug\palaBenchmark.exe
 H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\obj\Debug\palaBenchmark.pdb
 H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\bin\Debug\WaterLibrary.dll
+H:\博客项目\pilipala2008beta8\Build1\palaBenchmark\palaBenchmark\bin\Debug\WaterLibrary.xml

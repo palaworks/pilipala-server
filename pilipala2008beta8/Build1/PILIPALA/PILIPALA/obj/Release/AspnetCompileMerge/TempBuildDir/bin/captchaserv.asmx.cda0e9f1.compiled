@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/system/serv/CaptchaServ.asmx" hash="fffffffff9d57aef" filehash="438693523103" flags="130000" assembly="PILIPALA" type="PILIPALA.system.serv.CaptchaServ">
+<preserve resultType="2" virtualPath="/system/serv/CaptchaServ.asmx" hash="5075f217" filehash="ffffd35e0f1a9943" flags="130000" assembly="PILIPALA" type="PILIPALA.system.serv.CaptchaServ">
     <filedeps>
         <filedep name="/system/serv/CaptchaServ.asmx" />
     </filedeps>

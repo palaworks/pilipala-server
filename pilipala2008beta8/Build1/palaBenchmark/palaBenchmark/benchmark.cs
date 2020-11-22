@@ -14,19 +14,20 @@ namespace palaBenchmark
     class Benchmark
     {
         public CORE CORE;
-        public PLDR PLDR;
-        public PLDU PLDU;
+        public PLDR PLDR = new PLDR();
+        public PLDU PLDU = new PLDU();
 
         public void INIT()
         {
             /* 初始化噼里啪啦数据库信息和MySql控制器 */
             PLDB PLDB = new PLDB
             {
+                Views = new PLViews() { Backup = "dirty>backup", Index = "dirty>index", Union = "dirty>union" },
                 MySqlManager = new MySqlManager(new MySqlConnMsg
                 {
                     /* 基准测试数据集 */
                     DataSource = "localhost",
-                    DataBase = "pilipala_test",
+                    DataBase = "pilipala_test_2",
                     Port = "3306",
                     User = "root",
                     PWD = "65a1561425f744e2b541303f628963f8"
@@ -35,13 +36,12 @@ namespace palaBenchmark
             CORE = new CORE(PLDB);
 
             CORE.SetTables();
-            CORE.SetViews();
 
-            /* 初始化数据库连接 */
+            CORE.LinkOn += PLDR.Ready;
+            CORE.LinkOn += PLDU.Ready;
+
+            CORE.Ready();
             CORE.Run();
-
-            PLDR = new PLDR(CORE);
-            PLDU = new PLDU(CORE);
         }
     }
 }

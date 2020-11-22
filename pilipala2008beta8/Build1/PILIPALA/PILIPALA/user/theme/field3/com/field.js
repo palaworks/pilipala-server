@@ -80,16 +80,13 @@ function showHome_origin() {
     });
 };
 
-/* 阿里云Captcha */
+
 /* 技术验证型评论提交（不安全） */
-function Captcha(Token, SessionId, Sig, PostID, HEAD, Content, Name, Email, WebSite) {
-    d = "{'Token':'" + Token + "'," +
-        "'SessionId':'" + SessionId + "'," +
-        "'Sig':'" + Sig + "'," +
-        "'PostID':'" + PostID + "'," +
+function Captcha(PostID, HEAD, Content, Name, Email, WebSite) {
+    d = "{'PostID':'" + PostID + "'," +
         "'HEAD':'" + HEAD + "'," +
         "'Content':'" + Content + "'," +
-        "'Name':'" + Name + "'," +
+        "'User':'" + Name + "'," +
         "'Email':'" + Email + "'," +
         "'WebSite':'" + WebSite + "'}";
     $.ajax({
@@ -211,19 +208,4 @@ function wordCount(data) {
     }
     /*向上取整到10位*/
     return Math.ceil(count / 10) * 10;
-}
-
-function CoreVersion() {
-    var ver;
-    $.ajax({
-        async: false,
-        type: "post",
-        contentType: "application/json",
-        url: "/system/serv/SysServ.asmx/GetCoreVersion",
-        dataType: "json",
-        success: function (result) {
-            ver = result.d;
-        }
-    });
-    return ver;
 }
