@@ -31,11 +31,11 @@
           <v-list-item-action>
             <div>
               <v-chip
-                v-if="item.Mode=='o'?false:true"
+                v-if="item.Mode==''?false:true"
                 text-color="white"
                 small
-                :color="item.Mode=='archived'?'amber accent-4':item.Mode=='sche'?'blue accent-5':item.Mode=='x'?'grey':null"
-              >{{item.Mode=='archived'?'已归档':item.Mode=='sche'?'计划':item.Mode=='x'?'隐藏':null}}</v-chip>
+                :color="item.Mode=='archived'?'amber accent-4':item.Mode=='scheduled'?'blue accent-5':item.Mode=='hidden'?'grey':null"
+              >{{item.Mode=='archived'?'已归档':item.Mode=='scheduled'?'计划':item.Mode=='hidden'?'隐藏':null}}</v-chip>
               <v-btn disabled text class="text--disabled">
                 <v-icon left>mdi-folder-outline</v-icon>
                 {{item.Archiv}}
@@ -108,7 +108,7 @@ export default {
     Dispose: function (ID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Dispose",
+        url: "https://localhost:44334/system/serv/user.asmx/Post_Dispose",
         data: qs.stringify({
           ID: ID,
         }),
@@ -123,7 +123,7 @@ export default {
     },
     GetData: function () {
       this.$axios
-        .post("https://localhost:44334/system/serv/SysServ.asmx/Get_Post_DataList")
+        .post("https://localhost:44334/system/serv/user.asmx/Get_Post_DataList")
         .then((response) => (this.post_list = response.data))
         .catch(function (error) {
           // 请求失败处理

@@ -13,3 +13,5 @@ H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\obj\Debug\Wat
 H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csproj.CopyComplete
 H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.dll
 H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.pdb
+H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\obj\Debug\WaterLibrary.csprojAssemblyReference.cache
+H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\bin\Debug\WaterLibrary.xml

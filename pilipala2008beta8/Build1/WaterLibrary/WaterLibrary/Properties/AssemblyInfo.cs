@@ -6,13 +6,13 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("WaterLibrary")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WaterLibrary")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyDescription("An advanced library for web development")]
+[assembly: AssemblyConfiguration("1.16")]
+[assembly: AssemblyCompany("H2OMELON'SOCIE")]
+[assembly: AssemblyProduct("WaterLibrary 1.16 'Magallan'")]
+[assembly: AssemblyCopyright("Copyright 2019-2020 H2OMELON'SOCIE All Rights Reserved")]
+[assembly: AssemblyTrademark("WaterLibrary")]
+[assembly: AssemblyCulture("neutral")]
 
 // 将 ComVisible 设置为 false 会使此程序集中的类型
 //对 COM 组件不可见。如果需要从 COM 访问此程序集中的类型
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值
 //通过使用 "*"，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.6.7")]
+[assembly: AssemblyFileVersion("1.1.6.7")]

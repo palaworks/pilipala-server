@@ -1,4 +1,4 @@
-﻿//#define 读测试
+﻿#define 读测试
 //#define 更改文章属性
 
 //#define 单独更新拷贝测试
@@ -22,6 +22,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Timers;
+using System.Threading;
+
 using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala.PostKey;
 using WaterLibrary.stru.pilipala;
@@ -36,49 +39,44 @@ namespace palaBenchmark
     {
         static void Main(string[] args)
         {
-            /* 测试初始化 */
-            Benchmark benchmark = new Benchmark();
-            benchmark.INIT();
-
+            int number = 300;//测试规模
             #region Welcome
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Initialization Ready");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Press any key to START palaBenchmark");
             #endregion
+            /* 负载初始化 */
+            Benchmark benchmark = new Benchmark();
+            benchmark.INIT();
+            var iwatch = new System.Diagnostics.Stopwatch();
+            iwatch.Start();
+
+
+
 
 #if 读测试
-            List<string> List = new List<string> { "技术", "生活" };
+            List<string> List = new List<string> { };
 
-            List<Post> p = benchmark.PLDR.GetList<Archiv>
+            List<Post> p = benchmark.PLDR.GetPost<Archiv>
                 (
-                List,
+                "技术|生活", false,
                 typeof(Title), typeof(Summary), typeof(Content), typeof(Cover),
                 typeof(CT),
                 typeof(UVCount), typeof(StarCount),
                 typeof(Type)
                 );
 
-            foreach (Post p2 in p)
+            for (int ID = 12001; ID < 12000 + number; ID++)
             {
-                
-
-                /*
-                benchmark.PLDR.GetTotal(ID);
-
-                string Title = benchmark.PLDR.Get<Title>(ID);
-                benchmark.PLDR.Get<Summary>(ID);
-                benchmark.PLDR.Get<Content>(ID);
+                string Title = (string)benchmark.PLDR.GetProperty<Title>(ID);
+                benchmark.PLDR.GetProperty<Summary>(ID);
+                benchmark.PLDR.GetProperty<Content>(ID);
 
                 if (Title != "")
                 {
                     benchmark.PLDR.MatchID<Title>(Title);
-                    benchmark.PLDR.MatchPost<Title>(Title);
                 }
-
-                benchmark.PLDR.GetIndex(ID);
-                benchmark.PLDR.GetPrimary(ID);
-                benchmark.PLDR.GetTotal(ID);
 
                 benchmark.PLDR.PrevID(ID);
                 benchmark.PLDR.PrevID<Title>(ID);
@@ -87,8 +85,9 @@ namespace palaBenchmark
                 benchmark.PLDR.NextID(ID);
                 benchmark.PLDR.NextID<Title>(ID);
                 benchmark.PLDR.NextID("置顶|生活|技术", ID);
-                */
-                Console.WriteLine("文章被读取ID : {0} {1}", p2.ID,p2.Title);
+
+                Console.WriteLine("尝试读取文章 : {0} {1} {2}",
+                    ID, benchmark.PLDR.GetPost(ID).GUID, benchmark.PLDR.GetPost(ID).Title);
             }
 #endif
 
@@ -101,7 +100,7 @@ namespace palaBenchmark
                 Console.WriteLine("生成Content中......");
             }
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < number; i++)
             {
                 Post Post = new Post()
                 {
@@ -123,7 +122,7 @@ namespace palaBenchmark
             }
 #endif
 #if 注销文章
-            for (int i = 12001; i <= 12100; i++)
+            for (int i = 12001; i <= 12000 + number; i++)
             {
                 Console.WriteLine("尝试注销记录：{0} / 状态: {1}", i, benchmark.PLDU.Dispose(i));
             }
@@ -136,7 +135,7 @@ namespace palaBenchmark
                 Console.WriteLine("生成Content中......");
             }
 
-            for (int i = 12001; i <= 12100; i++)
+            for (int i = 12001; i <= 12000 + number; i++)
             {
                 Post Post = new Post()
                 {
@@ -197,13 +196,13 @@ namespace palaBenchmark
             }
 #endif
 #if 回滚拷贝
-            for (int i = 12001; i <= 13000; i++)
+            for (int i = 12001; i <= 12000 + number; i++)
             {
                 Console.WriteLine("正在尝试回滚记录：{0} / 状态：{1}", i, benchmark.PLDU.Rollback(i));
             }
 #endif
 #if 释放拷贝
-            for (int i = 12001; i <= 13000; i++)
+            for (int i = 12001; i <= 12000 + number; i++)
             {
                 benchmark.PLDU.Release(i);
 
@@ -253,6 +252,8 @@ namespace palaBenchmark
 
 
 #endif
+            iwatch.Stop();
+            Console.WriteLine("负载耗时：\n" + iwatch.Elapsed.ToString());
             Console.ReadKey();
         }
     }
