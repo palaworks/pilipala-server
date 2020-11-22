@@ -224,13 +224,13 @@ namespace WaterLibrary.stru.pilipala
     /// <summary>
     /// 啪啦数据读取器接口
     /// </summary>
-    interface IPLDataReader : IPLDataBase
+    interface IPLDataReader
     {
         /// <summary>
         /// 获得全部文本ID列表
         /// </summary>
         /// <returns></returns>
-        List<int> GetIDList();
+        List<int> GetID();
         /// <summary>
         /// 通用文章匹配器
         /// </summary>
@@ -238,19 +238,6 @@ namespace WaterLibrary.stru.pilipala
         /// <parmm name="Value">被匹配的键值</parmm>
         /// <returns></returns>
         List<int> MatchID<T>(string Value) where T : PostKey.IPostKey;
-
-        /// <summary>
-        /// 获得符合ID的文本索引数据
-        /// </summary>
-        /// <parmm name="ID">文本序列号</parmm>
-        /// <returns></returns>
-        Post GetIndex(int ID);
-        /// <summary>
-        /// 获得符合ID的文本主数据
-        /// </summary>
-        /// <parmm name="ID">文本序列号</parmm>
-        /// <returns></returns>
-        Post GetBackup(int ID);
 
         /// <summary>
         /// 取得指定文本 ID 的下一个文本 ID（按照ID升序查找）
@@ -268,7 +255,7 @@ namespace WaterLibrary.stru.pilipala
     /// <summary>
     /// 啪啦数据修改器接口
     /// </summary>
-    interface IPLDataUpdater : IPLDataBase
+    interface IPLDataUpdater
     {
         /// <summary>
         /// 将目标文章状态标记为展示
@@ -378,29 +365,22 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         public interface IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            string Val { get; set; }/* 为减少拆装箱为SQL的性能损耗，Val值规定为string */
+
         }
 
+        /// <summary>
+        /// 文章索引
+        /// </summary>
+        public struct ID : IPostKey
+        {
+
+        }
         /// <summary>
         /// 文章全局标识
         /// </summary>
         public struct GUID : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
 
         /// <summary>
@@ -408,56 +388,28 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         public struct Title : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
         /// <summary>
         /// 文章摘要
         /// </summary>
         public struct Summary : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
         /// <summary>
         /// 文章内容
         /// </summary>
         public struct Content : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
         /// <summary>
         /// 文章标题
         /// </summary>
         public struct Cover : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
 
         /// <summary>
@@ -465,28 +417,14 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         public struct Archiv : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
         /// <summary>
         /// 文章标签
         /// </summary>
         public struct Label : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
 
         /// <summary>
@@ -494,42 +432,21 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         public struct Mode : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
         /// <summary>
         /// 文章类型
         /// </summary>
         public struct Type : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
         /// <summary>
         /// 归属用户
         /// </summary>
         public struct User : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
 
         /// <summary>
@@ -537,28 +454,14 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         public struct CT : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
         /// <summary>
         /// 最后修改时间
         /// </summary>
         public struct LCT : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
 
         /// <summary>
@@ -566,28 +469,14 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         public struct UVCount : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
         /// <summary>
         /// 星星计数
         /// </summary>
         public struct StarCount : IPostKey
         {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            public int ID { get; set; }
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Val { get; set; }
+
         }
     }
     /// <summary>

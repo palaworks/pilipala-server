@@ -32,10 +32,10 @@
               {{item.MD5}}
             </v-chip>
             <v-chip
-              v-if="item.Mode=='o'?false:true"
+              v-if="item.Mode==''?false:true"
               text-color="white"
-              :color="item.Mode=='archived'?'amber accent-4':item.Mode=='sche'?'blue accent-5':item.Mode=='x'?'grey':null"
-            >{{item.Mode=='archived'?'已归档':item.Mode=='sche'?'计划':item.Mode=='x'?'隐藏':null}}</v-chip>
+              :color="item.Mode=='archived'?'amber accent-4':item.Mode=='scheduled'?'blue accent-5':item.Mode=='hidden'?'grey':null"
+            >{{item.Mode=='archived'?'已归档':item.Mode=='scheduled'?'计划':item.Mode=='hidden'?'隐藏':null}}</v-chip>
             <v-chip class="ml-1">
               <v-icon small left>mdi-folder-outline</v-icon>
               {{item.Archiv}}
@@ -88,7 +88,7 @@ export default {
     Rollback: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Rollback",
+        url: "https://localhost:44334/system/serv/user.asmx/Post_Rollback",
         data: qs.stringify({
           ID: this.$route.params.post_id,
         }),
@@ -105,7 +105,7 @@ export default {
     Release: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Release",
+        url: "https://localhost:44334/system/serv/user.asmx/Post_Release",
         data: qs.stringify({
           ID: this.$route.params.post_id,
         }),
@@ -122,7 +122,7 @@ export default {
     Apply: function (GUID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Apply",
+        url: "https://localhost:44334/system/serv/user.asmx/Post_Apply",
         data: qs.stringify({
           GUID: GUID,
         }),
@@ -139,7 +139,7 @@ export default {
     Delete: function (GUID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Delete",
+        url: "https://localhost:44334/system/serv/user.asmx/Post_Delete",
         data: qs.stringify({
           GUID: GUID,
         }),
@@ -157,7 +157,7 @@ export default {
       /* 得到拷贝列表 */
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Get_Post_Data",
+        url: "https://localhost:44334/system/serv/user.asmx/Get_Post_Data",
         data: qs.stringify({
           ID: this.$route.params.post_id,
         }),
@@ -171,7 +171,8 @@ export default {
       /* 得到拷贝列表 */
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Get_Copy_DataList",
+        url:
+          "https://localhost:44334/system/serv/user.asmx/Get_Backup_DataList",
         data: qs.stringify({
           ID: this.$route.params.post_id,
         }),

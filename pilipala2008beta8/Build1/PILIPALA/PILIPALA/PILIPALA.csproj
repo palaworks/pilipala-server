@@ -114,6 +114,7 @@
   <ItemGroup>
     <Content Include="system\serv\CaptchaServ.asmx" />
     <Content Include="system\serv\SysServ.asmx" />
+    <Content Include="system\serv\User.asmx" />
     <Content Include="user\theme\field3\com\field.js" />
     <Content Include="user\theme\field3\serv\ThemeServ.asmx" />
     <Content Include="Web.config" />
@@ -126,6 +127,10 @@
     </Compile>
     <Compile Include="system\serv\SysServ.asmx.cs">
       <DependentUpon>SysServ.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="system\serv\User.asmx.cs">
+      <DependentUpon>User.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="user\theme\field3\serv\ThemeServ.asmx.cs">

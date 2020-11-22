@@ -22,6 +22,10 @@ namespace WaterLibrary.com.MySQL
         /// </summary>
         public MySqlConnection Connection { get; private set; }
 
+        /// <summary>
+        /// 初始化管理器
+        /// </summary>
+        /// <param name="MySqlConnMsg"></param>
         public MySqlManager(MySqlConnMsg MySqlConnMsg)
         {
             this.MySqlConnMsg = MySqlConnMsg;

@@ -58,7 +58,7 @@
 }
 
 @section 内容
-    {
+{
     <div class="Card L M bSha bRds">
         <div class="contain L bRds">
 
@@ -74,7 +74,7 @@
             }
 
             <!-- 状态信息输出 -->
-            @if (Post.Mode == "sche")
+            @if (Post.Mode == "scheduled")
             {
                 <div class="SchedulTip bSha"><div class="con">计划中的项目。此文章将会于近期更新</div></div>
             }
@@ -183,6 +183,7 @@
             </div>
         }
 
+
         <div id="CommentBox" class="CommentBox M bRds bSha">
             <div class="Content">
                 <div class="Logo"></div>
@@ -207,21 +208,19 @@
                 <div class="Logo"></div>
                 <input v-model="WebSite" placeholder="网站(可选)" />
             </div>
-            <div class="Captcha">
-                <div class="Logo"></div>
-                <!--No-Captcha渲染的位置，其中 class 中必须包含 nc-container-->
-                <div id="ali-safe" class="nc-container CaptchaLine"></div>
-            </div>
+            <v-app class="Captcha">
+                <div>
+                    <v-btn color="primary" block height="34" onclick="Commit()" class="CaptchaLine">提交</v-btn>
+                </div>
+            </v-app>
         </div>
-
     </div>
-
-
 
     <!-- 评论组件 -->
     <script>
         var CommentBox = new Vue({
             el: '#CommentBox',
+            vuetify: new Vuetify(),
             data: {
                 FloorText: '0F',
 
@@ -241,7 +240,6 @@
                         return true;
                     } else {
                         //TODO
-                        __nc.reload();
                         window.alert("请检查填写是否有误");
                         return false;
                     }
@@ -339,32 +337,14 @@
 
     <!-- 评论Captcha -->
     <script>
-        var nc_token = ["FFFF0N0000000000987D", (new Date()).getTime(), Math.random()].join(':');
-        var NC_Opt =
-        {
-            renderTo: "#ali-safe",
-            appkey: "FFFF0N0000000000987D",
-            scene: "nc_bbs",
-            token: nc_token,
-            trans: { "key1": "code0" },
-            elementID: ["usernameID"],
-            is_Opt: 0,
-            language: "cn",
-            isEnabled: true,
-            timeout: 3000,
-            times: 5,
-            callback: function (data) {
-                if (CommentBox.check() == true) {
-                    Captcha(nc_token, data.csessionid, data.sig, @ID, CommentBox.HEAD, CommentBox.Content, CommentBox.Name, CommentBox.Email, CommentBox.WebSite);
-                }
+        function Commit() {
+            if (CommentBox.check() == true)
+            {
+                Captcha(@ID, CommentBox.HEAD, CommentBox.Content, CommentBox.Name, CommentBox.Email, CommentBox.WebSite);
             }
         }
-        var nc = new noCaptcha(NC_Opt)
-        nc.upLang('cn', {
-            _startTEXT: "提交评论",
-            _yesTEXT: "提交成功",
-            _error300: "提交失败",
-            _errorNetwork: "网络错误",
-        })
     </script>
+
+    <!-- vuetify -->
+
 }

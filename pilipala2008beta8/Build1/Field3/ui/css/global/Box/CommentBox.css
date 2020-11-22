@@ -78,16 +78,6 @@
     grid-column-end: 5;
 }
 
-.CommentBox>.Captcha>.CaptchaLine {
-    font-size: 16px;
-    min-width: 0;
-    flex: 1;
-    border-radius: 0;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
-}
-
-
 .CommentBox>.Content {
     grid-column-start: 1;
     grid-column-end: 5;

@@ -74,8 +74,8 @@ export default {
     return {
       new_data: {
         ID: this.$route.params.post_id,
-        Mode: "o",
-        Type: "p",
+        Mode: "",
+        Type: "",
         User: "",
 
         UVCount: 0,
@@ -89,8 +89,8 @@ export default {
         Label: "",
         Cover: "",
       },
-      type_select: ["p", "note"],
-      mode_select: ["o", "x", "archived", "sche"],
+      type_select: ["", "note"],
+      mode_select: ["", "hidden", "archived", "scheduled"],
     };
   },
   methods: {
@@ -106,7 +106,7 @@ export default {
     Reg: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Reg",
+        url: "https://localhost:44334/system/serv/user.asmx/Post_Reg",
         data: qs.stringify({
           Mode: this.new_data.Mode,
           Type: this.new_data.Type,
@@ -132,7 +132,7 @@ export default {
     Update: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Post_Update",
+        url: "https://localhost:44334/system/serv/user.asmx/Post_Update",
         data: qs.stringify({
           ID: this.new_data.ID,
           Mode: this.new_data.Mode,
@@ -160,7 +160,7 @@ export default {
     if (this.$route.params.post_id != null) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/SysServ.asmx/Get_Post_Data",
+        url: "https://localhost:44334/system/serv/user.asmx/Get_Post_Data",
         data: qs.stringify({
           ID: this.$route.params.post_id,
         }),

@@ -17,8 +17,8 @@ else
     <link rel="stylesheet" href="~/user/theme/field3/com/ui/css/white.css">
 }
 
-
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.3.18/dist/vuetify.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
@@ -43,8 +43,16 @@ else
     let b =
         'background: #606060; padding:4px 0px 4px 0px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 0 3px 3px 0;'
 
-    console.log("%c  Core  %c  WaterLibrary " + CoreVersion() + "  ", a, b)
+    $.post("/system/serv/SysServ.asmx/Get_CoreVersion",
+        function (data) {
+            console.log("%c  Core  %c  WaterLibrary " + data + "  ", a, b)
+        });
     console.log("%c  pilipala  %c  beta8  ", a, b)
     console.log("%c  Theme  %c  Field  ", a, b)
-    
+
 </script>
+
+<!-- vuetify -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+<link rel="stylesheet" href="@Html.Raw("https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css")">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css">
