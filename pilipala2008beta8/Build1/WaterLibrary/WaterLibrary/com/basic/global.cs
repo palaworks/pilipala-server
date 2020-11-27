@@ -129,7 +129,7 @@ namespace WaterLibrary.com.basic
                 {
                     if (i + 1 < array.Length)//元素交换
                     {
-                        T tmp; ;
+                        T tmp;
                         if (array[i].CompareTo(array[i + 1]) > 0)
                         {
                             tmp = array[i];

@@ -11,14 +11,14 @@ using System.Text;
 using Newtonsoft.Json;
 
 using WaterLibrary.stru.MySQL;
-using WaterLibrary.stru.pilipala.PostKey;
+using WaterLibrary.stru.pilipala.Post.Property;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.stru.pilipala;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
 
 
-using pla_Type = WaterLibrary.stru.pilipala.PostKey.Type;
+using pla_Type = WaterLibrary.stru.pilipala.Post.Property.Type;
 using sys_Type = System.Type;
 
 
@@ -35,10 +35,12 @@ namespace PILIPALA.system.serv
 
     public class SysServ : System.Web.Services.WebService
     {
+        /* 定义内核 */
         public CORE CORE;
-        public PLDR PLDR;
-        public PLDU PLDU;
-        public PLDC PLDC;
+        /* 初始化配件 */
+        public PLDR PLDR = new PLDR();
+        public PLDU PLDU = new PLDU();
+        public PLDC PLDC = new PLDC();
 
         public SysServ()
         {
@@ -55,16 +57,20 @@ namespace PILIPALA.system.serv
                 })
             };
 
+            /* 初始化内核 */
             CORE = new CORE(PLDB);
             CORE.SetTables();
             CORE.SetViews();
 
+            /* 设置内核准备完成后需要为其安装哪些配件 */
+            CORE.LinkOn += PLDR.Ready;
+            CORE.LinkOn += PLDU.Ready;
+            CORE.LinkOn += PLDC.Ready;
+
+            /* 准备内核 */
+            CORE.Ready();
             /* 启动内核 */
             CORE.Run();
-
-            PLDR = new PLDR(CORE);
-            PLDU = new PLDU(CORE);
-            PLDC = new PLDC(CORE);
         }
 
 
@@ -73,10 +79,10 @@ namespace PILIPALA.system.serv
         /// </summary>
         /// <param name="ID">文章序列号</param>
         [WebMethod]
-        public int StarCount_subs(int ID)
+        public uint StarCount_subs(int ID)
         {
             SysServ SysServ = new SysServ();
-            int StarCount = SysServ.PLDR.GetIndex(ID).StarCount;
+            uint StarCount = SysServ.PLDR.GetProperty<StarCount>(ID);
 
             SysServ.PLDU.UpdateIndex<StarCount>(ID, StarCount - 1);
 
@@ -87,10 +93,10 @@ namespace PILIPALA.system.serv
         /// </summary>
         /// <param name="ID">文章序列号</param>
         [WebMethod]
-        public int StarCount_plus(int ID)
+        public uint StarCount_plus(int ID)
         {
             SysServ SysServ = new SysServ();
-            int StarCount = SysServ.PLDR.GetIndex(ID).StarCount;
+            uint StarCount = SysServ.PLDR.GetProperty<StarCount>(ID);
 
             SysServ.PLDU.UpdateIndex<StarCount>(ID, StarCount + 1);
 
@@ -101,10 +107,10 @@ namespace PILIPALA.system.serv
         /// </summary>
         /// <param name="ID">文章序列号</param>
         [WebMethod]
-        public int UVCount_plus(int ID)
+        public uint UVCount_plus(int ID)
         {
             SysServ SysServ = new SysServ();
-            int UVCount = SysServ.PLDR.GetIndex(ID).UVCount;
+            uint UVCount = SysServ.PLDR.GetProperty<UVCount>(ID);
 
             SysServ.PLDU.UpdateIndex<UVCount>(ID, UVCount + 1);
 
