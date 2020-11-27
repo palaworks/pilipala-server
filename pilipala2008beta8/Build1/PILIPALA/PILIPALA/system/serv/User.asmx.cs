@@ -11,14 +11,14 @@ using System.Text;
 using Newtonsoft.Json;
 
 using WaterLibrary.stru.MySQL;
-using WaterLibrary.stru.pilipala.PostKey;
+using WaterLibrary.stru.pilipala.Post.Property;
 using WaterLibrary.stru.pilipala.DB;
-using WaterLibrary.stru.pilipala;
+using WaterLibrary.stru.pilipala.Post;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
 
 
-using pla_Type = WaterLibrary.stru.pilipala.PostKey.Type;
+using pla_Type = WaterLibrary.stru.pilipala.Post.Property.Type;
 using sys_Type = System.Type;
 
 namespace PILIPALA.system.serv
@@ -30,21 +30,22 @@ namespace PILIPALA.system.serv
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // 若要允许使用 ASP.NET AJAX 从脚本中调用此 Web 服务，请取消注释以下行。 
-    // [System.Web.Script.Services.ScriptService]
+    [System.Web.Script.Services.ScriptService]
+
     public class User : System.Web.Services.WebService
     {
 
         public CORE CORE;
-        public PLDR PLDR;
-        public PLDU PLDU;
-        public PLDC PLDC;
+        public PLDR PLDR = new PLDR();
+        public PLDU PLDU = new PLDU();
+        public PLDC PLDC = new PLDC();
 
         public User()
         {
             /* 初始化噼里啪啦数据库信息和MySql控制器 */
             PLDB PLDB = new PLDB
             {
-                Views = new PLViews() { Backup = "dirty>backup", Index = "dirty>index", Union = "dirty>union" },
+                Views = new PLViews() { PosUnion = "pos>dirty>union", NegUnion = "neg>dirty>union"},
                 MySqlManager = new MySqlManager(new MySqlConnMsg
                 {
                     DataSource = WebConfigurationManager.AppSettings["DataSource"],
@@ -58,19 +59,20 @@ namespace PILIPALA.system.serv
             CORE = new CORE(PLDB);
             CORE.SetTables();
 
+            CORE.LinkOn += PLDR.Ready;
+            CORE.LinkOn += PLDU.Ready;
+            CORE.LinkOn += PLDC.Ready;
+
+            CORE.Ready();
             /* 启动内核 */
             CORE.Run();
-
-            PLDR = new PLDR(CORE);
-            PLDU = new PLDU(CORE);
-            PLDC = new PLDC(CORE);
         }
 
 
         [WebMethod]
         public void Get_Post_Data(int ID)
         {
-            Post data = PLDR.GetUnion(ID);
+            Post data = PLDR.GetPost(ID);
 
             var iso = new Newtonsoft.Json.Converters.IsoDateTimeConverter
             {
@@ -116,7 +118,7 @@ namespace PILIPALA.system.serv
         [WebMethod]
         public void Get_Post_DataList()
         {
-            List<Post> data = PLDR.GetList();
+            List<Post> data = PLDR.GetPost<ID>("^");
 
             var iso = new Newtonsoft.Json.Converters.IsoDateTimeConverter
             {
@@ -132,7 +134,7 @@ namespace PILIPALA.system.serv
         [WebMethod]
         public void Get_Backup_DataList(int ID)
         {
-            List<Post> data = PLDR.GetBackupList(ID);
+            List<Post> data = PLDR.GetPost<ID>(ID.ToString());
 
             var iso = new Newtonsoft.Json.Converters.IsoDateTimeConverter
             {

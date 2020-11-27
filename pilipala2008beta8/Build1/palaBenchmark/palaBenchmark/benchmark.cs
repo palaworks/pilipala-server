@@ -22,12 +22,12 @@ namespace palaBenchmark
             /* 初始化噼里啪啦数据库信息和MySql控制器 */
             PLDB PLDB = new PLDB
             {
-                Views = new PLViews() { Backup = "dirty>backup", Index = "dirty>index", Union = "dirty>union" },
+                Views = new PLViews() { PosUnion = "pos>dirty>union", NegUnion = "neg>dirty>union" },
                 MySqlManager = new MySqlManager(new MySqlConnMsg
                 {
                     /* 基准测试数据集 */
                     DataSource = "localhost",
-                    DataBase = "pilipala_test_2",
+                    DataBase = "pilipala_test",
                     Port = "3306",
                     User = "root",
                     PWD = "65a1561425f744e2b541303f628963f8"

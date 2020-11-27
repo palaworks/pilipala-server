@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 using WaterLibrary.com.basic;
 using WaterLibrary.com.MySQL;
-using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala.DB;
-using WaterLibrary.stru.pilipala.PostKey;
+using WaterLibrary.stru.pilipala.Post.Property;
 
 namespace WaterLibrary.stru.pilipala
 {
@@ -178,27 +177,21 @@ namespace WaterLibrary.stru.pilipala
             /// <summary>
             /// 初始化视图名结构
             /// </summary>
-            /// <param name="Index">索引视图</param>
-            /// <param name="Backup">备份视图</param>
-            /// <param name="Union">总视图</param>
-            public PLViews(string Index, string Backup, string Union) : this()
+            /// <param name="PosUnion">积极联合视图</param>
+            /// <param name="NegUnion">消极联合视图</param>
+            public PLViews( string PosUnion, string NegUnion) : this()
             {
-                this.Index = Index;
-                this.Backup = Backup;
-                this.Union = Union;
+                this.PosUnion = PosUnion;
+                this.NegUnion = NegUnion;
             }
             /// <summary>
-            /// 索引视图
+            /// 积极联合视图（不包含备份）
             /// </summary>
-            public string Index { get; set; }
+            public string PosUnion { get; set; }
             /// <summary>
-            /// 备份视图
+            /// 消极联合视图（包含备份）
             /// </summary>
-            public string Backup { get; set; }
-            /// <summary>
-            /// 联合视图(索引表JOIN主表)
-            /// </summary>
-            public string Union { get; set; }
+            public string NegUnion { get; set; }
         }
 
         /// <summary>
@@ -226,31 +219,7 @@ namespace WaterLibrary.stru.pilipala
     /// </summary>
     interface IPLDataReader
     {
-        /// <summary>
-        /// 获得全部文本ID列表
-        /// </summary>
-        /// <returns></returns>
-        List<int> GetID();
-        /// <summary>
-        /// 通用文章匹配器
-        /// </summary>
-        /// <typeparmm name="T">被匹配的键类型</typeparmm>
-        /// <parmm name="Value">被匹配的键值</parmm>
-        /// <returns></returns>
-        List<int> MatchID<T>(string Value) where T : PostKey.IPostKey;
 
-        /// <summary>
-        /// 取得指定文本 ID 的下一个文本 ID（按照ID升序查找）
-        /// </summary>
-        /// <parmm name="current_ID">当前文本序列号</parmm>
-        /// <returns>错误返回 -1</returns>
-        int NextID(int ID);
-        /// <summary>
-        /// 取得指定文本 ID 的上一个文本 ID（按照ID升序查找）
-        /// </summary>
-        /// <parmm name="current_ID">当前文本序列号</parmm>
-        /// <returns>错误返回 -1</returns>
-        int PrevID(int ID);
     }
     /// <summary>
     /// 啪啦数据修改器接口
@@ -289,7 +258,7 @@ namespace WaterLibrary.stru.pilipala
         /// <param name="ID">目标文章ID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        bool UpdateIndex<T>(int ID, object Value) where T : IPostKey;
+        bool UpdateIndex<T>(int ID, object Value) where T : IProperty;
         /// <summary>
         /// 通用文章属性更新器
         /// </summary>
@@ -297,7 +266,7 @@ namespace WaterLibrary.stru.pilipala
         /// <param name="ID">目标文章ID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        bool UpdateBackup<T>(int ID, object Value) where T : IPostKey;
+        bool UpdateBackup<T>(int ID, object Value) where T : IProperty;
     }
     /// <summary>
     /// 啪啦数据计数器接口
@@ -357,281 +326,284 @@ namespace WaterLibrary.stru.pilipala
         /// </summary>
         public string Note { get; set; }
     }
-
-    namespace PostKey
+    namespace Post
     {
         /// <summary>
-        /// 表键值接口
+        /// 文章结构
         /// </summary>
-        public interface IPostKey
+        public class Post : ITableIndex, ITableBackup
         {
-
-        }
-
-        /// <summary>
-        /// 文章索引
-        /// </summary>
-        public struct ID : IPostKey
-        {
-
-        }
-        /// <summary>
-        /// 文章全局标识
-        /// </summary>
-        public struct GUID : IPostKey
-        {
-
-        }
-
-        /// <summary>
-        /// 文章标题
-        /// </summary>
-        public struct Title : IPostKey
-        {
-
-        }
-        /// <summary>
-        /// 文章摘要
-        /// </summary>
-        public struct Summary : IPostKey
-        {
-
-        }
-        /// <summary>
-        /// 文章内容
-        /// </summary>
-        public struct Content : IPostKey
-        {
-
-        }
-        /// <summary>
-        /// 文章标题
-        /// </summary>
-        public struct Cover : IPostKey
-        {
-
-        }
-
-        /// <summary>
-        /// 文章归档
-        /// </summary>
-        public struct Archiv : IPostKey
-        {
-
-        }
-        /// <summary>
-        /// 文章标签
-        /// </summary>
-        public struct Label : IPostKey
-        {
-
-        }
-
-        /// <summary>
-        /// 文章模式
-        /// </summary>
-        public struct Mode : IPostKey
-        {
-
-        }
-        /// <summary>
-        /// 文章类型
-        /// </summary>
-        public struct Type : IPostKey
-        {
-
-        }
-        /// <summary>
-        /// 归属用户
-        /// </summary>
-        public struct User : IPostKey
-        {
-
-        }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public struct CT : IPostKey
-        {
-
-        }
-        /// <summary>
-        /// 最后修改时间
-        /// </summary>
-        public struct LCT : IPostKey
-        {
-
-        }
-
-        /// <summary>
-        /// 浏览计数
-        /// </summary>
-        public struct UVCount : IPostKey
-        {
-
-        }
-        /// <summary>
-        /// 星星计数
-        /// </summary>
-        public struct StarCount : IPostKey
-        {
-
-        }
-    }
-    /// <summary>
-    /// 文章结构
-    /// </summary>
-    public class Post : ITableIndex, ITableBackup
-    {
-        /// <summary>
-        /// 索引器
-        /// </summary>
-        /// <param name="Key">索引名</param>
-        /// <returns></returns>
-        public object this[string Key]
-        {
-            get
+            /// <summary>
+            /// 索引器
+            /// </summary>
+            /// <param name="Key">索引名</param>
+            /// <returns></returns>
+            public object this[string Key]
             {
-                /* 通过反射获取属性 */
-                return GetType().GetProperty(Key).GetValue(this);
+                get
+                {
+                    /* 通过反射获取属性 */
+                    return GetType().GetProperty(Key).GetValue(this);
+                }
+                set
+                {
+                    /* 通过反射设置属性 */
+                    System.Type ThisType = GetType();
+                    System.Type KeyType = ThisType.GetProperty(Key).GetValue(this).GetType();
+                    ThisType.GetProperty(Key).SetValue(this, Convert.ChangeType(value, KeyType));
+                }
             }
-            set
+            /// <summary>
+            /// 迭代器
+            /// </summary>
+            /// <returns></returns>
+            public IEnumerable<object> ItemArray()
             {
-                /* 通过反射设置属性 */
-                System.Type ThisType = GetType();
-                System.Type KeyType = ThisType.GetProperty(Key).GetValue(this).GetType();
-                ThisType.GetProperty(Key).SetValue(this, Convert.ChangeType(value, KeyType));
+                yield return ID;
+                yield return GUID;
+
+                yield return Title;
+                yield return Summary;
+                yield return Content;
+                yield return Cover;
+
+                yield return Archiv;
+                yield return Label;
+
+                yield return Mode;
+                yield return Type;
+                yield return User;
+
+                yield return CT;
+                yield return LCT;
+
+                yield return UVCount;
+                yield return StarCount;
+            }
+
+            /// <summary>
+            /// 初始化
+            /// </summary>
+            public Post()
+            {
+                /* -1表示未被赋值，同时也于数据库的非负冲突 */
+                ID = -1;
+                GUID = "";
+
+                Title = "";
+                Summary = "";
+                Content = "";
+                Cover = "";
+
+                Archiv = "";
+                Label = "";
+
+                Mode = "";
+                Type = "";
+                User = "";
+
+                CT = new DateTime();
+                LCT = new DateTime();
+
+                UVCount = -1;
+                StarCount = -1;
+            }
+
+            /// <summary>
+            /// 基于Title,Summary和Content的MD5签名(自动生成)
+            /// </summary>
+            public string MD5
+            {
+                get { return ConvertH.ToMD5(Title + Summary + Content); }
+            }
+
+            /// <summary>
+            /// 索引
+            /// </summary>
+            public int ID { get; set; }
+            /// <summary>
+            /// 全局标识
+            /// </summary>
+            public string GUID { get; set; }
+
+            /// <summary>
+            /// 标题
+            /// </summary>
+            public string Title { get; set; }
+            /// <summary>
+            /// 概要
+            /// </summary>
+            public string Summary { get; set; }
+            /// <summary>
+            /// 内容
+            /// </summary>
+            public string Content { get; set; }
+            /// <summary>
+            /// 封面
+            /// </summary>
+            public string Cover { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public string Archiv { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string Label { get; set; }
+
+            /// <summary>
+            /// 文章模式
+            /// </summary>
+            public string Mode { get; set; }
+            /// <summary>
+            /// 文章类型
+            /// </summary>
+            public string Type { get; set; }
+            /// <summary>
+            /// 归属用户
+            /// </summary>
+            public string User { get; set; }
+
+            /// <summary>
+            /// 创建时间
+            /// </summary>
+            public DateTime CT { get; set; }
+            /// <summary>
+            /// 最后修改时间
+            /// </summary>
+            public DateTime LCT { get; set; }
+
+            /// <summary>
+            /// 访问计数
+            /// </summary>
+            public int UVCount { get; set; }
+            /// <summary>
+            /// 星星计数
+            /// </summary>
+            public int StarCount { get; set; }
+        }
+
+        namespace Property
+        {
+            /// <summary>
+            /// 文章属性接口
+            /// </summary>
+            public interface IProperty
+            {
+
+            }
+
+            /// <summary>
+            /// 文章索引
+            /// </summary>
+            public struct ID : IProperty
+            {
+
+            }
+            /// <summary>
+            /// 文章全局标识
+            /// </summary>
+            public struct GUID : IProperty
+            {
+
+            }
+
+            /// <summary>
+            /// 文章标题
+            /// </summary>
+            public struct Title : IProperty
+            {
+
+            }
+            /// <summary>
+            /// 文章摘要
+            /// </summary>
+            public struct Summary : IProperty
+            {
+
+            }
+            /// <summary>
+            /// 文章内容
+            /// </summary>
+            public struct Content : IProperty
+            {
+
+            }
+            /// <summary>
+            /// 文章标题
+            /// </summary>
+            public struct Cover : IProperty
+            {
+
+            }
+
+            /// <summary>
+            /// 文章归档
+            /// </summary>
+            public struct Archiv : IProperty
+            {
+
+            }
+            /// <summary>
+            /// 文章标签
+            /// </summary>
+            public struct Label : IProperty
+            {
+
+            }
+
+            /// <summary>
+            /// 文章模式
+            /// </summary>
+            public struct Mode : IProperty
+            {
+
+            }
+            /// <summary>
+            /// 文章类型
+            /// </summary>
+            public struct Type : IProperty
+            {
+
+            }
+            /// <summary>
+            /// 归属用户
+            /// </summary>
+            public struct User : IProperty
+            {
+
+            }
+
+            /// <summary>
+            /// 创建时间
+            /// </summary>
+            public struct CT : IProperty
+            {
+
+            }
+            /// <summary>
+            /// 最后修改时间
+            /// </summary>
+            public struct LCT : IProperty
+            {
+
+            }
+
+            /// <summary>
+            /// 浏览计数
+            /// </summary>
+            public struct UVCount : IProperty
+            {
+
+            }
+            /// <summary>
+            /// 星星计数
+            /// </summary>
+            public struct StarCount : IProperty
+            {
+
             }
         }
-        /// <summary>
-        /// 迭代器
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<object> ItemArray()
-        {
-            yield return ID;
-            yield return GUID;
-
-            yield return Title;
-            yield return Summary;
-            yield return Content;
-            yield return Cover;
-
-            yield return Archiv;
-            yield return Label;
-
-            yield return Mode;
-            yield return Type;
-            yield return User;
-
-            yield return CT;
-            yield return LCT;
-
-            yield return UVCount;
-            yield return StarCount;
-        }
-
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public Post()
-        {
-            /* -1表示未被赋值，同时也于数据库的非负冲突 */
-            ID = -1;
-            GUID = "";
-
-            Title = "";
-            Summary = "";
-            Content = "";
-            Cover = "";
-
-            Archiv = "";
-            Label = "";
-
-            Mode = "";
-            Type = "";
-            User = "";
-
-            CT = new DateTime();
-            LCT = new DateTime();
-
-            UVCount = -1;
-            StarCount = -1;
-        }
-
-        /// <summary>
-        /// 基于Title,Summary和Content的MD5签名(自动生成)
-        /// </summary>
-        public string MD5
-        {
-            get { return ConvertH.ToMD5(Title + Summary + Content); }
-        }
-
-        /// <summary>
-        /// 索引
-        /// </summary>
-        public int ID { get; set; }
-        /// <summary>
-        /// 全局标识
-        /// </summary>
-        public string GUID { get; set; }
-
-        /// <summary>
-        /// 标题
-        /// </summary>
-        public string Title { get; set; }
-        /// <summary>
-        /// 概要
-        /// </summary>
-        public string Summary { get; set; }
-        /// <summary>
-        /// 内容
-        /// </summary>
-        public string Content { get; set; }
-        /// <summary>
-        /// 封面
-        /// </summary>
-        public string Cover { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Archiv { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Label { get; set; }
-
-        /// <summary>
-        /// 文章模式
-        /// </summary>
-        public string Mode { get; set; }
-        /// <summary>
-        /// 文章类型
-        /// </summary>
-        public string Type { get; set; }
-        /// <summary>
-        /// 归属用户
-        /// </summary>
-        public string User { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CT { get; set; }
-        /// <summary>
-        /// 最后修改时间
-        /// </summary>
-        public DateTime LCT { get; set; }
-
-        /// <summary>
-        /// 访问计数
-        /// </summary>
-        public int UVCount { get; set; }
-        /// <summary>
-        /// 星星计数
-        /// </summary>
-        public int StarCount { get; set; }
     }
 }
