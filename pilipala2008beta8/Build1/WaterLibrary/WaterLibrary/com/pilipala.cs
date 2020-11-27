@@ -12,7 +12,8 @@ using WaterLibrary.com.basic;
 using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala;
 using WaterLibrary.stru.pilipala.DB;
-using WaterLibrary.stru.pilipala.PostKey;
+using WaterLibrary.stru.pilipala.Post;
+using WaterLibrary.stru.pilipala.Post.Property;
 
 namespace WaterLibrary.com.pilipala
 {
@@ -52,7 +53,7 @@ namespace WaterLibrary.com.pilipala
         {
             MySqlManager = PLDB.MySqlManager;
             SetTables(PLDB.Tables.User, PLDB.Tables.Index, PLDB.Tables.Backup);
-            SetViews(PLDB.Views.Index, PLDB.Views.Backup, PLDB.Views.Union);
+            SetViews(PLDB.Views.PosUnion, PLDB.Views.NegUnion);
         }
 
         /// <summary>
@@ -93,12 +94,11 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 设置内核所需要的视图
         /// </summary>
-        /// <param name="Index">索引视图，默认为：view>index</param>
-        /// <param name="Backup">备份视图，默认为：view>backup</param>
-        /// <param name="Union">联合视图，默认为：view>union</param>
-        public void SetViews(string Index = "view>index", string Backup = "view>backup", string Union = "view>union")
+        /// <param name="PosUnion">积极联合视图</param>
+        /// <param name="NegUnion">消极联合视图</param>
+        public void SetViews(string PosUnion = "pos>union", string NegUnion = "neg>union")
         {
-            Views = new PLViews(Index, Backup, Union);
+            Views = new PLViews(PosUnion, NegUnion);
         }
 
     }
@@ -138,98 +138,103 @@ namespace WaterLibrary.com.pilipala
         /// 获取指定文章数据
         /// </summary>
         /// <param name="ID">目标文章ID</param>
-        /// <param name="Negative">是否包含消极文章</param>
         /// <returns></returns>
-        public Post GetPost(int ID, bool Negative = false)
+        public Post GetPost(int ID)
         {
-            string SQL;
-            if (Negative == false)
-            {
-                SQL = string.Format/* 按GUID相等联合，不出现消极文章 */
-                (
-                "SELECT {0}.ID,{1}.GUID,CT,LCT,Title,Summary,Content,Archiv,Label,Cover,Mode,Type,User,UVCount,StarCount" +
-                " FROM {0} JOIN {1} ON {0}.GUID={1}.GUID WHERE {0}.ID=?ID"
-                , Tables.Index, Tables.Backup
-                );
-            }
-            else
-            {
-                SQL = string.Format/* 按ID相等联合，出现消极文章 */
-                (
-                "SELECT {0}.ID,{1}.GUID,CT,LCT,Title,Summary,Content,Archiv,Label,Cover,Mode,Type,User,UVCount,StarCount" +
-                " FROM {0} JOIN {1} ON {0}.ID={1}.ID WHERE {0}.ID=?ID"
-                , Tables.Index, Tables.Backup
-                );
-            }
+            string SQL = string.Format
+            (
+            "SELECT * FROM `{0}` WHERE ID={1}"
+            , Views.PosUnion, ID
+            );
 
-            List<MySqlParm> ParmList = new List<MySqlParm>
+            DataRow Row = MySqlManager.GetRow(SQL);
+
+            return new Post
+            {
+                ID = Convert.ToInt32(Row["ID"]),
+                GUID = Convert.ToString(Row["GUID"]),
+
+                CT = Convert.ToDateTime(Row["CT"]),
+                LCT = Convert.ToDateTime(Row["LCT"]),
+                Title = Convert.ToString(Row["Title"]),
+                Summary = Convert.ToString(Row["Summary"]),
+                Content = Convert.ToString(Row["Content"]),
+
+                Archiv = Convert.ToString(Row["Archiv"]),
+                Label = Convert.ToString(Row["Label"]),
+                Cover = Convert.ToString(Row["Cover"]),
+
+                Mode = Convert.ToString(Row["Mode"]),
+                Type = Convert.ToString(Row["Type"]),
+                User = Convert.ToString(Row["User"]),
+
+                UVCount = Convert.ToInt32(Row["UVCount"]),
+                StarCount = Convert.ToInt32(Row["StarCount"])
+            };
+
+        }
+        /// <summary>
+        /// 取得指定文章属性
+        /// </summary>
+        /// <typeparam name="T">目标属性类型</typeparam>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns></returns>
+        public dynamic GetProperty<T>(int ID) where T : IProperty
+        {
+            string SQL = string.Format
+                (
+                "SELECT {0} FROM `{1}` WHERE ID = ?ID"
+                , typeof(T).Name, Views.PosUnion
+                );
+
+            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
                 {
                     new MySqlParm() { Name = "ID", Val = ID }
                 };
 
             using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
             {
-                DataRow Row = MySqlManager.GetRow(MySqlCommand);
-
-                return new Post
-                {
-                    ID = Convert.ToInt32(Row["ID"]),
-                    GUID = Convert.ToString(Row["GUID"]),
-
-                    CT = Convert.ToDateTime(Row["CT"]),
-                    LCT = Convert.ToDateTime(Row["LCT"]),
-                    Title = Convert.ToString(Row["Title"]),
-                    Summary = Convert.ToString(Row["Summary"]),
-                    Content = Convert.ToString(Row["Content"]),
-
-                    Archiv = Convert.ToString(Row["Archiv"]),
-                    Label = Convert.ToString(Row["Label"]),
-                    Cover = Convert.ToString(Row["Cover"]),
-
-                    Mode = Convert.ToString(Row["Mode"]),
-                    Type = Convert.ToString(Row["Type"]),
-                    User = Convert.ToString(Row["User"]),
-
-                    UVCount = Convert.ToInt32(Row["UVCount"]),
-                    StarCount = Convert.ToInt32(Row["StarCount"])
-                };
+                return MySqlManager.GetKey(MySqlCommand);
             }
         }
+
         /// <summary>
         /// 获取文章数据
         /// </summary>
-        /// <typeparam name="T">属性匹配列表的属性类型</typeparam>
+        /// <typeparam name="T">正则表达式匹配的属性类型</typeparam>
         /// <param name="REGEXP">正则表达式</param>
-        /// <param name="Negative">是否包含消极文章</param>
-        /// <param name="PropertyTypeSet">所需属性类型</param>
+        /// <param name="IncludeNeg">是否包含消极文章(备份)</param>
         /// <returns></returns>
-        public List<Post> GetPost<T>(string REGEXP, bool Negative = false, params System.Type[] PropertyTypeSet) where T : IPostKey
+        public List<Post> GetPost<T>(string REGEXP, bool IncludeNeg = false) where T : IProperty
         {
-            if (PropertyTypeSet == null)
+            string SQL;
+            if (IncludeNeg == false)
             {
-                string SQL;
-                if (Negative == false)
-                {
-                    SQL = string.Format/* 按GUID相等联合，不出现消极文章 */
-                    (
-                    "SELECT {0}.ID,{1}.GUID,CT,LCT,Title,Summary,Content,Archiv,Label,Cover,Mode,Type,User,UVCount,StarCount" +
-                    " FROM {0} JOIN {1} ON {0}.GUID={1}.GUID"
-                    , Tables.Index, Tables.Backup
-                    );
-                }
-                else
-                {
-                    SQL = string.Format/* 按ID相等联合，出现消极文章 */
-                    (
-                    "SELECT {0}.ID,{1}.GUID,CT,LCT,Title,Summary,Content,Archiv,Label,Cover,Mode,Type,User,UVCount,StarCount" +
-                    " FROM {0} JOIN {1} ON {0}.ID={1}.ID"
-                    , Tables.Index, Tables.Backup
-                    );
-                }
+                SQL = string.Format
+                (
+                "SELECT * FROM `{0}` WHERE {1} REGEXP ?REGEXP ORDER BY CT DESC"
+                , Views.PosUnion, typeof(T).Name
+                );
+            }
+            else
+            {
+                SQL = string.Format
+                (
+                "SELECT * FROM `{0}` WHERE {1} REGEXP ?REGEXP ORDER BY CT DESC"
+                , Views.NegUnion, typeof(T).Name
+                );
+            }
 
-                List<Post> List = new List<Post>();
+            List<Post> List = new List<Post>();
 
-                foreach (DataRow Row in MySqlManager.GetTable(SQL).Rows)
+            List<MySqlParm> ParmList = new List<MySqlParm>
+                {
+                    new MySqlParm() { Name = "REGEXP", Val = REGEXP }
+                };
+
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
+            {
+                foreach (DataRow Row in MySqlManager.GetTable(MySqlCommand).Rows)
                 {
                     List.Add(new Post
                     {
@@ -254,419 +259,124 @@ namespace WaterLibrary.com.pilipala
                         StarCount = Convert.ToInt32(Row["StarCount"])
                     });
                 }
+            }
 
-                return List;
+            return List;
+        }
+        /// <summary>
+        /// 获取文章数据
+        /// </summary>
+        /// <typeparam name="T">正则表达式匹配的属性类型</typeparam>
+        /// <param name="REGEXP">正则表达式</param>
+        /// <param name="Properties">所需属性类型</param>
+        /// <param name="IncludeNeg">是否包含消极文章(备份)</param>
+        /// <returns></returns>
+        public List<Post> GetPost<T>(string REGEXP, System.Type[] Properties, bool IncludeNeg = false) where T : IProperty
+        {
+            /* 键名字符串格式化 */
+            string KeysStr = ConvertH.ListToString(Properties, "Name", ',');
+            string SQL;
+            if (IncludeNeg == false)
+            {
+                SQL = string.Format
+                (
+                "SELECT {0} FROM `{1}` WHERE {2} REGEXP ?REGEXP ORDER BY CT DESC"
+                , KeysStr, Views.PosUnion, typeof(T).Name
+                );
+            }
+            else//显示消极
+            {
+                SQL = string.Format
+                (
+                "SELECT {0} FROM `{1}` WHERE {2} REGEXP ?REGEXP ORDER BY CT DESC"
+                , KeysStr, Views.NegUnion, typeof(T).Name
+                );
+            }
+
+
+            List<Post> PostList = new List<Post>();
+
+            List<MySqlParm> ParmList = new List<MySqlParm>
+                {
+                    new MySqlParm() { Name = "REGEXP", Val = REGEXP }
+                };
+
+            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
+            {
+                foreach (DataRow Row in MySqlManager.GetTable(MySqlCommand).Rows)
+                {
+                    Post Post = new Post();
+
+                    for (int i = 0; i < Properties.Length; i++)
+                    {
+                        Post[Properties[i].Name] = Row.ItemArray[i];
+                    }
+
+                    PostList.Add(Post);
+                }
+            }
+            return PostList;
+        }
+
+        /// <summary>
+        /// 取得具有比目标文章的指定属性具有更大的值的文章ID
+        /// </summary>
+        /// <typeparam name="T">指定属性</typeparam>
+        /// <param name="ID">目标文章的ID</param>
+        /// <returns>不存在符合要求的ID时，返回-1</returns>
+        public int Bigger<T>(int ID)
+        {
+            string SQL;
+
+            if (typeof(T) == typeof(ID))/* 对查询ID有优化 */
+            {
+                SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE ID=( SELECT min(ID) FROM `{0}` WHERE ID > {1})"
+                , Views.PosUnion, ID
+                );
             }
             else
             {
-                /* 键名字符串格式化 */
-                string KeysStr = ConvertH.ListToString(PropertyTypeSet, "Name", ',');
-
-                string SQL = string.Format
+                SQL = string.Format
                 (
-                "SELECT {0} FROM `{1}` WHERE {2} REGEXP ?REGEXP"
-                , KeysStr, Views.Union, typeof(T).Name
+                "SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE {1} > ( SELECT {1} FROM `{0}` WHERE ID = {2} ))"
+                , Views.PosUnion, typeof(T).Name, ID
                 );
-
-                List<Post> PostList = new List<Post>();
-
-                List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "REGEXP", Val = REGEXP }
-                };
-
-                using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-                {
-                    foreach (DataRow Row in MySqlManager.GetTable(MySqlCommand).Rows)
-                    {
-                        Post Post = new Post();
-
-                        for (int i = 0; i < PropertyTypeSet.Length; i++)
-                        {
-                            Post[PropertyTypeSet[i].Name] = Row.ItemArray[i];
-                        }
-
-                        PostList.Add(Post);
-                    }
-                }
-                return PostList;
             }
-        }
+            object NextID = MySqlManager.GetKey(SQL);
 
+            return NextID == null ? -1 : Convert.ToInt32(NextID);
 
-        /// <summary>
-        /// 获得文章ID，无筛选条件
-        /// </summary>
-        /// <returns></returns>
-        public List<int> GetID()
-        {
-            List<int> IDList = new List<int>();
-
-            string SQL = string.Format("SELECT ID FROM `{0}`", Views.Index);
-
-            foreach (int ID in MySqlManager.GetColumn<int>(SQL))
-            {
-                IDList.Add(ID);
-            }
-            return IDList;
-        }
-
-        /// <summary>
-        /// 取得文章ID列表（步进式）
-        /// </summary>
-        /// <parmm name="Start">步进起始行（包含该行）</parmm>
-        /// <parmm name="Length">加载行数</parmm>
-        /// <returns></returns>
-        public List<int> GetID(int Start, int Length)
-        {
-            List<int> IDList = new List<int>();
-
-            /* 此处以时间降序排列查询 */
-            string SQL = string.Format
-                (
-                "SELECT ID FROM `{0}` ORDER BY CT DESC LIMIT ?Start , ?Length"
-                , Views.Index
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "Start", Val = Start },
-                    new MySqlParm() { Name = "Length", Val = Length }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-            {
-                foreach (int ID in MySqlManager.GetColumn<int>(MySqlCommand))
-                {
-                    IDList.Add(ID);
-                }
-            }
-            return IDList;
         }
         /// <summary>
-        /// 取得指定类型的文章ID列表（步进式）
+        /// 取得具有比目标文章的指定属性具有更大的值的文章ID
         /// </summary>
-        /// <parmm name="Start">步进起始行（包含该行）</parmm>
-        /// <parmm name="Length">加载行数</parmm>
-        /// <parmm name="Type">自定义文章类型</parmm>
-        /// <returns></returns>
-        public List<int> GetID(int Start, int Length, string Type)
-        {
-            List<int> IDList = new List<int>();
-
-            /* 此处以时间降序排列查询 */
-            string SQL = string.Format
-                (
-                "SELECT ID FROM `{0}` WHERE Type = ?Type ORDER BY CT DESC LIMIT ?Start , ?Length"
-                , Views.Index
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "Type", Val = Type },
-                    new MySqlParm() { Name = "Start", Val = Start },
-                    new MySqlParm() { Name = "Length", Val = Length }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-            {
-                foreach (int ID in MySqlManager.GetColumn<int>(MySqlCommand))
-                {
-                    IDList.Add(ID);
-                }
-            }
-            return IDList;
-        }
-
-        /// <summary>
-        /// 取得全部文章ID列表
-        /// </summary>
-        /// <param name="OrderProperty">排序属性</param>
-        /// <param name="OrderType">ASC(升序)或DESC(降序)，不区分大小写</param>
-        /// <returns></returns>
-        public List<int> GetID(string OrderProperty, string OrderType)
-        {
-            List<int> IDList = new List<int>();
-
-            string SQL = string.Format
-                (
-                "SELECT ID FROM `{0}` ORDER BY ?OrderKey ?OrderType"
-                , Views.Index
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "OrderKey", Val = OrderProperty },
-                    new MySqlParm() { Name = "OrderType", Val = OrderType }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-            {
-                foreach (int ID in MySqlManager.GetColumn<int>(MySqlCommand))
-                {
-                    IDList.Add(ID);
-                }
-            }
-            return IDList;
-        }
-        /// <summary>
-        /// 取得指定长度的文章ID列表
-        /// </summary>
-        /// <param name="OrderProperty">排序属性</param>
-        /// <param name="OrderType">排序类型，可选值：ASC(升序)或DESC(降序)，不区分大小写</param>
-        /// <param name="Length">截止长度</param>
-        /// <returns></returns>
-        public List<int> GetID(string OrderProperty, string OrderType, int Length)
-        {
-            List<int> IDList = new List<int>();
-
-            string SQL = string.Format
-                (
-                "SELECT ID FROM `{0}` ORDER BY ?OrderKey ?OrderType LIMIT 0,?Length"
-                , Views.Index
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "OrderKey", Val = OrderProperty },
-                    new MySqlParm() { Name = "OrderType", Val = OrderType },
-                    new MySqlParm() { Name = "Length", Val = Length }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-            {
-                foreach (int ID in MySqlManager.GetColumn<int>(MySqlCommand))
-                {
-                    IDList.Add(ID);
-                }
-            }
-            return IDList;
-        }
-
-        /// <summary>
-        /// 匹配得到指定类型的文章ID列表
-        /// </summary>
-        /// <typeparam name="T">属性匹配列表的属性类型</typeparam>
+        /// <typeparam name="T">指定属性</typeparam>
+        /// <param name="ID">目标文章的ID</param>
         /// <param name="REGEXP">正则表达式</param>
-        /// <returns></returns>
-        public List<int> MatchID<T>(string REGEXP) where T : IPostKey
-        {
-            List<int> IDList = new List<int>();
-
-            string SQL = string.Format
-                (
-                "SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP"
-                , Views.Union, typeof(T).Name
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "REGEXP", Val = REGEXP }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-            {
-                foreach (int ID in MySqlManager.GetColumn<int>(MySqlCommand))
-                {
-                    IDList.Add(ID);
-                }
-            }
-            return IDList;
-        }
-        /// <summary>
-        /// 匹配得到指定类型的文章ID列表（重排序）
-        /// </summary>
-        /// <typeparam name="T">属性匹配列表的属性类型</typeparam>
-        /// <param name="REGEXP">正则表达式</param>
-        /// <param name="OrderKey">排序类型，选值：ASC(升序)或DESC(降序)，不区分大小写</param>
-        /// <param name="OrderType">排序类型</param>
-        /// <returns></returns>
-        public List<int> MatchID<T>(string REGEXP, string OrderKey, string OrderType) where T : IPostKey
-        {
-            List<int> IDList = new List<int>();
-
-            string SQL = string.Format
-                (
-                "SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP ORDER BY ?OrderKey ?OrderType"
-                , Views.Union, typeof(T).Name
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "REGEXP", Val = REGEXP },
-
-                    new MySqlParm() { Name = "OrderKey", Val = OrderKey },
-                    new MySqlParm() { Name = "OrderType", Val = OrderType }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-            {
-                foreach (int ID in MySqlManager.GetColumn<int>(MySqlCommand))
-                {
-                    IDList.Add(ID);
-                }
-            }
-            return IDList;
-        }
-        /// <summary>
-        /// 获得指定类型的文章ID列表（重排序，限制列表的最大长度）
-        /// </summary>
-        /// <typeparam name="T">属性匹配列表的属性类型</typeparam>
-        /// <param name="REGEXP">正则表达式</param>
-        /// <param name="OrderProperty">排序属性</param>
-        /// <param name="OrderType">排序类型，可选值：ASC(升序)或DESC(降序)，不区分大小写</param>
-        /// <param name="Length">最大取用长度</param>
-        /// <returns></returns>
-        public List<int> MatchID<T>(string REGEXP, string OrderProperty, string OrderType, int Length) where T : IPostKey
-        {
-            List<int> IDList = new List<int>();
-
-            string SQL = string.Format
-                (
-                "SELECT ID FROM `{0}` WHERE {1} REGEXP ?REGEXP ORDER BY ?Key ?OrderType LIMIT 0,?Length"
-                , Views.Union, typeof(T).Name
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "REGEXP", Val = REGEXP },
-
-                    new MySqlParm() { Name = "OrderKey", Val = OrderProperty },
-                    new MySqlParm() { Name = "OrderType", Val = OrderType },
-
-                    new MySqlParm() { Name = "Length", Val = Length }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-            {
-                foreach (int ID in MySqlManager.GetColumn<int>(MySqlCommand))
-                {
-                    IDList.Add(ID);
-                }
-            }
-            return IDList;
-        }
-
-
-        /// <summary>
-        /// 以字符串形式取得文章属性
-        /// </summary>
-        /// <typeparam name="T">目标属性类型</typeparam>
-        /// <param name="ID">目标文章ID</param>
-        /// <returns></returns>
-        public object GetProperty<T>(int ID) where T : IPostKey
-        {
-            string SQL = string.Format
-                (
-                "SELECT {0} FROM `{1}` WHERE ID = ?ID"
-                , typeof(T).Name, Views.Union
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
-                {
-                    new MySqlParm() { Name = "ID", Val = ID }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-            {
-                return MySqlManager.GetKey(MySqlCommand);
-            }
-        }
-        /// <summary>
-        /// 以字符串形式取得文章属性（限制最大取用长度）
-        /// </summary>
-        /// <typeparam name="T">目标属性类型</typeparam>
-        /// <param name="ID">目标文章ID</param>
-        /// <param name="Length">最大取用长度</param>
-        /// <returns></returns>
-        public object GetProperty<T>(int ID, int Length) where T : IPostKey
-        {
-            string SQL = string.Format
-                (
-                "SELECT SUBSTRING(( SELECT {0} FROM `{1}` WHERE ID = ?ID ) FROM 1 FOR ?Length)"
-                , typeof(T).Name, Views.Union
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
-                {
-                    new MySqlParm() { Name = "ID", Val = ID },
-                    new MySqlParm() { Name = "Length", Val = Length }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-            {
-                return MySqlManager.GetKey(MySqlCommand);
-            }
-        }
-
-        /// <summary>
-        /// 取得目标文章ID 的下一个文章ID（按ID升序查找）
-        /// </summary>
-        /// <param name="ID">目标文章ID</param>
+        /// <param name="Property">用于被正则表达式筛选的属性</param>
         /// <returns>不存在符合要求的ID时，返回-1</returns>
-        public int NextID(int ID)
+        public int Bigger<T>(int ID, string REGEXP, System.Type Property)
         {
-            /* 取得比当前 ID 大的一行，实现对下一条数据的抓取 */
-            string SQL = string.Format
-                (
-                "SELECT ID FROM `{0}` WHERE ID=( SELECT min(ID) FROM `{0}` WHERE ID > ?ID );"
-                , Views.Index
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
-                {
-                    new MySqlParm() { Name = "ID", Val = ID }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            string SQL;
+            if (typeof(T) == typeof(ID))
             {
-                object NextID = MySqlManager.GetKey(MySqlCommand);
-
-                return NextID == null ? -1 : Convert.ToInt32(NextID);
-            }
-        }
-        /// <summary>
-        /// 取得目标文章ID 的下一个文章ID(按指定属性在Index表升序查找)
-        /// </summary>
-        /// <typeparam name="T">目标属性类型</typeparam>
-        /// <param name="ID">目标文章ID</param>
-        /// <returns>不存在符合要求的ID时，返回-1</returns>
-        public int NextID<T>(int ID)
-        {
-            /* 取得比当前 ID 大的一行，实现对下一条数据的抓取 */
-            string SQL = string.Format
+                SQL = string.Format
                 (
-                "SELECT ID FROM `{0}` WHERE " +
-                "{1} =( SELECT min({1}) FROM `{0}` WHERE " +
-                "{1} >( SELECT {1} FROM `{0}` WHERE ID = ?ID ))"
-                , Views.Union, typeof(T).Name
+                "SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE ID > {2} AND {3} REGEXP ?REGEXP )"
+                , Views.PosUnion, typeof(T).Name, ID, Property.Name
                 );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
-                {
-                    new MySqlParm() { Name = "ID", Val = ID }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            }
+            else
             {
-                object NextID = MySqlManager.GetKey(MySqlCommand);
-
-                return NextID == null ? -1 : Convert.ToInt32(NextID);
-            }
-        }
-        /// <summary>
-        /// 取得目标文章ID 的下一个文章ID（在正则表达式匹配到的归档范围内，按ID升序查找）
-        /// </summary>
-        /// <param name="REGEXP">正则表达式</param>
-        /// <param name="ID">目标文章ID</param>
-        /// <returns>不存在符合要求的ID时，返回-1</returns>
-        public int NextID(string REGEXP, int ID)
-        {
-            string SQL = string.Format
+                SQL = string.Format
                 (
-                "SELECT ID FROM `{0}` WHERE ID=( SELECT min(ID) FROM `{0}` WHERE ID > ?ID AND Archiv REGEXP ?REGEXP )"
-                , Views.Backup
+                "SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE {1} > ( SELECT {1} FROM `{0}` WHERE ID = ?ID ) AND {2} REGEXP ?REGEXP )"
+                , Views.PosUnion, typeof(T).Name, Property.Name
                 );
+            }
+
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -681,75 +391,64 @@ namespace WaterLibrary.com.pilipala
                 return NextID == null ? -1 : Convert.ToInt32(NextID);
             }
         }
-
         /// <summary>
-        /// 取得指定目标文章ID 的上一个文章ID（按ID升序查找）
+        /// 取得具有比目标文章的指定属性具有更小的值的文章ID
         /// </summary>
-        /// <param name="ID">目标文章ID</param>
+        /// <typeparam name="T">指定属性</typeparam>
+        /// <param name="ID">目标文章的ID</param>
         /// <returns>不存在符合要求的ID时，返回-1</returns>
-        public int PrevID(int ID)
+        public int Smaller<T>(int ID)
         {
-            /* 取得比当前 ID 小的一行，实现对上一条数据的抓取 */
-            string SQL = string.Format
-                (
-                "SELECT ID FROM `{0}` WHERE " +
-                "ID =( SELECT max(ID) FROM `{0}` WHERE ID < ?ID )"
-                , Views.Index
-                );
+            string SQL;
 
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "ID", Val = ID }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
+            if (typeof(T) == typeof(ID))/* 对查询ID有优化 */
             {
-                object PrevID = MySqlManager.GetKey(MySqlCommand);
-
-                return PrevID == null ? -1 : Convert.ToInt32(PrevID);
+                SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE ID=( SELECT max(ID) FROM `{0}` WHERE ID < {1})"
+                , Views.PosUnion, ID
+                );
             }
+            else
+            {
+                SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE {1} < ( SELECT {1} FROM `{0}` WHERE ID = {2} ))"
+                , Views.PosUnion, typeof(T).Name, ID
+                );
+            }
+            object PrevID = MySqlManager.GetKey(SQL);
+
+            return PrevID == null ? -1 : Convert.ToInt32(PrevID);
+
         }
         /// <summary>
-        /// 取得指定目标文章ID 的上一个文章ID(按指定属性在Index表升序查找)
+        /// 取得具有比目标文章的指定属性具有更小的值的文章ID
         /// </summary>
-        /// <typeparam name="T">目标属性类型</typeparam>
-        /// <param name="ID">目标文章ID</param>
-        /// <returns>不存在符合要求的ID时，返回-1</returns>
-        public int PrevID<T>(int ID)
-        {
-            string SQL = string.Format
-                (
-                "SELECT ID FROM `{0}` WHERE " +
-                "{1} =( SELECT max({1}) FROM `{0}` WHERE " +
-                "{1} <( SELECT {1} FROM `{0}` WHERE ID = ?ID ))"
-                , Views.Union, typeof(T).Name
-                );
-
-            List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
-                {
-                    new MySqlParm() { Name = "ID", Val = ID }
-                };
-
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-            {
-                object PrevID = MySqlManager.GetKey(MySqlCommand);
-
-                return PrevID == null ? -1 : Convert.ToInt32(PrevID);
-            }
-        }
-        /// <summary>
-        /// 取得指定目标文章ID 的上一个文章ID（在正则表达式匹配到的归档范围内，按ID升序查找）
-        /// </summary>
+        /// <typeparam name="T">指定属性</typeparam>
+        /// <param name="ID">目标文章的ID</param>
         /// <param name="REGEXP">正则表达式</param>
-        /// <param name="ID">目标文章ID</param>
+        /// <param name="Property">用于被正则表达式筛选的属性</param>
         /// <returns>不存在符合要求的ID时，返回-1</returns>
-        public int PrevID(string REGEXP, int ID)
+        public int Smaller<T>(int ID, string REGEXP, System.Type Property)
         {
-            string SQL = string.Format
+            string SQL;
+            if (typeof(T) == typeof(ID))
+            {
+                SQL = string.Format
                 (
-                "SELECT ID FROM `{0}` WHERE ID=(SELECT max(ID) FROM `{0}` WHERE ID < ?ID AND Archiv REGEXP ?REGEXP)"
-                , Views.Backup
+                "SELECT ID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE ID < {2} AND {3} REGEXP ?REGEXP )"
+                , Views.PosUnion, typeof(T).Name, ID, Property.Name
                 );
+            }
+            else
+            {
+                SQL = string.Format
+                (
+                "SELECT ID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE {1} < ( SELECT {1} FROM `{0}` WHERE ID = ?ID ) AND {2} REGEXP ?REGEXP )"
+                , Views.PosUnion, typeof(T).Name, Property.Name
+                );
+            }
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -775,10 +474,6 @@ namespace WaterLibrary.com.pilipala
         /// </summary>
         private PLTables Tables { get; set; }
         /// <summary>
-        /// 视图集
-        /// </summary>
-        private PLViews Views { get; set; }
-        /// <summary>
         /// MySql数据库管理器
         /// </summary>
         private MySqlManager MySqlManager { get; set; }
@@ -790,7 +485,6 @@ namespace WaterLibrary.com.pilipala
         public void Ready(CORE CORE)
         {
             Tables = CORE.Tables;
-            Views = CORE.Views;
             MySqlManager = CORE.MySqlManager;
         }
 
@@ -817,15 +511,29 @@ namespace WaterLibrary.com.pilipala
             return Convert.ToInt32(value.GetType() == typeof(DBNull) ? 12000 : value);
         }
         /// <summary>
-        /// 获取指定文章的活跃拷贝的GUID
+        /// 获取指定文章的积极备份的GUID
         /// </summary>
         /// <param name="ID">目标文章ID</param>
         /// <returns></returns>
-        internal string GetActiveGUID(int ID)
+        internal string GetPositiveGUID(int ID)
         {
             return Convert.ToString(MySqlManager.GetKey(string.Format("SELECT GUID FROM {0} WHERE ID={1}", Tables.Index, ID)));
         }
-
+        /// <summary>
+        /// 获取指定文章的消极备份的GUID
+        /// </summary>
+        /// <param name="ID">目标文章ID</param>
+        /// <returns></returns>
+        internal string GetNegativeGUID(int ID)
+        {
+            return Convert.ToString(MySqlManager.GetKey(
+                string.Format
+                (
+                "SELECT {1}.GUID FROM {0} JOIN {1} ON {0}.ID=1}.ID AND {0}.GUID<>{1}.GUID WHERE {0}.ID={2}"
+                , Tables.Index, Tables.Backup, ID
+                )
+                ));
+        }
 
 
         /*
@@ -1250,7 +958,7 @@ namespace WaterLibrary.com.pilipala
         /// <param name="ID">目标文章ID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        public bool UpdateIndex<T>(int ID, object Value) where T : IPostKey
+        public bool UpdateIndex<T>(int ID, object Value) where T : IProperty
         {
             //初始化键定位
             MySqlKey MySqlKey = new MySqlKey
@@ -1268,18 +976,17 @@ namespace WaterLibrary.com.pilipala
         /// <param name="ID">目标拷贝GUID</param>
         /// <param name="Value">新属性值</param>
         /// <returns></returns>
-        public bool UpdateBackup<T>(int ID, object Value) where T : IPostKey
+        public bool UpdateBackup<T>(int ID, object Value) where T : IProperty
         {
             //初始化键定位
             MySqlKey MySqlKey = new MySqlKey
             {
                 Table = Tables.Backup,
                 Name = "GUID",
-                Val = GetActiveGUID(ID)
+                Val = GetPositiveGUID(ID)
             };
             return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Convert.ToString(Value));
         }
-        //ID更改方式需要编写
 
         /// <summary>
         /// 检测ID、GUID是否匹配，之后合并Post数据表
@@ -1366,10 +1073,6 @@ namespace WaterLibrary.com.pilipala
         /// </summary>
         private PLTables Tables { get; set; }
         /// <summary>
-        /// 视图集
-        /// </summary>
-        private PLViews Views { get; set; }
-        /// <summary>
         /// MySql数据库管理器
         /// </summary>
         private MySqlManager MySqlManager { get; set; }
@@ -1381,7 +1084,6 @@ namespace WaterLibrary.com.pilipala
         public void Ready(CORE CORE)
         {
             Tables = CORE.Tables;
-            Views = CORE.Views;
             MySqlManager = CORE.MySqlManager;
         }
 

@@ -134,6 +134,7 @@ H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\obj\Debug\PILI
 H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\obj\Debug\PILIPALA.dll
 H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\obj\Debug\PILIPALA.pdb
 H:\博客项目\pilipala2008beta8\先行测试2\PILIPALA\PILIPALA\obj\Debug\PILIPALA.csprojAssemblyReference.cache
+H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\obj\Debug\PILIPALA.csproj.CoreCompileInputs.cache
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\PILIPALA.dll.config
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\PILIPALA.dll
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\PILIPALA.pdb
@@ -189,13 +190,13 @@ H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\System.Web.WebPag
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\System.Web.WebPages.Deployment.xml
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\System.Web.WebPages.Razor.xml
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\WaterLibrary.pdb
+H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\WaterLibrary.xml
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\zh-Hans\System.Web.Helpers.resources.dll
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\zh-Hans\System.Web.Razor.resources.dll
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\zh-Hans\System.Web.WebPages.resources.dll
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
-H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\obj\Debug\PILIPALA.csproj.CoreCompileInputs.cache
+H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\obj\Debug\PILIPALA.csprojAssemblyReference.cache
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\obj\Debug\PILIPALA.csproj.CopyComplete
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\obj\Debug\PILIPALA.dll
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\obj\Debug\PILIPALA.pdb
-H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\obj\Debug\PILIPALA.csprojAssemblyReference.cache

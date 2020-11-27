@@ -8,22 +8,20 @@
 @using WaterLibrary.com.CommentLake;
 @using WaterLibrary.stru.CommentLake;
 @using WaterLibrary.stru.pilipala;
-@using WaterLibrary.stru.pilipala.PostKey;
+@using WaterLibrary.stru.pilipala.Post;
+@using WaterLibrary.stru.pilipala.Post.Property;
 @using PILIPALA.system.serv;
 @using PILIPALA.user.theme.field3.serv;
 
 @using Markdig;
 
-@using pla_Type = WaterLibrary.stru.pilipala.PostKey.Type;
+@using pla_Type = WaterLibrary.stru.pilipala.Post.Property.Type;
 @using sys_Type = System.Type;
 
 <!-- 服务初始化 -->
 @{ SysServ SysServ = new SysServ(); }
 <!-- 其他初始化 -->
 @{
-    List<string> 置顶 = new List<string> { "置顶" };
-    List<string> 其他 = new List<string> { "技术", "生活" };
-
     /* mkd */
     var builder = new Markdig.MarkdownPipelineBuilder();
     builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
@@ -45,11 +43,7 @@
     <!-- 置顶文章输出 -->
 
 
-    @foreach (Post Post in SysServ.PLDR.GetList<Archiv>(置顶,
-        typeof(Title), typeof(Summary), typeof(Content), typeof(Cover),
-        typeof(CT),
-        typeof(UVCount), typeof(StarCount),
-        typeof(pla_Type)))
+    @foreach (Post Post in SysServ.PLDR.GetPost<Archiv>("置顶"))
     {
         if (Post.Type == "")
         {
@@ -116,11 +110,7 @@
 
 
     <!-- 其他文章输出 -->
-    @foreach (Post Post in SysServ.PLDR.GetList<Archiv>(其他,
-        typeof(Title), typeof(Summary), typeof(Content), typeof(Cover),
-        typeof(CT),
-        typeof(UVCount), typeof(StarCount),
-        typeof(pla_Type)))
+    @foreach (Post Post in SysServ.PLDR.GetPost<Archiv>("技术|生活"))
     {
         if (Post.Type == "")
         {

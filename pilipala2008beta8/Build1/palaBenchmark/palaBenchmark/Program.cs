@@ -26,12 +26,13 @@ using System.Timers;
 using System.Threading;
 
 using WaterLibrary.stru.MySQL;
-using WaterLibrary.stru.pilipala.PostKey;
+using WaterLibrary.stru.pilipala.Post;
+using WaterLibrary.stru.pilipala.Post.Property;
 using WaterLibrary.stru.pilipala;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
 #endregion
-using Type = WaterLibrary.stru.pilipala.PostKey.Type;
+using Type = WaterLibrary.stru.pilipala.Post.Property.Type;
 
 namespace palaBenchmark
 {
@@ -56,15 +57,20 @@ namespace palaBenchmark
 
 
 #if 读测试
-            List<string> List = new List<string> { };
+            System.Type[] Properties = { typeof(Title), typeof(Summary), typeof(Content), typeof(Cover),
+                                   typeof(CT),
+                                   typeof(UVCount), typeof(StarCount),
+                                   typeof(Type)};
 
-            List<Post> p = benchmark.PLDR.GetPost<Archiv>
+
+            List<Post> List1 = benchmark.PLDR.GetPost<Archiv>
                 (
-                "技术|生活", false,
-                typeof(Title), typeof(Summary), typeof(Content), typeof(Cover),
-                typeof(CT),
-                typeof(UVCount), typeof(StarCount),
-                typeof(Type)
+                "技术|生活", Properties
+                );
+
+            List<Post> List2 = benchmark.PLDR.GetPost<Archiv>
+                (
+                "技术|生活"
                 );
 
             for (int ID = 12001; ID < 12000 + number; ID++)
@@ -75,16 +81,14 @@ namespace palaBenchmark
 
                 if (Title != "")
                 {
-                    benchmark.PLDR.MatchID<Title>(Title);
+                    benchmark.PLDR.GetPost<Title>(Title);
                 }
 
-                benchmark.PLDR.PrevID(ID);
-                benchmark.PLDR.PrevID<Title>(ID);
-                benchmark.PLDR.PrevID("置顶|生活|技术", ID);
+                benchmark.PLDR.Bigger<ID>(ID);
+                benchmark.PLDR.Bigger<ID>(ID, "置顶|生活|技术", typeof(Archiv));
 
-                benchmark.PLDR.NextID(ID);
-                benchmark.PLDR.NextID<Title>(ID);
-                benchmark.PLDR.NextID("置顶|生活|技术", ID);
+                benchmark.PLDR.Smaller<ID>(ID);
+                benchmark.PLDR.Smaller<ID>(ID, "置顶|生活|技术", typeof(Archiv));
 
                 Console.WriteLine("尝试读取文章 : {0} {1} {2}",
                     ID, benchmark.PLDR.GetPost(ID).GUID, benchmark.PLDR.GetPost(ID).Title);

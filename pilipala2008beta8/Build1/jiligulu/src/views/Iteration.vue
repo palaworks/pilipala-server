@@ -40,7 +40,9 @@
               <v-icon small left>mdi-folder-outline</v-icon>
               {{item.Archiv}}
             </v-chip>
-            <v-chip v-for="el in item.Label.split('$')" :key="el" class="ml-1">{{el}}</v-chip>
+            <span v-if="item.Label==''?false:true">
+              <v-chip v-for="el in item.Label.split('$')" :key="el" class="ml-1">{{el}}</v-chip>
+            </span>
             <v-list-item-subtitle
               class="text-subtitle-1 my-2"
               :class="item.Summary==''?'text--disabled':'text--secondary'"
@@ -64,10 +66,10 @@
     </div>
 
     <div style="left:50%;transform:translateX(-50%);z-index:1;bottom:0;position:fixed;">
-      <v-btn small class="ma-1 mb-2" color="primary" @click="Rollback()">
+      <v-btn :disabled="copy_list.length==1?true:false" small class="ma-1 mb-2" color="primary" @click="Rollback()">
         <v-icon left>mdi-restart-alert</v-icon>回滚到上一次更改(Rollback)
       </v-btn>
-      <v-btn small class="ma-1 mb-2" color="error" @click="Release()">
+      <v-btn :disabled="copy_list.length==1?true:false" small class="ma-1 mb-2" color="error" @click="Release()">
         <v-icon left>mdi-delete-alert</v-icon>释放冗余(Release)
       </v-btn>
     </div>

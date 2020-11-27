@@ -201,3 +201,4 @@ H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\obj\Release\PILIPALA.
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\obj\Release\PILIPALA.csproj.CopyComplete
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\obj\Release\PILIPALA.dll
 H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\obj\Release\PILIPALA.pdb
+H:\博客项目\pilipala2008beta8\Build1\PILIPALA\PILIPALA\bin\WaterLibrary.xml

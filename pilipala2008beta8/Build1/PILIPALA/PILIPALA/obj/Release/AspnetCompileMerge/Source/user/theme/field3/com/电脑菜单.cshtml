@@ -1,16 +1,14 @@
 ﻿<!-- 所需引用 -->
 @using WaterLibrary.stru.pilipala;
-@using WaterLibrary.stru.pilipala.PostKey;
+@using WaterLibrary.stru.pilipala.Post;
+@using WaterLibrary.stru.pilipala.Post.Property;
 @using PILIPALA.system.serv;
 <!-- 通用初始化 -->
 @{ SysServ SysServ = new SysServ(); }
-<!-- 变量初始化 -->
-@{List<int> IDList; }
 <!-- 其他初始化 -->
 @{
-    List<string> 菜单 = new List<string> { "页面", "友情链接" };
-
-    IDList = SysServ.PLDR.GetIDList<Archiv>(菜单);
+    var array = new System.Type[2] { typeof(ID), typeof(Title) };
+    List<Post> Set = SysServ.PLDR.GetPost<Archiv>("页面|友情链接", array);
 }
 
 <div class="box bSha bRds-t">
@@ -20,7 +18,7 @@
         </div>
     </div>
 
-    <div class="Name">THAUMY的小站</div>
+    <div class="Name">Thaumy的博客</div>
     <div class="Note"><span id="note"></span></div>
 </div>
 
@@ -82,11 +80,10 @@
             List:
             [
                 { index:0, ID:-1, Title:'首页' },
-                @{ int i = 0; }
-                @foreach(int ID in IDList)
+                @{ int i = 1;}
+                @foreach (Post Post in Set)
                 {
-                    i++;
-                    <text>{ index:@i , ID:@ID, Title:'@Html.Raw(SysServ.PLDR.Get<Title>(ID))' },</text>
+                    <text>{ index:@(i++) , ID:@Post.ID, Title:'@Html.Raw(Post.Title)' },</text>
                 }
             ]
         },
