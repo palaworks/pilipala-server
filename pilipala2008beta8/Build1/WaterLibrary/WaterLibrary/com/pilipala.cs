@@ -83,12 +83,13 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 设置内核所需要的表
         /// </summary>
-        /// <param name="User">用户表，默认为：pl_user</param>
-        /// <param name="Index">索引表，默认为：pl_index</param>
-        /// <param name="Backup">备份表，默认为：pl_backup</param>
-        public void SetTables(string User = "pl_user", string Index = "pl_index", string Backup = "pl_backup")
+        /// <param name="User">用户表</param>
+        /// <param name="Index">索引表</param>
+        /// <param name="Backup">备份表</param>
+        /// <param name="Comment">备份表</param>
+        public void SetTables(string User = "pl_user", string Index = "pl_index", string Backup = "pl_backup", string Comment = "comment_lake")
         {
-            Tables = new PLTables(User, Index, Backup);
+            Tables = new PLTables(User, Index, Backup, Comment);
 
         }
         /// <summary>
@@ -109,10 +110,6 @@ namespace WaterLibrary.com.pilipala
     public class PLDR : IPLDataReader
     {
         /// <summary>
-        /// 表集
-        /// </summary>
-        private PLTables Tables { get; set; }
-        /// <summary>
         /// 视图集
         /// </summary>
         private PLViews Views { get; set; }
@@ -127,7 +124,6 @@ namespace WaterLibrary.com.pilipala
         /// <param name="CORE"></param>
         public void Ready(CORE CORE)
         {
-            Tables = CORE.Tables;
             Views = CORE.Views;
             MySqlManager = CORE.MySqlManager;
         }
@@ -420,7 +416,6 @@ namespace WaterLibrary.com.pilipala
             object PrevID = MySqlManager.GetKey(SQL);
 
             return PrevID == null ? -1 : Convert.ToInt32(PrevID);
-
         }
         /// <summary>
         /// 取得具有比目标文章的指定属性具有更小的值的文章ID
@@ -497,7 +492,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format("SELECT MAX(ID) FROM {0}", Tables.Index);
             var value = MySqlManager.GetKey(SQL);
             /* 若取不到最大ID(没有任何文章时)，返回12000作为初始ID */
-            return Convert.ToInt32(value.GetType() == typeof(DBNull) ? 12000 : value);
+            return Convert.ToInt32(value == DBNull.Value ? 12000 : value);
         }
         /// <summary>
         /// 得到最小文章ID（私有）
@@ -508,7 +503,7 @@ namespace WaterLibrary.com.pilipala
             string SQL = string.Format("SELECT MIN(ID) FROM {0}", Tables.Index);
             var value = MySqlManager.GetKey(SQL);
             /* 若取不到最大ID(没有任何文章时)，返回12000作为初始ID */
-            return Convert.ToInt32(value.GetType() == typeof(DBNull) ? 12000 : value);
+            return Convert.ToInt32(value == DBNull.Value ? 12000 : value);
         }
         /// <summary>
         /// 获取指定文章的积极备份的GUID
@@ -1091,7 +1086,7 @@ namespace WaterLibrary.com.pilipala
         /// <summary>
         /// 文章计数
         /// </summary>
-        public int PostCount
+        public int TotalPostCount
         {
             get { return GetPostCountByMode("^"); }
         }
@@ -1134,15 +1129,13 @@ namespace WaterLibrary.com.pilipala
 
         private int GetPostCountByMode(string REGEXP)
         {
-            string SQL = string.Format("SELECT Count(*) FROM {0} WHERE Mode REGEXP '{1}';", Tables.Index, REGEXP);
-
-            return Convert.ToInt32(MySqlManager.GetKey(SQL));
+            object Count = MySqlManager.GetKey(string.Format("SELECT Count(*) FROM {0} WHERE Mode REGEXP '{1}';", Tables.Index, REGEXP));
+            return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
         }
         private int GetBackupCount()
         {
-            string SQL = string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID;", Tables.Index, Tables.Backup);
-
-            return Convert.ToInt32(MySqlManager.GetKey(SQL));
+            object Count = MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID;", Tables.Index, Tables.Backup));
+            return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
         }
     }
 }

@@ -34,6 +34,7 @@ export default {
         展示: null,
         归档: null,
         计划: null,
+        评论: null,
       },
       temp: null,
     };
@@ -48,6 +49,7 @@ export default {
         this.preview_list.展示 = response.data.OnDisplayCount;
         this.preview_list.归档 = response.data.ArchivedCount;
         this.preview_list.计划 = response.data.ScheduledCount;
+        this.preview_list.评论 = response.data.CommentCount;
       })
       .catch(function (error) {
         // 请求失败处理

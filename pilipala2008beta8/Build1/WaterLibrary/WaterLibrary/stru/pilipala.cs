@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Collections;
+
 using WaterLibrary.com.basic;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.stru.pilipala.DB;
@@ -149,11 +151,12 @@ namespace WaterLibrary.stru.pilipala
             /// <parmm name="IndexTable"></parmm>
             /// <parmm name="BackupTable"></parmm>
             /// <parmm name="text_sub"></parmm>
-            public PLTables(string User, string Index, string Backup) : this()
+            public PLTables(string User, string Index, string Backup, string Comment) : this()
             {
                 this.User = User;
                 this.Index = Index;
                 this.Backup = Backup;
+                this.Comment = Comment;
             }
 
             /// <summary>
@@ -168,6 +171,10 @@ namespace WaterLibrary.stru.pilipala
             /// 主表
             /// </summary>
             public string Backup { get; set; }
+            /// <summary>
+            /// 评论表
+            /// </summary>
+            public string Comment { get; set; }
         }
         /// <summary>
         /// 数据库视图视图集合
@@ -179,7 +186,7 @@ namespace WaterLibrary.stru.pilipala
             /// </summary>
             /// <param name="PosUnion">积极联合视图</param>
             /// <param name="NegUnion">消极联合视图</param>
-            public PLViews( string PosUnion, string NegUnion) : this()
+            public PLViews(string PosUnion, string NegUnion) : this()
             {
                 this.PosUnion = PosUnion;
                 this.NegUnion = NegUnion;
@@ -276,7 +283,7 @@ namespace WaterLibrary.stru.pilipala
         /// <summary>
         /// 文章计数
         /// </summary>
-        int PostCount { get; }
+        int TotalPostCount { get; }
         /// <summary>
         /// 拷贝计数
         /// </summary>
@@ -407,6 +414,8 @@ namespace WaterLibrary.stru.pilipala
 
                 UVCount = -1;
                 StarCount = -1;
+
+                PropertyContainer = new Hashtable();
             }
 
             /// <summary>
@@ -415,6 +424,13 @@ namespace WaterLibrary.stru.pilipala
             public string MD5
             {
                 get { return ConvertH.ToMD5(Title + Summary + Content); }
+            }
+            /// <summary>
+            /// 基于Title,Summary和Content的SHA1签名(自动生成)
+            /// </summary>
+            public string SHA1
+            {
+                get { return ConvertH.ToSHA1(Title + Summary + Content); }
             }
 
             /// <summary>
@@ -482,6 +498,11 @@ namespace WaterLibrary.stru.pilipala
             /// 星星计数
             /// </summary>
             public int StarCount { get; set; }
+
+            /// <summary>
+            /// 属性容器
+            /// </summary>
+            public Hashtable PropertyContainer { get; set; }
         }
 
         namespace Property
