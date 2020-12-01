@@ -46,16 +46,7 @@
 }
 <!-- CommentLake评论系统初始化 -->
 @{
-    CommentLake CommentLake = new CommentLake(new MySqlConnMsg
-    {
-        DataSource = WebConfigurationManager.AppSettings["DataSource"],
-        DataBase = WebConfigurationManager.AppSettings["DataBase"],
-        Port = WebConfigurationManager.AppSettings["Port"],
-        User = WebConfigurationManager.AppSettings["User"],
-        PWD = WebConfigurationManager.AppSettings["PWD"]
-    }, "comment_lake");
-
-    List<Comment> CommentList = CommentLake.GetCommentList(ID);
+    List<Comment> CommentList = SysServ.CommentLake.GetCommentList(ID);
 }
 
 @section 内容
@@ -120,7 +111,7 @@
         <div class="AtBox L bRds-b">
             <div class="Date">于@(ThemeServ.OnlyDate(Post.CT, "-"))创建</div>
             <div class="UVCount">@Post.UVCount</div>
-            <div class="CommentCount cur">@CommentLake.GetCommentCount(ID)</div>
+            <div class="CommentCount cur">@SysServ.CommentLake.GetCommentCount(ID)</div>
             <div class="StarCount cur" onclick="refre_StarCount(@ID)">@Post.StarCount</div>
             <div class="Time">@ThemeServ.OnlyWeekTime(Post.CT)</div>
 

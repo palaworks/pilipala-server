@@ -9,6 +9,9 @@ using System.Web.Configuration;
 using WaterLibrary.com.CommentLake;
 using WaterLibrary.stru.CommentLake;
 using WaterLibrary.stru.MySQL;
+using WaterLibrary.com.MySQL;
+using WaterLibrary.com.pilipala;
+using WaterLibrary.stru.pilipala.DB;
 
 namespace PILIPALA.system.serv
 {
@@ -24,18 +27,30 @@ namespace PILIPALA.system.serv
 
     public class CaptchaServ : System.Web.Services.WebService
     {
-        [WebMethod]
-        public string CommentLakeCaptcha(int PostID, int HEAD, string Content, string User, string Email, string WebSite)
+        CommentLake CommentLake = new CommentLake();
+        PLDB PLDB = new PLDB
         {
-            CommentLake CommentLake = new CommentLake(new MySqlConnMsg
+            Views = new PLViews() { PosUnion = "pos>dirty>union", NegUnion = "neg>dirty>union" },
+            MySqlManager = new MySqlManager(new MySqlConnMsg
             {
                 DataSource = WebConfigurationManager.AppSettings["DataSource"],
                 DataBase = WebConfigurationManager.AppSettings["DataBase"],
                 Port = WebConfigurationManager.AppSettings["Port"],
                 User = WebConfigurationManager.AppSettings["User"],
                 PWD = WebConfigurationManager.AppSettings["PWD"]
-            }, "comment_lake");
+            })
+        };
 
+        [WebMethod]
+        public string CommentLakeCaptcha(int PostID, int HEAD, string Content, string User, string Email, string WebSite)
+        {
+            CORE CORE = new CORE(PLDB);
+            CORE.SetTables();
+
+            CORE.LinkOn += CommentLake.Ready;
+
+            CORE.Ready();
+            CORE.Run();
 
             CommentLake.AddComment(new Comment()
             {

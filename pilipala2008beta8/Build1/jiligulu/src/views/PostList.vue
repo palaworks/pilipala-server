@@ -45,10 +45,12 @@
             <v-btn small text class="text--disabled">
               <v-icon small>mdi-account-edit</v-icon>
               {{item.User}}
-              <v-icon small class="ml-2">mdi-account-multiple-outline</v-icon>
-              {{item.UVCount}}
+              <v-icon small class="ml-2">mdi-tooltip-text-outline</v-icon>
+              {{item.PropertyContainer.CommentCount}}
               <v-icon small class="ml-2">mdi-star-outline</v-icon>
               {{item.StarCount}}
+              <v-icon small class="ml-2">mdi-account-multiple-outline</v-icon>
+              {{item.UVCount}}
             </v-btn>
             <v-btn disabled small text>最后编辑 : {{item.LCT}}</v-btn>
           </v-list-item-action>

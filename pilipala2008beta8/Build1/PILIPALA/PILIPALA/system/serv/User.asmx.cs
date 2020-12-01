@@ -16,6 +16,7 @@ using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.stru.pilipala.Post;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
+using WaterLibrary.com.CommentLake;
 
 
 using pla_Type = WaterLibrary.stru.pilipala.Post.Property.Type;
@@ -34,18 +35,19 @@ namespace PILIPALA.system.serv
 
     public class User : System.Web.Services.WebService
     {
-
         public CORE CORE;
         public PLDR PLDR = new PLDR();
         public PLDU PLDU = new PLDU();
         public PLDC PLDC = new PLDC();
+
+        public CommentLake CommentLake = new CommentLake();
 
         public User()
         {
             /* 初始化噼里啪啦数据库信息和MySql控制器 */
             PLDB PLDB = new PLDB
             {
-                Views = new PLViews() { PosUnion = "pos>dirty>union", NegUnion = "neg>dirty>union"},
+                Views = new PLViews() { PosUnion = "pos>dirty>union", NegUnion = "neg>dirty>union" },
                 MySqlManager = new MySqlManager(new MySqlConnMsg
                 {
                     DataSource = WebConfigurationManager.AppSettings["DataSource"],
@@ -62,6 +64,7 @@ namespace PILIPALA.system.serv
             CORE.LinkOn += PLDR.Ready;
             CORE.LinkOn += PLDU.Ready;
             CORE.LinkOn += PLDC.Ready;
+            CORE.LinkOn += CommentLake.Ready;
 
             CORE.Ready();
             /* 启动内核 */
@@ -101,12 +104,13 @@ namespace PILIPALA.system.serv
         {
             Hashtable data = new Hashtable()
             {
-                { "PostCount", PLDC.PostCount },
+                { "PostCount", PLDC.TotalPostCount },
                 { "CopyCount",  PLDC.BackupCount },
                 { "HiddenCount",  PLDC.HiddenCount },
                 { "OnDisplayCount",  PLDC.OnDisplayCount },
                 { "ArchivedCount",  PLDC.ArchivedCount },
                 { "ScheduledCount",  PLDC.ScheduledCount },
+                { "CommentCount",   CommentLake.TotalCommentCount},
             };
 
             Context.Response.Write(JsonConvert.SerializeObject(data));
@@ -118,7 +122,13 @@ namespace PILIPALA.system.serv
         [WebMethod]
         public void Get_Post_DataList()
         {
-            List<Post> data = PLDR.GetPost<ID>("^");
+            List<Post> data = new List<Post>();
+
+            foreach (Post item in PLDR.GetPost<ID>("^"))
+            {
+                item.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(item.ID));
+                data.Add(item);
+            }
 
             var iso = new Newtonsoft.Json.Converters.IsoDateTimeConverter
             {

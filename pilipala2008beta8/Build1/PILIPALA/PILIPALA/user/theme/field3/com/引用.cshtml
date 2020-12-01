@@ -8,14 +8,19 @@
 <link rel="stylesheet" href="~/user/theme/field3/com/ui/css/global.css">
 
 <!-- 自动切换主题颜色 -->
-@if (DateTime.Now.Hour >= 20 || DateTime.Now.Hour <= 7)
+@if (DateTime.Now.Hour >= 21 || DateTime.Now.Hour <= 7)
 {
     <link rel="stylesheet" href="~/user/theme/field3/com/ui/css/dark.css">
+    <!-- GitHub-Markdown-js -->
+    <link rel="stylesheet" href="~/user/dark.css" />
 }
 else
 {
     <link rel="stylesheet" href="~/user/theme/field3/com/ui/css/white.css">
+    <!-- GitHub-Markdown-js -->
+    <link rel="stylesheet" href="~/user/white.css" />
 }
+
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@2.3.18/dist/vuetify.min.js"></script>
@@ -33,14 +38,12 @@ else
 <div style="display:none">
     <script src="https://s19.cnzz.com/z_stat.php?id=1262285427&web_id=1262285427"></script>
 </div>
-<!-- 评论Captcha -->
-<script src="https://g.alicdn.com/sd/ncpc/nc.js?t=2015052012"></script>
+
 <!-- vuetify -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
 <link rel="stylesheet" href="@Html.Raw("https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css")">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css">
-<!-- GitHub-Markdown-js -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
 <!-- 版权绘 -->
 <script>
     let a =

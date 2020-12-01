@@ -24,6 +24,11 @@ const routes = [{
     component: () => import('../views/Iteration.vue')
   },
   {
+    path: '/Comment',
+    name: 'Comment',
+    component: () => import('../views/Comment.vue')
+  },
+  {
     path: '/User',
     name: 'User',
     component: () => import('../views/User.vue')
