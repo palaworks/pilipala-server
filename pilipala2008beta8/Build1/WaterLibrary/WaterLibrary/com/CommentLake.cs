@@ -8,9 +8,11 @@ using System.Data;
 using MySql.Data.MySqlClient;
 
 using WaterLibrary.com.MySQL;
+using WaterLibrary.com.pilipala;
 using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.CommentLake;
 using WaterLibrary.stru.CommentLake.CommentKey;
+using WaterLibrary.stru.pilipala.DB;
 
 namespace WaterLibrary.com.CommentLake
 {
@@ -20,58 +22,56 @@ namespace WaterLibrary.com.CommentLake
     public class CommentLake
     {
         /// <summary>
-        /// 评论表
+        /// 表集
         /// </summary>
-        public string CommentTable { get; private set; }
+        private PLTables Tables { get; set; }
         /// <summary>
         /// MySql数据库管理器
         /// </summary>
-        public MySqlManager MySqlManager { get; private set; }
+        private MySqlManager MySqlManager { get; set; }
 
         /// <summary>
-        /// 初始化CommentLake
+        /// 准备评论湖
         /// </summary>
-        /// <param name="MySqlConnMsg">MySql连接信息</param>
-        /// <param name="CommentTable">评论表</param>
-        public CommentLake(MySqlConnMsg MySqlConnMsg, string CommentTable)
+        /// <param name="CORE"></param>
+        public void Ready(CORE CORE)
         {
-            this.CommentTable = CommentTable;
-            MySqlManager = new MySqlManager(MySqlConnMsg);
-            MySqlManager.Open();
+            Tables = CORE.Tables;
+            MySqlManager = CORE.MySqlManager;
         }
 
         /// <summary>
         /// 得到最大评论ID（私有）
         /// </summary>
-        /// <returns></returns>
+        /// <returns>不存在返回1</returns>
         private int GetMaxCommentID()
         {
-            string SQL = string.Format("SELECT max(CommentID) FROM {0}", CommentTable);
+            string SQL = string.Format("SELECT max(CommentID) FROM {0}", Tables.Comment);
 
-            return Convert.ToInt32(MySqlManager.GetKey(SQL));
+            object MaxCommentID = MySqlManager.GetKey(SQL);
+            return MaxCommentID == DBNull.Value ? 1 : Convert.ToInt32(MaxCommentID);
         }
         /// <summary>
         /// 获得目标文章下的最大评论楼层（私有）
         /// </summary>
-        /// <returns></returns>
+        /// <returns>不存在返回1</returns>
         private int GetMaxFloor(int PostID)
         {
-            string SQL = string.Format("SELECT max(Floor) FROM {0} WHERE PostID = {1}", CommentTable, PostID);
+            string SQL = string.Format("SELECT max(Floor) FROM {0} WHERE PostID = {1}", Tables.Comment, PostID);
 
-            return Convert.ToInt32(MySqlManager.GetKey(SQL));
+            object MaxFloor = MySqlManager.GetKey(SQL);
+            return MaxFloor == DBNull.Value ? 1 : Convert.ToInt32(MaxFloor);
         }
 
         /// <summary>
         /// 评论总计数
         /// </summary>
-        public int CommentCount
+        public int TotalCommentCount
         {
             get
             {
-                return Convert.ToInt32
-                (
-                MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0}", CommentTable))
-                );
+                object Count = MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0}", Tables.Comment));
+                return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
             }
         }
         /// <summary>
@@ -81,9 +81,8 @@ namespace WaterLibrary.com.CommentLake
         /// <returns></returns>
         public int GetCommentCount(int PostID)
         {
-            string SQL = string.Format("SELECT COUNT(*) FROM {0} WHERE PostID = {1}", CommentTable, PostID);
-
-            return Convert.ToInt32(MySqlManager.GetKey(SQL));
+            object Count = MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0} WHERE PostID = {1}", Tables.Comment, PostID));
+            return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
         }
 
         /// <summary>
@@ -98,7 +97,7 @@ namespace WaterLibrary.com.CommentLake
             string SQL = string.Format
                 (
                 "SELECT {0} FROM {1} WHERE CommentID = {2}"
-                , typeof(T).Name, CommentTable, CommentID
+                , typeof(T).Name, Tables.Comment, CommentID
                 );
             return MySqlManager.GetKey(SQL).ToString();
         }
@@ -113,7 +112,7 @@ namespace WaterLibrary.com.CommentLake
             List<Comment> CommentList = new List<Comment>();
 
             /* 按时间从早到晚排序 */
-            string SQL = string.Format("SELECT * FROM {0} WHERE PostID = ?PostID ORDER BY Floor", CommentTable);
+            string SQL = string.Format("SELECT * FROM {0} WHERE PostID = ?PostID ORDER BY Floor", Tables.Comment);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -153,7 +152,7 @@ namespace WaterLibrary.com.CommentLake
             List<Comment> CommentList = new List<Comment>();
 
             DataTable result =
-                MySqlManager.GetTable(string.Format("SELECT * FROM {0} WHERE HEAD={1} ORDER BY Floor", CommentTable, CommentID));
+                MySqlManager.GetTable(string.Format("SELECT * FROM {0} WHERE HEAD={1} ORDER BY Floor", Tables.Comment, CommentID));
 
             foreach (DataRow Row in result.Rows)
             {
@@ -187,7 +186,7 @@ namespace WaterLibrary.com.CommentLake
                 "(CommentID , HEAD, PostID, Floor, User, Email, Content, WebSite, Time) VALUES " +
                 "(?CommentID,?HEAD,?PostID,?Floor,?User,?Email,?Content,?WebSite,?Time)"
 
-                , CommentTable);
+                , Tables.Comment);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
             {
@@ -230,7 +229,7 @@ namespace WaterLibrary.com.CommentLake
         {
             MySqlCommand MySqlCommand = new MySqlCommand
             {
-                CommandText = string.Format("DELETE FROM {0} WHERE CommentID = {1}", CommentTable, CommentID),
+                CommandText = string.Format("DELETE FROM {0} WHERE CommentID = {1}", Tables.Comment, CommentID),
                 Connection = MySqlManager.Connection,
 
                 /* 开始事务 */

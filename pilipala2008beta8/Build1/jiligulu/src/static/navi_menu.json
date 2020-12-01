@@ -23,6 +23,12 @@
         "is_disabled": true
     },
     {
+        "title": "评论区",
+        "icon": "mdi-tooltip-text-outline",
+        "src": "/Comment",
+        "is_disabled": false
+    },
+    {
         "title": "用户",
         "icon": "mdi-account-circle",
         "src": "/User",

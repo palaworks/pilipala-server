@@ -7,6 +7,14 @@
   color: rgb(210, 210, 210);
 }
 
+.hljs-cs{
+ color: #569CD6;
+}
+
+.hljs-title{
+ color: #dcdcaa;
+}
+
 .hljs-keyword,
 .hljs-literal,
 .hljs-symbol,
@@ -40,7 +48,6 @@
 
 .hljs-subst,
 .hljs-function,
-.hljs-title,
 .hljs-params,
 .hljs-formula {
   color: #DCDCDC;

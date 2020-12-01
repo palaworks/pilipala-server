@@ -273,9 +273,9 @@
             评论湖
             </summary>
         </member>
-        <member name="P:WaterLibrary.com.CommentLake.CommentLake.CommentTable">
+        <member name="P:WaterLibrary.com.CommentLake.CommentLake.Tables">
             <summary>
-            评论表
+            表集
             </summary>
         </member>
         <member name="P:WaterLibrary.com.CommentLake.CommentLake.MySqlManager">
@@ -283,26 +283,25 @@
             MySql数据库管理器
             </summary>
         </member>
-        <member name="M:WaterLibrary.com.CommentLake.CommentLake.#ctor(WaterLibrary.stru.MySQL.MySqlConnMsg,System.String)">
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.Ready(WaterLibrary.com.pilipala.CORE)">
             <summary>
-            初始化CommentLake
+            准备评论湖
             </summary>
-            <param name="MySqlConnMsg">MySql连接信息</param>
-            <param name="CommentTable">评论表</param>
+            <param name="CORE"></param>
         </member>
         <member name="M:WaterLibrary.com.CommentLake.CommentLake.GetMaxCommentID">
             <summary>
             得到最大评论ID（私有）
             </summary>
-            <returns></returns>
+            <returns>不存在返回1</returns>
         </member>
         <member name="M:WaterLibrary.com.CommentLake.CommentLake.GetMaxFloor(System.Int32)">
             <summary>
             获得目标文章下的最大评论楼层（私有）
             </summary>
-            <returns></returns>
+            <returns>不存在返回1</returns>
         </member>
-        <member name="P:WaterLibrary.com.CommentLake.CommentLake.CommentCount">
+        <member name="P:WaterLibrary.com.CommentLake.CommentLake.TotalCommentCount">
             <summary>
             评论总计数
             </summary>
@@ -619,13 +618,14 @@
             关闭内核
             </summary>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.CORE.SetTables(System.String,System.String,System.String)">
+        <member name="M:WaterLibrary.com.pilipala.CORE.SetTables(System.String,System.String,System.String,System.String)">
             <summary>
             设置内核所需要的表
             </summary>
-            <param name="User">用户表，默认为：pl_user</param>
-            <param name="Index">索引表，默认为：pl_index</param>
-            <param name="Backup">备份表，默认为：pl_backup</param>
+            <param name="User">用户表</param>
+            <param name="Index">索引表</param>
+            <param name="Backup">备份表</param>
+            <param name="Comment">备份表</param>
         </member>
         <member name="M:WaterLibrary.com.pilipala.CORE.SetViews(System.String,System.String)">
             <summary>
@@ -637,11 +637,6 @@
         <member name="T:WaterLibrary.com.pilipala.PLDR">
             <summary>
             啪啦数据读取器
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.com.pilipala.PLDR.Tables">
-            <summary>
-            表集
             </summary>
         </member>
         <member name="P:WaterLibrary.com.pilipala.PLDR.Views">
@@ -923,7 +918,7 @@
             </summary>
             <param name="CORE"></param>
         </member>
-        <member name="P:WaterLibrary.com.pilipala.PLDC.PostCount">
+        <member name="P:WaterLibrary.com.pilipala.PLDC.TotalPostCount">
             <summary>
             文章计数
             </summary>
@@ -1381,7 +1376,7 @@
             数据库表集合
             </summary>
         </member>
-        <member name="M:WaterLibrary.stru.pilipala.DB.PLTables.#ctor(System.String,System.String,System.String)">
+        <member name="M:WaterLibrary.stru.pilipala.DB.PLTables.#ctor(System.String,System.String,System.String,System.String)">
             <summary>
             初始化表名结构
             </summary>
@@ -1403,6 +1398,11 @@
         <member name="P:WaterLibrary.stru.pilipala.DB.PLTables.Backup">
             <summary>
             主表
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.DB.PLTables.Comment">
+            <summary>
+            评论表
             </summary>
         </member>
         <member name="T:WaterLibrary.stru.pilipala.DB.PLViews">
@@ -1508,7 +1508,7 @@
             啪啦数据计数器接口
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.IPLDataCounter.PostCount">
+        <member name="P:WaterLibrary.stru.pilipala.IPLDataCounter.TotalPostCount">
             <summary>
             文章计数
             </summary>
@@ -1576,6 +1576,11 @@
         <member name="P:WaterLibrary.stru.pilipala.Post.Post.MD5">
             <summary>
             基于Title,Summary和Content的MD5签名(自动生成)
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.Post.SHA1">
+            <summary>
+            基于Title,Summary和Content的SHA1签名(自动生成)
             </summary>
         </member>
         <member name="P:WaterLibrary.stru.pilipala.Post.Post.ID">
@@ -1651,6 +1656,11 @@
         <member name="P:WaterLibrary.stru.pilipala.Post.Post.StarCount">
             <summary>
             星星计数
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.stru.pilipala.Post.Post.PropertyContainer">
+            <summary>
+            属性容器
             </summary>
         </member>
         <member name="T:WaterLibrary.stru.pilipala.Post.Property.IProperty">

@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala.Post.Property;
 using WaterLibrary.stru.pilipala.DB;
-using WaterLibrary.stru.pilipala;
+using WaterLibrary.com.CommentLake;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
 
@@ -41,6 +41,7 @@ namespace PILIPALA.system.serv
         public PLDR PLDR = new PLDR();
         public PLDU PLDU = new PLDU();
         public PLDC PLDC = new PLDC();
+        public CommentLake CommentLake = new CommentLake();
 
         public SysServ()
         {
@@ -66,6 +67,7 @@ namespace PILIPALA.system.serv
             CORE.LinkOn += PLDR.Ready;
             CORE.LinkOn += PLDU.Ready;
             CORE.LinkOn += PLDC.Ready;
+            CORE.LinkOn += CommentLake.Ready;
 
             /* 准备内核 */
             CORE.Ready();
