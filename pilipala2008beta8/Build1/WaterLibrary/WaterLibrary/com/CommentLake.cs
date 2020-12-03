@@ -13,6 +13,7 @@ using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.CommentLake;
 using WaterLibrary.stru.CommentLake.CommentKey;
 using WaterLibrary.stru.pilipala.DB;
+using WaterLibrary.stru.pilipala.Post;
 
 namespace WaterLibrary.com.CommentLake
 {
@@ -103,6 +104,23 @@ namespace WaterLibrary.com.CommentLake
         }
 
         /// <summary>
+        /// 得到被评论文章的ID列表
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetCommentedPostID()
+        {
+            var List = new List<int>();
+
+            string SQL = string.Format("SELECT ID FROM {0} JOIN {1} ON {0}.ID={1}.PostID GROUP BY {0}.ID", Tables.Index, Tables.Comment);
+
+            foreach (DataRow Row in MySqlManager.GetTable(SQL).Rows)
+            {
+                List.Add(Convert.ToInt32(Row[0]));
+            }
+
+            return List;
+        }
+        /// <summary>
         /// 获得目标文章的评论列表
         /// </summary>
         /// <param name="PostID">目标文章ID</param>
@@ -111,7 +129,7 @@ namespace WaterLibrary.com.CommentLake
         {
             List<Comment> CommentList = new List<Comment>();
 
-            /* 按时间从早到晚排序 */
+            /* 按楼层排序 */
             string SQL = string.Format("SELECT * FROM {0} WHERE PostID = ?PostID ORDER BY Floor", Tables.Comment);
 
             List<MySqlParm> ParmList = new List<MySqlParm>
@@ -225,7 +243,7 @@ namespace WaterLibrary.com.CommentLake
         /// </summary>
         /// <param name="CommentID"></param>
         /// <returns></returns>
-        public bool DelComment(int CommentID)
+        public bool DeleteComment(int CommentID)
         {
             MySqlCommand MySqlCommand = new MySqlCommand
             {

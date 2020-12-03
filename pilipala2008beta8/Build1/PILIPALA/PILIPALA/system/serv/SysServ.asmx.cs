@@ -77,46 +77,60 @@ namespace PILIPALA.system.serv
 
 
         /// <summary>
-        /// count_star计数减一
+        /// 星星计数减一
         /// </summary>
         /// <param name="ID">文章序列号</param>
         [WebMethod]
-        public uint StarCount_subs(int ID)
+        public void Decrease_StarCount_by_PostID(int PostID)
         {
             SysServ SysServ = new SysServ();
-            uint StarCount = SysServ.PLDR.GetProperty<StarCount>(ID);
+            uint StarCount = SysServ.PLDR.GetProperty<StarCount>(PostID);
 
-            SysServ.PLDU.UpdateIndex<StarCount>(ID, StarCount - 1);
+            SysServ.PLDU.UpdateIndex<StarCount>(PostID, StarCount - 1);
 
-            return StarCount - 1;
+            Context.Response.Write(StarCount - 1);
+            Context.Response.End();
         }
         /// <summary>
-        /// count_star计数加一
+        /// 星星计数加一
         /// </summary>
         /// <param name="ID">文章序列号</param>
         [WebMethod]
-        public uint StarCount_plus(int ID)
+        public void Increase_StarCount_by_PostID(int PostID)
         {
             SysServ SysServ = new SysServ();
-            uint StarCount = SysServ.PLDR.GetProperty<StarCount>(ID);
+            uint StarCount = SysServ.PLDR.GetProperty<StarCount>(PostID);
 
-            SysServ.PLDU.UpdateIndex<StarCount>(ID, StarCount + 1);
+            SysServ.PLDU.UpdateIndex<StarCount>(PostID, StarCount + 1);
 
-            return StarCount + 1;
+            Context.Response.Write(StarCount + 1);
+            Context.Response.End();
         }
         /// <summary>
-        /// count_pv计数加一
+        /// 浏览计数加一
         /// </summary>
         /// <param name="ID">文章序列号</param>
         [WebMethod]
-        public uint UVCount_plus(int ID)
+        public void Increase_UVCount_by_PostID(int PostID)
         {
             SysServ SysServ = new SysServ();
-            uint UVCount = SysServ.PLDR.GetProperty<UVCount>(ID);
+            uint UVCount = SysServ.PLDR.GetProperty<UVCount>(PostID);
 
-            SysServ.PLDU.UpdateIndex<UVCount>(ID, UVCount + 1);
+            SysServ.PLDU.UpdateIndex<UVCount>(PostID, UVCount + 1);
 
-            return UVCount + 1;
+            Context.Response.Write(UVCount + 1);
+            Context.Response.End();
+        }
+
+        /// <summary>
+        /// 取得内核版本
+        /// </summary>
+        /// <returns>返回内核版本</returns>
+        [WebMethod]
+        public void Get_core_version()
+        {
+            Context.Response.Write(WaterLibrary.Assembly.Version);
+            Context.Response.End();
         }
     }
 }

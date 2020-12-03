@@ -25,7 +25,7 @@
     {
         "title": "评论区",
         "icon": "mdi-tooltip-text-outline",
-        "src": "/Comment",
+        "src": "/Comment_Home",
         "is_disabled": false
     },
     {

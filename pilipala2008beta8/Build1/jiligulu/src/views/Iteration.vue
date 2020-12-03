@@ -66,10 +66,22 @@
     </div>
 
     <div style="left:50%;transform:translateX(-50%);z-index:1;bottom:0;position:fixed;">
-      <v-btn :disabled="copy_list.length==1?true:false" small class="ma-1 mb-2" color="primary" @click="Rollback()">
+      <v-btn
+        :disabled="copy_list.length==1?true:false"
+        small
+        class="ma-1 mb-2"
+        color="primary"
+        @click="Rollback()"
+      >
         <v-icon left>mdi-restart-alert</v-icon>回滚到上一次更改(Rollback)
       </v-btn>
-      <v-btn :disabled="copy_list.length==1?true:false" small class="ma-1 mb-2" color="error" @click="Release()">
+      <v-btn
+        :disabled="copy_list.length==1?true:false"
+        small
+        class="ma-1 mb-2"
+        color="error"
+        @click="Release()"
+      >
         <v-icon left>mdi-delete-alert</v-icon>释放冗余(Release)
       </v-btn>
     </div>
@@ -82,17 +94,18 @@ export default {
   name: "Iteration",
   data() {
     return {
-      copy_list: null,
-      active_guid: null,
+      copy_list: [],
+      active_guid: "",
     };
   },
   methods: {
     Rollback: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Post_Rollback",
+        url:
+          "https://localhost:44334/system/serv/user.asmx/Rollback_post_by_PostID",
         data: qs.stringify({
-          ID: this.$route.params.post_id,
+          PostID: this.$route.params.post_id,
         }),
       })
         .then((response) => {
@@ -107,9 +120,10 @@ export default {
     Release: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Post_Release",
+        url:
+          "https://localhost:44334/system/serv/user.asmx/Release_post_by_PostID",
         data: qs.stringify({
-          ID: this.$route.params.post_id,
+          PostID: this.$route.params.post_id,
         }),
       })
         .then((response) => {
@@ -124,7 +138,7 @@ export default {
     Apply: function (GUID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Post_Apply",
+        url: "https://localhost:44334/system/serv/user.asmx/Apply_post_by_GUID",
         data: qs.stringify({
           GUID: GUID,
         }),
@@ -141,7 +155,8 @@ export default {
     Delete: function (GUID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Post_Delete",
+        url:
+          "https://localhost:44334/system/serv/user.asmx/Delete_post_by_GUID",
         data: qs.stringify({
           GUID: GUID,
         }),
@@ -159,9 +174,9 @@ export default {
       /* 得到拷贝列表 */
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Get_Post_Data",
+        url: "https://localhost:44334/system/serv/user.asmx/Get_post_by_PostID",
         data: qs.stringify({
-          ID: this.$route.params.post_id,
+          PostID: this.$route.params.post_id,
         }),
       })
         .then((response) => (this.active_guid = response.data.GUID))
@@ -174,9 +189,9 @@ export default {
       this.$axios({
         method: "post",
         url:
-          "https://localhost:44334/system/serv/user.asmx/Get_Backup_DataList",
+          "https://localhost:44334/system/serv/user.asmx/Get_neg_posts_by_PostID",
         data: qs.stringify({
-          ID: this.$route.params.post_id,
+          PostID: this.$route.params.post_id,
         }),
       })
         .then((response) => (this.copy_list = response.data))

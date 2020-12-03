@@ -321,6 +321,12 @@
             <param name="CommentID">目标评论ID</param>
             <returns></returns>
         </member>
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.GetCommentedPostID">
+            <summary>
+            得到被评论文章的ID列表
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:WaterLibrary.com.CommentLake.CommentLake.GetCommentList(System.Int32)">
             <summary>
             获得目标文章的评论列表
@@ -342,7 +348,7 @@
             <param name="Comment">评论内容</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.CommentLake.CommentLake.DelComment(System.Int32)">
+        <member name="M:WaterLibrary.com.CommentLake.CommentLake.DeleteComment(System.Int32)">
             <summary>
             删除评论(相关回复不会被删除)
             </summary>

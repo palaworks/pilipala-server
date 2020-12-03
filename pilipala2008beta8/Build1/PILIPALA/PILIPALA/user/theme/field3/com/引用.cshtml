@@ -24,7 +24,10 @@ else
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@2.3.18/dist/vuetify.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qs@6.9.4/dist/qs.js"></script>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
 
@@ -51,7 +54,7 @@ else
     let b =
         'background: #606060; padding:4px 0px 4px 0px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 0 3px 3px 0;'
 
-    $.post("/system/serv/SysServ.asmx/Get_CoreVersion",
+    $.post("/system/serv/SysServ.asmx/Get_core_version",
         function (data) {
             console.log("%c  Core  %c  WaterLibrary " + data + "  ", a, b)
         });
