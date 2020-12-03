@@ -106,7 +106,7 @@ export default {
     Reg: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Post_Reg",
+        url: "https://localhost:44334/system/serv/user.asmx/Reg_post",
         data: qs.stringify({
           Mode: this.new_data.Mode,
           Type: this.new_data.Type,
@@ -132,9 +132,9 @@ export default {
     Update: function () {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Post_Update",
+        url: "https://localhost:44334/system/serv/user.asmx/Update_post_by_PostID",
         data: qs.stringify({
-          ID: this.new_data.ID,
+          PostID: this.new_data.ID,
           Mode: this.new_data.Mode,
           Type: this.new_data.Type,
 
@@ -160,9 +160,9 @@ export default {
     if (this.$route.params.post_id != null) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Get_Post_Data",
+        url: "https://localhost:44334/system/serv/user.asmx/Get_post_by_PostID",
         data: qs.stringify({
-          ID: this.$route.params.post_id,
+          PostID: this.$route.params.post_id,
         }),
       })
         .then((response) => {

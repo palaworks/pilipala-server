@@ -6,18 +6,18 @@ using System.Web.Services;
 
 using System.Web.Configuration;
 using System.Collections;
-using System.Text;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala.Post.Property;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.stru.pilipala.Post;
+using WaterLibrary.stru.CommentLake;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
 using WaterLibrary.com.CommentLake;
-
 
 using pla_Type = WaterLibrary.stru.pilipala.Post.Property.Type;
 using sys_Type = System.Type;
@@ -41,6 +41,12 @@ namespace PILIPALA.system.serv
         public PLDC PLDC = new PLDC();
 
         public CommentLake CommentLake = new CommentLake();
+
+        /* JSON序列化时间格式重置 */
+        readonly IsoDateTimeConverter iso = new IsoDateTimeConverter
+        {
+            DateTimeFormat = "yyyy-MM-dd HH:mm:ss"
+        };
 
         public User()
         {
@@ -72,35 +78,81 @@ namespace PILIPALA.system.serv
         }
 
 
-        [WebMethod]
-        public void Get_Post_Data(int ID)
-        {
-            Post data = PLDR.GetPost(ID);
 
-            var iso = new Newtonsoft.Json.Converters.IsoDateTimeConverter
+        /* 评论管理 */
+        /// <summary>
+        /// 取得被评论的文章的定制数据列表
+        /// </summary>
+        [WebMethod]
+        public void Get_commented_posts()
+        {
+            var data = new List<Hashtable>();
+            foreach (int ID in CommentLake.GetCommentedPostID())
             {
-                DateTimeFormat = "yyyy-MM-dd HH:mm:ss"
-            };
+                /* 月计数和周计数 */
+                int MonthCommentCount = 0;
+                int WeekCommentCount = 0;
+                foreach (Comment Comment in CommentLake.GetCommentList(ID))
+                {
+                    if (Comment.Time > DateTime.Now.AddMonths(-1))
+                    {
+                        MonthCommentCount++;
+                    }
+                    if (Comment.Time > DateTime.Now.AddDays(-7))
+                    {
+                        WeekCommentCount++;
+                    }
+                }
+                /* 评论列表 */
+                var CommentList = CommentLake.GetCommentList(ID);
+
+                string Title = PLDR.GetProperty<Title>(ID);
+
+                var item = new Hashtable
+                {
+                    { "ID", ID },
+                    { "Title", Title },
+                    { "Content",Title == ""?PLDR.GetProperty<Content>(ID):"" },
+                    { "CommentCount",  CommentList.Count},
+                    { "MonthCommentCount", MonthCommentCount },
+                    { "WeekCommentCount", WeekCommentCount },
+                    { "LatestCommentTime", CommentList.Last().Time }
+                };
+
+                data.Add(item);
+            }
 
             Context.Response.Write(JsonConvert.SerializeObject(data, iso));
             Context.Response.End();
         }
-
         /// <summary>
-        /// 取得内核版本
+        /// 取得指定文章的评论列表
         /// </summary>
-        /// <returns>返回内核版本</returns>
         [WebMethod]
-        public void Get_CoreVersion()
+        public void Get_comments_by_PostID(int PostID)
         {
-            Context.Response.Write(WaterLibrary.Assembly.Version);
+            var data = CommentLake.GetCommentList(PostID);
+
+            Context.Response.Write(JsonConvert.SerializeObject(data, iso));
             Context.Response.End();
         }
+        /// <summary>
+        /// 删除评论
+        /// </summary>
+        /// <param name="CommentID"></param>
+        [WebMethod]
+        public void Delete_comment_by_CommentID(int CommentID)
+        {
+            Context.Response.Write(JsonConvert.SerializeObject(CommentLake.DeleteComment(CommentID), iso));
+            Context.Response.End();
+        }
+
+        /* 读文章管理 */
         /// <summary>
         /// 取得计数
         /// </summary>
         [WebMethod]
-        public void Get_Count_DataList()
+        public void Get_counts()
         {
             Hashtable data = new Hashtable()
             {
@@ -120,7 +172,7 @@ namespace PILIPALA.system.serv
         /// 取得文章列表
         /// </summary>
         [WebMethod]
-        public void Get_Post_DataList()
+        public void Get_posts()
         {
             List<Post> data = new List<Post>();
 
@@ -130,35 +182,36 @@ namespace PILIPALA.system.serv
                 data.Add(item);
             }
 
-            var iso = new Newtonsoft.Json.Converters.IsoDateTimeConverter
-            {
-                DateTimeFormat = "yyyy-MM-dd HH:mm:ss"
-            };
+            Context.Response.Write(JsonConvert.SerializeObject(data, iso));
+            Context.Response.End();
+        }
+        /// <summary>
+        /// 取得文章数据
+        /// </summary>
+        /// <param name="ID"></param>
+        [WebMethod]
+        public void Get_post_by_PostID(int PostID)
+        {
+            Post data = PLDR.GetPost(PostID);
 
             Context.Response.Write(JsonConvert.SerializeObject(data, iso));
             Context.Response.End();
         }
         /// <summary>
-        /// 取得拷贝列表
+        /// 取得备份列表
         /// </summary>
         [WebMethod]
-        public void Get_Backup_DataList(int ID)
+        public void Get_neg_posts_by_PostID(int PostID)
         {
-            List<Post> data = PLDR.GetPost<ID>(ID.ToString());
-
-            var iso = new Newtonsoft.Json.Converters.IsoDateTimeConverter
-            {
-                DateTimeFormat = "yyyy-MM-dd HH:mm:ss"
-            };
+            List<Post> data = PLDR.GetPost<ID>(PostID.ToString());
 
             Context.Response.Write(JsonConvert.SerializeObject(data, iso));
             Context.Response.End();
         }
 
-
-
+        /* 写文章管理 */
         [WebMethod]
-        public void Post_Reg
+        public void Reg_post
             (
             string Mode, string Type, string User,
             int UVCount, int StarCount,
@@ -186,15 +239,15 @@ namespace PILIPALA.system.serv
             Context.Response.End();
         }
         [WebMethod]
-        public void Post_Dispose(int ID)
+        public void Dispose_post_by_PostID(int PostID)
         {
-            Context.Response.Write(PLDU.Dispose(ID));
+            Context.Response.Write(PLDU.Dispose(PostID));
             Context.Response.End();
         }
         [WebMethod]
-        public void Post_Update
+        public void Update_post_by_PostID
             (
-            int ID, string Mode, string Type,
+            int PostID, string Mode, string Type,
             int UVCount, int StarCount,
             string Title, string Summary, string Content,
             string Archiv, string Label, string Cover
@@ -202,7 +255,7 @@ namespace PILIPALA.system.serv
         {
             Context.Response.Write(PLDU.Update(new Post
             {
-                ID = ID,
+                ID = PostID,
                 Mode = Mode,
                 Type = Type,
 
@@ -221,27 +274,27 @@ namespace PILIPALA.system.serv
         }
 
         [WebMethod]
-        public void Post_Delete(string GUID)
+        public void Delete_post_by_GUID(string GUID)
         {
             Context.Response.Write(PLDU.Delete(GUID));
             Context.Response.End();
         }
         [WebMethod]
-        public void Post_Apply(string GUID)
+        public void Apply_post_by_GUID(string GUID)
         {
             Context.Response.Write(PLDU.Apply(GUID));
             Context.Response.End();
         }
         [WebMethod]
-        public void Post_Rollback(int ID)
+        public void Rollback_post_by_PostID(int PostID)
         {
-            Context.Response.Write(PLDU.Rollback(ID));
+            Context.Response.Write(PLDU.Rollback(PostID));
             Context.Response.End();
         }
         [WebMethod]
-        public void Post_Release(int ID)
+        public void Release_post_by_PostID(int PostID)
         {
-            Context.Response.Write(PLDU.Release(ID));
+            Context.Response.Write(PLDU.Release(PostID));
             Context.Response.End();
         }
     }

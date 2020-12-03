@@ -25,15 +25,6 @@ function showPost_origin(ID) {
 
 
             refre_UVCount(ID);/* 刷新UVCount计数 */
-
-            if ($.cookie('isStar' + ID) == 'true') {/* 如果cookie显示目前文本已点赞 */
-                starOpacity100();/* 透明度1 */
-                $(".StarCount").text($(result).find(".StarCount").text());
-            } else {
-                starOpacity050();/* 透明度0.5 */
-                $(".StarCount").text($(result).find(".StarCount").text());
-            }
-
         },
         complete: function () {
             $('.LoadLine').attr('style', 'animation: LoadLine 0.6s cubic-bezier(0.5, 0.4, 0.5, 1)');
@@ -80,97 +71,6 @@ function showHome_origin() {
     });
 };
 
-
-/* 技术验证型评论提交（不安全） */
-function Captcha(PostID, HEAD, Content, Name, Email, WebSite) {
-    d = "{'PostID':'" + PostID + "'," +
-        "'HEAD':'" + HEAD + "'," +
-        "'Content':'" + Content + "'," +
-        "'User':'" + Name + "'," +
-        "'Email':'" + Email + "'," +
-        "'WebSite':'" + WebSite + "'}";
-    $.ajax({
-        type: "post",
-        contentType: "application/json",
-        url: "/system/serv/CaptchaServ.asmx/CommentLakeCaptcha",
-        data: d,
-        dataType: "json",
-        success: function (result) {
-            showPost(PostID);
-            console.log(result.d);
-        }
-    });
-}
-
-/* 刷新StarCount计数（AJAX） */
-function refre_StarCount(ID) {
-    if ($.cookie('isStar' + ID) == 'true') {
-        /* 如果cookie显示目前文本已经点赞 */
-        $.cookie('isStar' + ID, 'false', { expires: 1 });/* 设置为取消点赞，并设置cookie时效（天） */
-        $.ajax({
-            type: "post",
-            contentType: "application/json",
-            url: "/system/serv/SysServ.asmx/StarCount_subs",
-            data: "{ID:" + ID + "}",
-            dataType: "json",/* json返回类型 */
-            success: function (result) {
-                starOpacity050();/* 透明度0.5 */
-                $(".StarCount").text(result.d);
-
-                console.log(result.d);
-            }
-        });
-    } else {
-        $.cookie('isStar' + ID, 'true', { expires: 1 });
-        $.ajax({
-            type: "post",
-            contentType: "application/json",
-            url: "/system/serv/SysServ.asmx/StarCount_plus",
-            data: "{ID:" + ID + "}",
-            dataType: "json",/* json返回类型 */
-            success: function (result) {
-                starOpacity100();/* 透明度1 */
-                $(".StarCount").text(result.d);
-
-                console.log(result.d);
-            }
-        });
-    }
-};
-
-/* 刷新UVCount计数（AJAX） */
-function refre_UVCount(ID) {
-    if ($.cookie('isSaw' + ID) == 'true') {/* 如果cookie显示目前文本已经浏览不做处理 */ }
-    else {
-        /* 未被浏览 */
-        $.cookie('isSaw' + ID, 'true', { expires: 1 });
-        $.ajax({
-            type: "post",
-            contentType: "application/json",
-            url: "/system/serv/SysServ.asmx/UVCount_plus",
-            data: "{ID:" + ID + "}",
-            dataType: "json",/* json返回类型 */
-            success: function (result) {
-                $(".UVCount").text(result.d);
-            }
-        });
-    }
-};
-
-/* 推进式文本列表加载（AJAX） */
-function loadPost() {
-    $.ajax({
-        type: "post",
-        url: "index.aspx?guide=0&text=1&row=" + $(".content2").length,
-        data: "",
-        dataType: "html",/* html返回类型 */
-        success: function (result) {
-            $("a").remove(".LoadPostBtn");
-            $("#CardCol>.Col").html($("#CardCol>.Col").html() + $(result).find("#CardCol>.Col").html());
-        }
-    });
-}
-
 /* markdown转html */
 function mkdConvert(mkdText) {
     var converter = new showdown.Converter();
@@ -209,3 +109,90 @@ function wordCount(data) {
     /*向上取整到10位*/
     return Math.ceil(count / 10) * 10;
 }
+
+/* 技术验证型评论提交（不安全） */
+function Captcha(PostID, HEAD, Content, Name, Email, WebSite) {
+    d = "{'PostID':'" + PostID + "'," +
+        "'HEAD':'" + HEAD + "'," +
+        "'Content':'" + Content + "'," +
+        "'User':'" + Name + "'," +
+        "'Email':'" + Email + "'," +
+        "'WebSite':'" + WebSite + "'}";
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        url: "/system/serv/CaptchaServ.asmx/CommentLakeCaptcha",
+        data: d,
+        dataType: "json",
+        success: function (result) {
+            showPost(PostID);
+            console.log(result.d);
+        }
+    });
+}
+
+/* 刷新StarCount计数（AJAX） */
+function refre_StarCount(ID) {
+    if ($.cookie('isStar' + ID) == 'true') {
+        /* 如果cookie显示目前文本已经点赞 */
+        $.cookie('isStar' + ID, 'false', { expires: 1 });/* 设置为取消点赞，并设置cookie时效（天） */
+
+        axios({
+            method: "post",
+            url: "/system/serv/SysServ.asmx/Decrease_StarCount_by_PostID",
+            data: Qs.stringify({
+                PostID: ID,
+            }),
+        })
+            .then((response) => {
+                starOpacity050();/* 透明度0.5 */
+                $(".StarCount").text(response.data);
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error); //请求失败处理
+            });
+    } else {
+        $.cookie('isStar' + ID, 'true', { expires: 1 });
+
+        axios({
+            method: "post",
+            url: "/system/serv/SysServ.asmx/Increase_StarCount_by_PostID",
+            data: Qs.stringify({
+                PostID: ID,
+            }),
+        })
+            .then((response) => {
+                starOpacity100();/* 透明度1 */
+                $(".StarCount").text(response.data);
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error); //请求失败处理
+            });
+    }
+};
+
+/* 刷新UVCount计数（AJAX） */
+function refre_UVCount(ID) {
+    if ($.cookie('isSaw' + ID) == 'true') {/* 如果cookie显示目前文本已经浏览不做处理 */ }
+    else {
+        /* 未被浏览 */
+        $.cookie('isSaw' + ID, 'true', { expires: 1 });
+
+        axios({
+            method: "post",
+            url: "/system/serv/SysServ.asmx/Increase_UVCount_by_PostID",
+            data: Qs.stringify({
+                PostID: ID,
+            }),
+        })
+            .then((response) => {
+                $(".UVCount").text(response.data);
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error); //请求失败处理
+            });
+    }
+};

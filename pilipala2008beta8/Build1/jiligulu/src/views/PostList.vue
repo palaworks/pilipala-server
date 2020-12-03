@@ -45,7 +45,7 @@
             <v-btn small text class="text--disabled">
               <v-icon small>mdi-account-edit</v-icon>
               {{item.User}}
-              <v-icon small class="ml-2">mdi-tooltip-text-outline</v-icon>
+              <v-icon small class="ml-2">mdi-format-quote-open</v-icon>
               {{item.PropertyContainer.CommentCount}}
               <v-icon small class="ml-2">mdi-star-outline</v-icon>
               {{item.StarCount}}
@@ -110,7 +110,7 @@ export default {
     Dispose: function (ID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Post_Dispose",
+        url: "https://localhost:44334/system/serv/user.asmx/Dispose_post_by_PostID",
         data: qs.stringify({
           ID: ID,
         }),
@@ -125,7 +125,7 @@ export default {
     },
     GetData: function () {
       this.$axios
-        .post("https://localhost:44334/system/serv/user.asmx/Get_Post_DataList")
+        .post("https://localhost:44334/system/serv/user.asmx/Get_posts")
         .then((response) => (this.post_list = response.data))
         .catch(function (error) {
           // 请求失败处理

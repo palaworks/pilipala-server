@@ -336,4 +336,12 @@
             }
         }
     </script>
+
+    <script>
+        if ($.cookie('isStar' + @ID) == 'true') {/* 如果cookie显示目前文本已点赞 */
+            starOpacity100();/* 透明度1 */
+        } else {
+            starOpacity050();/* 透明度0.5 */
+        }
+    </script>
 }
