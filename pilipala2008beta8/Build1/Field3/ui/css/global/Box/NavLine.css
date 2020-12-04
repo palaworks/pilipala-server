@@ -1,0 +1,47 @@
+#NavLine {
+    height: 50px;
+    width: 100%;
+    z-index: 10;
+    position: fixed;
+
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+}
+
+#NavLine>.contain>.Name {
+    float: left;
+    width: 190px;
+
+    font-size: 20px;
+    line-height: 50px;
+    color: rgba(250, 250, 250, 1);
+}
+
+#NavLine>.contain>.Avatar {
+    float: left;
+
+    width: 42px;
+    height: 41px;
+    margin: 4px;
+    margin-right: 10px;
+
+    background: transparent url("http://q1.qlogo.cn/g?b=qq&nk=1951327599&s=640");
+    background-position: center;
+    background-size: cover;
+
+    border-radius: 50px;
+}
+
+/* 屏幕宽度 [ 1001 , + ) */
+@media (min-width: 1001px) {
+    #NavLine {
+        display: none;
+    }
+}
+
+/* 屏幕宽度 ( - , 1000 ] */
+@media (max-width: 1000px) {
+    #NavLine {
+        display: block;
+    }
+}
