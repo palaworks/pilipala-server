@@ -1,0 +1,23 @@
+.CommentBox {
+    /* 颜色模式 */
+    color: rgba(10, 10, 10, 1);
+    background: var(--b30);
+}
+
+.CommentBox input {
+    /* 颜色模式 */
+    color: rgba(120, 120, 120, 1);
+    background: rgba(16, 16, 16, 1);
+}
+
+.CommentBox textarea {
+    /* 颜色模式 */
+    color: rgba(120, 120, 120, 1);
+    background: rgba(16, 16, 16, 1);
+}
+
+.CommentBox>div>.Logo {
+    /* 颜色模式 */
+    color: rgba(160, 160, 160, 1);
+    background: var(--b40);
+}
