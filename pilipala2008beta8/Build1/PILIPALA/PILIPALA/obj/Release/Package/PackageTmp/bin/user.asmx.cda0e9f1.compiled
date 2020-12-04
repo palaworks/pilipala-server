@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/system/serv/User.asmx" hash="5075f217" filehash="22872d15b3b5" flags="130000" assembly="PILIPALA" type="PILIPALA.system.serv.User">
-    <filedeps>
-        <filedep name="/system/serv/User.asmx" />
-    </filedeps>
-</preserve>
