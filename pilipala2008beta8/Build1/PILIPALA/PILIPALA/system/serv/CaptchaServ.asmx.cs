@@ -43,12 +43,14 @@ namespace PILIPALA.system.serv
         [WebMethod]
         public string CommentLakeCaptcha(int PostID, int HEAD, string Content, string User, string Email, string WebSite)
         {
-            CORE CORE = new CORE(PLDB);
+            string UserName = WebConfigurationManager.AppSettings["UserName"];
+            string UserPWD = WebConfigurationManager.AppSettings["UserPWD"];
+
+            CORE CORE = new CORE(PLDB, UserName, UserPWD);
             CORE.SetTables();
 
             CORE.LinkOn += CommentLake.Ready;
 
-            CORE.Ready();
             CORE.Run();
 
             CommentLake.AddComment(new Comment()

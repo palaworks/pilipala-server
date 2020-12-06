@@ -8,14 +8,15 @@ using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
+using WaterLibrary.com.pilipala.Components;
 
 namespace palaBenchmark
 {
     class Benchmark
     {
         public CORE CORE;
-        public PLDR PLDR = new PLDR();
-        public PLDU PLDU = new PLDU();
+        public Reader Reader = new Reader();
+        public Writer Writer = new Writer();
 
         public void INIT()
         {
@@ -33,14 +34,13 @@ namespace palaBenchmark
                     PWD = "65a1561425f744e2b541303f628963f8"
                 })
             };
-            CORE = new CORE(PLDB);
+            CORE = new CORE(PLDB, "Pinn", "pinn12384");
 
             CORE.SetTables();
 
-            CORE.LinkOn += PLDR.Ready;
-            CORE.LinkOn += PLDU.Ready;
+            CORE.LinkOn += Reader.Ready;
+            CORE.LinkOn += Writer.Ready;
 
-            CORE.Ready();
             CORE.Run();
         }
     }

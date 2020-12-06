@@ -20,8 +20,8 @@
 
     width: 11vw;
     height: 11vw;
-    max-width: 104px;
-    max-height: 104px;
+    max-width: 108px;
+    max-height: 108px;
 
     border-width: 2.6px;
     border-style: solid;
@@ -40,16 +40,15 @@
 
     margin: auto;
 
-    background: transparent url("http://q1.qlogo.cn/g?b=qq&nk=1951327599&s=640");
-    background-position: center;
-    background-size: cover;
-
     border-radius: 100px;
 }
 
 #NavCol>.box>.Name {
-    text-align: center;
     font-size: 21px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    
+    text-align: center;
 }
 
 #NavCol>.box>.Note {

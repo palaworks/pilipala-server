@@ -112,6 +112,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Global.asax" />
     <Content Include="system\serv\CaptchaServ.asmx" />
     <Content Include="system\serv\SysServ.asmx" />
     <Content Include="system\serv\User.asmx" />
@@ -120,6 +121,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="system\serv\CaptchaServ.asmx.cs">
       <DependentUpon>CaptchaServ.asmx</DependentUpon>
@@ -141,7 +145,7 @@
   <ItemGroup>
     <Content Include="index.cshtml" />
     <None Include="packages.config" />
-    <Content Include="user\theme\field3\com\框架.cshtml" />
+    <Content Include="user\theme\field3\com\index.cshtml" />
     <Content Include="user\theme\field3\com\脚本.cshtml" />
     <Content Include="user\theme\field3\com\引用.cshtml" />
     <Content Include="user\theme\field3\com\电脑菜单.cshtml" />

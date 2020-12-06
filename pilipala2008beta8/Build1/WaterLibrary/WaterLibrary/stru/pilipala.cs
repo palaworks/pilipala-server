@@ -8,8 +8,9 @@ using System.Collections;
 
 using WaterLibrary.com.basic;
 using WaterLibrary.com.MySQL;
+using WaterLibrary.com.pilipala;
 using WaterLibrary.stru.pilipala.DB;
-using WaterLibrary.stru.pilipala.Post.Property;
+
 
 namespace WaterLibrary.stru.pilipala
 {
@@ -222,78 +223,17 @@ namespace WaterLibrary.stru.pilipala
     }
 
     /// <summary>
-    /// 啪啦数据读取器接口
+    /// 噼里啪啦配件接口
     /// </summary>
-    interface IPLDataReader
+    interface IPLComponent
     {
-
-    }
-    /// <summary>
-    /// 啪啦数据修改器接口
-    /// </summary>
-    interface IPLDataUpdater
-    {
-        /// <summary>
-        /// 将目标文章状态标记为展示
-        /// </summary>
-        /// <param name="ID">目标文章ID</param>
-        /// <returns></returns>
-        bool UnsetMode(int ID);
-        /// <summary>
-        /// 将目标文章状态标记为隐藏
-        /// </summary>
-        /// <param name="ID">目标文章ID</param>
-        /// <returns></returns>
-        bool HiddenMode(int ID);
-        /// <summary>
-        /// 将目标文章状态标记为计划中
-        /// </summary>
-        /// <param name="ID">目标文章ID</param>
-        /// <returns></returns>
-        bool ScheduledMode(int ID);
-        /// <summary>
-        /// 将目标文章状态标记为已归档
-        /// </summary>
-        /// <param name="ID">目标文章ID</param>
-        /// <returns></returns>
-        bool ArchivedMode(int ID);
-
-        /// <summary>
-        /// 通用文章属性更新器
-        /// </summary>
-        /// <typeparam name="T">文章属性类型</typeparam>
-        /// <param name="ID">目标文章ID</param>
-        /// <param name="Value">新属性值</param>
-        /// <returns></returns>
-        bool UpdateIndex<T>(int ID, object Value) where T : IProperty;
-        /// <summary>
-        /// 通用文章属性更新器
-        /// </summary>
-        /// <typeparam name="T">文章属性类型</typeparam>
-        /// <param name="ID">目标文章ID</param>
-        /// <param name="Value">新属性值</param>
-        /// <returns></returns>
-        bool UpdateBackup<T>(int ID, object Value) where T : IProperty;
-    }
-    /// <summary>
-    /// 啪啦数据计数器接口
-    /// </summary>
-    interface IPLDataCounter
-    {
-        /// <summary>
-        /// 文章计数
-        /// </summary>
-        int TotalPostCount { get; }
-        /// <summary>
-        /// 拷贝计数
-        /// </summary>
-        int BackupCount { get; }
+        void Ready(CORE CORE);
     }
 
     /// <summary>
-    /// 用户结构
+    /// 用户
     /// </summary>
-    public class User : ITableUser
+    public class User
     {
         /// <summary>
         /// 索引器
@@ -317,22 +257,36 @@ namespace WaterLibrary.stru.pilipala
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public int ID { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string GUID { get; set; }
-        /// <summary>
-        /// 
+        /// 用户名
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// 
+        /// 密码(MD5值)
         /// </summary>
-        public string Note { get; set; }
+        public string PWD { get; set; }
+
+        /// <summary>
+        /// 用户GUID
+        /// </summary>
+        public string GUID { get; set; }
+        /// <summary>
+        /// 自我介绍
+        /// </summary>
+        public string Bio { get; set; }
+        /// <summary>
+        /// 分组
+        /// </summary>
+        public string Group { get; set; }
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        public string Email { get; set; }
+        /// <summary>
+        /// 头像(链接)
+        /// </summary>
+        public string Avatar { get; set; }
     }
+
     namespace Post
     {
         /// <summary>
