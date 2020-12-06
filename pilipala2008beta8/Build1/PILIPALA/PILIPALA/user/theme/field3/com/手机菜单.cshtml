@@ -1,17 +1,16 @@
 ﻿<div id="NavLine" class="L M bSha">
     <div class="contain cur bRds" onclick="up();showPost(12387,'我')">
-        <div class="Avatar bSha"></div>
-        <div class="Name">Thaumy的博客</div>
+        <img class="Avatar bSha" src="@PILIPALA.Global.User.Avatar">
+        <div class="Name">@PILIPALA.Global.User.Name.ToUpper()的小站</div>
     </div>
     <div class="SiderBtn R cur" onclick="ListToggle()"></div>
 </div>
 
 <div id="SiderList" class="bSha">
-
     <m-card v-for="d in List" v-bind:item="d" v-bind:key="d.index"></m-card>
 
     <div class="Co cur" onclick="up();showPost(12388,'关于博客');ListToggle()">
-        Thaumy的博客©2016-2020保留所有权利<br>
+        @(PILIPALA.Global.User.Name)的博客©2016-2020保留所有权利<br>
         基于pilipala构建<br>
         Field Theme Designed By Thaumy<br>
     </div>

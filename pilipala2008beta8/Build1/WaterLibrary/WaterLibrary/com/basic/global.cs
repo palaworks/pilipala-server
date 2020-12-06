@@ -289,12 +289,11 @@ namespace WaterLibrary.com.basic
         }
 
         /// <summary>
-        /// 对象输出到MD5
+        /// 将对象加密到MD5
         /// </summary>
-        /// <typeparam name="T">待转换对象对应的类型</typeparam>
-        /// <param name="obj">待转换对象</param>
+        /// <param name="obj">待处理对象</param>
         /// <returns>返回处理后得到的字符串</returns>
-        public static string ToMD5<T>(T obj)
+        public static string ToMD5(object obj)
         {
             byte[] source = Encoding.Default.GetBytes(Convert.ToString(obj));/* 将对象转换成string后转换成字节数组 */
             byte[] data = MD5.Create().ComputeHash(source);/* 创建SHA1对象进行散列计算 */
@@ -308,12 +307,11 @@ namespace WaterLibrary.com.basic
             return md5.ToString();
         }
         /// <summary>
-        /// 对象输出到SHA1
+        /// 将对象加密到SHA1
         /// </summary>
-        /// <typeparam name="T">待转换对象对应的类型</typeparam>
-        /// <param name="obj">待转换对象</param>
+        /// <param name="obj">待处理对象</param>
         /// <returns>返回处理后得到的字符串</returns>
-        public static string ToSHA1<T>(T obj)
+        public static string ToSHA1(object obj)
         {
             byte[] source = Encoding.Default.GetBytes(Convert.ToString(obj));
             byte[] data = SHA1.Create().ComputeHash(source);
@@ -327,12 +325,11 @@ namespace WaterLibrary.com.basic
             return sha1.ToString();
         }
         /// <summary>
-        /// 对象输出到SHA256
+        /// 将对象加密到SHA256
         /// </summary>
-        /// <typeparam name="T">待转换对象对应的类型</typeparam>
-        /// <param name="obj">待转换对象</param>
+        /// <param name="obj">待处理对象</param>
         /// <returns>返回处理后得到的字符串</returns>
-        public static string ToSHA256<T>(T obj)
+        public static string ToSHA256(object obj)
         {
             byte[] source = Encoding.Default.GetBytes(Convert.ToString(obj));
             byte[] data = SHA1.Create().ComputeHash(source);

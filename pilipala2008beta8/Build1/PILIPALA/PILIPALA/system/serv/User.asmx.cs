@@ -17,6 +17,7 @@ using WaterLibrary.stru.pilipala.Post;
 using WaterLibrary.stru.CommentLake;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
+using WaterLibrary.com.pilipala.Components;
 using WaterLibrary.com.CommentLake;
 
 using pla_Type = WaterLibrary.stru.pilipala.Post.Property.Type;
@@ -36,9 +37,9 @@ namespace PILIPALA.system.serv
     public class User : System.Web.Services.WebService
     {
         public CORE CORE;
-        public PLDR PLDR = new PLDR();
-        public PLDU PLDU = new PLDU();
-        public PLDC PLDC = new PLDC();
+        public Reader Reader = new Reader();
+        public Writer Writer = new Writer();
+        public Counter Counter = new Counter();
 
         public CommentLake CommentLake = new CommentLake();
 
@@ -64,15 +65,17 @@ namespace PILIPALA.system.serv
                 })
             };
 
-            CORE = new CORE(PLDB);
+            string UserName = WebConfigurationManager.AppSettings["UserName"];
+            string UserPWD = WebConfigurationManager.AppSettings["UserPWD"];
+
+            CORE CORE = new CORE(PLDB, UserName, UserPWD);
             CORE.SetTables();
 
-            CORE.LinkOn += PLDR.Ready;
-            CORE.LinkOn += PLDU.Ready;
-            CORE.LinkOn += PLDC.Ready;
+            CORE.LinkOn += Reader.Ready;
+            CORE.LinkOn += Writer.Ready;
+            CORE.LinkOn += Counter.Ready;
             CORE.LinkOn += CommentLake.Ready;
 
-            CORE.Ready();
             /* 启动内核 */
             CORE.Run();
         }
@@ -106,13 +109,13 @@ namespace PILIPALA.system.serv
                 /* 评论列表 */
                 var CommentList = CommentLake.GetCommentList(ID);
 
-                string Title = PLDR.GetProperty<Title>(ID);
+                string Title = Reader.GetProperty<Title>(ID);
 
                 var item = new Hashtable
                 {
                     { "ID", ID },
                     { "Title", Title },
-                    { "Content",Title == ""?PLDR.GetProperty<Content>(ID):"" },
+                    { "Content",Title == ""?Reader.GetProperty<Content>(ID):"" },
                     { "CommentCount",  CommentList.Count},
                     { "MonthCommentCount", MonthCommentCount },
                     { "WeekCommentCount", WeekCommentCount },
@@ -156,12 +159,12 @@ namespace PILIPALA.system.serv
         {
             Hashtable data = new Hashtable()
             {
-                { "PostCount", PLDC.TotalPostCount },
-                { "CopyCount",  PLDC.BackupCount },
-                { "HiddenCount",  PLDC.HiddenCount },
-                { "OnDisplayCount",  PLDC.OnDisplayCount },
-                { "ArchivedCount",  PLDC.ArchivedCount },
-                { "ScheduledCount",  PLDC.ScheduledCount },
+                { "PostCount", Counter.TotalPostCount },
+                { "CopyCount",  Counter.BackupCount },
+                { "HiddenCount",  Counter.HiddenCount },
+                { "OnDisplayCount",  Counter.OnDisplayCount },
+                { "ArchivedCount",  Counter.ArchivedCount },
+                { "ScheduledCount",  Counter.ScheduledCount },
                 { "CommentCount",   CommentLake.TotalCommentCount},
             };
 
@@ -176,7 +179,7 @@ namespace PILIPALA.system.serv
         {
             List<Post> data = new List<Post>();
 
-            foreach (Post item in PLDR.GetPost<ID>("^"))
+            foreach (Post item in Reader.GetPost<ID>("^"))
             {
                 item.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(item.ID));
                 data.Add(item);
@@ -192,7 +195,7 @@ namespace PILIPALA.system.serv
         [WebMethod]
         public void Get_post_by_PostID(int PostID)
         {
-            Post data = PLDR.GetPost(PostID);
+            Post data = Reader.GetPost(PostID);
 
             Context.Response.Write(JsonConvert.SerializeObject(data, iso));
             Context.Response.End();
@@ -203,7 +206,7 @@ namespace PILIPALA.system.serv
         [WebMethod]
         public void Get_neg_posts_by_PostID(int PostID)
         {
-            List<Post> data = PLDR.GetPost<ID>(PostID.ToString());
+            List<Post> data = Reader.GetPost<ID>(PostID.ToString(),true);
 
             Context.Response.Write(JsonConvert.SerializeObject(data, iso));
             Context.Response.End();
@@ -219,7 +222,7 @@ namespace PILIPALA.system.serv
             string Archiv, string Label, string Cover
             )
         {
-            Context.Response.Write(PLDU.Reg(new Post
+            Context.Response.Write(Writer.Reg(new Post
             {
                 Mode = Mode,
                 Type = Type,
@@ -241,7 +244,7 @@ namespace PILIPALA.system.serv
         [WebMethod]
         public void Dispose_post_by_PostID(int PostID)
         {
-            Context.Response.Write(PLDU.Dispose(PostID));
+            Context.Response.Write(Writer.Dispose(PostID));
             Context.Response.End();
         }
         [WebMethod]
@@ -253,7 +256,7 @@ namespace PILIPALA.system.serv
             string Archiv, string Label, string Cover
             )
         {
-            Context.Response.Write(PLDU.Update(new Post
+            Context.Response.Write(Writer.Update(new Post
             {
                 ID = PostID,
                 Mode = Mode,
@@ -276,25 +279,25 @@ namespace PILIPALA.system.serv
         [WebMethod]
         public void Delete_post_by_GUID(string GUID)
         {
-            Context.Response.Write(PLDU.Delete(GUID));
+            Context.Response.Write(Writer.Delete(GUID));
             Context.Response.End();
         }
         [WebMethod]
         public void Apply_post_by_GUID(string GUID)
         {
-            Context.Response.Write(PLDU.Apply(GUID));
+            Context.Response.Write(Writer.Apply(GUID));
             Context.Response.End();
         }
         [WebMethod]
         public void Rollback_post_by_PostID(int PostID)
         {
-            Context.Response.Write(PLDU.Rollback(PostID));
+            Context.Response.Write(Writer.Rollback(PostID));
             Context.Response.End();
         }
         [WebMethod]
         public void Release_post_by_PostID(int PostID)
         {
-            Context.Response.Write(PLDU.Release(PostID));
+            Context.Response.Write(Writer.Release(PostID));
             Context.Response.End();
         }
     }

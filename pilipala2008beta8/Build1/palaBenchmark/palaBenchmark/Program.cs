@@ -1,4 +1,4 @@
-﻿#define 读测试
+﻿//#define 读测试
 //#define 更改文章属性
 
 //#define 单独更新拷贝测试
@@ -63,35 +63,35 @@ namespace palaBenchmark
                                    typeof(Type)};
 
 
-            List<Post> List1 = benchmark.PLDR.GetPost<Archiv>
+            List<Post> List1 = benchmark.Reader.GetPost<Archiv>
                 (
                 "技术|生活", Properties
                 );
 
-            List<Post> List2 = benchmark.PLDR.GetPost<Archiv>
+            List<Post> List2 = benchmark.Reader.GetPost<Archiv>
                 (
                 "技术|生活"
                 );
 
             for (int ID = 12001; ID < 12000 + number; ID++)
             {
-                string Title = (string)benchmark.PLDR.GetProperty<Title>(ID);
-                benchmark.PLDR.GetProperty<Summary>(ID);
-                benchmark.PLDR.GetProperty<Content>(ID);
+                string Title = (string)benchmark.Reader.GetProperty<Title>(ID);
+                benchmark.Reader.GetProperty<Summary>(ID);
+                benchmark.Reader.GetProperty<Content>(ID);
 
                 if (Title != "")
                 {
-                    benchmark.PLDR.GetPost<Title>(Title);
+                    benchmark.Reader.GetPost<Title>(Title);
                 }
 
-                benchmark.PLDR.Bigger<ID>(ID);
-                benchmark.PLDR.Bigger<ID>(ID, "置顶|生活|技术", typeof(Archiv));
+                benchmark.Reader.Bigger<ID>(ID);
+                benchmark.Reader.Bigger<ID>(ID, "置顶|生活|技术", typeof(Archiv));
 
-                benchmark.PLDR.Smaller<ID>(ID);
-                benchmark.PLDR.Smaller<ID>(ID, "置顶|生活|技术", typeof(Archiv));
+                benchmark.Reader.Smaller<ID>(ID);
+                benchmark.Reader.Smaller<ID>(ID, "置顶|生活|技术", typeof(Archiv));
 
                 Console.WriteLine("尝试读取文章 : {0} {1} {2}",
-                    ID, benchmark.PLDR.GetPost(ID).GUID, benchmark.PLDR.GetPost(ID).Title);
+                    ID, benchmark.Reader.GetPost(ID).GUID, benchmark.Reader.GetPost(ID).Title);
             }
 #endif
 
@@ -108,7 +108,7 @@ namespace palaBenchmark
             {
                 Post Post = new Post()
                 {
-                    Mode = "o",
+                    Mode = "",
                     Type = (i % 4 == 0) ? "note" : "",
                     User = "Pinn",
                     UVCount = 999,
@@ -122,13 +122,13 @@ namespace palaBenchmark
                     Cover = "<div>基准测试Cover</div>"
                 };
 
-                Console.WriteLine("尝试注册文章：{0} / 状态：{1}", i, benchmark.PLDU.Reg(Post));
+                Console.WriteLine("尝试注册文章：{0} / 状态：{1}", i, benchmark.Writer.Reg(Post));
             }
 #endif
 #if 注销文章
             for (int i = 12001; i <= 12000 + number; i++)
             {
-                Console.WriteLine("尝试注销记录：{0} / 状态: {1}", i, benchmark.PLDU.Dispose(i));
+                Console.WriteLine("尝试注销记录：{0} / 状态: {1}", i, benchmark.Writer.Dispose(i));
             }
 #endif
 #if 更新文章
@@ -160,7 +160,7 @@ namespace palaBenchmark
                     Cover = "<div>##基准测试Cover</div>"
                 };
 
-                Console.WriteLine("尝试更新文章：{0} / 状态：{1}", i, benchmark.PLDU.Update(Post));
+                Console.WriteLine("尝试更新文章：{0} / 状态：{1}", i, benchmark.Writer.Update(Post));
             }
 #endif
 #if 删除拷贝
@@ -177,7 +177,7 @@ namespace palaBenchmark
                 }
                 else
                 {
-                    Console.WriteLine("尝试修改记录：{0} / 状态：{1}", GUID, benchmark.PLDU.Delete(GUID));
+                    Console.WriteLine("尝试修改记录：{0} / 状态：{1}", GUID, benchmark.Writer.Delete(GUID));
                 }
             }
 #endif
@@ -195,20 +195,20 @@ namespace palaBenchmark
                 }
                 else
                 {
-                    Console.WriteLine("已修改记录：{0}", benchmark.PLDU.Apply(GUID));
+                    Console.WriteLine("已修改记录：{0}", benchmark.Writer.Apply(GUID));
                 }
             }
 #endif
 #if 回滚拷贝
             for (int i = 12001; i <= 12000 + number; i++)
             {
-                Console.WriteLine("正在尝试回滚记录：{0} / 状态：{1}", i, benchmark.PLDU.Rollback(i));
+                Console.WriteLine("正在尝试回滚记录：{0} / 状态：{1}", i, benchmark.Writer.Rollback(i));
             }
 #endif
 #if 释放拷贝
             for (int i = 12001; i <= 12000 + number; i++)
             {
-                benchmark.PLDU.Release(i);
+                benchmark.Writer.Release(i);
 
                 Console.WriteLine("已修改记录：{0}", i);
             }
@@ -216,7 +216,7 @@ namespace palaBenchmark
 #if 更改文章属性
             for (int i = 12001; i <= 13000; i++)
             {
-                Console.WriteLine("尝试作用对象：{0} / 状态：{1}", i, benchmark.PLDU.OnDisplayMode(i));
+                Console.WriteLine("尝试作用对象：{0} / 状态：{1}", i, benchmark.Writer.OnDisplayMode(i));
             }
 #endif
 
@@ -224,14 +224,14 @@ namespace palaBenchmark
             for (int i = 12001; i < 13000; i++)
             {
                 Console.WriteLine("尝试更改对象：{0} / 状态：{1}"
-                    , i, benchmark.PLDU.UpdateCopy<Content>(i, "xxcx"));
+                    , i, benchmark.Writer.UpdateCopy<Content>(i, "xxcx"));
             }
 #endif
 #if 单独更新索引表测试
             for (int i = 12001; i < 13000; i++)
             {
                 Console.WriteLine("尝试更改对象：{0} / 状态：{1}"
-                    , i, benchmark.PLDU.UpdateIndex<UVCount>(i, 123));
+                    , i, benchmark.Writer.UpdateIndex<UVCount>(i, 123));
             }
 #endif
 

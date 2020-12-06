@@ -112,7 +112,7 @@ export default {
         method: "post",
         url: "https://localhost:44334/system/serv/user.asmx/Dispose_post_by_PostID",
         data: qs.stringify({
-          ID: ID,
+          PostID: ID,
         }),
       })
         .then((response) => {

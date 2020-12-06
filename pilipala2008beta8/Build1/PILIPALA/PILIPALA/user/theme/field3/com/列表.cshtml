@@ -1,13 +1,7 @@
 ﻿@{
-    Layout = "~/user/theme/field3/com/框架.cshtml";
+    Layout = "~/user/theme/field3/com/index.cshtml";
 }
 <!-- 引用 -->
-@using System.Web.Configuration;
-
-@using WaterLibrary.stru.MySQL;
-@using WaterLibrary.com.CommentLake;
-@using WaterLibrary.stru.CommentLake;
-@using WaterLibrary.stru.pilipala;
 @using WaterLibrary.stru.pilipala.Post;
 @using WaterLibrary.stru.pilipala.Post.Property;
 @using PILIPALA.system.serv;
@@ -18,8 +12,6 @@
 @using pla_Type = WaterLibrary.stru.pilipala.Post.Property.Type;
 @using sys_Type = System.Type;
 
-<!-- 服务初始化 -->
-@{ SysServ SysServ = new SysServ(); }
 <!-- 其他初始化 -->
 @{
     /* mkd */
@@ -32,7 +24,7 @@
     <!-- 置顶文章输出 -->
 
 
-    @foreach (Post Post in SysServ.PLDR.GetPost<Archiv>("置顶"))
+    @foreach (Post Post in PILIPALA.Global.Reader.GetPost<Archiv>("置顶"))
     {
         if (Post.Type == "")
         {
@@ -62,7 +54,7 @@
                         <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
                     }
                     <div class="UVCount">@Post.UVCount</div>
-                    <div class="CommentCount">@SysServ.CommentLake.GetCommentCount(Post.ID)</div>
+                    <div class="CommentCount">@PILIPALA.Global.CommentLake.GetCommentCount(Post.ID)</div>
                     <div class="StarCount">@Post.StarCount</div>
                 </div>
 
@@ -86,7 +78,7 @@
 
 
     <!-- 其他文章输出 -->
-    @foreach (Post Post in SysServ.PLDR.GetPost<Archiv>("技术|生活"))
+    @foreach (Post Post in PILIPALA.Global.Reader.GetPost<Archiv>("技术|生活"))
     {
         if (Post.Type == "")
         {
@@ -116,7 +108,7 @@
                         <div class="Date">@ThemeServ.ToTimeFromNow(Post.CT)</div>
                     }
                     <div class="UVCount">@Post.UVCount</div>
-                    <div class="CommentCount">@SysServ.CommentLake.GetCommentCount(Post.ID)</div>
+                    <div class="CommentCount">@PILIPALA.Global.CommentLake.GetCommentCount(Post.ID)</div>
                     <div class="StarCount">@Post.StarCount</div>
                 </div>
             </div>

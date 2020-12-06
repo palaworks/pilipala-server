@@ -16,6 +16,7 @@ using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.com.CommentLake;
 using WaterLibrary.com.MySQL;
 using WaterLibrary.com.pilipala;
+using WaterLibrary.com.pilipala.Components;
 
 
 using pla_Type = WaterLibrary.stru.pilipala.Post.Property.Type;
@@ -38,10 +39,12 @@ namespace PILIPALA.system.serv
         /* 定义内核 */
         public CORE CORE;
         /* 初始化配件 */
-        public PLDR PLDR = new PLDR();
-        public PLDU PLDU = new PLDU();
-        public PLDC PLDC = new PLDC();
+        public Reader Reader = new Reader();
+        public Writer Writer = new Writer();
+        public Counter Counter = new Counter();
         public CommentLake CommentLake = new CommentLake();
+
+        public WaterLibrary.stru.pilipala.User Thaumy;
 
         public SysServ()
         {
@@ -59,20 +62,21 @@ namespace PILIPALA.system.serv
             };
 
             /* 初始化内核 */
-            CORE = new CORE(PLDB);
+            string UserName = WebConfigurationManager.AppSettings["UserName"];
+            string UserPWD = WebConfigurationManager.AppSettings["UserPWD"];
+
+            CORE CORE = new CORE(PLDB, UserName, UserPWD);
             CORE.SetTables();
             CORE.SetViews();
 
             /* 设置内核准备完成后需要为其安装哪些配件 */
-            CORE.LinkOn += PLDR.Ready;
-            CORE.LinkOn += PLDU.Ready;
-            CORE.LinkOn += PLDC.Ready;
+            CORE.LinkOn += Reader.Ready;
+            CORE.LinkOn += Writer.Ready;
+            CORE.LinkOn += Counter.Ready;
             CORE.LinkOn += CommentLake.Ready;
 
-            /* 准备内核 */
-            CORE.Ready();
             /* 启动内核 */
-            CORE.Run();
+            Thaumy = CORE.Run();
         }
 
 
@@ -84,9 +88,9 @@ namespace PILIPALA.system.serv
         public void Decrease_StarCount_by_PostID(int PostID)
         {
             SysServ SysServ = new SysServ();
-            uint StarCount = SysServ.PLDR.GetProperty<StarCount>(PostID);
+            uint StarCount = SysServ.Reader.GetProperty<StarCount>(PostID);
 
-            SysServ.PLDU.UpdateIndex<StarCount>(PostID, StarCount - 1);
+            SysServ.Writer.UpdateIndex<StarCount>(PostID, StarCount - 1);
 
             Context.Response.Write(StarCount - 1);
             Context.Response.End();
@@ -99,9 +103,9 @@ namespace PILIPALA.system.serv
         public void Increase_StarCount_by_PostID(int PostID)
         {
             SysServ SysServ = new SysServ();
-            uint StarCount = SysServ.PLDR.GetProperty<StarCount>(PostID);
+            uint StarCount = SysServ.Reader.GetProperty<StarCount>(PostID);
 
-            SysServ.PLDU.UpdateIndex<StarCount>(PostID, StarCount + 1);
+            SysServ.Writer.UpdateIndex<StarCount>(PostID, StarCount + 1);
 
             Context.Response.Write(StarCount + 1);
             Context.Response.End();
@@ -114,9 +118,9 @@ namespace PILIPALA.system.serv
         public void Increase_UVCount_by_PostID(int PostID)
         {
             SysServ SysServ = new SysServ();
-            uint UVCount = SysServ.PLDR.GetProperty<UVCount>(PostID);
+            uint UVCount = SysServ.Reader.GetProperty<UVCount>(PostID);
 
-            SysServ.PLDU.UpdateIndex<UVCount>(PostID, UVCount + 1);
+            SysServ.Writer.UpdateIndex<UVCount>(PostID, UVCount + 1);
 
             Context.Response.Write(UVCount + 1);
             Context.Response.End();

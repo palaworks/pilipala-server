@@ -1,23 +1,14 @@
 ﻿@{
-    Layout = "~/user/theme/field3/com/框架.cshtml";
+    Layout = "~/user/theme/field3/com/index.cshtml";
 }
 <!-- 引用 -->
-@using System.Web.Configuration;
-
-@using WaterLibrary.stru.MySQL;
-@using WaterLibrary.stru.pilipala;
 @using WaterLibrary.stru.pilipala.Post;
 @using WaterLibrary.stru.pilipala.Post.Property;
-@using WaterLibrary.com.basic;
-@using PILIPALA.system.serv;
 @using PILIPALA.user.theme.field3.serv;
 
-@using WaterLibrary.com.CommentLake;
 @using WaterLibrary.stru.CommentLake;
 @using Markdig;
 
-<!-- 服务初始化 -->
-@{ SysServ SysServ = new SysServ(); }
 <!-- 变量初始化 -->
 @{
     Post Post = new Post();
@@ -38,15 +29,15 @@
     ID = Convert.ToInt32(Request.Params["ID"]);
 
     /* 合并表 */
-    Post = SysServ.PLDR.GetPost(ID);
+    Post = PILIPALA.Global.Reader.GetPost(ID);
 
     /* 前后文章标题赋值 */
-    PrevID = SysServ.PLDR.Smaller<ID>(ID, "生活|技术", typeof(Archiv));
-    NextID = SysServ.PLDR.Bigger<ID>(ID, "生活|技术", typeof(Archiv));
+    PrevID = PILIPALA.Global.Reader.Smaller<ID>(ID, "生活|技术", typeof(Archiv));
+    NextID = PILIPALA.Global.Reader.Bigger<ID>(ID, "生活|技术", typeof(Archiv));
 }
 <!-- CommentLake评论系统初始化 -->
 @{
-    List<Comment> CommentList = SysServ.CommentLake.GetCommentList(ID);
+    List<Comment> CommentList = PILIPALA.Global.CommentLake.GetCommentList(ID);
 }
 
 @section 内容
@@ -85,11 +76,11 @@
             <div>
                 @if (NextID != -1)
                 {
-                    <div class="nxtBtn L bRds cur" onclick="up();showPost(@NextID)">@(SysServ.PLDR.GetProperty<Title>(NextID))</div>
+                    <div class="nxtBtn L bRds cur" onclick="up();showPost(@NextID)">@(PILIPALA.Global.Reader.GetProperty<Title>(NextID))</div>
                 }
                 @if (PrevID != -1)
                 {
-                    <div class="pvsBtn R bRds cur" onclick="up();showPost(@PrevID)">@(SysServ.PLDR.GetProperty<Title>(PrevID))</div>
+                    <div class="pvsBtn R bRds cur" onclick="up();showPost(@PrevID)">@(PILIPALA.Global.Reader.GetProperty<Title>(PrevID))</div>
                 }
             </div>
         </div>
@@ -111,7 +102,7 @@
         <div class="AtBox L bRds-b">
             <div class="Date">于@(ThemeServ.OnlyDate(Post.CT, "-"))创建</div>
             <div class="UVCount">@Post.UVCount</div>
-            <div class="CommentCount cur">@SysServ.CommentLake.GetCommentCount(ID)</div>
+            <div class="CommentCount cur">@PILIPALA.Global.CommentLake.GetCommentCount(ID)</div>
             <div class="StarCount cur" onclick="refre_StarCount(@ID)">@Post.StarCount</div>
             <div class="Time">@ThemeServ.OnlyWeekTime(Post.CT)</div>
 
