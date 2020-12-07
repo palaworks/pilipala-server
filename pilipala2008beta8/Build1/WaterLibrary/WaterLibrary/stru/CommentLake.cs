@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -137,8 +138,9 @@ namespace WaterLibrary.stru.CommentLake
             public string Val { get; set; }
         }
     }
+
     /// <summary>
-    /// 评论结构
+    /// 评论
     /// </summary>
     public class Comment
     {
@@ -218,5 +220,90 @@ namespace WaterLibrary.stru.CommentLake
         /// </summary>
         public DateTime Time { get; set; }
 
+    }
+    /// <summary>
+    /// 评论数据集
+    /// </summary>
+    public class CommentSet : IEnumerable
+    {
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return CommentList.GetEnumerator();
+        }
+        private readonly List<Comment> CommentList = new List<Comment>();
+
+        /// <summary>
+        /// 获取数据集的评论对象数
+        /// </summary>
+        public int Count
+        {
+            get { return CommentList.Count; }
+        }
+
+        /// <summary>
+        /// 添加评论
+        /// </summary>
+        /// <param name="Comment"></param>
+        public void Add(Comment Comment)
+        {
+            CommentList.Add(Comment);
+        }
+        /// <summary>
+        /// 取得数据集中的最后一个评论对象
+        /// </summary>
+        /// <returns></returns>
+        public Comment Last()
+        {
+            return CommentList.Last();
+        }
+
+        /// <summary>
+        /// 数据集内最近一月(30天内)的评论数量
+        /// </summary>
+        /// <returns></returns>
+        public int WithinMonthCount()
+        {
+            int Count = 0;
+            foreach (Comment Comment in CommentList)
+            {
+                if (Comment.Time > DateTime.Now.AddDays(-30))
+                {
+                    Count++;
+                }
+            }
+            return Count;
+        }
+        /// <summary>
+        /// 数据集内最近一周(7天内)的评论数量
+        /// </summary>
+        /// <returns></returns>
+        public int WithinWeekCount()
+        {
+            int Count = 0;
+            foreach (Comment Comment in CommentList)
+            {
+                if (Comment.Time > DateTime.Now.AddDays(-7))
+                {
+                    Count++;
+                }
+            }
+            return Count;
+        }
+        /// <summary>
+        /// 数据集内最近一天(24小时内)的评论数量
+        /// </summary>
+        /// <returns></returns>
+        public int WithinDayCount()
+        {
+            int Count = 0;
+            foreach (Comment Comment in CommentList)
+            {
+                if (Comment.Time > DateTime.Now.AddDays(-1))
+                {
+                    Count++;
+                }
+            }
+            return Count;
+        }
     }
 }

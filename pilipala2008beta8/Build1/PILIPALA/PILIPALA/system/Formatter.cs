@@ -2,26 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Services;
 
-using System.Text.RegularExpressions;
-
-using WaterLibrary.com.basic;
-
-namespace PILIPALA.user.theme
+namespace PILIPALA.system
 {
-    /// <summary>
-    /// Services 的摘要说明
-    /// </summary>
-    [WebService(Namespace = "http://tempuri.org/")]
-    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-    [System.ComponentModel.ToolboxItem(false)]
-    // 若要允许使用 ASP.NET AJAX 从脚本中调用此 Web 服务，请取消注释以下行。 
-    // [System.Web.Script.Services.ScriptService]
-    public class Services : System.Web.Services.WebService
+    public static class Formatter
     {
         /// <summary>
-        /// 转到中午时间概要（今天、昨天、上个月...）
+        /// 转到中文时间概要（今天、昨天、上个月...）
         /// </summary>
         /// <param name="dateTime">要计算的时间</param>
         /// <returns></returns>
@@ -95,7 +82,5 @@ namespace PILIPALA.user.theme
             string[] Day = new string[] { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
             return Day[Convert.ToInt16(DateTime.DayOfWeek)] + " " + DateTime.Hour + ":" + DateTime.Minute;
         }
-
-        
     }
 }

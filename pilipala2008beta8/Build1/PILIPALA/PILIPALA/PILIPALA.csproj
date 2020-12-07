@@ -132,16 +132,13 @@
       <DependentUpon>CaptchaServ.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="system\Formatter.cs" />
     <Compile Include="system\serv\SysServ.asmx.cs">
       <DependentUpon>SysServ.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="system\serv\User.asmx.cs">
       <DependentUpon>User.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="user\theme\Services.asmx.cs">
-      <DependentUpon>Services.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
@@ -151,7 +148,6 @@
     <Content Include="system\serv\SysServ.asmx" />
     <Content Include="system\serv\User.asmx" />
     <Content Include="user\theme\field3\com\field.js" />
-    <Content Include="user\theme\Services.asmx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

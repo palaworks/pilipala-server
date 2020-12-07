@@ -92,22 +92,9 @@ namespace PILIPALA.system.serv
             var data = new List<Hashtable>();
             foreach (int ID in CommentLake.GetCommentedPostID())
             {
-                /* 月计数和周计数 */
-                int MonthCommentCount = 0;
-                int WeekCommentCount = 0;
-                foreach (Comment Comment in CommentLake.GetCommentList(ID))
-                {
-                    if (Comment.Time > DateTime.Now.AddMonths(-1))
-                    {
-                        MonthCommentCount++;
-                    }
-                    if (Comment.Time > DateTime.Now.AddDays(-7))
-                    {
-                        WeekCommentCount++;
-                    }
-                }
+                
                 /* 评论列表 */
-                var CommentList = CommentLake.GetCommentList(ID);
+                var CommentSet = CommentLake.GetCommentList(ID);
 
                 string Title = Reader.GetProperty<Title>(ID);
 
@@ -116,10 +103,10 @@ namespace PILIPALA.system.serv
                     { "ID", ID },
                     { "Title", Title },
                     { "Content",Title == ""?Reader.GetProperty<Content>(ID):"" },
-                    { "CommentCount",  CommentList.Count},
-                    { "MonthCommentCount", MonthCommentCount },
-                    { "WeekCommentCount", WeekCommentCount },
-                    { "LatestCommentTime", CommentList.Last().Time }
+                    { "CommentCount",  CommentSet.Count},
+                    { "MonthCommentCount", CommentSet.WithinMonthCount() },
+                    { "WeekCommentCount", CommentSet.WithinWeekCount() },
+                    { "LatestCommentTime", CommentSet.Last().Time }
                 };
 
                 data.Add(item);

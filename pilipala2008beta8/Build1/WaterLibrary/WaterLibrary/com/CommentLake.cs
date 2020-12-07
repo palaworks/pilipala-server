@@ -125,9 +125,9 @@ namespace WaterLibrary.com.CommentLake
         /// </summary>
         /// <param name="PostID">目标文章ID</param>
         /// <returns></returns>
-        public List<Comment> GetCommentList(int PostID)
+        public CommentSet GetCommentList(int PostID)
         {
-            List<Comment> CommentList = new List<Comment>();
+            CommentSet CommentSet = new CommentSet();
 
             /* 按楼层排序 */
             string SQL = string.Format("SELECT * FROM {0} WHERE PostID = ?PostID ORDER BY Floor", Tables.Comment);
@@ -143,7 +143,7 @@ namespace WaterLibrary.com.CommentLake
 
                 foreach (DataRow Row in result.Rows)
                 {
-                    CommentList.Add(new Comment
+                    CommentSet.Add(new Comment
                     {
                         CommentID = Convert.ToInt32(Row["CommentID"]),
                         HEAD = Convert.ToInt32(Row["HEAD"]),
@@ -157,7 +157,7 @@ namespace WaterLibrary.com.CommentLake
                         Time = Convert.ToDateTime(Row["Time"]),
                     });
                 }
-                return CommentList;
+                return CommentSet;
             }
         }
         /// <summary>
@@ -165,16 +165,16 @@ namespace WaterLibrary.com.CommentLake
         /// </summary>
         /// <param name="CommentID"></param>
         /// <returns></returns>
-        public List<Comment> GetCommentReplyList(int CommentID)
+        public CommentSet GetCommentReplyList(int CommentID)
         {
-            List<Comment> CommentList = new List<Comment>();
+            CommentSet CommentSet = new CommentSet();
 
             DataTable result =
                 MySqlManager.GetTable(string.Format("SELECT * FROM {0} WHERE HEAD={1} ORDER BY Floor", Tables.Comment, CommentID));
 
             foreach (DataRow Row in result.Rows)
             {
-                CommentList.Add(new Comment
+                CommentSet.Add(new Comment
                 {
                     /* 数据库中的量 */
                     CommentID = Convert.ToInt32(Row["CommentID"]),
@@ -189,7 +189,7 @@ namespace WaterLibrary.com.CommentLake
                     Time = Convert.ToDateTime(Row["Time"]),
                 });
             }
-            return CommentList;
+            return CommentSet;
         }
 
         /// <summary>

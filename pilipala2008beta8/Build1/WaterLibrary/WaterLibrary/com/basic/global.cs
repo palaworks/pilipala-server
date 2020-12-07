@@ -331,14 +331,11 @@ namespace WaterLibrary.com.basic
                 return "";
             }
 
-            string regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>";
-            string regEx_script = "<script[^>]*?>[\\s\\S]*?<\\/script>";
-            string regEx_html = "<[^>]+>";
-
-            HtmlText = Regex.Replace(HtmlText, regEx_style, "");
-            HtmlText = Regex.Replace(HtmlText, regEx_script, "");
-            HtmlText = Regex.Replace(HtmlText, regEx_html, "");
+            HtmlText = Regex.Replace(HtmlText, "<style[^>]*?>[\\s\\S]*?<\\/style>", "");
+            HtmlText = Regex.Replace(HtmlText, "<script[^>]*?>[\\s\\S]*?<\\/script>", "");
+            HtmlText = Regex.Replace(HtmlText, "<[^>]+>", "");
             HtmlText = Regex.Replace(HtmlText, "\\s*|\t|\r|\n", "");
+            HtmlText = Regex.Replace(HtmlText, "&(#\\d*)?\\w*;", "");
             HtmlText = HtmlText.Replace(" ", "");
 
             return HtmlText.Trim();

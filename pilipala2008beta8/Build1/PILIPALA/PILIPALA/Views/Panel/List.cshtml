@@ -4,9 +4,8 @@
     Layout = ViewBag.Layout;
 }
 
-<!-- 引用 -->
+@using PILIPALA.system;
 @using WaterLibrary.stru.pilipala.Post;
-@using PILIPALA.user.theme;
 
 <!-- 置顶文章输出 -->
 @foreach (Post Post in ViewBag.置顶文章)
@@ -21,7 +20,7 @@
                 <div class="Title">@Post.Title</div>
                 @if (Post.Summary == "")
                 {
-                    <div class="Summary">@(Post.TextContent().Substring(0,80))</div>
+                    <div class="Summary">@Post.TextContent(80)</div>
                 }
                 else
                 {
@@ -30,13 +29,13 @@
             </div>
 
             <div class="AtBox L bRds-b">
-                @if (Services.CN_TimeSummary(Post.CT) == null)
+                @if (Formatter.CN_TimeSummary(Post.CT) == null)
                 {
                     <div class="Date">@(Convert.ToString(Post.CT.Year) + "-" + Post.CT.Month + "-" + Post.CT.Day)</div>
                 }
                 else
                 {
-                    <div class="Date">@Services.CN_TimeSummary(Post.CT)</div>
+                    <div class="Date">@Formatter.CN_TimeSummary(Post.CT)</div>
                 }
                 <div class="UVCount">@Post.UVCount</div>
                 <div class="CommentCount">@PILIPALA.Global.CommentLake.GetCommentCount(Post.ID)</div>
@@ -75,7 +74,7 @@
                 <div class="Title">@Post.Title</div>
                 @if (Post.Summary == "")
                 {
-                    <div class="Summary">@(Post.TextContent().Substring(0,80))</div>
+                    <div class="Summary">@Post.TextContent(80)</div>
                 }
                 else
                 {
@@ -84,13 +83,13 @@
             </div>
 
             <div class="AtBox L bRds-b">
-                @if (Services.CN_TimeSummary(Post.CT) == null)
+                @if (Formatter.CN_TimeSummary(Post.CT) == null)
                 {
                     <div class="Date">@(Convert.ToString(Post.CT.Year) + "-" + Post.CT.Month + "-" + Post.CT.Day)</div>
                 }
                 else
                 {
-                    <div class="Date">@Services.CN_TimeSummary(Post.CT)</div>
+                    <div class="Date">@Formatter.CN_TimeSummary(Post.CT)</div>
                 }
                 <div class="UVCount">@Post.UVCount</div>
                 <div class="CommentCount">@PILIPALA.Global.CommentLake.GetCommentCount(Post.ID)</div>

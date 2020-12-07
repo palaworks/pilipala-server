@@ -290,11 +290,10 @@ namespace WaterLibrary.stru.pilipala
     namespace Post
     {
         /// <summary>
-        /// 文章结构
+        /// 文章
         /// </summary>
         public class Post : ITableIndex, ITableBackup
         {
-
             /// <summary>
             /// 索引器
             /// </summary>
@@ -315,34 +314,6 @@ namespace WaterLibrary.stru.pilipala
                     ThisType.GetProperty(Key).SetValue(this, Convert.ChangeType(value, KeyType));
                 }
             }
-            /// <summary>
-            /// 迭代器
-            /// </summary>
-            /// <returns></returns>
-            public IEnumerable<object> ItemArray()
-            {
-                yield return ID;
-                yield return GUID;
-
-                yield return Title;
-                yield return Summary;
-                yield return Content;
-                yield return Cover;
-
-                yield return Archiv;
-                yield return Label;
-
-                yield return Mode;
-                yield return Type;
-                yield return User;
-
-                yield return CT;
-                yield return LCT;
-
-                yield return UVCount;
-                yield return StarCount;
-            }
-
             /// <summary>
             /// 初始化
             /// </summary>
@@ -406,25 +377,54 @@ namespace WaterLibrary.stru.pilipala
             /// 获得Html格式的文章内容，所有Markdown标记均会被转换为等效的Html标记
             /// </summary>
             /// <returns></returns>
-            public string HtmlContent() { return ConvertH.MarkdownToHtml(Content); }
+            public string HtmlContent()
+            {
+                return ConvertH.MarkdownToHtml(Content);
+            }
+            /// <summary>
+            /// 获得Html格式的文章内容，所有Markdown标记均会被转换为等效的Html标记，并从首位置限定取用长度
+            /// </summary>
+            /// <param name="Length">取用长度</param>
+            /// <returns></returns>
+            public string HtmlContent(int Length)
+            {
+                return ConvertH.MarkdownToHtml(Content).Substring(0, Length);
+            }
             /// <summary>
             /// 获得纯文本格式的文章内容，过滤掉任何Markdown和Html标记
             /// </summary>
             /// <returns></returns>
-            public string TextContent() { return ConvertH.HtmlFilter(HtmlContent()); }
+            public string TextContent()
+            {
+                return ConvertH.HtmlFilter(HtmlContent());
+            }
+            /// <summary>
+            /// 获得纯文本格式的文章内容，过滤掉任何Markdown和Html标记，并从首位置限定取用长度
+            /// </summary>
+            /// <param name="Length">取用长度</param>
+            /// <returns></returns>
+            public string TextContent(int Length)
+            {
+                return ConvertH.HtmlFilter(HtmlContent()).Substring(0, Length);
+            }
             /// <summary>
             /// 封面
             /// </summary>
             public string Cover { get; set; }
 
             /// <summary>
-            /// 
+            /// 归档
             /// </summary>
             public string Archiv { get; set; }
             /// <summary>
-            /// 
+            /// 标签
             /// </summary>
             public string Label { get; set; }
+            /// <summary>
+            /// 获得标签集合
+            /// </summary>
+            /// <returns></returns>
+            public List<string> LabelList() { return ConvertH.StringToList(Label, '$'); }
 
             /// <summary>
             /// 文章模式
@@ -461,6 +461,27 @@ namespace WaterLibrary.stru.pilipala
             /// 属性容器
             /// </summary>
             public Hashtable PropertyContainer { get; set; }
+        }
+        /// <summary>
+        /// 文章数据集
+        /// </summary>
+        public class PostSet : IEnumerable
+        {
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return PostList.GetEnumerator();
+            }
+
+            private readonly List<Post> PostList = new List<Post>();
+
+            /// <summary>
+            /// 添加文章
+            /// </summary>
+            /// <param name="Post"></param>
+            public void Add(Post Post)
+            {
+                PostList.Add(Post);
+            }
         }
 
         namespace Property

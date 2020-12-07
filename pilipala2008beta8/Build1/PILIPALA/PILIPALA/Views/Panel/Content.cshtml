@@ -4,9 +4,9 @@
     Layout = ViewBag.Layout;
 }
 
-@using WaterLibrary.stru.pilipala.Post.Property;
-@using PILIPALA.user.theme;
+@using PILIPALA.system;
 
+@using WaterLibrary.stru.pilipala.Post.Property;
 @using WaterLibrary.stru.CommentLake;
 
 <div class="Card L M bSha bRds">
@@ -71,7 +71,7 @@
         <div class="UVCount">@ViewBag.Post.UVCount</div>
         <div class="CommentCount cur">@PILIPALA.Global.CommentLake.GetCommentCount(ViewBag.ID)</div>
         <div class="StarCount cur" onclick="refre_StarCount(@ViewBag.ID)">@ViewBag.Post.StarCount</div>
-        <div class="Time">@Services.CN_Week(ViewBag.Post.CT)</div>
+        <div class="Time">@Formatter.CN_Week(ViewBag.Post.CT)</div>
 
         @if (ViewBag.Post.Archiv != "")
         {/* 归档不为空时输出 */
@@ -79,7 +79,7 @@
         }
         @if (ViewBag.Post.Label != "")
         {/* 标签不为空时输出 */
-            foreach (string el in WaterLibrary.com.basic.ConvertH.StringToList(ViewBag.Post.Label, '$'))
+            foreach (string el in ViewBag.Post.LabelList())
             {
                 <div class="Label">@el</div>
             }
