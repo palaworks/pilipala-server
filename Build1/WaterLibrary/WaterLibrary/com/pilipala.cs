@@ -231,7 +231,7 @@ namespace WaterLibrary.com.pilipala
             /// <param name="REGEXP">正则表达式</param>
             /// <param name="IncludeNeg">是否包含消极文章(备份)</param>
             /// <returns></returns>
-            public List<Post> GetPost<T>(string REGEXP, bool IncludeNeg = false) where T : IProperty
+            public PostSet GetPost<T>(string REGEXP, bool IncludeNeg = false) where T : IProperty
             {
                 string SQL;
                 if (IncludeNeg == false)
@@ -251,7 +251,7 @@ namespace WaterLibrary.com.pilipala
                     );
                 }
 
-                List<Post> List = new List<Post>();
+                PostSet PostSet = new PostSet();
 
                 List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -262,7 +262,7 @@ namespace WaterLibrary.com.pilipala
                 {
                     foreach (DataRow Row in MySqlManager.GetTable(MySqlCommand).Rows)
                     {
-                        List.Add(new Post
+                        PostSet.Add(new Post
                         {
                             ID = Convert.ToInt32(Row["ID"]),
                             GUID = Convert.ToString(Row["GUID"]),
@@ -287,7 +287,7 @@ namespace WaterLibrary.com.pilipala
                     }
                 }
 
-                return List;
+                return PostSet;
             }
             /// <summary>
             /// 获取文章数据
@@ -297,7 +297,7 @@ namespace WaterLibrary.com.pilipala
             /// <param name="Properties">所需属性类型</param>
             /// <param name="IncludeNeg">是否包含消极文章(备份)</param>
             /// <returns></returns>
-            public List<Post> GetPost<T>(string REGEXP, System.Type[] Properties, bool IncludeNeg = false) where T : IProperty
+            public PostSet GetPost<T>(string REGEXP, System.Type[] Properties, bool IncludeNeg = false) where T : IProperty
             {
                 /* 键名字符串格式化 */
                 string KeysStr = ConvertH.ListToString(Properties, "Name", ',');
@@ -320,7 +320,7 @@ namespace WaterLibrary.com.pilipala
                 }
 
 
-                List<Post> PostList = new List<Post>();
+                PostSet PostSet = new PostSet();
 
                 List<MySqlParm> ParmList = new List<MySqlParm>
                 {
@@ -338,10 +338,10 @@ namespace WaterLibrary.com.pilipala
                             Post[Properties[i].Name] = Row.ItemArray[i];
                         }
 
-                        PostList.Add(Post);
+                        PostSet.Add(Post);
                     }
                 }
-                return PostList;
+                return PostSet;
             }
 
             /// <summary>

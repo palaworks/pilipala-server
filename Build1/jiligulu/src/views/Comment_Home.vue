@@ -59,7 +59,7 @@ export default {
       this.$axios({
         method: "post",
         url:
-          "https://localhost:44334/system/serv/user.asmx/Get_commented_posts",
+          "https://localhost:44372/system/serv/user.asmx/Get_commented_posts",
       })
         .then((response) => {
           this.commented_post_list = response.data;

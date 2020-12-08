@@ -345,11 +345,21 @@ namespace WaterLibrary.stru.pilipala
             }
 
             /// <summary>
-            /// 基于Title,Summary和Content的MD5签名(自动生成)
+            /// 计算由标题、概要、内容签名的MD5
             /// </summary>
-            public string MD5
+            /// <returns></returns>
+            public string MD5()
             {
-                get { return MathH.MD5(Title + Summary + Content); }
+                return MathH.MD5(Title + Summary + Content);
+            }
+            /// <summary>
+            /// 计算由标题、概要、内容签名的MD5，并从首位限定取用长度
+            /// </summary>
+            /// <param name="Length">取用长度</param>
+            /// <returns></returns>
+            public string MD5(int Length)
+            {
+                return MD5().Substring(0, Length);
             }
 
             /// <summary>
@@ -471,16 +481,129 @@ namespace WaterLibrary.stru.pilipala
             {
                 return PostList.GetEnumerator();
             }
-
             private readonly List<Post> PostList = new List<Post>();
+
+            /// <summary>
+            /// 当前数据集的文章对象数
+            /// </summary>
+            public int Count
+            {
+                get { return PostList.Count; }
+            }
+            /// <summary>
+            /// 取得数据集中的最后一个评论对象
+            /// </summary>
+            /// <returns></returns>
+            public Post Last()
+            {
+                return PostList.Last();
+            }
 
             /// <summary>
             /// 添加文章
             /// </summary>
-            /// <param name="Post"></param>
+            /// <param name="Post">文章对象</param>
             public void Add(Post Post)
             {
                 PostList.Add(Post);
+            }
+
+            /// <summary>
+            /// 数据集内最近一月(30天内)的文章创建数
+            /// </summary>
+            /// <returns></returns>
+            public int WithinMonthCreateCount()
+            {
+                int Count = 0;
+                foreach (Post el in PostList)
+                {
+                    if (el.CT > DateTime.Now.AddDays(-30))
+                    {
+                        Count++;
+                    }
+                }
+                return Count;
+            }
+            /// <summary>
+            /// 数据集内最近一周(7天内)的文章创建数
+            /// </summary>
+            /// <returns></returns>
+            public int WithinWeekCreateCount()
+            {
+                int Count = 0;
+                foreach (Post el in PostList)
+                {
+                    if (el.CT > DateTime.Now.AddDays(-7))
+                    {
+                        Count++;
+                    }
+                }
+                return Count;
+            }
+            /// <summary>
+            /// 数据集内最近一天(24小时内)的文章创建数
+            /// </summary>
+            /// <returns></returns>
+            public int WithinDayCreateCount()
+            {
+                int Count = 0;
+                foreach (Post el in PostList)
+                {
+                    if (el.CT > DateTime.Now.AddDays(-1))
+                    {
+                        Count++;
+                    }
+                }
+                return Count;
+            }
+
+            /// <summary>
+            /// 数据集内最近一月(30天内)的文章修改数
+            /// </summary>
+            /// <returns></returns>
+            public int WithinMonthUpdateCount()
+            {
+                int Count = 0;
+                foreach (Post el in PostList)
+                {
+                    if (el.LCT > DateTime.Now.AddDays(-30))
+                    {
+                        Count++;
+                    }
+                }
+                return Count;
+            }
+            /// <summary>
+            /// 数据集内最近一周(7天内)的文章修改数
+            /// </summary>
+            /// <returns></returns>
+            public int WithinWeekUpdateCount()
+            {
+                int Count = 0;
+                foreach (Post el in PostList)
+                {
+                    if (el.LCT > DateTime.Now.AddDays(-7))
+                    {
+                        Count++;
+                    }
+                }
+                return Count;
+            }
+            /// <summary>
+            /// 数据集内最近一天(24小时内)的文章修改数
+            /// </summary>
+            /// <returns></returns>
+            public int WithinDayUpdateCount()
+            {
+                int Count = 0;
+                foreach (Post el in PostList)
+                {
+                    if (el.LCT > DateTime.Now.AddDays(-1))
+                    {
+                        Count++;
+                    }
+                }
+                return Count;
             }
         }
 

@@ -5,7 +5,7 @@
 <!-- 其他初始化 -->
 @{
     var array = new System.Type[2] { typeof(ID), typeof(Title) };
-    List<Post> List = PILIPALA.Global.Reader.GetPost<Archiv>("页面|友情链接", array);
+    PostSet PostSet = PILIPALA.Global.Reader.GetPost<Archiv>("页面|友情链接", array);
 }
 
 
@@ -71,7 +71,7 @@
             [
                 { index: 0, ID: -1, Title: '首页' },
                 @{ int i = 1;}
-                @foreach (Post Post in List)
+                @foreach (Post Post in PostSet)
                 {
                     <text>{ index:@(i++) , ID:@Post.ID, Title:'@Html.Raw(Post.Title)' },</text>
                 }

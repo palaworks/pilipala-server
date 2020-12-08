@@ -29,7 +29,7 @@
             </v-list-item-title>
             <v-chip label small class="mr-4">
               <v-icon small left>mdi-cube-outline</v-icon>
-              {{item.MD5}}
+              {{item.PropertyContainer.MD5}}
             </v-chip>
             <v-chip
               v-if="item.Mode==''?false:true"
@@ -103,7 +103,7 @@ export default {
       this.$axios({
         method: "post",
         url:
-          "https://localhost:44334/system/serv/user.asmx/Rollback_post_by_PostID",
+          "https://localhost:44372/system/serv/user.asmx/Rollback_post_by_PostID",
         data: qs.stringify({
           PostID: this.$route.params.post_id,
         }),
@@ -121,7 +121,7 @@ export default {
       this.$axios({
         method: "post",
         url:
-          "https://localhost:44334/system/serv/user.asmx/Release_post_by_PostID",
+          "https://localhost:44372/system/serv/user.asmx/Release_post_by_PostID",
         data: qs.stringify({
           PostID: this.$route.params.post_id,
         }),
@@ -138,7 +138,7 @@ export default {
     Apply: function (GUID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Apply_post_by_GUID",
+        url: "https://localhost:44372/system/serv/user.asmx/Apply_post_by_GUID",
         data: qs.stringify({
           GUID: GUID,
         }),
@@ -156,7 +156,7 @@ export default {
       this.$axios({
         method: "post",
         url:
-          "https://localhost:44334/system/serv/user.asmx/Delete_post_by_GUID",
+          "https://localhost:44372/system/serv/user.asmx/Delete_post_by_GUID",
         data: qs.stringify({
           GUID: GUID,
         }),
@@ -174,7 +174,7 @@ export default {
       /* 得到拷贝列表 */
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Get_post_by_PostID",
+        url: "https://localhost:44372/system/serv/user.asmx/Get_post_by_PostID",
         data: qs.stringify({
           PostID: this.$route.params.post_id,
         }),
@@ -189,7 +189,7 @@ export default {
       this.$axios({
         method: "post",
         url:
-          "https://localhost:44334/system/serv/user.asmx/Get_neg_posts_by_PostID",
+          "https://localhost:44372/system/serv/user.asmx/Get_neg_posts_by_PostID",
         data: qs.stringify({
           PostID: this.$route.params.post_id,
         }),

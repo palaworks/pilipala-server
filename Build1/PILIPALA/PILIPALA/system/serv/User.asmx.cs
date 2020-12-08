@@ -20,9 +20,6 @@ using WaterLibrary.com.pilipala;
 using WaterLibrary.com.pilipala.Components;
 using WaterLibrary.com.CommentLake;
 
-using pla_Type = WaterLibrary.stru.pilipala.Post.Property.Type;
-using sys_Type = System.Type;
-
 namespace PILIPALA.system.serv
 {
     /// <summary>
@@ -92,7 +89,7 @@ namespace PILIPALA.system.serv
             var data = new List<Hashtable>();
             foreach (int ID in CommentLake.GetCommentedPostID())
             {
-                
+
                 /* 评论列表 */
                 var CommentSet = CommentLake.GetCommentList(ID);
 
@@ -164,11 +161,12 @@ namespace PILIPALA.system.serv
         [WebMethod]
         public void Get_posts()
         {
-            List<Post> data = new List<Post>();
+            var data = new PostSet();
 
             foreach (Post item in Reader.GetPost<ID>("^"))
             {
                 item.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(item.ID));
+                item.PropertyContainer.Add("MD5", item.MD5());
                 data.Add(item);
             }
 
@@ -193,7 +191,13 @@ namespace PILIPALA.system.serv
         [WebMethod]
         public void Get_neg_posts_by_PostID(int PostID)
         {
-            List<Post> data = Reader.GetPost<ID>(PostID.ToString(),true);
+            var data = new PostSet();
+
+            foreach (Post item in Reader.GetPost<ID>(PostID.ToString(), true))
+            {
+                item.PropertyContainer.Add("MD5", item.MD5());
+                data.Add(item);
+            }
 
             Context.Response.Write(JsonConvert.SerializeObject(data, iso));
             Context.Response.End();

@@ -73,7 +73,7 @@
             </template>
             创建时间 : {{item.CT}}
             <br />
-            MD5 : {{item.MD5}}
+            MD5 : {{item.PropertyContainer.MD5}}
           </v-tooltip>
 
           <v-row justify="end">
@@ -110,7 +110,7 @@ export default {
     Dispose: function (ID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44334/system/serv/user.asmx/Dispose_post_by_PostID",
+        url: "https://localhost:44372/system/serv/user.asmx/Dispose_post_by_PostID",
         data: qs.stringify({
           PostID: ID,
         }),
@@ -125,7 +125,7 @@ export default {
     },
     GetData: function () {
       this.$axios
-        .post("https://localhost:44334/system/serv/user.asmx/Get_posts")
+        .post("https://localhost:44372/system/serv/user.asmx/Get_posts")
         .then((response) => (this.post_list = response.data))
         .catch(function (error) {
           // 请求失败处理

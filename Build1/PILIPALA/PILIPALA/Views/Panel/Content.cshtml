@@ -64,7 +64,7 @@
 
 <div class="CoBox L M bSha">
     <span class="text_auth L">由 @ViewBag.Post.User 最后编辑于 @(Convert.ToString(ViewBag.Post.LCT.Year).Substring(2, 2) + "-" + ViewBag.Post.LCT.Month + "-" + ViewBag.Post.LCT.Day)</span>
-    <span title="文章MD5签名 : @ViewBag.Post.MD5" class="text_mId R">@ViewBag.Post.MD5.Substring(0, 7)</span>
+    <span title="MD5签名 : @ViewBag.Post.MD5()" class="text_mId R">@ViewBag.Post.MD5(7)</span>
 
     <div class="AtBox L bRds-b">
         <div class="Date">创建于@(Convert.ToString(ViewBag.Post.CT.Year) + "-" + ViewBag.Post.CT.Month + "-" + ViewBag.Post.CT.Day)</div>
@@ -112,7 +112,7 @@
                         /* 存在回复 */
                         foreach (Comment temp in ViewBag.CommentList)
                         {
-                            if (temp.CommentID == Convert.ToInt32(Comment.HEAD))
+                            if (temp.CommentID == Comment.HEAD)
                             {
                                 <div class="Name">
                                     @(Comment.User)(回复)

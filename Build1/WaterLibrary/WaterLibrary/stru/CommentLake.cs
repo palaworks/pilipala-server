@@ -233,7 +233,7 @@ namespace WaterLibrary.stru.CommentLake
         private readonly List<Comment> CommentList = new List<Comment>();
 
         /// <summary>
-        /// 获取数据集的评论对象数
+        /// 当前数据集的评论对象数
         /// </summary>
         public int Count
         {
@@ -243,7 +243,7 @@ namespace WaterLibrary.stru.CommentLake
         /// <summary>
         /// 添加评论
         /// </summary>
-        /// <param name="Comment"></param>
+        /// <param name="Comment">评论对象</param>
         public void Add(Comment Comment)
         {
             CommentList.Add(Comment);

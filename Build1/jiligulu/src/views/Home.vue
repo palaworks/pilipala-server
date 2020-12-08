@@ -39,7 +39,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .post("https://localhost:44334/system/serv/user.asmx/Get_counts")
+      .post("https://localhost:44372/system/serv/user.asmx/Get_counts")
       .then((response) => {
         this.preview_list.文章总计 = response.data.PostCount;
         this.preview_list.备份数 = response.data.CopyCount;
