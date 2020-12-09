@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Version>1.1.6</Version>
+    <Authors>Thaumy</Authors>
+    <Company>H2OMELON'SOCIE</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Description>An advanced library for web development</Description>
+    <Copyright>Copyright 2019-2021 H2OMELON'SOCIE All Rights Reserved</Copyright>
+    <PackageReleaseNotes>WaterLibrary 1.16 'Magallan'</PackageReleaseNotes>
+    <AssemblyVersion>1.1.6.9</AssemblyVersion>
+    <FileVersion>1.1.6.9</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\WaterLibrary.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.22.1" />
+    <PackageReference Include="MySql.Data" Version="8.0.22" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+</Project>

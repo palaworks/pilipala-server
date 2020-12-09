@@ -1,0 +1,106 @@
+﻿
+@using WaterLibrary.stru.pilipala.Post;
+@using WaterLibrary.stru.pilipala.Post.Property;
+
+<!-- 其他初始化 -->
+@{
+    var array = new System.Type[2] { typeof(ID), typeof(Title) };
+    PostSet PostSet = PILIPALA.Program.Reader.GetPost<Archiv>("页面|友情链接", array);
+}
+
+
+
+
+    <div class="box bSha bRds-t">
+        <div class="AvaBox">
+            <div class="Ava-outline" v-bind:style="style" v-on:click="click" id="Ava-outline">
+                <img class="Ava bSha cur" src="@PILIPALA.Program.User.Avatar">
+            </div>
+        </div>
+
+        <div class="Name">@PILIPALA.Program.User.Name.ToUpper()的小站</div>
+        <div class="Note"><span id="note"></span></div>
+    </div>
+
+    <div class="List" id="pcNavList">
+        <div class="barBox">
+            <transition name="fade">
+                <div class="bar" v-if="barSeen" v-bind:style="style"></div>
+            </transition>
+        </div>
+        <div class="box">
+            <pc-card v-for="a in List" v-bind:item="a" v-bind:key="a.index"></pc-card>
+        </div>
+    </div>
+
+    <div class="Co-outline" v-bind:style="style" v-on:click="click" id="Co-outline">
+        <div class="Co cur">
+            @(PILIPALA.Program.User.Name)的博客©2016-2020保留所有权利<br>
+            基于pilipala构建<br>
+            Field Theme Designed By Thaumy<br>
+        </div>
+    </div>
+
+    <!-- vue导航组件 -->
+    <script>
+    Vue.component("pc-card", {
+        props: ["item"],
+        template: '<div class="Card cur bRds" v-on:click="pc_card_click(item.ID)" :key="item.index"><div class="contain">{{item.Title}}</div></div>',
+        methods: {
+            pc_card_click: function (ID) {
+                up();
+                showPost(ID);
+                pcNavList.pc_card_line_move(ID);
+
+                AvaOutline.style = {
+                    'border-color': 'rgba(0,0,0,0)'
+                }
+                CoOutline.style = {
+                    'border-color': 'rgba(0,0,0,0)'
+                }
+            }
+        }
+    })
+    var pcNavList = new Vue({
+        el: '#pcNavList',
+        data: {
+            barSeen: true,
+            style: {
+                top: '0vh'
+            },
+            List:
+            [
+                { index: 0, ID: -1, Title: '首页' },
+                @{ int i = 1;}
+                @foreach (Post Post in PostSet)
+                {
+                    <text>{ index:@(i++) , ID:@Post.ID, Title:'@Html.Raw(Post.Title)' },</text>
+                }
+            ]
+        },
+        methods: {
+            pc_card_line_move: function (ID) {
+                var lock = 0;
+                this.List.forEach((element) => {
+                    if (element.ID == ID) {
+                        this.barSeen = true;
+                        this.style = {
+                            top: element.index * 6 + 'vh',
+                        }
+                        lock = 1;
+                    }
+                });
+                if (lock == 0) {
+                    this.barSeen = false;
+                }
+            }
+        }
+    })
+    var SiderList = new Vue({
+        el: '#SiderList',
+        data: {
+            List: pcNavList.List
+        }
+    })
+    </script>
+

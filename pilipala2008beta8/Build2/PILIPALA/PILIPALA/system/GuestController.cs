@@ -21,7 +21,7 @@ using PILIPALA.Models.Guest;
 
 namespace PILIPALA.system
 {
-    public class SystemController : Controller
+    public class GuestController : Controller
     {
         public CORE CORE;
         public Reader Reader = new Reader();
@@ -30,7 +30,7 @@ namespace PILIPALA.system
 
         public CommentLake CommentLake = new CommentLake();
 
-        public SystemController(IOptions<AppSettings> config)
+        public GuestController(IOptions<AppSettings> config)
         {
             /* 初始化噼里啪啦数据库信息和MySql控制器 */
             PLDB PLDB = new PLDB

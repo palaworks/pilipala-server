@@ -1,0 +1,37 @@
+input {
+    outline: none;
+}
+
+input:focus {
+    outline: none;
+}
+
+textarea {
+    outline: none;
+}
+
+button {
+    border-radius: 2px;
+    border:0;
+    background-color: blue;
+    transition-duration: 0.4s;
+}
+button:hover{
+    background-color: blue;
+}
+button:focus{
+    outline: none;
+    background-color: blue;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+p {
+    display: block;
+    margin-block-start: 0.8em;
+    margin-block-end: 0.4em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
