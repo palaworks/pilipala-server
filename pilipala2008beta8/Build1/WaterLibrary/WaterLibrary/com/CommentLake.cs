@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using System.Data;
 using MySql.Data.MySqlClient;
@@ -13,7 +11,7 @@ using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.CommentLake;
 using WaterLibrary.stru.CommentLake.CommentKey;
 using WaterLibrary.stru.pilipala.DB;
-using WaterLibrary.stru.pilipala.Post;
+
 
 namespace WaterLibrary.com.CommentLake
 {
@@ -137,28 +135,26 @@ namespace WaterLibrary.com.CommentLake
                     new MySqlParm() { Name = "?PostID", Val = PostID }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
+            using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            DataTable result = MySqlManager.GetTable(MySqlCommand);
+
+            foreach (DataRow Row in result.Rows)
             {
-                DataTable result = MySqlManager.GetTable(MySqlCommand);
-
-                foreach (DataRow Row in result.Rows)
+                CommentSet.Add(new Comment
                 {
-                    CommentSet.Add(new Comment
-                    {
-                        CommentID = Convert.ToInt32(Row["CommentID"]),
-                        HEAD = Convert.ToInt32(Row["HEAD"]),
-                        PostID = Convert.ToInt32(Row["PostID"]),
-                        Floor = Convert.ToInt32(Row["Floor"]),
+                    CommentID = Convert.ToInt32(Row["CommentID"]),
+                    HEAD = Convert.ToInt32(Row["HEAD"]),
+                    PostID = Convert.ToInt32(Row["PostID"]),
+                    Floor = Convert.ToInt32(Row["Floor"]),
 
-                        User = Convert.ToString(Row["User"]),
-                        Email = Convert.ToString(Row["Email"]),
-                        Content = Convert.ToString(Row["Content"]),
-                        WebSite = Convert.ToString(Row["WebSite"]),
-                        Time = Convert.ToDateTime(Row["Time"]),
-                    });
-                }
-                return CommentSet;
+                    User = Convert.ToString(Row["User"]),
+                    Email = Convert.ToString(Row["Email"]),
+                    Content = Convert.ToString(Row["Content"]),
+                    WebSite = Convert.ToString(Row["WebSite"]),
+                    Time = Convert.ToDateTime(Row["Time"]),
+                });
             }
+            return CommentSet;
         }
         /// <summary>
         /// 获得目标评论的回复列表

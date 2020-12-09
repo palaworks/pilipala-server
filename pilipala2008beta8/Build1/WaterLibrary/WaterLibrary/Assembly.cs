@@ -9,7 +9,7 @@ using System.Reflection;
 namespace WaterLibrary
 {
     /// <summary>
-    /// 程序集属性
+    /// 程序集信息访问器
     /// </summary>
     static public class Assembly
     {
@@ -29,7 +29,7 @@ namespace WaterLibrary
                         return titleAttribute.Title;
                     }
                 }
-                return System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+                return System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetExecutingAssembly().Location);
             }
         }
         /// <summary>

@@ -1,0 +1,9 @@
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\netcoreapp3.1\WaterLibrary.csprojAssemblyReference.cache
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\netcoreapp3.1\WaterLibrary.AssemblyInfoInputs.cache
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\netcoreapp3.1\WaterLibrary.AssemblyInfo.cs
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\netcoreapp3.1\WaterLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\bin\Debug\netcoreapp3.1\WaterLibrary.deps.json
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\bin\Debug\netcoreapp3.1\WaterLibrary.dll
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\bin\Debug\netcoreapp3.1\WaterLibrary.pdb
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\netcoreapp3.1\WaterLibrary.dll
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\netcoreapp3.1\WaterLibrary.pdb

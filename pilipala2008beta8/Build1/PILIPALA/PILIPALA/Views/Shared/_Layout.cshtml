@@ -1,16 +1,16 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    @RenderPage("~/Views/head.cshtml")
+    @await Html.PartialAsync("head")
 </head>
 <body>
     <div class="fixed">
-        @RenderPage("~/Views/Navi/navi_line.cshtml")
+        @await Html.PartialAsync("navi_line")
         <div class="upBtn bSha bRds b55" style="display: none" onclick="upBtn()"></div>
     </div>
     <div class="contain">
         <div id="NavCol" class="bSha bRds">
-            @RenderPage("~/Views/Navi/navi_col.cshtml")
+            @await Html.PartialAsync("navi_col")
         </div>
         <div id="CardCol" class="R">
             <div class="Col">
@@ -20,5 +20,5 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400">
     </div>
 </body>
-@RenderPage("~/Views/foot.cshtml")
+@await Html.PartialAsync("foot")
 </html>

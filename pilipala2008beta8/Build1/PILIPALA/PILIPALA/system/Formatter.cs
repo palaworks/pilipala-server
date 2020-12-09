@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 
 namespace PILIPALA.system
 {
-    public static class Formatter
+    public class Formatter
     {
         /// <summary>
         /// 转到中文时间概要（今天、昨天、上个月...）

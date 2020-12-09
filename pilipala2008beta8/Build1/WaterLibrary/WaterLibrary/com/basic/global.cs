@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using System.Reflection;
 
 using Markdig;
+
 
 namespace WaterLibrary.com.basic
 {
@@ -299,7 +298,7 @@ namespace WaterLibrary.com.basic
             {
                 Result += temp + Delimiter;
             }
-            return Result.Substring(0, Result.Length - 1);
+            return Result[0..^1];
         }
         /// <summary>
         /// 将可遍历对象的元素值按照分隔符合并为一个字符串
@@ -316,7 +315,7 @@ namespace WaterLibrary.com.basic
             {
                 Result += info.GetValue(temp) + Delimiter;
             }
-            return Result.Substring(0, Result.Length - 1);
+            return Result[0..^1];
         }
 
         /// <summary>

@@ -1,0 +1,12 @@
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.AssemblyInfoInputs.cache
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.AssemblyInfo.cs
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.deps.json
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\bin\Debug\net5.0\ref\WaterLibrary.dll
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.pdb
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.dll
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\net5.0\ref\WaterLibrary.dll
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.pdb
+C:\Users\Thaumy\Desktop\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.csprojAssemblyReference.cache
