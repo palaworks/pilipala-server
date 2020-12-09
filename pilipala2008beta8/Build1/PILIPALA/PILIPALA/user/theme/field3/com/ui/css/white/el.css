@@ -1,0 +1,10 @@
+blockquote {
+    /* 颜色模式 */
+    /* color: rgba(250, 250, 250, 1); */
+    background: rgb(255, 255, 255);
+}
+
+table {
+    /* 颜色模式 */
+    background-color: rgb(240, 240, 240);
+}
