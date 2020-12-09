@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using System.Data;
 using MySql.Data.MySqlClient;
 
 using WaterLibrary.stru.MySQL;
+
 
 namespace WaterLibrary.com.MySQL
 {
@@ -44,7 +43,7 @@ namespace WaterLibrary.com.MySQL
                 ";Port=" + MySqlConnMsg.Port +
                 ";UserID=" + MySqlConnMsg.User +
                 ";Password=" + MySqlConnMsg.PWD +
-                /* 设置UPDATE语句返回受影响的行数而不是符合查询条件的行数 */
+                /* UPDATE语句返回受影响的行数而不是符合查询条件的行数|兼容旧版语法 */
                 ";UseAffectedRows=TRUE;"
                 );
             /* 打开连接 */
@@ -73,7 +72,7 @@ namespace WaterLibrary.com.MySQL
         /// </summary>
         /// <param name="MySqlConnMsg">连接签名</param>
         /// <returns>返回一个MySqlConnection对象，错误则返回null</returns>
-        public MySqlConnection GetSqlConnection(MySqlConnMsg MySqlConnMsg)
+        public static MySqlConnection GetSqlConnection(MySqlConnMsg MySqlConnMsg)
         {
             //返回创建的连接
             return new MySqlConnection
@@ -90,7 +89,7 @@ namespace WaterLibrary.com.MySQL
         /// <param name="User">用户名</param>
         /// <param name="PWD">密码</param>
         /// <returns>返回一个MySqlConnection对象，错误则返回null</returns>
-        public MySqlConnection GetSqlConnection(string DataSource, string Port, string User, string PWD)
+        public static MySqlConnection GetSqlConnection(string DataSource, string Port, string User, string PWD)
         {
             //返回创建的连接
             return new MySqlConnection
@@ -107,17 +106,15 @@ namespace WaterLibrary.com.MySQL
         /// <param name="SQL">携带查询参数的SQL语句</param>
         /// <param name="ParmList">查询参数列表</param>
         /// <returns>返回建立的参数化查询CMD对象</returns>
-        public MySqlCommand ParmQueryCMD(string SQL, List<MySqlParm> ParmList)
+        public static MySqlCommand ParmQueryCMD(string SQL, List<MySqlParm> ParmList)
         {
             //建立CMD对象，用于执行参数化查询
-            using (MySqlCommand MySqlCommand = new MySqlCommand(SQL))
+            using MySqlCommand MySqlCommand = new MySqlCommand(SQL);
+            foreach (MySqlParm Parm in ParmList)
             {
-                foreach (MySqlParm Parm in ParmList)
-                {
-                    MySqlCommand.Parameters.AddWithValue(Parm.Name, Parm.Val);//添加参数
-                }
-                return MySqlCommand;
+                MySqlCommand.Parameters.AddWithValue(Parm.Name, Parm.Val);//添加参数
             }
+            return MySqlCommand;
         }
         /// <summary>
         /// 建立参数化查询CMD对象
@@ -125,7 +122,7 @@ namespace WaterLibrary.com.MySQL
         /// <param name="SQL">携带查询参数的SQL语句</param>
         /// <param name="Parm">查询参数</param>
         /// <returns>返回建立的参数化查询CMD对象</returns>
-        public MySqlCommand ParmQueryCMD(string SQL, params MySqlParm[] Parm)
+        public static MySqlCommand ParmQueryCMD(string SQL, params MySqlParm[] Parm)
         {
             //建立CMD对象，用于执行参数化查询
             MySqlCommand MySqlCommand = new MySqlCommand(SQL);
@@ -205,7 +202,7 @@ namespace WaterLibrary.com.MySQL
         /// <param name="KeyName">键名</param>
         /// <param name="KeyValue">键值</param>
         /// <returns>返回获得的DataRow数据行实例，表为空或未检索到返回null</returns>
-        public DataRow GetRow(DataTable DataTable, string KeyName, object KeyValue)
+        public static DataRow GetRow(DataTable DataTable, string KeyName, object KeyValue)
         {
             foreach (DataRow DataRow in DataTable.Rows)
             {
@@ -300,7 +297,7 @@ namespace WaterLibrary.com.MySQL
         /// <typeparam name="T">元素类型</typeparam>
         /// <param name="DataTable">数据表实例</param>
         /// <returns></returns>
-        public List<T> GetColumn<T>(DataTable DataTable)
+        public static List<T> GetColumn<T>(DataTable DataTable)
         {
             List<T> List = new List<T>();
 
@@ -317,7 +314,7 @@ namespace WaterLibrary.com.MySQL
         /// <param name="DataTable">数据表实例</param>
         /// <param name="Key">目标列键名</param>
         /// <returns>返回非泛型List{object}实例</returns>
-        public List<T> GetColumn<T>(DataTable DataTable, string Key)
+        public static List<T> GetColumn<T>(DataTable DataTable, string Key)
         {
             List<T> List = new List<T>();
 
@@ -337,7 +334,7 @@ namespace WaterLibrary.com.MySQL
         /// <returns></returns>
         public bool UpdateKey(MySqlKey MySqlKey, string Key, string NewValue)
         {
-            using (MySqlCommand MySqlCommand = new MySqlCommand
+            using MySqlCommand MySqlCommand = new MySqlCommand
             {
                 CommandText = string.Format
                  (
@@ -346,27 +343,24 @@ namespace WaterLibrary.com.MySQL
                  ),
                 Connection = Connection,
                 Transaction = Connection.BeginTransaction()
-            })
+            };
+            MySqlCommand.Parameters.AddWithValue("NewValue", NewValue);
+            MySqlCommand.Parameters.AddWithValue("Val", MySqlKey.Val);
+
+            if (MySqlCommand.ExecuteNonQuery() == 1)
             {
-
-                MySqlCommand.Parameters.AddWithValue("NewValue", NewValue);
-                MySqlCommand.Parameters.AddWithValue("Val", MySqlKey.Val);
-
-                if (MySqlCommand.ExecuteNonQuery() == 1)
-                {
-                    MySqlCommand.Transaction.Commit();
-                    return true;
-                }
-                else
-                {
-                    MySqlCommand.Transaction.Rollback();
-                    return false;
-                }
+                MySqlCommand.Transaction.Commit();
+                return true;
+            }
+            else
+            {
+                MySqlCommand.Transaction.Rollback();
+                return false;
             }
         }
 
 
-        /* 实验型内容，不建议使用 */
+        /* 实验性内容，不建议使用 */
         /// <summary>
         /// 单纯执行SQL查询
         /// </summary>
@@ -385,31 +379,6 @@ namespace WaterLibrary.com.MySQL
         {
             MySqlCommand.Connection = Connection;
             return MySqlCommand.ExecuteNonQuery();
-        }
-
-        /// <summary>
-        /// 开始事务
-        /// </summary>
-        /// <param name="MySqlCommand">执行事务的MySqlCommand</param>
-        public void BeginTransaction(ref MySqlCommand MySqlCommand)
-        {
-            MySqlCommand.Transaction = Connection.BeginTransaction();
-        }
-        /// <summary>
-        /// 提交事务
-        /// </summary>
-        /// <param name="MySqlCommand">执行事务的MySqlCommand</param>
-        public void CommitTransaction(ref MySqlCommand MySqlCommand)
-        {
-            MySqlCommand.Transaction.Commit();
-        }
-        /// <summary>
-        /// 回滚事务
-        /// </summary>
-        /// <param name="MySqlCommand">执行事务的MySqlCommand</param>
-        public void RollbackTransaction(ref MySqlCommand MySqlCommand)
-        {
-            MySqlCommand.Transaction.Rollback();
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using System.Data;
 using MySql.Data.MySqlClient;
@@ -14,6 +12,7 @@ using WaterLibrary.stru.pilipala;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.stru.pilipala.Post;
 using WaterLibrary.stru.pilipala.Post.Property;
+
 
 namespace WaterLibrary.com.pilipala
 {
@@ -80,31 +79,29 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "UserPWD", Val = MathH.MD5(UserPWD) }
                 };
 
-            using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
+            using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+            if (MySqlManager.GetKey(MySqlCommand).ToString() == "1")
             {
-                if (MySqlManager.GetKey(MySqlCommand).ToString() == "1")
+                /* 通知所有订阅到当前内核的所有配件内核已经准备完成，并分发内核到各配件 */
+                LinkOn(this);
+                /* 取得用户数据并返回 */
+                DataRow Row = MySqlManager.GetRow(string.Format("SELECT GUID,Bio,`Group`,Email,Avatar FROM {0} WHERE Name = '{1}'", Tables.User, UserName));
+                return new stru.pilipala.User()
                 {
-                    /* 通知所有订阅到当前内核的所有配件内核已经准备完成，并分发内核到各配件 */
-                    LinkOn(this);
-                    /* 取得用户数据并返回 */
-                    DataRow Row = MySqlManager.GetRow(string.Format("SELECT GUID,Bio,`Group`,Email,Avatar FROM {0} WHERE Name = '{1}'", Tables.User, UserName));
-                    return new stru.pilipala.User()
-                    {
-                        Name = UserName,
-                        PWD = UserPWD,
+                    Name = UserName,
+                    PWD = UserPWD,
 
-                        GUID = Row["GUID"].ToString(),
-                        Bio = Row["Bio"].ToString(),
-                        Group = Row["Group"].ToString(),
-                        Email = Row["Email"].ToString(),
-                        Avatar = Row["Avatar"].ToString()
-                    };
-                }
-                else
-                {
-                    MySqlManager.Close();
-                    throw (new Exception("非法的用户签名"));
-                }
+                    GUID = Row["GUID"].ToString(),
+                    Bio = Row["Bio"].ToString(),
+                    Group = Row["Group"].ToString(),
+                    Email = Row["Email"].ToString(),
+                    Avatar = Row["Avatar"].ToString()
+                };
+            }
+            else
+            {
+                MySqlManager.Close();
+                throw (new Exception("非法的用户签名"));
             }
         }
         /// <summary>
@@ -205,7 +202,7 @@ namespace WaterLibrary.com.pilipala
             /// <typeparam name="T">目标属性类型</typeparam>
             /// <param name="ID">目标文章ID</param>
             /// <returns></returns>
-            public dynamic GetProperty<T>(int ID) where T : IProperty
+            public object GetProperty<T>(int ID) where T : IProperty
             {
                 string SQL = string.Format
                     (
@@ -218,10 +215,8 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "ID", Val = ID }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))/* 参数化查询 */
-                {
-                    return MySqlManager.GetKey(MySqlCommand);
-                }
+                using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+                return MySqlManager.GetKey(MySqlCommand);
             }
 
             /// <summary>
@@ -410,12 +405,10 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "REGEXP", Val = REGEXP }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-                {
-                    object NextID = MySqlManager.GetKey(MySqlCommand);
+                using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+                object NextID = MySqlManager.GetKey(MySqlCommand);
 
-                    return NextID == null ? -1 : Convert.ToInt32(NextID);
-                }
+                return NextID == null ? -1 : Convert.ToInt32(NextID);
             }
             /// <summary>
             /// 取得具有比目标文章的指定属性具有更小的值的文章ID
@@ -481,12 +474,10 @@ namespace WaterLibrary.com.pilipala
                     new MySqlParm() { Name = "REGEXP", Val = REGEXP }
                 };
 
-                using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-                {
-                    object PrevID = MySqlManager.GetKey(MySqlCommand);
+                using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
+                object PrevID = MySqlManager.GetKey(MySqlCommand);
 
-                    return PrevID == null ? -1 : Convert.ToInt32(PrevID);
-                }
+                return PrevID == null ? -1 : Convert.ToInt32(PrevID);
             }
         }
         /// <summary>
@@ -551,7 +542,7 @@ namespace WaterLibrary.com.pilipala
                 return Convert.ToString(MySqlManager.GetKey(
                     string.Format
                     (
-                    "SELECT {1}.GUID FROM {0} JOIN {1} ON {0}.ID=1}.ID AND {0}.GUID<>{1}.GUID WHERE {0}.ID={2}"
+                    "SELECT {1}.GUID FROM {0} JOIN {1} ON {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID WHERE {0}.ID={2}"
                     , Tables.Index, Tables.Backup, ID
                     )
                     ));

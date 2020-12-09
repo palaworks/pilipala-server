@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Threading.Tasks;
 
 using PILIPALA;
 using WaterLibrary.stru.pilipala.Post;
@@ -14,8 +14,8 @@ namespace PILIPALA.Controllers
     {
         public ActionResult List(bool ajax)
         {
-            ViewBag.置顶文章 = Global.Reader.GetPost<Archiv>("置顶");
-            ViewBag.其他文章 = Global.Reader.GetPost<Archiv>("技术|生活");
+            ViewBag.置顶文章 = Program.Reader.GetPost<Archiv>("置顶");
+            ViewBag.其他文章 = Program.Reader.GetPost<Archiv>("技术|生活");
             if (ajax == false)
             {
                 ViewBag.Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,14 +32,14 @@ namespace PILIPALA.Controllers
         {
             ViewBag.ID = ID;//请求ID
 
-            ViewBag.Post = Global.Reader.GetPost(ID);//文章数据
-            ViewBag.CommentList = Global.CommentLake.GetCommentList(ID);//评论数据
+            ViewBag.Post = Program.Reader.GetPost(ID);//文章数据
+            ViewBag.CommentList = Program.CommentLake.GetCommentList(ID);//评论数据
 
             /* 前后文章标题赋值 */
-            ViewBag.PrevID = Global.Reader.Smaller<ID>(ID, "生活|技术", typeof(Archiv));
-            ViewBag.NextID = Global.Reader.Bigger<ID>(ID, "生活|技术", typeof(Archiv));
+            ViewBag.PrevID = Program.Reader.Smaller<ID>(ID, "生活|技术", typeof(Archiv));
+            ViewBag.NextID = Program.Reader.Bigger<ID>(ID, "生活|技术", typeof(Archiv));
 
-            
+
 
             if (ajax == false)
             {

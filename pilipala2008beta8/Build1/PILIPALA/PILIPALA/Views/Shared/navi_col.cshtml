@@ -5,43 +5,44 @@
 <!-- 其他初始化 -->
 @{
     var array = new System.Type[2] { typeof(ID), typeof(Title) };
-    PostSet PostSet = PILIPALA.Global.Reader.GetPost<Archiv>("页面|友情链接", array);
+    PostSet PostSet = PILIPALA.Program.Reader.GetPost<Archiv>("页面|友情链接", array);
 }
 
 
 
-<div class="box bSha bRds-t">
-    <div class="AvaBox">
-        <div class="Ava-outline" v-bind:style="style" v-on:click="click" id="Ava-outline">
-            <img class="Ava bSha cur" src="@PILIPALA.Global.User.Avatar">
+
+    <div class="box bSha bRds-t">
+        <div class="AvaBox">
+            <div class="Ava-outline" v-bind:style="style" v-on:click="click" id="Ava-outline">
+                <img class="Ava bSha cur" src="@PILIPALA.Program.User.Avatar">
+            </div>
+        </div>
+
+        <div class="Name">@PILIPALA.Program.User.Name.ToUpper()的小站</div>
+        <div class="Note"><span id="note"></span></div>
+    </div>
+
+    <div class="List" id="pcNavList">
+        <div class="barBox">
+            <transition name="fade">
+                <div class="bar" v-if="barSeen" v-bind:style="style"></div>
+            </transition>
+        </div>
+        <div class="box">
+            <pc-card v-for="a in List" v-bind:item="a" v-bind:key="a.index"></pc-card>
         </div>
     </div>
 
-    <div class="Name">@PILIPALA.Global.User.Name.ToUpper()的小站</div>
-    <div class="Note"><span id="note"></span></div>
-</div>
-
-<div class="List" id="pcNavList">
-    <div class="barBox">
-        <transition name="fade">
-            <div class="bar" v-if="barSeen" v-bind:style="style"></div>
-        </transition>
+    <div class="Co-outline" v-bind:style="style" v-on:click="click" id="Co-outline">
+        <div class="Co cur">
+            @(PILIPALA.Program.User.Name)的博客©2016-2020保留所有权利<br>
+            基于pilipala构建<br>
+            Field Theme Designed By Thaumy<br>
+        </div>
     </div>
-    <div class="box">
-        <pc-card v-for="a in List" v-bind:item="a" v-bind:key="a.index"></pc-card>
-    </div>
-</div>
 
-<div class="Co-outline" v-bind:style="style" v-on:click="click" id="Co-outline">
-    <div class="Co cur">
-        @(PILIPALA.Global.User.Name)的博客©2016-2020保留所有权利<br>
-        基于pilipala构建<br>
-        Field Theme Designed By Thaumy<br>
-    </div>
-</div>
-
-<!-- vue导航组件 -->
-<script>
+    <!-- vue导航组件 -->
+    <script>
     Vue.component("pc-card", {
         props: ["item"],
         template: '<div class="Card cur bRds" v-on:click="pc_card_click(item.ID)" :key="item.index"><div class="contain">{{item.Title}}</div></div>',
@@ -101,4 +102,5 @@
             List: pcNavList.List
         }
     })
-</script>
+    </script>
+

@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Services;
+using System.Threading.Tasks;
 
-using System.Web.Configuration;
 using System.Collections;
-
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
+using PILIPALA.Models;
 using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala.Post.Property;
 using WaterLibrary.stru.pilipala.DB;
@@ -20,19 +20,12 @@ using WaterLibrary.com.pilipala;
 using WaterLibrary.com.pilipala.Components;
 using WaterLibrary.com.CommentLake;
 
-namespace PILIPALA.system.serv
-{
-    /// <summary>
-    /// User 的摘要说明
-    /// </summary>
-    [WebService(Namespace = "http://tempuri.org/")]
-    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-    [System.ComponentModel.ToolboxItem(false)]
-    // 若要允许使用 ASP.NET AJAX 从脚本中调用此 Web 服务，请取消注释以下行。 
-    [System.Web.Script.Services.ScriptService]
 
-    public class User : System.Web.Services.WebService
+namespace PILIPALA.system
+{
+    public class UserController : Controller
     {
+        private IOptions<AppSettings> config;
         public CORE CORE;
         public Reader Reader = new Reader();
         public Writer Writer = new Writer();
@@ -46,24 +39,25 @@ namespace PILIPALA.system.serv
             DateTimeFormat = "yyyy-MM-dd HH:mm:ss"
         };
 
-        public User()
+        public UserController(IOptions<AppSettings> config)
         {
+            this.config = config;
             /* 初始化噼里啪啦数据库信息和MySql控制器 */
             PLDB PLDB = new PLDB
             {
                 Views = new PLViews() { PosUnion = "pos>dirty>union", NegUnion = "neg>dirty>union" },
                 MySqlManager = new MySqlManager(new MySqlConnMsg
                 {
-                    DataSource = WebConfigurationManager.AppSettings["DataSource"],
-                    DataBase = WebConfigurationManager.AppSettings["DataBase"],
-                    Port = WebConfigurationManager.AppSettings["Port"],
-                    User = WebConfigurationManager.AppSettings["User"],
-                    PWD = WebConfigurationManager.AppSettings["PWD"]
+                    DataSource = config.Value.DataSource,
+                    DataBase = config.Value.DataBase,
+                    Port = config.Value.Port,
+                    User = config.Value.User,
+                    PWD = config.Value.PWD
                 })
             };
 
-            string UserName = WebConfigurationManager.AppSettings["UserName"];
-            string UserPWD = WebConfigurationManager.AppSettings["UserPWD"];
+            string UserName = config.Value.UserName;
+            string UserPWD = config.Value.UserPWD;
 
             CORE CORE = new CORE(PLDB, UserName, UserPWD);
             CORE.SetTables();
@@ -83,8 +77,7 @@ namespace PILIPALA.system.serv
         /// <summary>
         /// 取得被评论的文章的定制数据列表
         /// </summary>
-        [WebMethod]
-        public void Get_commented_posts()
+        public string Get_commented_posts()
         {
             var data = new List<Hashtable>();
             foreach (int ID in CommentLake.GetCommentedPostID())
@@ -93,7 +86,7 @@ namespace PILIPALA.system.serv
                 /* 评论列表 */
                 var CommentSet = CommentLake.GetCommentList(ID);
 
-                string Title = Reader.GetProperty<Title>(ID);
+                string Title = Convert.ToString(Reader.GetProperty<Title>(ID));
 
                 var item = new Hashtable
                 {
@@ -109,37 +102,33 @@ namespace PILIPALA.system.serv
                 data.Add(item);
             }
 
-            Context.Response.Write(JsonConvert.SerializeObject(data, iso));
-            Context.Response.End();
+            return JsonConvert.SerializeObject(data, iso);
         }
+
         /// <summary>
         /// 取得指定文章的评论列表
         /// </summary>
-        [WebMethod]
-        public void Get_comments_by_PostID(int PostID)
+        public string Get_comments_by_PostID(int PostID)
         {
             var data = CommentLake.GetCommentList(PostID);
 
-            Context.Response.Write(JsonConvert.SerializeObject(data, iso));
-            Context.Response.End();
+            return JsonConvert.SerializeObject(data, iso);
+
         }
         /// <summary>
         /// 删除评论
         /// </summary>
         /// <param name="CommentID"></param>
-        [WebMethod]
-        public void Delete_comment_by_CommentID(int CommentID)
+        public string Delete_comment_by_CommentID(int CommentID)
         {
-            Context.Response.Write(JsonConvert.SerializeObject(CommentLake.DeleteComment(CommentID), iso));
-            Context.Response.End();
+            return JsonConvert.SerializeObject(CommentLake.DeleteComment(CommentID), iso);
         }
 
         /* 读文章管理 */
         /// <summary>
         /// 取得计数
         /// </summary>
-        [WebMethod]
-        public void Get_counts()
+        public string Get_counts()
         {
             Hashtable data = new Hashtable()
             {
@@ -152,14 +141,12 @@ namespace PILIPALA.system.serv
                 { "CommentCount",   CommentLake.TotalCommentCount},
             };
 
-            Context.Response.Write(JsonConvert.SerializeObject(data));
-            Context.Response.End();
+            return JsonConvert.SerializeObject(data);
         }
         /// <summary>
         /// 取得文章列表
         /// </summary>
-        [WebMethod]
-        public void Get_posts()
+        public string Get_posts()
         {
             var data = new PostSet();
 
@@ -170,26 +157,22 @@ namespace PILIPALA.system.serv
                 data.Add(item);
             }
 
-            Context.Response.Write(JsonConvert.SerializeObject(data, iso));
-            Context.Response.End();
+            return data.SerializeToJSON();
+
         }
         /// <summary>
         /// 取得文章数据
         /// </summary>
         /// <param name="ID"></param>
-        [WebMethod]
-        public void Get_post_by_PostID(int PostID)
+        public string Get_post_by_PostID(int PostID)
         {
-            Post data = Reader.GetPost(PostID);
+            return Reader.GetPost(PostID).SerializeToJSON();
 
-            Context.Response.Write(JsonConvert.SerializeObject(data, iso));
-            Context.Response.End();
         }
         /// <summary>
         /// 取得备份列表
         /// </summary>
-        [WebMethod]
-        public void Get_neg_posts_by_PostID(int PostID)
+        public string Get_neg_posts_by_PostID(int PostID)
         {
             var data = new PostSet();
 
@@ -199,13 +182,13 @@ namespace PILIPALA.system.serv
                 data.Add(item);
             }
 
-            Context.Response.Write(JsonConvert.SerializeObject(data, iso));
-            Context.Response.End();
+            return data.SerializeToJSON();
+
         }
 
         /* 写文章管理 */
-        [WebMethod]
-        public void Reg_post
+
+        public bool Reg_post
             (
             string Mode, string Type, string User,
             int UVCount, int StarCount,
@@ -213,7 +196,7 @@ namespace PILIPALA.system.serv
             string Archiv, string Label, string Cover
             )
         {
-            Context.Response.Write(Writer.Reg(new Post
+            return Writer.Reg(new Post
             {
                 Mode = Mode,
                 Type = Type,
@@ -229,17 +212,16 @@ namespace PILIPALA.system.serv
                 Archiv = Archiv,
                 Label = Label,
                 Cover = Cover
-            }));
-            Context.Response.End();
+            });
+
         }
-        [WebMethod]
-        public void Dispose_post_by_PostID(int PostID)
+
+        public bool Dispose_post_by_PostID(int PostID)
         {
-            Context.Response.Write(Writer.Dispose(PostID));
-            Context.Response.End();
+            return Writer.Dispose(PostID);
         }
-        [WebMethod]
-        public void Update_post_by_PostID
+
+        public bool Update_post_by_PostID
             (
             int PostID, string Mode, string Type,
             int UVCount, int StarCount,
@@ -247,7 +229,7 @@ namespace PILIPALA.system.serv
             string Archiv, string Label, string Cover
             )
         {
-            Context.Response.Write(Writer.Update(new Post
+            return Writer.Update(new Post
             {
                 ID = PostID,
                 Mode = Mode,
@@ -263,33 +245,34 @@ namespace PILIPALA.system.serv
                 Archiv = Archiv,
                 Label = Label,
                 Cover = Cover
-            }));
-            Context.Response.End();
+            });
+
         }
 
-        [WebMethod]
-        public void Delete_post_by_GUID(string GUID)
+
+        public bool Delete_post_by_GUID(string GUID)
         {
-            Context.Response.Write(Writer.Delete(GUID));
-            Context.Response.End();
+            return Writer.Delete(GUID);
+
         }
-        [WebMethod]
-        public void Apply_post_by_GUID(string GUID)
+
+        public bool Apply_post_by_GUID(string GUID)
         {
-            Context.Response.Write(Writer.Apply(GUID));
-            Context.Response.End();
+            return Writer.Apply(GUID);
+
         }
-        [WebMethod]
-        public void Rollback_post_by_PostID(int PostID)
+
+        public bool Rollback_post_by_PostID(int PostID)
         {
-            Context.Response.Write(Writer.Rollback(PostID));
-            Context.Response.End();
+            return Writer.Rollback(PostID);
+
         }
-        [WebMethod]
-        public void Release_post_by_PostID(int PostID)
+
+        public bool Release_post_by_PostID(int PostID)
         {
-            Context.Response.Write(Writer.Release(PostID));
-            Context.Response.End();
+            return Writer.Release(PostID);
+
         }
+
     }
 }

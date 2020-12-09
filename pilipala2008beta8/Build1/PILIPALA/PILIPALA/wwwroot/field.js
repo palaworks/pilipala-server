@@ -72,24 +72,26 @@ function wordCount(data) {
 }
 
 /* 技术验证型评论提交（不安全） */
-function Captcha(PostID, HEAD, Content, Name, Email, WebSite) {
-    d = "{'PostID':'" + PostID + "'," +
-        "'HEAD':'" + HEAD + "'," +
-        "'Content':'" + Content + "'," +
-        "'User':'" + Name + "'," +
-        "'Email':'" + Email + "'," +
-        "'WebSite':'" + WebSite + "'}";
-    $.ajax({
-        type: "post",
-        contentType: "application/json",
-        url: "/system/serv/CaptchaServ.asmx/CommentLakeCaptcha",
-        data: d,
-        dataType: "json",
-        success: function (result) {
+function Captcha(PostID, HEAD, Content, User, Email, WebSite) {
+    axios({
+        method: "post",
+        url: "/guest/CommentLakeCaptcha",
+        data: Qs.stringify({
+            PostID: PostID,
+            HEAD: HEAD,
+            Content: Content,
+            User: User,
+            Email: Email,
+            WebSite: WebSite,
+        }),
+    })
+        .then((response) => {
             showPost(PostID);
             console.log(result.d);
-        }
-    });
+        })
+        .catch(function (error) {
+            console.log(error); //请求失败处理
+        });
 }
 
 /* 刷新StarCount计数（AJAX） */
@@ -100,7 +102,7 @@ function refre_StarCount(ID) {
 
         axios({
             method: "post",
-            url: "/system/serv/SysServ.asmx/Decrease_StarCount_by_PostID",
+            url: "/guest/Decrease_StarCount_by_PostID",
             data: Qs.stringify({
                 PostID: ID,
             }),
@@ -118,7 +120,7 @@ function refre_StarCount(ID) {
 
         axios({
             method: "post",
-            url: "/system/serv/SysServ.asmx/Increase_StarCount_by_PostID",
+            url: "/guest/Increase_StarCount_by_PostID",
             data: Qs.stringify({
                 PostID: ID,
             }),
@@ -143,7 +145,7 @@ function refre_UVCount(ID) {
 
         axios({
             method: "post",
-            url: "/system/serv/SysServ.asmx/Increase_UVCount_by_PostID",
+            url: "/guest/Increase_UVCount_by_PostID",
             data: Qs.stringify({
                 PostID: ID,
             }),

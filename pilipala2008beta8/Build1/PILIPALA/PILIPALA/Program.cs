@@ -1,13 +1,13 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
+using System.Threading.Tasks;
 
-using System.Web.Configuration;
-
+using PILIPALA.Models;
 using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.com.CommentLake;
@@ -17,9 +17,9 @@ using WaterLibrary.com.pilipala.Components;
 
 namespace PILIPALA
 {
-    public class Global : System.Web.HttpApplication
+    public class Program
     {
-        public static new WaterLibrary.stru.pilipala.User User;
+        public static WaterLibrary.stru.pilipala.User User;
         /* 定义内核 */
         public static CORE CORE;
         /* 初始化配件 */
@@ -28,29 +28,24 @@ namespace PILIPALA
         public static Counter Counter = new Counter();
         public static CommentLake CommentLake = new CommentLake();
 
-        protected void Application_Start()
+        public static void Main(string[] args)
         {
-            AreaRegistration.RegisterAllAreas();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-
             /* 初始化噼里啪啦数据库信息和MySql控制器 */
             PLDB PLDB = new PLDB
             {
                 MySqlManager = new MySqlManager(new MySqlConnMsg
                 {
-                    DataSource = WebConfigurationManager.AppSettings["DataSource"],
-                    DataBase = WebConfigurationManager.AppSettings["DataBase"],
-                    Port = WebConfigurationManager.AppSettings["Port"],
-                    User = WebConfigurationManager.AppSettings["User"],
-                    PWD = WebConfigurationManager.AppSettings["PWD"]
+                    DataSource = "localhost",
+                    DataBase = "pilipala",
+                    Port = "3306",
+                    User = "root",
+                    PWD = "65a1561425f744e2b541303f628963f8"
                 })
             };
 
             /* 初始化内核 */
-            string UserName = WebConfigurationManager.AppSettings["UserName"];
-            string UserPWD = WebConfigurationManager.AppSettings["UserPWD"];
+            string UserName = "Thaumy";
+            string UserPWD = "1238412384";
 
             CORE CORE = new CORE(PLDB, UserName, UserPWD);
             CORE.SetTables();
@@ -64,6 +59,16 @@ namespace PILIPALA
 
             /* 启动内核 */
             User = CORE.Run();
+
+
+            CreateHostBuilder(args).Build().Run();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
