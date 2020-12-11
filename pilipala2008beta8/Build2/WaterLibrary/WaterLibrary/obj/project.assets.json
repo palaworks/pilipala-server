@@ -5671,11 +5671,11 @@
   "project": {
     "version": "1.1.6",
     "restore": {
-      "projectUniqueName": "H:\\博客项目\\pilipala2008beta8\\Build1\\WaterLibrary\\WaterLibrary\\WaterLibrary.csproj",
+      "projectUniqueName": "H:\\博客项目\\pilipala2008beta8\\Build2\\WaterLibrary\\WaterLibrary\\WaterLibrary.csproj",
       "projectName": "WaterLibrary",
-      "projectPath": "H:\\博客项目\\pilipala2008beta8\\Build1\\WaterLibrary\\WaterLibrary\\WaterLibrary.csproj",
+      "projectPath": "H:\\博客项目\\pilipala2008beta8\\Build2\\WaterLibrary\\WaterLibrary\\WaterLibrary.csproj",
       "packagesPath": "C:\\Users\\Thaumy\\.nuget\\packages\\",
-      "outputPath": "H:\\博客项目\\pilipala2008beta8\\Build1\\WaterLibrary\\WaterLibrary\\obj\\",
+      "outputPath": "H:\\博客项目\\pilipala2008beta8\\Build2\\WaterLibrary\\WaterLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Thaumy\\AppData\\Roaming\\NuGet\\NuGet.Config",

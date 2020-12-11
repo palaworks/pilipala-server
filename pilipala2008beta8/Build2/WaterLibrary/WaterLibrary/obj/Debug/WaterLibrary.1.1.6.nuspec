@@ -17,7 +17,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll" target="lib\net5.0\WaterLibrary.dll" />
-    <file src="H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.xml" target="lib\net5.0\WaterLibrary.xml" />
+    <file src="H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll" target="lib\net5.0\WaterLibrary.dll" />
+    <file src="H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.xml" target="lib\net5.0\WaterLibrary.xml" />
   </files>
 </package>

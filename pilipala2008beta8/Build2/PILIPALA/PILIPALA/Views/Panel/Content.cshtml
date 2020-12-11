@@ -6,7 +6,6 @@
 
 @using PILIPALA.system;
 
-@using WaterLibrary.stru.pilipala.Post.Property;
 @using WaterLibrary.stru.CommentLake;
 
 <div class="Card L M bSha bRds">
@@ -43,11 +42,11 @@
         <div>
             @if (ViewBag.NextID != -1)
             {
-                <div class="nxtBtn L bRds cur" onclick="up();showPost(@ViewBag.NextID)">@(PILIPALA.Program.Reader.GetProperty<Title>(ViewBag.NextID))</div>
+                <div class="nxtBtn L bRds cur" onclick="up();showPost(@ViewBag.NextID)">@(ViewBag.NextTitle)</div>
             }
             @if (ViewBag.PrevID != -1)
             {
-                <div class="pvsBtn R bRds cur" onclick="up();showPost(@ViewBag.PrevID)">@(PILIPALA.Program.Reader.GetProperty<Title>(ViewBag.PrevID))</div>
+                <div class="pvsBtn R bRds cur" onclick="up();showPost(@ViewBag.PrevID)">@(ViewBag.PrevTitle)</div>
             }
         </div>
     </div>
@@ -69,7 +68,7 @@
     <div class="AtBox L bRds-b">
         <div class="Date">创建于@(Convert.ToString(ViewBag.Post.CT.Year) + "-" + ViewBag.Post.CT.Month + "-" + ViewBag.Post.CT.Day)</div>
         <div class="UVCount">@ViewBag.Post.UVCount</div>
-        <div class="CommentCount cur">@PILIPALA.Program.CommentLake.GetCommentCount(ViewBag.ID)</div>
+        <div class="CommentCount cur">@ViewBag.Post.PropertyContainer["CommentCount"]</div>
         <div class="StarCount cur" onclick="refre_StarCount(@ViewBag.ID)">@ViewBag.Post.StarCount</div>
         <div class="Time">@Formatter.CN_Week(ViewBag.Post.CT)</div>
 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xnx87owFaPfiwK4iFS08o1Mk1weBAUva1nkUBGnd6PFNQLn+RH/4tN8ruOJOdPKXWJK3m5mCCpR0iyyFi4586w==",
+  "dgSpecHash": "Dq2anemC12ZyFFpAng5JwZ0qIRVUgq6p+QirowZ7QGUHXUGoe4OH2sG66V3hb3/poBDJUdLU7IWWN3oKIigG/w==",
   "success": true,
-  "projectFilePath": "H:\\博客项目\\pilipala2008beta8\\Build1\\PILIPALA\\PILIPALA\\PILIPALA.csproj",
+  "projectFilePath": "H:\\博客项目\\pilipala2008beta8\\Build2\\PILIPALA\\PILIPALA\\PILIPALA.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Thaumy\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
     "C:\\Users\\Thaumy\\.nuget\\packages\\google.protobuf\\3.11.4\\google.protobuf.3.11.4.nupkg.sha512",

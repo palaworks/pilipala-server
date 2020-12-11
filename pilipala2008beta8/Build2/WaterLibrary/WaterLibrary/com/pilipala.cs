@@ -17,15 +17,15 @@ using WaterLibrary.stru.pilipala.Post.Property;
 namespace WaterLibrary.com.pilipala
 {
     /// <summary>
+    /// 配件连接委托
+    /// </summary>
+    /// <param name="CORE">内核对象</param>
+    public delegate void LinkEventHandler(CORE CORE);
+    /// <summary>
     /// pilipala内核
     /// </summary>
-    public class CORE
+    public class CORE:ICORE
     {
-        /// <summary>
-        /// 配件连接委托
-        /// </summary>
-        /// <param name="CORE">内核对象</param>
-        public delegate void LinkEventHandler(CORE CORE);
         /// <summary>
         /// 开始配件连接事件
         /// </summary>

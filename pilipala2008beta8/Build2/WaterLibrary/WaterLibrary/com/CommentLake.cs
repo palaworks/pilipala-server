@@ -119,7 +119,7 @@ namespace WaterLibrary.com.CommentLake
         /// </summary>
         /// <param name="PostID">目标文章ID</param>
         /// <returns></returns>
-        public CommentSet GetCommentList(int PostID)
+        public CommentSet GetComments(int PostID)
         {
             CommentSet CommentSet = new CommentSet();
 
@@ -157,7 +157,7 @@ namespace WaterLibrary.com.CommentLake
         /// </summary>
         /// <param name="CommentID"></param>
         /// <returns></returns>
-        public CommentSet GetCommentReplyList(int CommentID)
+        public CommentSet GetCommentReplies(int CommentID)
         {
             CommentSet CommentSet = new CommentSet();
 

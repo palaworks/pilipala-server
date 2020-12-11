@@ -481,16 +481,16 @@
             <param name="MySqlCommand">CMD实例</param>
             <returns>返回受影响的行数</returns>
         </member>
-        <member name="T:WaterLibrary.com.pilipala.CORE">
-            <summary>
-            pilipala内核
-            </summary>
-        </member>
-        <member name="T:WaterLibrary.com.pilipala.CORE.LinkEventHandler">
+        <member name="T:WaterLibrary.com.pilipala.LinkEventHandler">
             <summary>
             配件连接委托
             </summary>
             <param name="CORE">内核对象</param>
+        </member>
+        <member name="T:WaterLibrary.com.pilipala.CORE">
+            <summary>
+            pilipala内核
+            </summary>
         </member>
         <member name="E:WaterLibrary.com.pilipala.CORE.LinkOn">
             <summary>
@@ -1385,6 +1385,11 @@
         <member name="T:WaterLibrary.stru.pilipala.IPLComponent">
             <summary>
             噼里啪啦配件接口
+            </summary>
+        </member>
+        <member name="E:WaterLibrary.stru.pilipala.ICORE.LinkOn">
+            <summary>
+            开始配件连接事件
             </summary>
         </member>
         <member name="T:WaterLibrary.stru.pilipala.User">

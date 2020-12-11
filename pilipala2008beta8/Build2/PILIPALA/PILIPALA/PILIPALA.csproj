@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Navi\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="WaterLibrary">
       <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll</HintPath>
     </Reference>

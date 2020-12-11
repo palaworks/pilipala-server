@@ -1,12 +1,6 @@
-﻿/* 查看文章，节流控制（AJAX） */
-function showPost(ID, push = true) {
+﻿/* 显示文章 */
+var showPost = throttle(function (ID, push = false) {
 
-    debounce(showPost_origin(ID, push), 1000);
-
-}
-
-/* 查看文章，无防护（AJAX） */
-function showPost_origin(ID, push) {
     $("#CardCol").append('<div class="LoadLine"></div>');
     axios({
         method: "post",
@@ -17,7 +11,6 @@ function showPost_origin(ID, push) {
             $("#CardCol>.Col").html(response.data);
 
             /* 更改URL地址 */
-
             const state = { 'ID': ID };
             if (push == true) {
                 history.pushState(state, '', '/' + (ID == -1 ? "" : ID));
@@ -26,12 +19,11 @@ function showPost_origin(ID, push) {
             refre_UVCount(ID);/* 刷新UVCount计数 */
 
             $('.LoadLine').attr('style', 'animation: LoadLine 0.6s cubic-bezier(0.5, 0.4, 0.5, 1)');
-            setTimeout(
-                function () {
-                    $(".LoadLine").fadeOut(200, function () { $(".LoadLine").remove(); });
-                }, 480);
-        })
-};
+            setTimeout(function () { $(".LoadLine").fadeOut(200, function () { $(".LoadLine").remove(); }); }, 500);
+        });
+
+}, 600);
+
 
 /*星星熄灭/点亮*/
 function starOpacity050() {

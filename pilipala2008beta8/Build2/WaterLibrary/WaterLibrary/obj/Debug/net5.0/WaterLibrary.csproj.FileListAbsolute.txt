@@ -23,3 +23,16 @@ H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\obj\Debug\net
 H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.pdb
 H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.xml
 H:\博客项目\pilipala2008beta8\Build1\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.csprojAssemblyReference.cache
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.deps.json
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\bin\Debug\net5.0\ref\WaterLibrary.dll
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.pdb
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.xml
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.csprojAssemblyReference.cache
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.GeneratedMSBuildEditorConfig.editorconfig
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.AssemblyInfoInputs.cache
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.AssemblyInfo.cs
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.csproj.CoreCompileInputs.cache
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.dll
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\net5.0\ref\WaterLibrary.dll
+H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\net5.0\WaterLibrary.pdb

@@ -38,7 +38,7 @@
                     <div class="Date">@Formatter.CN_TimeSummary(Post.CT)</div>
                 }
                 <div class="UVCount">@Post.UVCount</div>
-                <div class="CommentCount">@PILIPALA.Program.CommentLake.GetCommentCount(Post.ID)</div>
+                <div class="CommentCount">@Post.PropertyContainer["CommentCount"]</div>
                 <div class="StarCount">@Post.StarCount</div>
             </div>
 
@@ -47,7 +47,10 @@
     else if (Post.Type == "note")
     {
         <div class="Card L M bSha bRds">
-            <div class="contain cur L bRds" onclick="up();showPost(@Post.ID)">
+            <div class="contain cur L bRds" onclick="up();
+                 
+                 
+                 (@Post.ID)">
                 <!-- 前置样式 -->
                 @Html.Raw(Post.Cover)
 
@@ -92,7 +95,7 @@
                     <div class="Date">@Formatter.CN_TimeSummary(Post.CT)</div>
                 }
                 <div class="UVCount">@Post.UVCount</div>
-                <div class="CommentCount">@PILIPALA.Program.CommentLake.GetCommentCount(Post.ID)</div>
+                <div class="CommentCount">@Post.PropertyContainer["CommentCount"]</div>
                 <div class="StarCount">@Post.StarCount</div>
             </div>
         </div>

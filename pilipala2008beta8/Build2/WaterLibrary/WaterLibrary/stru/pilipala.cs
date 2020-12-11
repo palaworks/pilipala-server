@@ -230,6 +230,41 @@ namespace WaterLibrary.stru.pilipala
     {
         void Ready(CORE CORE);
     }
+    /// <summary>
+    /// 噼里啪啦内核接口
+    /// </summary>
+    public interface ICORE
+    {
+        /// <summary>
+        /// 开始配件连接事件
+        /// </summary>
+        public event LinkEventHandler LinkOn;
+
+        /// <summary>
+        /// 启动内核
+        /// </summary>
+        /// <returns></returns>
+        User Run();
+        /// <summary>
+        /// 关闭内核
+        /// </summary>
+        void Shutdown();
+
+        /// <summary>
+        /// 设置内核所需要的表
+        /// </summary>
+        /// <param name="User">用户表</param>
+        /// <param name="Index">索引表</param>
+        /// <param name="Backup">备份表</param>
+        /// <param name="Comment">备份表</param>
+        void SetTables(string User = "pl_user", string Index = "pl_index", string Backup = "pl_backup", string Comment = "comment_lake");
+        /// <summary>
+        /// 设置内核所需要的视图
+        /// </summary>
+        /// <param name="PosUnion">积极联合视图</param>
+        /// <param name="NegUnion">消极联合视图</param>
+        void SetViews(string PosUnion = "pos>union", string NegUnion = "neg>union");
+    }
 
     /// <summary>
     /// 用户

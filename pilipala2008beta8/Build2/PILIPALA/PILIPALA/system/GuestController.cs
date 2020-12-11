@@ -11,6 +11,7 @@ using PILIPALA.Models;
 using WaterLibrary.stru.MySQL;
 using WaterLibrary.stru.pilipala.Post.Property;
 using WaterLibrary.stru.pilipala.DB;
+using WaterLibrary.stru.pilipala;
 using WaterLibrary.stru.CommentLake;
 using WaterLibrary.com.CommentLake;
 using WaterLibrary.com.MySQL;
@@ -23,34 +24,16 @@ namespace PILIPALA.system
 {
     public class GuestController : Controller
     {
-        public CORE CORE;
         public Reader Reader = new Reader();
         public Writer Writer = new Writer();
         public Counter Counter = new Counter();
 
         public CommentLake CommentLake = new CommentLake();
 
-        public GuestController(IOptions<AppSettings> config)
+        public GuestController(ICORE CORE)
         {
-            /* 初始化噼里啪啦数据库信息和MySql控制器 */
-            PLDB PLDB = new PLDB
-            {
-                Views = new PLViews() { PosUnion = "pos>dirty>union", NegUnion = "neg>dirty>union" },
-                MySqlManager = new MySqlManager(new MySqlConnMsg
-                {
-                    DataSource = config.Value.DataSource,
-                    DataBase = config.Value.DataBase,
-                    Port = config.Value.Port,
-                    User = config.Value.User,
-                    PWD = config.Value.PWD
-                })
-            };
-
-            string UserName = config.Value.UserName;
-            string UserPWD = config.Value.UserPWD;
-
-            CORE CORE = new CORE(PLDB, UserName, UserPWD);
             CORE.SetTables();
+            CORE.SetViews(PosUnion: "pos>dirty>union", NegUnion: "neg>dirty>union");
 
             CORE.LinkOn += Reader.Ready;
             CORE.LinkOn += Writer.Ready;
