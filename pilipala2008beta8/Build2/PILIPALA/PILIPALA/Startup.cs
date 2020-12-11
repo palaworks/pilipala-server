@@ -9,6 +9,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Options;
+
+using WaterLibrary.stru.pilipala;
+using WaterLibrary.com.pilipala;
+using PILIPALA.Models;
+using WaterLibrary.stru.MySQL;
+using WaterLibrary.stru.pilipala.DB;
+using WaterLibrary.com.CommentLake;
+using WaterLibrary.com.MySQL;
+using WaterLibrary.com.pilipala.Components;
+
 namespace PILIPALA
 {
     public class Startup
@@ -25,8 +36,19 @@ namespace PILIPALA
         {
             services.AddControllersWithViews();
 
-            services.AddOptions();/* 初始化AppSettings实例并映射AppSettings里的配置 */
-            services.Configure<Models.AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            services.AddTransient<ICORE>(x => new CORE(new PLDB
+            {
+                MySqlManager = new MySqlManager(new MySqlConnMsg
+                {
+                    DataSource = Configuration.GetSection("AppSettings:DataSource").Value,
+                    DataBase = Configuration.GetSection("AppSettings:DataBase").Value,
+                    Port = Configuration.GetSection("AppSettings:Port").Value,
+                    User = Configuration.GetSection("AppSettings:User").Value,
+                    PWD = Configuration.GetSection("AppSettings:PWD").Value
+                })
+            }, Configuration.GetSection("AppSettings:UserName").Value, Configuration.GetSection("AppSettings:UserPWD").Value));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,8 +60,7 @@ namespace PILIPALA
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseDeveloperExceptionPage();
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -50,7 +71,14 @@ namespace PILIPALA
             app.UseAuthorization();
 
 
-            /* 路由设置 */
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "GuestAPI",
+                    pattern: "guest/{action}",
+                    defaults: new { controller = "Guest" });
+            });
+            /* Pannel路由 */
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -78,13 +106,6 @@ namespace PILIPALA
                     name: "@Content",
                     pattern: "@/{ID}",
                     defaults: new { controller = "Panel", action = "Content", ajax = true });
-            });
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "GuestAPI",
-                    pattern: "guest/{action}",
-                    defaults: new { controller = "System" });
             });
         }
     }

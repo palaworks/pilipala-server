@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 using PILIPALA.Models;
-using WaterLibrary.stru.MySQL;
+using WaterLibrary.stru.pilipala;
 using WaterLibrary.stru.pilipala.Post.Property;
 using WaterLibrary.stru.pilipala.DB;
 using WaterLibrary.stru.pilipala.Post;
@@ -26,36 +26,16 @@ namespace PILIPALA.system
 {
     public class UserController : Controller
     {
-        public CORE CORE;
         public Reader Reader = new Reader();
         public Writer Writer = new Writer();
         public Counter Counter = new Counter();
 
         public CommentLake CommentLake = new CommentLake();
 
-
-
-        public UserController(IOptions<AppSettings> config)
+        public UserController(ICORE CORE)
         {
-            /* 初始化噼里啪啦数据库信息和MySql控制器 */
-            PLDB PLDB = new PLDB
-            {
-                Views = new PLViews() { PosUnion = "pos>dirty>union", NegUnion = "neg>dirty>union" },
-                MySqlManager = new MySqlManager(new MySqlConnMsg
-                {
-                    DataSource = config.Value.DataSource,
-                    DataBase = config.Value.DataBase,
-                    Port = config.Value.Port,
-                    User = config.Value.User,
-                    PWD = config.Value.PWD
-                })
-            };
-
-            string UserName = config.Value.UserName;
-            string UserPWD = config.Value.UserPWD;
-
-            CORE CORE = new CORE(PLDB, UserName, UserPWD);
             CORE.SetTables();
+            CORE.SetViews(PosUnion: "pos>dirty>union", NegUnion: "neg>dirty>union");
 
             CORE.LinkOn += Reader.Ready;
             CORE.LinkOn += Writer.Ready;
@@ -79,7 +59,7 @@ namespace PILIPALA.system
             {
 
                 /* 评论列表 */
-                var CommentSet = CommentLake.GetCommentList(ID);
+                var CommentSet = CommentLake.GetComments(ID);
 
                 string Title = Convert.ToString(Reader.GetProperty<Title>(ID));
 
@@ -105,7 +85,7 @@ namespace PILIPALA.system
         /// </summary>
         public string Get_comments_by_PostID(int PostID)
         {
-            return CommentLake.GetCommentList(PostID).ToJSON();
+            return CommentLake.GetComments(PostID).ToJSON();
         }
         /// <summary>
         /// 删除评论
@@ -144,8 +124,12 @@ namespace PILIPALA.system
 
             foreach (Post item in Reader.GetPost<ID>("^"))
             {
-                item.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(item.ID));
-                item.PropertyContainer.Add("MD5", item.MD5());
+                item.PropertyContainer = new Hashtable()
+                {
+                    { "CommentCount", CommentLake.GetCommentCount(item.ID) },
+                    { "MD5", item.MD5() }
+                };
+
                 data.Add(item);
             }
 

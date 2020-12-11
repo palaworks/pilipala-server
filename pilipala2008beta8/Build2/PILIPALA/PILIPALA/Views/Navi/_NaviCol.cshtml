@@ -1,48 +1,72 @@
 ﻿
+@using WaterLibrary.stru.pilipala;
+@using WaterLibrary.stru.pilipala.DB;
 @using WaterLibrary.stru.pilipala.Post;
 @using WaterLibrary.stru.pilipala.Post.Property;
+@using WaterLibrary.com.MySQL;
+@using WaterLibrary.com.pilipala;
+@using WaterLibrary.com.pilipala.Components;
+@using WaterLibrary.com.CommentLake;
 
-<!-- 其他初始化 -->
+@inject ICORE CORE
+
 @{
+    WaterLibrary.stru.pilipala.User User;
+    Reader Reader = new Reader();
+    Writer Writer = new Writer();
+    Counter Counter = new Counter();
+
+    CommentLake CommentLake = new CommentLake();
+
+
+    CORE.SetTables();
+    CORE.SetViews();
+
+    CORE.LinkOn += Reader.Ready;
+    CORE.LinkOn += Writer.Ready;
+    CORE.LinkOn += Counter.Ready;
+    CORE.LinkOn += CommentLake.Ready;
+
+    /* 启动内核 */
+    User = CORE.Run();
+
     var array = new System.Type[2] { typeof(ID), typeof(Title) };
-    PostSet PostSet = PILIPALA.Program.Reader.GetPost<Archiv>("页面|友情链接", array);
+    PostSet PostSet = Reader.GetPost<Archiv>("页面|友情链接", array);
 }
 
 
-
-
-    <div class="box bSha bRds-t">
-        <div class="AvaBox">
-            <div class="Ava-outline" v-bind:style="style" v-on:click="click" id="Ava-outline">
-                <img class="Ava bSha cur" src="@PILIPALA.Program.User.Avatar">
-            </div>
-        </div>
-
-        <div class="Name">@PILIPALA.Program.User.Name.ToUpper()的小站</div>
-        <div class="Note"><span id="note"></span></div>
-    </div>
-
-    <div class="List" id="pcNavList">
-        <div class="barBox">
-            <transition name="fade">
-                <div class="bar" v-if="barSeen" v-bind:style="style"></div>
-            </transition>
-        </div>
-        <div class="box">
-            <pc-card v-for="a in List" v-bind:item="a" v-bind:key="a.index"></pc-card>
+<div class="box bSha bRds-t">
+    <div class="AvaBox">
+        <div class="Ava-outline" v-bind:style="style" v-on:click="click" id="Ava-outline">
+            <img class="Ava bSha cur" src="@User.Avatar">
         </div>
     </div>
 
-    <div class="Co-outline" v-bind:style="style" v-on:click="click" id="Co-outline">
-        <div class="Co cur">
-            @(PILIPALA.Program.User.Name)的博客©2016-2020保留所有权利<br>
-            基于pilipala构建<br>
-            Field Theme Designed By Thaumy<br>
-        </div>
-    </div>
+    <div class="Name">@User.Name.ToUpper()的小站</div>
+    <div class="Note"><span id="note"></span></div>
+</div>
 
-    <!-- vue导航组件 -->
-    <script>
+<div class="List" id="pcNavList">
+    <div class="barBox">
+        <transition name="fade">
+            <div class="bar" v-if="barSeen" v-bind:style="style"></div>
+        </transition>
+    </div>
+    <div class="box">
+        <pc-card v-for="a in List" v-bind:item="a" v-bind:key="a.index"></pc-card>
+    </div>
+</div>
+
+<div class="Co-outline" v-bind:style="style" v-on:click="click" id="Co-outline">
+    <div class="Co cur">
+        @(User.Name)的博客©2016-2020保留所有权利<br>
+        基于pilipala构建<br>
+        Field Theme Designed By Thaumy<br>
+    </div>
+</div>
+
+<!-- vue导航组件 -->
+<script>
     Vue.component("pc-card", {
         props: ["item"],
         template: '<div class="Card cur bRds" v-on:click="pc_card_click(item.ID)" :key="item.index"><div class="contain">{{item.Title}}</div></div>',
@@ -102,5 +126,5 @@
             List: pcNavList.List
         }
     })
-    </script>
+</script>
 

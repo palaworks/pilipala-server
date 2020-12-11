@@ -5,15 +5,15 @@
 </head>
 <body>
     <div class="fixed">
-        @await Html.PartialAsync("navi_line")
+        @await Html.PartialAsync("../Navi/_NaviLine.cshtml")
         <div class="upBtn bSha bRds b55" style="display: none" onclick="upBtn()"></div>
     </div>
     <div class="contain">
         <div id="NavCol" class="bSha bRds">
-            @await Html.PartialAsync("navi_col")
+            @await Html.PartialAsync("../Navi/_NaviCol.cshtml")
         </div>
         <div id="CardCol" class="R">
-            <div class="Col">
+            <div class="Col L">
                 @RenderBody()
             </div>
         </div>

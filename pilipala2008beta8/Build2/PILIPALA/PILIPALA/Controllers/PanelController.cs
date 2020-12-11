@@ -4,18 +4,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using PILIPALA;
+using Microsoft.Extensions.Options;
+
+using WaterLibrary.stru.pilipala;
 using WaterLibrary.stru.pilipala.Post;
 using WaterLibrary.stru.pilipala.Post.Property;
+using WaterLibrary.com.MySQL;
+using WaterLibrary.com.pilipala;
+using WaterLibrary.com.pilipala.Components;
+using WaterLibrary.com.CommentLake;
+
+using PILIPALA.Models;
 
 namespace PILIPALA.Controllers
 {
     public class PanelController : Controller
     {
+        public Reader Reader = new Reader();
+        public Writer Writer = new Writer();
+        public Counter Counter = new Counter();
+
+        public CommentLake CommentLake = new CommentLake();
+
+        public PanelController(ICORE CORE)
+        {
+            CORE.SetTables();
+            CORE.SetViews();
+
+            CORE.LinkOn += Reader.Ready;
+            CORE.LinkOn += Writer.Ready;
+            CORE.LinkOn += Counter.Ready;
+            CORE.LinkOn += CommentLake.Ready;
+
+            /* 启动内核 */
+            CORE.Run();
+        }
+
         public ActionResult List(bool ajax)
         {
-            ViewBag.置顶文章 = Program.Reader.GetPost<Archiv>("置顶");
-            ViewBag.其他文章 = Program.Reader.GetPost<Archiv>("技术|生活");
+
+            PostSet PostSet置顶 = new PostSet();
+            foreach (Post el in Reader.GetPost<Archiv>("置顶"))
+            {
+                el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.ID));
+                PostSet置顶.Add(el);
+            }
+            ViewBag.置顶文章 = PostSet置顶;
+
+            PostSet PostSet其他 = new PostSet();
+            foreach (Post el in Reader.GetPost<Archiv>("技术|生活"))
+            {
+                el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.ID));
+                PostSet其他.Add(el);
+            }
+            ViewBag.其他文章 = PostSet其他;
+
             if (ajax == false)
             {
                 ViewBag.Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,12 +75,17 @@ namespace PILIPALA.Controllers
         {
             ViewBag.ID = ID;//请求ID
 
-            ViewBag.Post = Program.Reader.GetPost(ID);//文章数据
-            ViewBag.CommentList = Program.CommentLake.GetCommentList(ID);//评论数据
+            ViewBag.Post = Reader.GetPost(ID);//文章数据
+            ViewBag.Post.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(ID));//添加评论计数，可优化
 
-            /* 前后文章标题赋值 */
-            ViewBag.PrevID = Program.Reader.Smaller<ID>(ID, "生活|技术", typeof(Archiv));
-            ViewBag.NextID = Program.Reader.Bigger<ID>(ID, "生活|技术", typeof(Archiv));
+
+            ViewBag.CommentList = CommentLake.GetCommentList(ID);//评论数据
+
+            ViewBag.PrevID = Reader.Smaller<ID>(ID, "生活|技术", typeof(Archiv));
+            ViewBag.PrevTitle = Reader.GetProperty<Title>(ViewBag.PrevID);
+
+            ViewBag.NextID = Reader.Bigger<ID>(ID, "生活|技术", typeof(Archiv));
+            ViewBag.NextTitle = Reader.GetProperty<Title>(ViewBag.NextID);
 
 
 
