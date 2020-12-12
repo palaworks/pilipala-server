@@ -25,7 +25,7 @@
   <script src="https://cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
   <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
 
-  <!-- 下雪 -->
+  <!-- 下雪 
   <script type="text/javascript" src="ui/js/more/snow.min.js"></script>
   <script>
     $.fn.snow({
@@ -34,7 +34,7 @@
       newOn: 800,
       flakeColor: "#ffffff"
     });
-  </script>
+  </script>-->
 
   <script src="ui/js/global.js"></script>
 
@@ -119,18 +119,13 @@
     </div>
 
     <div id="CardCol" class="R">
-      <div class="Col">
+      <div class="Col L">
+
         <div class="Card L M bSha bRds">
-          <div class="contain cur L bRds" onclick="up()">
-            <div class="NoteContent bRds-t">
+          <div class="contain cur L bRds" onclick="up();">
+            <div class="NoteContent bRds">
               这是一条笔记，适合短文本发布。
             </div>
-          </div>
-          <div class="AtBox L bRds-b">
-            <div class="Date">19-07-12</div>
-            <div class="UVCount">12345</div>
-            <div class="CommentCount">12345</div>
-            <div class="StarCount">12345</div>
           </div>
         </div>
 
@@ -371,8 +366,9 @@
         </div>
 
       </div>
+      <div class="LoadLine"></div>
     </div>
-    <div class="LoadLine-"></div>
+
   </div>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400">
@@ -636,13 +632,13 @@
 <script src="ui/js/more/note.js"></script>
 <script>
   /* 返顶按钮淡入淡出 */
-  $(window).scroll(function () {
+  window.onscroll = throttle(function () {
     if ($(window).scrollTop() >= 1000) {
       $(".upBtn").fadeIn(350);
     } else {
       $(".upBtn").fadeOut(350);
     }
-  });
+  }, 300);
 </script>
 <script>
   /* 向上滚动NavLine展开 */

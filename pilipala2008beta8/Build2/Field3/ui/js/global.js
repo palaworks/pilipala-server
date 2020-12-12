@@ -1,23 +1,25 @@
-/* 函数节流 */
-function throttle(fn, wait) {
-    let lastTime = 0
-    return function () {
-        let nowTime = new Date.getTime()
-        if (nowTime - lastTime > wait) {
-            fn.apply(this, arguments)
-            lastTime = nowTime
-        }
-    }
+/* 函数防抖（请求触发后，在指定时间内无额外触发才允许被触发） */
+function debounce(fn, delay) {
+    var timeout = null;
+    return function (e) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            fn.apply(this, arguments);
+        }, delay);
+    };
 }
 
-/* 函数防抖 */
-function debounce(fn, dealy) {
-    let timer = null
+/* 函数节流（触发一次，在指定时间后才能二次触发） */
+var throttle = function (fn, delay) {
+    var prev = Date.now();
     return function () {
-        clearTimeout(timer)
-        timer = setTimeout(function () {
-            fn.apply(this, arguments)
-        }, dealy)
+        var context = this;
+        var args = arguments;
+        var now = Date.now();
+        if (now - prev >= delay) {
+            fn.apply(context, args);
+            prev = Date.now();
+        }
     }
 }
 

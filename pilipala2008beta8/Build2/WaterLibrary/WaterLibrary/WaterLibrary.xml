@@ -512,11 +512,11 @@
             MySql控制器
             </summary>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.CORE.#ctor(WaterLibrary.stru.pilipala.DB.PLDB,System.String,System.String)">
+        <member name="M:WaterLibrary.com.pilipala.CORE.#ctor(WaterLibrary.stru.pilipala.DB.PLDatabase,System.String,System.String)">
             <summary>
             初始化pilipala内核
             </summary>
-            <param name="PLDB">pilipala数据库信息</param>
+            <param name="PLDatabase">pilipala数据库信息</param>
             <param name="UserName">用户名</param>
             <param name="UserPWD">用户密码</param>
         </member>
@@ -1186,97 +1186,97 @@
             数据库管理器实例
             </summary>
         </member>
-        <member name="T:WaterLibrary.stru.pilipala.DB.ITableIndex">
+        <member name="T:WaterLibrary.stru.pilipala.DB.IIndexTable">
             <summary>
             索引表数据接口
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableIndex.ID">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IIndexTable.ID">
             <summary>
             索引
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableIndex.GUID">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IIndexTable.GUID">
             <summary>
             GUID标识
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableIndex.CT">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IIndexTable.CT">
             <summary>
             创建时间
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableIndex.Mode">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IIndexTable.Mode">
             <summary>
             模式
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableIndex.Type">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IIndexTable.Type">
             <summary>
             类型
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableIndex.User">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IIndexTable.User">
             <summary>
             隶属用户
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableIndex.UVCount">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IIndexTable.UVCount">
             <summary>
             浏览计数
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableIndex.StarCount">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IIndexTable.StarCount">
             <summary>
             星星计数
             </summary>
         </member>
-        <member name="T:WaterLibrary.stru.pilipala.DB.ITableBackup">
+        <member name="T:WaterLibrary.stru.pilipala.DB.IBackupTable">
             <summary>
             备份表数据接口
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableBackup.ID">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.ID">
             <summary>
             索引
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableBackup.GUID">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.GUID">
             <summary>
             GUID标识
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableBackup.LCT">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.LCT">
             <summary>
             最后修改时间
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableBackup.Title">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Title">
             <summary>
             标题
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableBackup.Summary">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Summary">
             <summary>
             摘要
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableBackup.Content">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Content">
             <summary>
             正文
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableBackup.Archiv">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Archiv">
             <summary>
             归档
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableBackup.Label">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Label">
             <summary>
             标签
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.ITableBackup.Cover">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Cover">
             <summary>
             封面
             </summary>
@@ -1362,22 +1362,22 @@
             消极联合视图（包含备份）
             </summary>
         </member>
-        <member name="T:WaterLibrary.stru.pilipala.DB.PLDB">
+        <member name="T:WaterLibrary.stru.pilipala.DB.PLDatabase">
             <summary>
             啪啦数据库信息
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.PLDB.Tables">
+        <member name="P:WaterLibrary.stru.pilipala.DB.PLDatabase.Tables">
             <summary>
             数据表
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.PLDB.Views">
+        <member name="P:WaterLibrary.stru.pilipala.DB.PLDatabase.Views">
             <summary>
             数据视图
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.PLDB.MySqlManager">
+        <member name="P:WaterLibrary.stru.pilipala.DB.PLDatabase.MySqlManager">
             <summary>
             数据库管理器实例
             </summary>

@@ -1,5 +1,5 @@
 ﻿/* 显示文章 */
-var showPost = throttle(function (ID, push = false) {
+var showPost = throttle(function (ID, push = true) {
 
     $("#CardCol").append('<div class="LoadLine"></div>');
     axios({
@@ -77,8 +77,9 @@ function Captcha(PostID, HEAD, Content, User, Email, WebSite) {
         })
 }
 
-/* 刷新StarCount计数（AJAX） */
-function refre_StarCount(ID) {
+/* 刷新StarCount计数 */
+var refre_StarCount = throttle(function (ID) {
+
     if ($.cookie('isStar' + ID) == 'true') {
         /* 如果cookie显示目前文本已经点赞 */
         $.cookie('isStar' + ID, 'false', { expires: 1 });/* 设置为取消点赞，并设置cookie时效（天） */
@@ -109,10 +110,12 @@ function refre_StarCount(ID) {
                 $(".StarCount").text(response.data);
             })
     }
-};
 
-/* 刷新UVCount计数（AJAX） */
-function refre_UVCount(ID) {
+}, 200);
+
+/* 刷新UVCount计数 */
+var refre_UVCount = throttle(function (ID) {
+
     if ($.cookie('isSaw' + ID) == 'true') {/* 如果cookie显示目前文本已经浏览不做处理 */ }
     else {
         /* 未被浏览 */
@@ -129,4 +132,5 @@ function refre_UVCount(ID) {
                 $(".UVCount").text(response.data);
             })
     }
-};
+
+}, 200);

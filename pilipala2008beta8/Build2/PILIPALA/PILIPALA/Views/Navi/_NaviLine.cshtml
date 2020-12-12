@@ -1,11 +1,17 @@
-﻿@using WaterLibrary.stru.pilipala;
+﻿@using WaterLibrary.pilipala;
+@using WaterLibrary.pilipala.Entity;
+@using WaterLibrary.CommentLake;
 
 @inject ICORE CORE
 
 @{
+    CommentLake CommentLake = new CommentLake();
+
+
     CORE.SetTables();
     CORE.SetViews();
 
+    CORE.LinkOn += CommentLake.Ready;
     /* 启动内核 */
     User User = CORE.Run();
 }

@@ -4,19 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Converters;
-
-using PILIPALA.Models;
-using WaterLibrary.stru.MySQL;
-using WaterLibrary.stru.pilipala.Post.Property;
-using WaterLibrary.stru.pilipala.DB;
-using WaterLibrary.stru.pilipala;
-using WaterLibrary.stru.CommentLake;
-using WaterLibrary.com.CommentLake;
-using WaterLibrary.com.MySQL;
-using WaterLibrary.com.pilipala;
-using WaterLibrary.com.pilipala.Components;
+using WaterLibrary.pilipala.Entity.PostProperty;
+using WaterLibrary.pilipala;
+using WaterLibrary.CommentLake;
+using WaterLibrary.pilipala.Components;
 
 using PILIPALA.Models.Guest;
 

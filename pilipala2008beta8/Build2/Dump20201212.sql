@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: localhost    Database: pilipala
 -- ------------------------------------------------------
--- Server version	5.7.17-log
+-- Server version	8.0.22
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,17 +21,17 @@
 
 DROP TABLE IF EXISTS `comment_lake`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comment_lake` (
-  `CommentID` int(5) NOT NULL,
-  `PostID` int(5) NOT NULL,
+  `CommentID` int NOT NULL,
+  `PostID` int NOT NULL,
   `User` varchar(32) NOT NULL DEFAULT '',
   `Email` varchar(64) NOT NULL DEFAULT '',
   `Content` longtext NOT NULL,
   `WebSite` varchar(128) NOT NULL DEFAULT '',
-  `HEAD` int(5) NOT NULL,
+  `HEAD` int NOT NULL,
   `Time` datetime NOT NULL,
-  `Floor` tinyint(3) NOT NULL,
+  `Floor` tinyint NOT NULL,
   PRIMARY KEY (`CommentID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -42,7 +42,7 @@ CREATE TABLE `comment_lake` (
 
 LOCK TABLES `comment_lake` WRITE;
 /*!40000 ALTER TABLE `comment_lake` DISABLE KEYS */;
-INSERT INTO `comment_lake` VALUES (30000,12431,'Pinn','pinn@amml.com','来自小品的钦定！','',0,'2020-09-21 22:49:22',2),(30001,12431,'雅爱方雏丶YAMAHA','yamaha@yamaha.cn','来自雅爱方雏的钦定！雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎！','www.ralhavenorid.com',0,'2020-09-21 22:52:28',3),(30002,12431,'王晟睿','wsr@h2om.com','雅子我爱你呀~哼哼哼啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊','',30001,'2020-09-21 22:53:11',4),(30003,12431,'Thaumy','studio_ai@outlook.com','我看你是欠日','www.thaumy.cn',30002,'2020-09-21 22:54:19',5),(30004,12431,'jss','jss@h2om.com','爷爷王来啦~','',0,'2020-09-27 15:55:57',6),(30008,12366,'Hodpel','i@dkhodpel.top','话说我也没用那插件了..\r\n感觉地址的话中文的不太好… 可以改成拼音或翻译成英文','www.dkhodpel.top',0,'2017-08-05 06:30:00',2),(30009,12366,'Hodpel','i@dkhodpel.top','(评论是要审核么2333)\r\n还有 既然都用pjax了就顺便加个ajax评论吧…\r\n而且我用的是jquery.pjax.js(滑稽)','',0,'2017-08-05 06:32:00',3),(30010,12366,'Thaumy','studio_ai@outlook.com','emmmmmm……..','www.thaumy.cn',30009,'2017-08-05 13:26:00',4),(30011,12366,'Thaumy','studio_ai@outlook.com','感觉中文的用户体验好一些吧，不影响什么速度也方便我维护','www.dkhodpel.top',30008,'2017-08-05 13:30:00',5),(30012,12384,'RealLuna HeheAndroid','ralhavenorid@126.com','支持一下。。。','www.ralhavenorid.com',0,'2017-12-09 13:53:00',3),(30013,12384,'Thaumy','studio_ai@outlook.com','哈喽！欢迎评论~！','www.thaumy.cn',0,'2017-07-16 07:12:00',2),(30014,12431,'pinn','Studio_ai@outlook.com','测试','',0,'2020-12-06 23:39:33',7),(30015,12431,'pinn','Studio_ai@outlook.com','测试','',30014,'2020-12-06 23:39:49',8),(30016,12430,'pinn','Studio_ai@outlook.com','cs','',0,'2020-12-06 23:40:04',2),(30017,12384,'a','Studio_ai@outlook.com','a','',0,'2020-12-09 09:40:45',4);
+INSERT INTO `comment_lake` VALUES (30000,12431,'Pinn','pinn@amml.com','来自小品的钦定！','',0,'2020-09-21 22:49:22',2),(30001,12431,'雅爱方雏丶YAMAHA','yamaha@yamaha.cn','来自雅爱方雏的钦定！雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎雅虎！','www.ralhavenorid.com',0,'2020-09-21 22:52:28',3),(30002,12431,'王晟睿','wsr@h2om.com','雅子我爱你呀~哼哼哼啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊','',30001,'2020-09-21 22:53:11',4),(30003,12431,'Thaumy','studio_ai@outlook.com','我看你是欠日','www.thaumy.cn',30002,'2020-09-21 22:54:19',5),(30004,12431,'jss','jss@h2om.com','爷爷王来啦~','',0,'2020-09-27 15:55:57',6),(30008,12366,'Hodpel','i@dkhodpel.top','话说我也没用那插件了..\r\n感觉地址的话中文的不太好… 可以改成拼音或翻译成英文','www.dkhodpel.top',0,'2017-08-05 06:30:00',2),(30009,12366,'Hodpel','i@dkhodpel.top','(评论是要审核么2333)\r\n还有 既然都用pjax了就顺便加个ajax评论吧…\r\n而且我用的是jquery.pjax.js(滑稽)','',0,'2017-08-05 06:32:00',3),(30010,12366,'Thaumy','studio_ai@outlook.com','emmmmmm……..','www.thaumy.cn',30009,'2017-08-05 13:26:00',4),(30011,12366,'Thaumy','studio_ai@outlook.com','感觉中文的用户体验好一些吧，不影响什么速度也方便我维护','www.dkhodpel.top',30008,'2017-08-05 13:30:00',5),(30012,12384,'RealLuna HeheAndroid','ralhavenorid@126.com','支持一下。。。','www.ralhavenorid.com',0,'2017-12-09 13:53:00',3),(30013,12384,'Thaumy','studio_ai@outlook.com','哈喽！欢迎评论~！','www.thaumy.cn',0,'2017-07-16 07:12:00',2),(30014,12383,'a','Studio_ai@outlook.com','a','',0,'2020-12-10 21:28:29',2),(30015,12383,'k','Studio_ai@outlook.com','g、','',30014,'2020-12-10 21:28:46',3);
 /*!40000 ALTER TABLE `comment_lake` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,7 +53,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `neg>dirty>union`;
 /*!50001 DROP VIEW IF EXISTS `neg>dirty>union`*/;
 SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!50503 SET character_set_client = utf8mb4 */;
 /*!50001 CREATE VIEW `neg>dirty>union` AS SELECT 
  1 AS `ID`,
  1 AS `GUID`,
@@ -79,7 +79,7 @@ SET character_set_client = @saved_cs_client;
 DROP TABLE IF EXISTS `neg>union`;
 /*!50001 DROP VIEW IF EXISTS `neg>union`*/;
 SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!50503 SET character_set_client = utf8mb4 */;
 /*!50001 CREATE VIEW `neg>union` AS SELECT 
  1 AS `ID`,
  1 AS `GUID`,
@@ -104,23 +104,23 @@ SET character_set_client = @saved_cs_client;
 
 DROP TABLE IF EXISTS `pl_backup`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pl_backup` (
-  `ID` int(5) unsigned NOT NULL,
+  `ID` int unsigned NOT NULL,
   `GUID` char(32) NOT NULL DEFAULT '',
   `LCT` datetime NOT NULL,
-  `Title` varchar(32) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `Summary` tinytext CHARACTER SET utf8 NOT NULL,
-  `Content` mediumtext CHARACTER SET utf8 NOT NULL,
-  `Archiv` varchar(16) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `Label` varchar(128) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `Cover` varchar(4096) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `Title` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `Summary` tinytext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `Content` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `Archiv` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `Label` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `Cover` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`GUID`) USING BTREE,
   UNIQUE KEY `GUID` (`GUID`) USING BTREE,
   KEY `ID` (`ID`) USING BTREE,
   KEY `LCT` (`LCT`) USING BTREE,
   KEY `UNI` (`ID`,`GUID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,16 +139,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `pl_index`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pl_index` (
-  `ID` int(5) unsigned NOT NULL,
+  `ID` int unsigned NOT NULL,
   `GUID` char(32) NOT NULL DEFAULT '',
   `CT` datetime NOT NULL,
   `Mode` varchar(10) NOT NULL DEFAULT '',
   `Type` varchar(8) NOT NULL DEFAULT '',
   `User` char(24) NOT NULL DEFAULT '',
-  `UVCount` int(5) unsigned NOT NULL,
-  `StarCount` int(5) unsigned NOT NULL,
+  `UVCount` int unsigned NOT NULL,
+  `StarCount` int unsigned NOT NULL,
   PRIMARY KEY (`ID`) USING BTREE,
   UNIQUE KEY `ID` (`ID`) USING BTREE,
   UNIQUE KEY `GUID` (`GUID`) USING BTREE,
@@ -163,7 +163,7 @@ CREATE TABLE `pl_index` (
 
 LOCK TABLES `pl_index` WRITE;
 /*!40000 ALTER TABLE `pl_index` DISABLE KEYS */;
-INSERT INTO `pl_index` VALUES (12347,'95ded3facac841da89d6d7ca2fc5bebc','2017-01-15 06:18:32','archived','','Thaumy',392,53),(12350,'fb5f2175a3e7496ea5d66e6c839c0d46','2017-04-21 23:05:03','archived','','Thaumy',252,29),(12351,'8e785272484940d0b66ab548529ee324','2017-05-20 04:24:44','archived','','Thaumy',317,56),(12356,'833bd1533d6844339c9010372163af6b','2017-06-17 04:16:29','archived','','Thaumy',334,42),(12359,'81d2e4b61e9e4dd0a7a4fb130ef8f460','2017-06-18 00:00:01','archived','','Thaumy',224,41),(12364,'185a8b4cd9c0479bb858f7d3d22e56b9','2017-07-11 03:10:51','','','Thaumy',266,47),(12365,'33a67824b66e474ebae1e9161c20b972','2017-07-21 02:24:07','archived','','Thaumy',266,52),(12366,'47583f5696f0432dab4d0e00db34e5a9','2017-07-26 09:16:30','archived','','Thaumy',290,34),(12369,'737a946895a34260a6e9b58906d8b0ec','2017-12-02 07:06:14','archived','','Thaumy',249,44),(12373,'68c22dd4c7bc4ab792f2fa8f43fafe4d','2018-04-05 22:46:31','archived','','Thaumy',234,38),(12376,'8f4b9b4558844783964b9f93564531c2','2019-03-09 19:23:39','','','Thaumy',395,86),(12377,'84955ba33b25457f8b8e0d521c0132be','2019-03-09 22:49:33','','','Thaumy',355,44),(12379,'9dc9637893ef4369a301cd3e8b8f7bb7','2019-04-05 17:46:42','scheduled','','Thaumy',360,59),(12380,'5bdaf23548a64353b685ac24a6373875','2019-04-13 23:51:00','','','水瓜社',289,43),(12381,'036c1be839184dc0acd479564abed0a0','2019-04-13 23:51:04','scheduled','','Thaumy',365,42),(12382,'68027f412f28497ca7b6df84d712cf1e','2019-04-14 06:58:04','','','Thaumy',373,54),(12383,'aecf3c6e9a884aabade1f337a20cb5ee','2019-05-11 18:02:54','scheduled','','Thaumy',350,64),(12384,'d50460042b28491a84c0c93180701b30','2019-05-11 18:18:36','','','Thaumy',451,44),(12385,'ebd0e6838795420faf65caffa0fdb643','2019-05-25 21:55:39','','','水瓜社',335,49),(12386,'8bc10c6f84c04985bad8a99ee38202e4','2019-05-26 00:39:38','','','Thaumy',307,22),(12387,'743d47ff01fb4090861cd53f4502ce4b','2019-06-16 07:12:31','','','Thaumy',305,17),(12388,'340993a1cbb045d18d4f2dbf38a36fef','2019-06-29 23:15:38','','','Pinn',273,14),(12389,'bab1101c15644e00ac530e721cbc6ae3','2019-06-30 06:31:16','','','Thaumy',295,14),(12390,'86077dedf510414baa17b1b92ea3c43f','2019-07-11 13:53:36','','note','Thaumy',275,19),(12393,'08f13ed4fc144a1db6f3e923a4c62032','2019-08-08 22:12:04','','','Thaumy',203,15),(12394,'6349b966bdc44cb3b989e160f1fefe78','2019-08-25 09:59:35','','','Thaumy',154,16),(12395,'99230f9ffe574560b927f7c6735c88ce','2019-08-27 08:17:30','','','Thaumy',190,17),(12396,'5a80a868ec804b2981801c56aa4a192f','2019-09-06 19:10:39','','','Thaumy',246,10),(12397,'d052a42f655a418b9cacd6425535d819','2019-10-01 18:40:16','archived','','雅爱方雏',168,12),(12398,'e9728bdbcd9f4dac98eaf92c10233714','2019-11-02 19:09:19','','','Thaumy',128,16),(12399,'baaf3c949aa8427d8ecaa24e028b37a5','2019-11-02 19:09:23','','','Thaumy',110,10),(12400,'b27ad50905dd4e92baa811a2fa5f31bd','2019-11-02 19:09:26','','','Thaumy',84,11),(12401,'f8f288b125454ae9a169323247ed1c84','2019-11-02 19:09:29','','','Thaumy',129,12),(12402,'a390851fc45a4a43b2368c5db557d6f6','2019-11-02 19:09:32','','','Thaumy',87,12),(12403,'684b5fb91f45483695a3ef383f471ccf','2019-11-16 22:39:05','','','Thaumy',105,13),(12405,'c511ee91c9bd4eb6be6a50d84124c294','2019-12-05 09:01:15','','note','Thaumy',70,13),(12407,'b2c308122eb743a1a8833016ff50bed0','2019-12-14 23:37:34','','','Thaumy',59,18),(12408,'eb6f27060e2745b28e3cbd3192563883','2019-12-14 23:40:20','','note','Thaumy',48,11),(12409,'739f8819e91c463783b9ed138732e32a','2020-01-01 23:27:23','','note','Thaumy',35,81),(12410,'e48c0162256941a797eecc23fadd77bc','2020-01-10 21:42:34','','','Thaumy',40,13),(12411,'a41bde9811254c2bbe7c71265d37065b','2020-01-24 11:23:38','','note','Thaumy',102,16),(12413,'54fa22a71dec49b887ed0deda3d98a41','2020-02-06 13:52:53','','note','Thaumy',43,19),(12414,'72cf274927824d678ea765426e9a3935','2020-02-08 12:55:33','','','Thaumy',54,18),(12415,'5e9de2cb8bc948d78e3dce3f69cb42ed','2020-03-11 11:37:03','archived','','雅爱方雏',98,10),(12416,'69bc886efbad45f98ecf56d0a5bf49ff','2020-02-24 07:23:56','hidden','note','Thaumy',59,12),(12417,'ab1d456d2d904c1c8d4ab4332e180aec','2020-03-05 16:59:07','','','Thaumy',67,13),(12418,'99242a1d7a3a4f3597601110f274611b','2020-04-04 00:00:00','','note','Thuamy',91,17),(12419,'e9cd2815ee6545f6ada21b0cba994f76','2020-05-09 18:44:55','','','Thaumy',102,12),(12420,'146821bb569c4488974b5a811fdf9eb6','2020-06-18 22:15:01','','note','Thaumy',153,11),(12421,'a6bab4f616104f19b6f58880786935f9','2020-07-10 15:28:04','','note','Thaumy',123,7),(12422,'1f74e12000274952b53489d1c5995624','2020-07-18 22:05:11','','note','Thaumy',69,5),(12423,'ffeec113c5324d1087fef37209bfab66','2020-07-24 22:37:30','scheduled','','Thaumy',104,12),(12424,'39fc5ea668b14513b09b40275bdafe62','2020-07-28 19:38:00','scheduled','','Thaumy',58,11),(12425,'d184094bd8e94d3abfe647493bf699e9','2020-09-07 16:49:56','','','Thaumy',50,8),(12426,'3b7cad7e437c408ea823a020ef902d08','2020-09-09 22:28:28','scheduled','note','Thaumy',87,9),(12427,'20be5f9ec3e34d329c619de643c17e7f','2020-09-10 07:51:29','scheduled','','Thaumy',62,7),(12428,'735ac99af3b14b75bbe1c78c23f2fd0c','2020-09-10 07:59:21','scheduled','','Thaumy',49,6),(12429,'1c98a9a95f994d70a122d61d61f2153b','2020-09-10 17:54:20','','note','Thaumy',29,8),(12430,'59bda6062548407499317315733b2ade','2020-09-19 12:38:23','','','Thaumy',40,12),(12431,'804ac0a35de449169eb5d6853dd45ecf','2020-09-27 15:51:52','','','Thaumy',1032,1000),(12432,'d6c01dc2cf4f4802a48b30028084024e','2020-10-15 07:06:41','','note','Thaumy',58,8),(12433,'d9e74e8a100e4f01b14170460f7f70fa','2020-10-24 16:13:05','','note','Thaumy',33,9),(12434,'f57b3dd4f02442518ae042badd2f9281','2020-10-26 16:44:34','','note','Thaumy',23,11),(12435,'c3ad8240727a40c6b4b9901c5ea2aa80','2020-11-24 15:42:29','','','Thaumy',27,11),(12436,'84386c5d2f0a44c4919aaeb12925f81d','2020-11-29 09:50:04','','note','Thaumy',11,4),(12437,'27b266a26c704355a4607bd5d2a1c9ca','2020-11-30 15:17:37','','','Thaumy',21,7);
+INSERT INTO `pl_index` VALUES (12347,'95ded3facac841da89d6d7ca2fc5bebc','2017-01-15 06:18:32','archived','','Thaumy',392,53),(12350,'fb5f2175a3e7496ea5d66e6c839c0d46','2017-04-21 23:05:03','archived','','Thaumy',252,29),(12351,'8e785272484940d0b66ab548529ee324','2017-05-20 04:24:44','archived','','Thaumy',317,56),(12356,'833bd1533d6844339c9010372163af6b','2017-06-17 04:16:29','archived','','Thaumy',334,42),(12359,'81d2e4b61e9e4dd0a7a4fb130ef8f460','2017-06-18 00:00:01','archived','','Thaumy',224,41),(12364,'185a8b4cd9c0479bb858f7d3d22e56b9','2017-07-11 03:10:51','','','Thaumy',266,47),(12365,'33a67824b66e474ebae1e9161c20b972','2017-07-21 02:24:07','archived','','Thaumy',266,52),(12366,'47583f5696f0432dab4d0e00db34e5a9','2017-07-26 09:16:30','archived','','Thaumy',290,34),(12369,'737a946895a34260a6e9b58906d8b0ec','2017-12-02 07:06:14','archived','','Thaumy',249,44),(12373,'68c22dd4c7bc4ab792f2fa8f43fafe4d','2018-04-05 22:46:31','archived','','Thaumy',234,38),(12376,'8f4b9b4558844783964b9f93564531c2','2019-03-09 19:23:39','','','Thaumy',398,86),(12377,'84955ba33b25457f8b8e0d521c0132be','2019-03-09 22:49:33','','','Thaumy',355,44),(12379,'9dc9637893ef4369a301cd3e8b8f7bb7','2019-04-05 17:46:42','scheduled','','Thaumy',363,59),(12380,'5bdaf23548a64353b685ac24a6373875','2019-04-13 23:51:00','','','水瓜社',290,44),(12381,'036c1be839184dc0acd479564abed0a0','2019-04-13 23:51:04','scheduled','','Thaumy',365,42),(12382,'68027f412f28497ca7b6df84d712cf1e','2019-04-14 06:58:04','','','Thaumy',376,54),(12383,'aecf3c6e9a884aabade1f337a20cb5ee','2019-05-11 18:02:54','scheduled','','Thaumy',355,64),(12384,'d50460042b28491a84c0c93180701b30','2019-05-11 18:18:36','','','Thaumy',453,45),(12385,'ebd0e6838795420faf65caffa0fdb643','2019-05-25 21:55:39','','','水瓜社',338,49),(12386,'8bc10c6f84c04985bad8a99ee38202e4','2019-05-26 00:39:38','','','Thaumy',308,22),(12387,'743d47ff01fb4090861cd53f4502ce4b','2019-06-16 07:12:31','','','Thaumy',307,17),(12388,'340993a1cbb045d18d4f2dbf38a36fef','2019-06-29 23:15:38','','','Pinn',275,14),(12389,'bab1101c15644e00ac530e721cbc6ae3','2019-06-30 06:31:16','','','Thaumy',295,14),(12390,'86077dedf510414baa17b1b92ea3c43f','2019-07-11 13:53:36','','note','Thaumy',275,19),(12393,'08f13ed4fc144a1db6f3e923a4c62032','2019-08-08 22:12:04','','','Thaumy',203,15),(12394,'6349b966bdc44cb3b989e160f1fefe78','2019-08-25 09:59:35','','','Thaumy',154,16),(12395,'99230f9ffe574560b927f7c6735c88ce','2019-08-27 08:17:30','','','Thaumy',190,17),(12396,'5a80a868ec804b2981801c56aa4a192f','2019-09-06 19:10:39','','','Thaumy',246,10),(12397,'d052a42f655a418b9cacd6425535d819','2019-10-01 18:40:16','archived','','雅爱方雏',168,12),(12398,'e9728bdbcd9f4dac98eaf92c10233714','2019-11-02 19:09:19','','','Thaumy',128,16),(12399,'baaf3c949aa8427d8ecaa24e028b37a5','2019-11-02 19:09:23','','','Thaumy',110,10),(12400,'b27ad50905dd4e92baa811a2fa5f31bd','2019-11-02 19:09:26','','','Thaumy',84,11),(12401,'f8f288b125454ae9a169323247ed1c84','2019-11-02 19:09:29','','','Thaumy',129,12),(12402,'a390851fc45a4a43b2368c5db557d6f6','2019-11-02 19:09:32','','','Thaumy',87,12),(12403,'684b5fb91f45483695a3ef383f471ccf','2019-11-16 22:39:05','','','Thaumy',105,13),(12405,'c511ee91c9bd4eb6be6a50d84124c294','2019-12-05 09:01:15','','note','Thaumy',70,13),(12407,'b2c308122eb743a1a8833016ff50bed0','2019-12-14 23:37:34','','','Thaumy',59,18),(12408,'eb6f27060e2745b28e3cbd3192563883','2019-12-14 23:40:20','','note','Thaumy',48,11),(12409,'739f8819e91c463783b9ed138732e32a','2020-01-01 23:27:23','','note','Thaumy',35,81),(12410,'e48c0162256941a797eecc23fadd77bc','2020-01-10 21:42:34','','','Thaumy',40,13),(12411,'a41bde9811254c2bbe7c71265d37065b','2020-01-24 11:23:38','','note','Thaumy',102,16),(12413,'54fa22a71dec49b887ed0deda3d98a41','2020-02-06 13:52:53','','note','Thaumy',43,19),(12414,'72cf274927824d678ea765426e9a3935','2020-02-08 12:55:33','','','Thaumy',54,18),(12415,'5e9de2cb8bc948d78e3dce3f69cb42ed','2020-03-11 11:37:03','archived','','雅爱方雏',98,10),(12416,'69bc886efbad45f98ecf56d0a5bf49ff','2020-02-24 07:23:56','hidden','note','Thaumy',60,12),(12417,'ab1d456d2d904c1c8d4ab4332e180aec','2020-03-05 16:59:07','','','Thaumy',67,13),(12418,'99242a1d7a3a4f3597601110f274611b','2020-04-04 00:00:00','','note','Thuamy',91,17),(12419,'e9cd2815ee6545f6ada21b0cba994f76','2020-05-09 18:44:55','','','Thaumy',102,12),(12420,'146821bb569c4488974b5a811fdf9eb6','2020-06-18 22:15:01','','note','Thaumy',153,11),(12421,'a6bab4f616104f19b6f58880786935f9','2020-07-10 15:28:04','','note','Thaumy',123,7),(12422,'1f74e12000274952b53489d1c5995624','2020-07-18 22:05:11','','note','Thaumy',69,5),(12423,'ffeec113c5324d1087fef37209bfab66','2020-07-24 22:37:30','scheduled','','Thaumy',104,12),(12424,'39fc5ea668b14513b09b40275bdafe62','2020-07-28 19:38:00','scheduled','','Thaumy',58,11),(12425,'d184094bd8e94d3abfe647493bf699e9','2020-09-07 16:49:56','','','Thaumy',50,8),(12426,'3b7cad7e437c408ea823a020ef902d08','2020-09-09 22:28:28','scheduled','note','Thaumy',87,9),(12427,'20be5f9ec3e34d329c619de643c17e7f','2020-09-10 07:51:29','scheduled','','Thaumy',63,8),(12428,'735ac99af3b14b75bbe1c78c23f2fd0c','2020-09-10 07:59:21','scheduled','','Thaumy',50,6),(12429,'1c98a9a95f994d70a122d61d61f2153b','2020-09-10 17:54:20','','note','Thaumy',29,8),(12430,'59bda6062548407499317315733b2ade','2020-09-19 12:38:23','','','Thaumy',41,13),(12431,'804ac0a35de449169eb5d6853dd45ecf','2020-09-27 15:51:52','','','Thaumy',1033,1000),(12432,'d6c01dc2cf4f4802a48b30028084024e','2020-10-15 07:06:41','','note','Thaumy',59,8),(12433,'d9e74e8a100e4f01b14170460f7f70fa','2020-10-24 16:13:05','','note','Thaumy',33,9),(12434,'f57b3dd4f02442518ae042badd2f9281','2020-10-26 16:44:34','','note','Thaumy',23,11),(12435,'c3ad8240727a40c6b4b9901c5ea2aa80','2020-11-24 15:42:29','','','Thaumy',28,12),(12436,'84386c5d2f0a44c4919aaeb12925f81d','2020-11-29 09:50:04','','note','Thaumy',11,4),(12437,'27b266a26c704355a4607bd5d2a1c9ca','2020-11-30 15:17:37','','','Thaumy',22,7);
 /*!40000 ALTER TABLE `pl_index` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,9 +173,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `pl_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pl_user` (
-  `GUID` char(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `GUID` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `Name` char(24) NOT NULL,
   `Bio` varchar(128) NOT NULL,
   `Group` char(16) NOT NULL,
@@ -203,7 +203,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `pos>dirty>union`;
 /*!50001 DROP VIEW IF EXISTS `pos>dirty>union`*/;
 SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!50503 SET character_set_client = utf8mb4 */;
 /*!50001 CREATE VIEW `pos>dirty>union` AS SELECT 
  1 AS `ID`,
  1 AS `GUID`,
@@ -229,7 +229,7 @@ SET character_set_client = @saved_cs_client;
 DROP TABLE IF EXISTS `pos>union`;
 /*!50001 DROP VIEW IF EXISTS `pos>union`*/;
 SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
+/*!50503 SET character_set_client = utf8mb4 */;
 /*!50001 CREATE VIEW `pos>union` AS SELECT 
  1 AS `ID`,
  1 AS `GUID`,
@@ -302,7 +302,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `pos>dirty>union` AS select `pl_index`.`ID` AS `ID`,`pl_index`.`GUID` AS `GUID`,`pl_index`.`CT` AS `CT`,`pl_index`.`Mode` AS `Mode`,`pl_index`.`Type` AS `Type`,`pl_index`.`User` AS `User`,`pl_index`.`UVCount` AS `UVCount`,`pl_index`.`StarCount` AS `StarCount`,`pl_backup`.`LCT` AS `LCT`,`pl_backup`.`Title` AS `Title`,`pl_backup`.`Summary` AS `Summary`,`pl_backup`.`Content` AS `Content`,`pl_backup`.`Archiv` AS `Archiv`,`pl_backup`.`Label` AS `Label`,`pl_backup`.`Cover` AS `Cover` from (`pl_index` join `pl_backup` on((convert(`pl_index`.`GUID` using utf8mb4) = `pl_backup`.`GUID`))) */;
@@ -337,4 +337,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-09 13:06:06
+-- Dump completed on 2020-12-12 15:30:32

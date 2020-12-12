@@ -7,14 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using PILIPALA.Models;
-using WaterLibrary.stru.MySQL;
-using WaterLibrary.stru.pilipala.DB;
-using WaterLibrary.com.CommentLake;
-using WaterLibrary.com.MySQL;
-using WaterLibrary.com.pilipala;
-using WaterLibrary.com.pilipala.Components;
-
 namespace PILIPALA
 {
     public class Program
@@ -22,8 +14,6 @@ namespace PILIPALA
 
         public static void Main(string[] args)
         {
-
-
             CreateHostBuilder(args).Build().Run();
         }
 

@@ -1,17 +1,14 @@
 ﻿
-@using WaterLibrary.stru.pilipala;
-@using WaterLibrary.stru.pilipala.DB;
-@using WaterLibrary.stru.pilipala.Post;
-@using WaterLibrary.stru.pilipala.Post.Property;
-@using WaterLibrary.com.MySQL;
-@using WaterLibrary.com.pilipala;
-@using WaterLibrary.com.pilipala.Components;
-@using WaterLibrary.com.CommentLake;
+@using WaterLibrary.pilipala;
+@using WaterLibrary.pilipala.Entity;
+@using WaterLibrary.pilipala.Entity.PostProperty;
+@using WaterLibrary.pilipala.Components;
+@using WaterLibrary.CommentLake;
 
 @inject ICORE CORE
 
 @{
-    WaterLibrary.stru.pilipala.User User;
+    WaterLibrary.pilipala.Entity.User User;
     Reader Reader = new Reader();
     Writer Writer = new Writer();
     Counter Counter = new Counter();
