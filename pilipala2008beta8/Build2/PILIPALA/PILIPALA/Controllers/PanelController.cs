@@ -4,17 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Options;
-
-using WaterLibrary.stru.pilipala;
-using WaterLibrary.stru.pilipala.Post;
-using WaterLibrary.stru.pilipala.Post.Property;
-using WaterLibrary.com.MySQL;
-using WaterLibrary.com.pilipala;
-using WaterLibrary.com.pilipala.Components;
-using WaterLibrary.com.CommentLake;
-
-using PILIPALA.Models;
+using WaterLibrary.pilipala;
+using WaterLibrary.pilipala.Entity;
+using WaterLibrary.pilipala.Entity.PostProperty;
+using WaterLibrary.pilipala.Components;
+using WaterLibrary.CommentLake;
 
 namespace PILIPALA.Controllers
 {
@@ -79,7 +73,7 @@ namespace PILIPALA.Controllers
             ViewBag.Post.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(ID));//添加评论计数，可优化
 
 
-            ViewBag.CommentList = CommentLake.GetCommentList(ID);//评论数据
+            ViewBag.CommentList = CommentLake.GetComments(ID);//评论数据
 
             ViewBag.PrevID = Reader.Smaller<ID>(ID, "生活|技术", typeof(Archiv));
             ViewBag.PrevTitle = Reader.GetProperty<Title>(ViewBag.PrevID);

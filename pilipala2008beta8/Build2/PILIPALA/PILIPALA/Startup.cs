@@ -9,16 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Options;
-
-using WaterLibrary.stru.pilipala;
-using WaterLibrary.com.pilipala;
+using WaterLibrary.pilipala;
 using PILIPALA.Models;
-using WaterLibrary.stru.MySQL;
-using WaterLibrary.stru.pilipala.DB;
-using WaterLibrary.com.CommentLake;
-using WaterLibrary.com.MySQL;
-using WaterLibrary.com.pilipala.Components;
+using WaterLibrary.MySQL;
+using WaterLibrary.pilipala.Database;
 
 namespace PILIPALA
 {
@@ -38,7 +32,7 @@ namespace PILIPALA
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            services.AddTransient<ICORE>(x => new CORE(new PLDB
+            services.AddTransient<ICORE>(x => new CORE(new PLDatabase
             {
                 MySqlManager = new MySqlManager(new MySqlConnMsg
                 {
