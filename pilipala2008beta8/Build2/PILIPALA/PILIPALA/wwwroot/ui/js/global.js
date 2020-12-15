@@ -1,10 +1,12 @@
 /* 函数防抖（请求触发后，在指定时间内无额外触发才允许被触发） */
-function debounce(fn, wait) {
+function debounce(fn, delay) {
     var timeout = null;
-    return function () {
-        if (timeout !== null) clearTimeout(timeout);
-        timeout = setTimeout(fn, wait);
-    }
+    return function (e) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            fn.apply(this, arguments);
+        }, delay);
+    };
 }
 
 /* 函数节流（触发一次，在指定时间后才能二次触发） */

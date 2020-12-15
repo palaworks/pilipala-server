@@ -46,10 +46,7 @@ H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Ra
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Razor\Views\Navi\_NaviLine.cshtml.g.cs
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Razor\Views\Panel\Content.cshtml.g.cs
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Razor\Views\Panel\List.cshtml.g.cs
-H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Razor\Views\Shared\foot.cshtml.g.cs
-H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Razor\Views\Shared\head.cshtml.g.cs
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
-H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Razor\Views\_ViewImports.cshtml.g.cs
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Razor\Views\_ViewStart.cshtml.g.cs
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PILIPALA.RazorTargetAssemblyInfo.cache
@@ -60,3 +57,5 @@ H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PI
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\ref\PILIPALA.dll
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PILIPALA.pdb
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PILIPALA.genruntimeconfig.cache
+H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Razor\Views\doc\foot.cshtml.g.cs
+H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Razor\Views\doc\head.cshtml.g.cs

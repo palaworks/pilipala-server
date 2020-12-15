@@ -27,11 +27,3 @@ button:focus{
 textarea:focus {
     outline: none;
 }
-
-p {
-    display: block;
-    margin-block-start: 0.8em;
-    margin-block-end: 0.4em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
