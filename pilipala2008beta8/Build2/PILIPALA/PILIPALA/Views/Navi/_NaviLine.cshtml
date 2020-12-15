@@ -17,7 +17,7 @@
 }
 
 <div id="NavLine" class="L M bSha">
-    <div class="contain cur bRds" onclick="up(); showPost(12387, '我');">
+    <div class="contain cur bRds" onclick="up();showPost(12387, '我');">
         <img class="Avatar bSha" src="@User.Avatar">
         <div class="Name">@User.Name.ToUpper()的小站</div>
     </div>
@@ -27,7 +27,7 @@
 <div id="SiderList" class="bSha">
     <m-card v-for="d in List" v-bind:item="d" v-bind:key="d.index"></m-card>
 
-    <div class="Co cur" onclick="up();(12388,'关于博客');ListToggle()">
+    <div class="Co cur" onclick="up();showPost(12388, '关于博客');ListToggle()">
         @(User.Name)的博客©2016-2020保留所有权利<br>
         基于pilipala构建<br>
         Field Theme Designed By Thaumy<br>
