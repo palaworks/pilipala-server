@@ -11,8 +11,6 @@
 
   <link rel="stylesheet" href="ui/css/global.css">
   <link rel="stylesheet" href="ui/css/white.css">
-  <!-- GitHub-Markdown-js -->
-  <link rel="stylesheet" href="user/white.css" />
 
   <!-- vuetify -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
@@ -24,17 +22,6 @@
   <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
   <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
-
-  <!-- 下雪 
-  <script type="text/javascript" src="ui/js/more/snow.min.js"></script>
-  <script>
-    $.fn.snow({
-      minSize: 14,
-      maxSize: 14,
-      newOn: 800,
-      flakeColor: "#ffffff"
-    });
-  </script>-->
 
   <script src="ui/js/global.js"></script>
 
@@ -57,7 +44,7 @@
 
 <body>
 
-  <div class="fixed">
+  <div id="fixed">
 
     <div id="NavLine" class="L M bSha">
       <div class="contain cur bRds" onclick="up()">
@@ -83,7 +70,7 @@
     <div class="upBtn bSha bRds" style="display: none" onclick="upBtn()"></div>
   </div>
 
-  <div class="contain">
+  <div id="contain">
     <div id="NavCol" class="bSha bRds">
 
       <div class="box bSha bRds-t">
@@ -119,25 +106,25 @@
     </div>
 
     <div id="CardCol" class="R">
-      <div class="Col L">
+      <div class="Col">
 
-        <div class="Card L M bSha bRds">
-          <div class="contain cur L bRds" onclick="up();">
+        <div class="Card M bSha bRds">
+          <div class="contain cur bRds" onclick="up();">
             <div class="NoteContent bRds">
               这是一条笔记，适合短文本发布。
             </div>
           </div>
         </div>
 
-        <div class="Card L M bSha bRds">
+        <div class="Card M bSha bRds">
 
-          <div onclick="up()" class="contain L cur">
+          <div onclick="up()" class="contain cur">
             <img class="pXL" src="http://thblog-img.test.upcdn.net/md-img/氛V2/field2cg.jpg" />
             <div class="Title">氛</div>
             <div class="Summary">Make a simple, intuitive UI</div>
           </div>
 
-          <div class="AtBox L bRds-b">
+          <div class="AtBox bRds-b">
             <div class="Date">19-07-12</div>
             <div class="UVCount">12345</div>
             <div class="CommentCount">12345</div>
@@ -145,9 +132,9 @@
           </div>
         </div>
 
-        <div class="Card L M bSha bRds">
+        <div class="Card M bSha bRds">
 
-          <div onclick="up()" class="contain L cur">
+          <div onclick="up()" class="contain cur">
 
             <img class="pXL" id="welcom_pic" />
             <script>
@@ -163,7 +150,7 @@
             <div class="Summary">信的开头</div>
           </div>
 
-          <div class="AtBox L bRds-b">
+          <div class="AtBox bRds-b">
             <div class="Date">19-07-12</div>
             <div class="UVCount">12345</div>
             <div class="CommentCount">12345</div>
@@ -171,8 +158,8 @@
           </div>
         </div>
 
-        <div class="Card L M bSha bRds">
-          <div class="contain L bRds">
+        <div class="Card M bSha bRds">
+          <div class="contain bRds">
             <div class="Title">四宫辉夜</div>
             <div class="Summary">Shinomiya Kaguya</div>
             <div class="SchedulTip bSha">
@@ -272,12 +259,12 @@
           </script>
         </div>
 
-        <div class="CoBox L M bSha">
+        <div class="CoBox M bSha">
 
           <span class="text_auth L">由Thaumy最后编辑于19.04.05</span>
           <span title="MD5签名 : @MD5" class="text_mId R">004C01E</span>
 
-          <div class="AtBox L bRds-b">
+          <div class="AtBox bRds-b">
             <div class="Date">19-07-12</div>
             <div class="UVCount">12345</div>
             <div class="CommentCount cur">12345</div>
@@ -288,7 +275,7 @@
           </div>
         </div>
 
-        <div class="CommentList L M bSha bRds">
+        <div class="CommentList M bSha bRds">
           <div class="Box bSha" onmouseover="CommentList_Over(this)" onmouseleave="CommentList_Leave(this)">
             <div class="Name">雅爱方雏丶YAMAHA</div>
             <div class="Floor cur bSha" data-f="1" data-id="12384" onclick="CommentBox.doReply(this)">1
@@ -320,7 +307,7 @@
           </div>
         </div>
 
-        <div class="ShadowBox L M">
+        <div class="ShadowBox M">
           <div class="CommentTip bSha">
             <div class="con">评论尚无，快来吃个螃蟹！</div>
           </div>
@@ -366,12 +353,19 @@
         </div>
 
       </div>
-      <div class="LoadLine"></div>
+      <style>
+        .v-application--wrap {
+          min-height: unset;
+        }
+      </style>
+      <div id="column_bottom"></div>
     </div>
-
+    <div id="IllustCo"
+      style="float:right;color:white;width:100%;text-align:center;height:100px;letter-spacing:1px;line-height:24px;font-weight:400;">
+      illust：treeware<br>
+      pixiv67807429
+    </div>
   </div>
-
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400">
 </body>
 
 <!-- vue -->
@@ -631,14 +625,25 @@
 <!-- js特效 -->
 <script src="ui/js/more/note.js"></script>
 <script>
+  /* 滑到底部查看壁纸 */
+  $(window).scroll(throttle(function () {
+    document.getElementById('fixed').style.opacity = document.getElementById('column_bottom')
+      .getBoundingClientRect().top / 400;
+    document.getElementById('NavCol').style.opacity = document.getElementById('column_bottom')
+      .getBoundingClientRect().top / 400;
+    document.getElementById('CardCol').style.opacity = document.getElementById('column_bottom')
+      .getBoundingClientRect().top / 400;
+    document.getElementById('IllustCo').style.opacity = document.getElementById('column_bottom')
+      .getBoundingClientRect().top / -80;
+  }, 10))
   /* 返顶按钮淡入淡出 */
-  window.onscroll = throttle(function () {
+  $(window).scroll(throttle(function () {
     if ($(window).scrollTop() >= 1000) {
       $(".upBtn").fadeIn(350);
     } else {
       $(".upBtn").fadeOut(350);
     }
-  }, 300);
+  }, 300))
 </script>
 <script>
   /* 向上滚动NavLine展开 */
