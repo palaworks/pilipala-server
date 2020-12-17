@@ -59,14 +59,25 @@
 <!-- js特效 -->
 <script src="~/ui/js/more/note.js"></script>
 <script>
+    /* 滑到底部查看壁纸 */
+    $(window).scroll(throttle(function () {
+        document.getElementById('fixed').style.opacity = document.getElementById('column_bottom')
+            .getBoundingClientRect().top / 400;
+        document.getElementById('NavCol').style.opacity = document.getElementById('column_bottom')
+            .getBoundingClientRect().top / 400;
+        document.getElementById('CardCol').style.opacity = document.getElementById('column_bottom')
+            .getBoundingClientRect().top / 400;
+        document.getElementById('IllustCo').style.opacity = document.getElementById('column_bottom')
+            .getBoundingClientRect().top / -80;
+    }, 10))
     /* 返顶按钮淡入淡出 */
-    $(window).scroll(function () {
+    $(window).scroll(throttle(function () {
         if ($(window).scrollTop() >= 1000) {
             $(".upBtn").fadeIn(350);
         } else {
             $(".upBtn").fadeOut(350);
         }
-    });
+    }, 300))
 </script>
 <script>
     /* 向上滚动NavLine展开 */

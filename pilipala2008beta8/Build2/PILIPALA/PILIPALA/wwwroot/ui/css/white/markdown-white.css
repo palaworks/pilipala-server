@@ -847,6 +847,8 @@
 .markdown-body pre {
     word-wrap: normal;
 
+
+    background-color: rgb(20, 20, 20);
     margin-top: 6px;
     margin-bottom: 6px;
 

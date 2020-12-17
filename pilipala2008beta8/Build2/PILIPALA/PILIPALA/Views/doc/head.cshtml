@@ -11,7 +11,7 @@
 <!-- 自动切换主题颜色 -->
 @if (DateTime.Now.Hour >= 21 || DateTime.Now.Hour <= 7)
 {
-    <link rel="stylesheet" href="~/ui/css/dark.css">
+    <link rel="stylesheet" href="~/ui/css/white.css">
 }
 else
 {
@@ -47,9 +47,9 @@ else
 <!-- 版权绘 -->
 <script>
     let a =
-        'background: #FFA500; padding:4px 0px 4px 0px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 3px 0 0 3px;'
+        'background:#FFA500; padding:4px 0px 4px 0px; font-family:\'Source Sans Pro\'; color:#fff; border-radius: 3px 0 0 3px;'
     let b =
-        'background: #606060; padding:4px 0px 4px 0px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 0 3px 3px 0;'
+        'background:#606060; padding:4px 0px 4px 0px; font-family:\'Source Sans Pro\'; color:#fff; border-radius: 0 3px 3px 0;'
 
     $.post("/guest/Get_core_version",
         function (data) {
