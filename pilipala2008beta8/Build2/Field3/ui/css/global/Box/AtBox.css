@@ -1,6 +1,7 @@
 .AtBox {
     width: 100%;
 
+    overflow: hidden;
     padding-top: 3px;
     padding-bottom: 3px;
 }

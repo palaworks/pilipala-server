@@ -21,22 +21,25 @@
     }
 }
 
-#CardCol>.Col {
-    width: 100%;
+#CardCol {
+    padding-bottom: 100vh;
 }
 
-#CardCol {
-    padding-bottom: 120px;
+#CardCol>.Col {
+    width: 100%;
+    transition: all 1s ease;
 }
 
 #CardCol .Card {
     width: 100%;
 
+    overflow: hidden;
     /* 颜色模式 */
     background: rgba(40, 40, 40, 1.00);
 }
 
 #CardCol .Card>.contain {
+    overflow: hidden;
     width: 100%;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
