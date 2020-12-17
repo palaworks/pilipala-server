@@ -47,7 +47,7 @@
     font-size: 21px;
     font-weight: 400;
     letter-spacing: 2px;
-    
+
     text-align: center;
 }
 
@@ -85,7 +85,7 @@
 
 #NavCol>.List {
     display: grid;
-
+    padding-bottom: 8px;
     grid-template-columns: 1% 99%;
 }
 

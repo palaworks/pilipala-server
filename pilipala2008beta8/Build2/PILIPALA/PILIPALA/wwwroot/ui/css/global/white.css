@@ -167,7 +167,7 @@
     overflow: hidden;
     background: 0 0;
     border: 0;
-    border-bottom: 1px solid rgb(50, 50, 50)
+    border-bottom: 1px solid #dfe2e5
 }
 
 .markdown-body hr:after,
@@ -195,12 +195,12 @@
 .markdown-body td {
     font-size: 14px;
     line-height: 20px;
-    border-top: 1px solid rgb(16, 16, 16);
+    border-top: 1px solid rgb(220, 220, 220);
 }
 
 .markdown-body tr td:not(:last-child):not(:first-child) {
-    border-left: 1px solid rgb(16, 16, 16);
-    border-right: 1px solid rgb(16, 16, 16);
+    border-left: 1px solid rgb(220, 220, 220);
+    border-right: 1px solid rgb(220, 220, 220);
 }
 
 .markdown-body details summary {
@@ -671,7 +671,7 @@
     height: .25em;
     padding: 0;
     margin: 24px 0;
-    background-color: rgb(50, 50, 50);
+    background-color: #e1e4e8;
     border: 0
 }
 
@@ -679,7 +679,7 @@
     padding: 0.2em 1em;
     color: #6a737d;
     border-left: .25em solid #0078d7;
-    background: rgba(40, 40, 40, 1);
+
 }
 
 .markdown-body blockquote>:first-child {
@@ -709,7 +709,7 @@
 .markdown-body h1,
 .markdown-body h2 {
     padding-bottom: .3em;
-    border-bottom: 1px solid rgb(50, 50, 50)
+    border-bottom: 1px solid #eaecef
 }
 
 .markdown-body h2 {
@@ -782,6 +782,7 @@
     margin-bottom: 6px;
 
     overflow: auto;
+    background-color: rgb(240, 240, 240);
 
     box-shadow: 0px 0px 3px 0.2px rgba(0, 0, 0, 0.4);
 }
@@ -813,11 +814,11 @@
 }
 
 .markdown-body table tr:nth-child(odd) {
-    background: rgb(20, 20, 20);
+    background: rgb(234, 234, 234);
 }
 
 .markdown-body table tr:nth-child(even) {
-    background: rgb(24, 24, 24);
+    background: rgb(240, 240, 240);
 }
 
 .markdown-body img {
@@ -839,15 +840,13 @@
 
     font-size: 85%;
     color: #bf4040;
-    background-color: #141414;
-    border-radius: 4px;
+    background-color: rgba(27, 31, 35, .05);
+    border-radius: 4px
 }
 
 .markdown-body pre {
     word-wrap: normal;
 
-
-    background-color: rgb(16, 16, 16);
     margin-top: 6px;
     margin-bottom: 6px;
 

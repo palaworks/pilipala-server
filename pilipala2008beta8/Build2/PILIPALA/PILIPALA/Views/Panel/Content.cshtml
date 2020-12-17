@@ -8,8 +8,8 @@
 
 @using WaterLibrary.CommentLake;
 
-<div class="Card L M bSha bRds">
-    <div class="contain L bRds">
+<div class="Card M bSha bRds">
+    <div class="contain bRds">
 
         @Html.Raw(ViewBag.Post.Cover)
 
@@ -61,11 +61,11 @@
 
 </div>
 
-<div class="CoBox L M bSha">
+<div class="CoBox M bSha">
     <span class="text_auth L">由 @ViewBag.Post.User 最后编辑于 @(Convert.ToString(ViewBag.Post.LCT.Year).Substring(2, 2) + "-" + ViewBag.Post.LCT.Month + "-" + ViewBag.Post.LCT.Day)</span>
     <span title="MD5签名 : @ViewBag.Post.MD5()" class="text_mId R">@ViewBag.Post.MD5(7)</span>
 
-    <div class="AtBox L bRds-b">
+    <div class="AtBox bRds-b">
         <div class="Date">创建于@(Convert.ToString(ViewBag.Post.CT.Year) + "-" + ViewBag.Post.CT.Month + "-" + ViewBag.Post.CT.Day)</div>
         <div class="UVCount">@ViewBag.Post.UVCount</div>
         <div class="CommentCount cur">@ViewBag.Post.PropertyContainer["CommentCount"]</div>
@@ -90,7 +90,7 @@
 <div>
     @if (ViewBag.CommentList.Count == 0)
     {
-        <div class="ShadowBox L M">
+        <div class="ShadowBox M">
             <div class="CommentTip bSha">
                 <div class="con">评论尚无，快来吃个螃蟹！</div>
             </div>
@@ -98,7 +98,7 @@
     }
     else
     {
-        <div class="CommentList L M bSha bRds">
+        <div class="CommentList M bSha bRds">
             @foreach (Comment Comment in ViewBag.CommentList)
             {
                 <div class="Box bSha" onmouseover="CommentList_Over(this)" onmouseleave="CommentList_Leave(this)">

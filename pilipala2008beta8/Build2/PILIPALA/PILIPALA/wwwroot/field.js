@@ -1,7 +1,6 @@
 ﻿/* 显示文章 */
 var showPost = throttle(function (ID, push = true) {
-
-    $("#CardCol").append('<div class="LoadLine"></div>');
+    $('.Col').attr('style', 'opacity:0;filter:blur(3px);');
     axios({
         method: "post",
         url: "/@/" + ID,
@@ -18,8 +17,7 @@ var showPost = throttle(function (ID, push = true) {
 
             refre_UVCount(ID);/* 刷新UVCount计数 */
 
-            $('.LoadLine').attr('style', 'animation: LoadLine 0.6s cubic-bezier(0.5, 0.4, 0.5, 1)');
-            setTimeout(function () { $(".LoadLine").fadeOut(200, function () { $(".LoadLine").remove(); }); }, 500);
+            $('.Col').attr('style', 'opacity:1;filter:blur(0px);');
         });
 
 }, 600);
