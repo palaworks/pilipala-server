@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-type" Content="text/html;charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <base target="_blank">
+
+  <link rel="icon" href="ui/img/console.png" sizes="192x192">
+  <title>Thaumy的博客|又一个码农的家</title>
+
+  <link rel="stylesheet" href="ui/css/global.css">
+  <link rel="stylesheet" href="ui/css/white.css">
+
+  <!-- vuetify -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.3.18/dist/vuetify.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+
+  <script src="ui/js/global.js"></script>
+
+  <!-- 版权绘 -->
+  <script>
+    let c =
+      'background:#00CED1; padding:10px 20px 12px 20px; font-family:\'Source Sans Pro\'; font-size:22px; color:#fff; border-radius: 3px 0 0 3px;'
+    let d =
+      'background:#1E90FF; padding:10px 20px 12px 20px; font-family:\'Source Sans Pro\'; font-size:22px; color:#fff; border-radius: 0 3px 3px 0;'
+    console.log(`%c 噼哩啪啦 %cBETA 8`, c, d)
+  </script>
+  <script>
+    let a =
+      'background: #FFA500; padding:4px 10px 4px 10px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 3px 0 0 3px;'
+    let b =
+      'background: #606060; padding:4px 10px 4px 10px; font-family:\'Source Sans Pro\'; color: #fff; border-radius: 0 3px 3px 0;'
+    console.log(`  %cTheme%c氛V3 Designed By Thaumy`, a, b)
+  </script>
+</head>
+
+<body>
+
+  <div id="fixed">
+
+    <div id="NavLine" class="L M bSha">
+      <div class="contain cur bRds" onclick="up()">
+        <img class="Avatar bSha" src="http://q1.qlogo.cn/g?b=qq&nk=1951327599&s=640">
+        <div class="Name">THAUMY的小站</div>
+      </div>
+      <div class="SiderBtn R" onclick="ListToggle()"></div>
+    </div>
+
+    <div id="SiderList" class="bSha">
+
+      <m-nav_card v-for="a in List" v-bind:item="a" v-bind:key="a.index"></m-nav_card>
+
+      <div class="Co cur" onclick="up();ListToggle()">
+        Thaumy的博客©2016-2020保留所有权利<br>
+        基于pilipala构建<br>
+        Field Theme Designed By Thaumy<br>
+      </div>
+    </div>
+    <div class="Shadow" onclick="ListToggle()"></div>
+    <div class="upBtn bSha bRds" style="display: none" onclick="upBtn()"></div>
+  </div>
+  <div id="contain">
+
+    <div id="CardCol">
+      <div class="LoadLine"></div>
+      <div class="Col">
+
+        <div class="Card M bSha bRds">
+          <div class="contain cur bRds" onclick="up();">
+            <div class="NoteContent bRds">
+              这是一条笔记，适合短文本发布。
+            </div>
+          </div>
+        </div>
+
+        <div class="Card M bSha bRds">
+
+          <div onclick="up()" class="contain cur">
+            <img class="pXL" src="http://thblog-img.test.upcdn.net/md-img/氛V2/field2cg.jpg" />
+            <div class="Title">氛</div>
+            <div class="Summary">Make a simple, intuitive UI</div>
+          </div>
+
+
+        </div>
+
+        <div class="Card M bSha bRds">
+
+          <div onclick="up()" class="contain cur">
+
+            <img class="pXL" id="welcom_pic" />
+            <script>
+              var images = ['http://thblog-img.test.upcdn.net/ui-background/bg_1.jpg',
+                'http://thblog-img.test.upcdn.net/ui-background/bg_2.jpg',
+                'http://thblog-img.test.upcdn.net/ui-background/bg_3.jpg',
+                'http://thblog-img.test.upcdn.net/ui-background/bg_4.jpg'
+              ];
+              document.getElementById("welcom_pic").src = images[Math.floor(Math.random() * images.length)];
+            </script>
+
+            <div class="Title">PILIPALA BETA8</div>
+            <div class="Summary">信的开头</div>
+          </div>
+
+        </div>
+
+
+      </div>
+      <style>
+        .v-application--wrap {
+          min-height: unset;
+        }
+      </style>
+
+      <div id="column_bottom"></div>
+    </div>
+
+  </div>
+  <div id="FootCoBox">
+    Thaumy的博客©2016-2020保留所有权利<br>
+    基于pilipala构建<br>
+    Field Theme Designed By Thaumy<br>
+  </div>
+</body>
+<!-- vue -->
+<script>
+  Vue.component("pc-nav_card", {
+    props: ["item"],
+    template: '<div ref="foo" class="Card cur bRds" v-on:click="pc_nav_card_click" :key="item.index"><div class="contain">{{item.Title}}</div></div>',
+    methods: {
+      pc_nav_card_click: function () {
+        up();
+        pcNavList.barSeen = true
+
+        pcNavList.style = {
+          top: this.item.index * 6 + 'vh',
+        }
+
+        AvaOutline.style = {
+          'border-color': 'rgba(0,0,0,0)'
+        }
+      }
+    }
+  })
+  Vue.component('m-nav_card', {
+    props: ['item'],
+    template: '<div class="Card cur bRds" v-on:click="m_nav_card_click" :key="item.index"><div class="contain">{{item.Title}}</div></div>',
+    methods: {
+      m_nav_card_click: function () {
+        up();
+        ListToggle();
+
+        AvaOutline.style = {
+          'border-color': 'rgba(0,0,0,0)'
+        }
+      }
+    }
+  })
+  var pcNavList = new Vue({
+    el: '#pcNavList',
+    data: {
+      barSeen: true,
+      style: {
+        top: '0vh'
+      },
+      List: [{
+          index: 0,
+          ID: 12345,
+          Title: '首页'
+        },
+        {
+          index: 1,
+          ID: 12346,
+          Title: '四宫辉夜'
+        },
+        {
+          index: 2,
+          ID: 12349,
+          Title: '石上优'
+        },
+        {
+          index: 3,
+          ID: 12349,
+          Title: '白银御行'
+        },
+        {
+          index: 4,
+          ID: 12349,
+          Title: '藤原千花'
+        },
+        {
+          index: 5,
+          ID: 12349,
+          Title: '早坂爱'
+        },
+        {
+          index: 6,
+          ID: 12349,
+          Title: '伊井野弥子'
+        }
+      ]
+    },
+  })
+  var SiderList = new Vue({
+    el: '#SiderList',
+    data: {
+      List: pcNavList.List
+    },
+  })
+  var AvaOutline = new Vue({
+    el: '#Ava-outline',
+    data: {
+      style: {
+        'border-color': 'rgba(0,0,0,0)'
+      }
+    },
+    methods: {
+      click: function () {
+        up();
+        this.style = {
+          'border-color': 'rgba(1, 153, 255, 1)'
+        };
+      }
+    }
+  })
+  var CommentBox = new Vue({
+    el: '#CommentBox',
+    vuetify: new Vuetify(),
+    data: {
+      FloorText: '0F',
+
+      HEAD: 0,
+      Content: '',
+      Name: '',
+      Email: '',
+      WebSite: ''
+    },
+    methods: {
+      check: function () {
+        if (ContentCheck(this.Content) &
+          NameCheck(this.Name) &
+          EmailCheck(this.Email) &
+          WebSiteCheck(this.WebSite)) {
+          //TODO
+          return true;
+        } else {
+          //TODO
+          __nc.reload();
+          window.alert("请检查填写是否有误");
+          return false;
+        }
+      },
+      doReply: function (el) {
+        this.FloorText = el.dataset.f + "F";
+        this.HEAD = el.dataset.id;
+      },
+      closeReply: function () {
+        /* HEAD为0时，回复不会显示 */
+        this.HEAD = 0;
+      }
+    }
+  })
+
+  var FloorText_temp;
+
+  /* 鼠标移入移出回复按钮事件 */
+  function CommentBox_ReplyBtn_Over() {
+    FloorText_temp = CommentBox.FloorText;
+    CommentBox.FloorText = "取消";
+  }
+
+  function CommentBox_ReplyBtn_Leave() {
+    CommentBox.FloorText = FloorText_temp;
+  }
+
+  function CommentList_Over(el) {
+    $(el).children(".Floor").text("回复");
+    $(el).children(".Floor").css({
+      "height": "22px",
+      "width": "32px",
+
+      "font-size": "0.8em",
+      "font-weight": "500",
+      "font-family": "Source Sans Pro",
+      "color": "rgb(255, 255, 255)",
+      "line-height": "22px",
+
+      "background": "rgb(0, 180, 255)"
+    });
+  }
+
+  function CommentList_Leave(el) {
+    /* 把属性data-f赋给内容 */
+    $(el).children(".Floor").text($(el).children(".Floor").attr("data-f"));
+    /* 移除添加的样式 */
+    $(el).children(".Floor").removeAttr("style", "");
+  }
+
+  /*评论检查*/
+  function ContentCheck(value) {
+    if (value == "") {
+      return false;
+    } else {
+      if (value.length > 320) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
+
+  function NameCheck(value) {
+    if (value == "") {
+      return false;
+    } else {
+      if (value.length > 12) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
+
+  function EmailCheck(value) {
+    if (value == "") {
+      return false;
+    } else {
+      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      if (!reg.test(value)) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
+
+  function WebSiteCheck(value) {
+    if (value == "") {
+      return true;
+    } else {
+      var reg0 = /^(http|https|ftp)\:\/\/([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}(\/)?$/;
+      if (!reg0.test(value)) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
+</script>
+
+<!-- js特效 -->
+<script src="ui/js/more/note.js"></script>
+<script>
+  /* 滑到底部查看壁纸 */
+  $(window).scroll(throttle(function () {
+    document.getElementById('fixed').style.opacity = document.getElementById('column_bottom')
+      .getBoundingClientRect().top / 400;
+    document.getElementById('contain').style.opacity = document.getElementById('column_bottom')
+      .getBoundingClientRect().top / 400;
+    document.getElementById('FootCoBox').style.opacity = document.getElementById('column_bottom')
+      .getBoundingClientRect().top / -100;
+  }, 10))
+  /* 返顶按钮淡入淡出 */
+  $(window).scroll(throttle(function () {
+    if ($(window).scrollTop() >= 1000) {
+      $(".upBtn").fadeIn(350);
+    } else {
+      $(".upBtn").fadeOut(350);
+    }
+  }, 300))
+</script>
+<script>
+  /* 向上滚动NavLine展开 */
+  p = 0;
+  t = 0;
+  $(window).scroll(debounce(function () {
+    p = $(this).scrollTop();
+    if (t <= p) {
+      /* 防止触发遮住文本首部 */
+      if ($(window).scrollTop() >= 20) {
+        $("#NavLine").slideUp(200);
+      }
+    } else {
+      /* 触发高度：小于20或大于200 */
+      if ($(window).scrollTop() <= 20 | $(window).scrollTop() >= 200) {
+        $("#NavLine").slideDown(150);
+      }
+    }
+    t = p;
+  }, 50))
+</script>
+<script>
+  /* 侧边菜单展开 */
+  function ListToggle() {
+    if ($("#SiderList").css("right") == "-800px") {
+      $("body").css("overflow", "hidden"); /* 禁用滚动 */
+
+      fadeInX2(".Shadow", function () {});
+      $(".SiderBtn").slideUp(300);
+      slideRight2X("#SiderList");
+
+    }
+
+    if ($("#SiderList").css("right") == "12px") {
+      $("body").css("overflow", "unset"); /* 启用滚动 */
+
+      fadeOutX2(".Shadow", function () {
+        $(".SiderBtn").slideDown(400);
+      });
+      slideLeft2X("#SiderList");
+
+    }
+  }
+</script>
+
+
+
+</html>

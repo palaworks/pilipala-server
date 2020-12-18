@@ -975,6 +975,11 @@
             <param name="Key">索引名</param>
             <returns></returns>
         </member>
+        <member name="P:WaterLibrary.pilipala.Entity.User.GUID">
+            <summary>
+            用户GUID
+            </summary>
+        </member>
         <member name="P:WaterLibrary.pilipala.Entity.User.Name">
             <summary>
             用户名
@@ -983,11 +988,6 @@
         <member name="P:WaterLibrary.pilipala.Entity.User.PWD">
             <summary>
             密码(MD5值)
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Entity.User.GUID">
-            <summary>
-            用户GUID
             </summary>
         </member>
         <member name="P:WaterLibrary.pilipala.Entity.User.Bio">

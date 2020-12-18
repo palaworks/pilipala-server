@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Cors;
+
 using WaterLibrary.pilipala.Entity.PostProperty;
 using WaterLibrary.pilipala;
 using WaterLibrary.CommentLake;
@@ -66,6 +68,7 @@ namespace PILIPALA.system
         /// 浏览计数加一
         /// </summary>
         /// <param name="ID">文章序列号</param>
+
         [HttpPost]
         public int Increase_UVCount_by_PostID(int PostID)
         {

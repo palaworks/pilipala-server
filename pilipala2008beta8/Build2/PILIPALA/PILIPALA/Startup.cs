@@ -43,6 +43,15 @@ namespace PILIPALA
                     PWD = Configuration.GetSection("AppSettings:PWD").Value
                 })
             }, Configuration.GetSection("AppSettings:UserName").Value, Configuration.GetSection("AppSettings:UserPWD").Value));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("DefaultPolicy",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,12 +68,17 @@ namespace PILIPALA
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
+            app.UseCors();
 
-
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "UserAPI",
+                    pattern: "user/{action}",
+                    defaults: new { controller = "User" });
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

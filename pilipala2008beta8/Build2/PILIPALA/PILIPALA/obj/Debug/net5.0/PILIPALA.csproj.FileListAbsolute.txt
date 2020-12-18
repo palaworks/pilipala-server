@@ -184,3 +184,6 @@ H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Debug\net5.0\Razo
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Debug\net5.0\Razor\Views\Navi\_NaviLine.cshtml.g.cs
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Debug\net5.0\Razor\Views\doc\foot.cshtml.g.cs
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Debug\net5.0\Razor\Views\doc\head.cshtml.g.cs
+H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.Certificate.dll
+H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\bin\Debug\net5.0\Microsoft.AspNetCore.Server.Kestrel.Https.dll
+H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\bin\Debug\net5.0\Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.dll

@@ -1,5 +1,6 @@
 #NavCol {
     color: rgba(230, 230, 230, 1.00);
+    transition: all 1s ease;
 }
 
 #NavCol>.box {
