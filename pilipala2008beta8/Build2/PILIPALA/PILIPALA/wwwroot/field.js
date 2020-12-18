@@ -1,14 +1,16 @@
 ﻿/* 显示文章 */
 var showPost = throttle(function (ID, push = true) {
-    $('.Col').attr('style', 'opacity:0;filter:blur(3px);');
+
+    $('#CardCol>.Col').attr('style', 'opacity:0.3;');
+    var clock = new Date();
     axios({
         method: "post",
         url: "/@/" + ID,
     })
         .then((response) => {
+
             /* 刷入新内容 */
             $("#CardCol>.Col").html(response.data);
-
             /* 更改URL地址 */
             const state = { 'ID': ID };
             if (push == true) {
@@ -17,7 +19,13 @@ var showPost = throttle(function (ID, push = true) {
 
             refre_UVCount(ID);/* 刷新UVCount计数 */
 
-            $('.Col').attr('style', 'opacity:1;filter:blur(0px);');
+            var span = new Date() - clock;
+            if (span < 1000) {
+                setTimeout(function () { $('#CardCol>.Col').attr('style', 'opacity:1;'); }, 200 - span);
+            } else {
+                $('#CardCol>.Col').attr('style', 'opacity:1;');
+            }
+
         });
 
 }, 600);

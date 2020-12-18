@@ -339,17 +339,11 @@ namespace WaterLibrary.pilipala
                 /* 通知所有订阅到当前内核的所有配件内核已经准备完成，并分发内核到各配件 */
                 LinkOn(this);
                 /* 取得用户数据并返回 */
-                DataRow Row = MySqlManager.GetRow($"SELECT GUID,Bio,`Group`,Email,Avatar FROM {Tables.User} WHERE Name = '{UserName}'");
                 return new Entity.User()
                 {
-                    Name = UserName,
-                    PWD = UserPWD,
-
-                    GUID = Row["GUID"].ToString(),
-                    Bio = Row["Bio"].ToString(),
-                    Group = Row["Group"].ToString(),
-                    Email = Row["Email"].ToString(),
-                    Avatar = Row["Avatar"].ToString()
+                    GUID = MySqlManager.GetRow($"SELECT GUID FROM {Tables.User} WHERE Name = '{UserName}'")["GUID"].ToString(),
+                    Tables = Tables,
+                    MySqlManager = MySqlManager,
                 };
             }
             else
@@ -397,6 +391,9 @@ namespace WaterLibrary.pilipala
         /// </summary>
         public class User
         {
+            internal PLTables Tables { get; set; }
+            internal MySqlManager MySqlManager { get; set; }
+
             /// <summary>
             /// 索引器
             /// </summary>
@@ -419,34 +416,44 @@ namespace WaterLibrary.pilipala
             }
 
             /// <summary>
+            /// 用户GUID
+            /// </summary>
+            public string GUID { get; internal set; }
+
+            /// <summary>
             /// 用户名
             /// </summary>
-            public string Name { get; set; }
+            public string Name { get { return Getter("Name"); } set { Setter("Name", value); } }
             /// <summary>
             /// 密码(MD5值)
             /// </summary>
-            public string PWD { get; set; }
+            public string PWD { get { return Getter("PWD"); } set { Setter("PWD", value); } }
 
-            /// <summary>
-            /// 用户GUID
-            /// </summary>
-            public string GUID { get; set; }
             /// <summary>
             /// 自我介绍
             /// </summary>
-            public string Bio { get; set; }
+            public string Bio { get { return Getter("Bio"); } set { Setter("Bio", value); } }
             /// <summary>
             /// 分组
             /// </summary>
-            public string Group { get; set; }
+            public string Group { get { return Getter("Group"); } set { Setter("Group", value); } }
             /// <summary>
             /// 邮箱
             /// </summary>
-            public string Email { get; set; }
+            public string Email { get { return Getter("Email"); } set { Setter("Email", value); } }
             /// <summary>
             /// 头像(链接)
             /// </summary>
-            public string Avatar { get; set; }
+            public string Avatar { get { return Getter("Avatar"); } set { Setter("Avatar", value); } }
+
+            private string Getter(string Key)
+            {
+                return MySqlManager.GetRow($"SELECT {Key} FROM {Tables.User} WHERE GUID = '{GUID}'")[Key].ToString();
+            }
+            private bool Setter(string Key, string Value)
+            {
+                return MySqlManager.UpdateKey(new MySqlKey() { Table = Tables.User, Name = "GUID", Val = GUID }, Key, Value);
+            }
         }
         /// <summary>
         /// 文章

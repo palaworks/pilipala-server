@@ -1,6 +1,23 @@
 #NavCol {
+    margin-top: 2px;
+    background: var(--b40);
+    /*黑色下是b30*/
     color: rgba(230, 230, 230, 1.00);
-    transition: all 1s ease;
+}
+
+/* 屏幕宽度 [ 1001 , + ) */
+@media (min-width: 1001px) {
+    #NavCol {
+        grid-column-start: 1;
+        display: table;
+    }
+}
+
+/* 屏幕宽度 ( - , 1000 ] */
+@media screen and (max-width: 1000px) {
+    #NavCol {
+        display: none;
+    }
 }
 
 #NavCol>.box {
@@ -133,51 +150,4 @@
     margin-right: auto;
     align-self: center;
     margin-left: 10px;
-}
-
-#NavCol>.Co-outline {
-    display: flex;
-
-    margin: auto;
-    margin-top: 8px;
-    margin-bottom: 8px;
-
-    border-width: 1.4px;
-    border-style: solid;
-    border-radius: 4px;
-
-    width: 94%;
-
-    transition: all 0.2s ease;
-}
-
-#NavCol>.Co-outline>.Co {
-    align-self: center;
-
-    text-align: center;
-
-    margin: auto;
-    margin-top: 2px;
-    margin-bottom: 4px;
-
-    font-size: 12px;
-    line-height: 17px;
-}
-
-/* 屏幕宽度 [ 1001 , + ) */
-@media (min-width: 1001px) {
-    #NavCol {
-        width: 23%;
-        min-width: 230px;
-        max-width: 270px;
-
-        position: fixed;
-    }
-}
-
-/* 屏幕宽度 ( - , 1000 ] */
-@media screen and (max-width: 1000px) {
-    #NavCol {
-        display: none;
-    }
 }
