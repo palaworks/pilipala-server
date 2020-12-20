@@ -9,9 +9,10 @@
 
 @{
     WaterLibrary.pilipala.Entity.User User;
-    Reader Reader = new Reader();
-    Writer Writer = new Writer();
-    Counter Counter = new Counter();
+    Reader Reader;
+    Writer Writer;
+    Counter Counter;
+    ComponentFactory ComponentFactory = new ComponentFactory();
 
     CommentLake CommentLake = new CommentLake();
 
@@ -19,13 +20,15 @@
     CORE.SetTables();
     CORE.SetViews();
 
-    CORE.LinkOn += Reader.Ready;
-    CORE.LinkOn += Writer.Ready;
-    CORE.LinkOn += Counter.Ready;
+    CORE.LinkOn += ComponentFactory.Ready;
     CORE.LinkOn += CommentLake.Ready;
 
     /* 启动内核 */
     User = CORE.Run();
+
+    Reader = ComponentFactory.GenReader();
+    Writer = ComponentFactory.GenWriter();
+    Counter = ComponentFactory.GenCounter();
 
     var array = new System.Type[2] { typeof(ID), typeof(Title) };
     PostSet PostSet = Reader.GetPost<Archiv>("页面|友情链接", array);
