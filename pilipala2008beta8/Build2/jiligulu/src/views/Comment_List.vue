@@ -89,8 +89,7 @@ export default {
     Get_comments_by_PostID: function () {
       this.$axios({
         method: "post",
-        url:
-          "https://localhost:44372/system/serv/user.asmx/Get_comments_by_PostID",
+        url: this.glob.root_path + "/user/Get_comments_by_PostID",
         data: qs.stringify({
           PostID: this.$route.params.ID,
         }),
@@ -106,7 +105,7 @@ export default {
     Delete_comment_by_CommentID: function (CommentID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44372/system/serv/user.asmx/Delete_comment_by_CommentID",
+        url: this.glob.root_path + "/user/Delete_comment_by_CommentID",
         data: qs.stringify({
           CommentID: CommentID,
         }),

@@ -102,8 +102,7 @@ export default {
     Rollback: function () {
       this.$axios({
         method: "post",
-        url:
-          "https://localhost:44372/system/serv/user.asmx/Rollback_post_by_PostID",
+        url: this.glob.root_path + "/user/Rollback_post_by_PostID",
         data: qs.stringify({
           PostID: this.$route.params.post_id,
         }),
@@ -120,8 +119,7 @@ export default {
     Release: function () {
       this.$axios({
         method: "post",
-        url:
-          "https://localhost:44372/system/serv/user.asmx/Release_post_by_PostID",
+        url: this.glob.root_path + "/user/Release_post_by_PostID",
         data: qs.stringify({
           PostID: this.$route.params.post_id,
         }),
@@ -138,7 +136,7 @@ export default {
     Apply: function (GUID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44372/system/serv/user.asmx/Apply_post_by_GUID",
+        url: this.glob.root_path + "/user/Apply_post_by_GUID",
         data: qs.stringify({
           GUID: GUID,
         }),
@@ -155,8 +153,7 @@ export default {
     Delete: function (GUID) {
       this.$axios({
         method: "post",
-        url:
-          "https://localhost:44372/system/serv/user.asmx/Delete_post_by_GUID",
+        url: this.glob.root_path + "/user/Delete_post_by_GUID",
         data: qs.stringify({
           GUID: GUID,
         }),
@@ -174,7 +171,7 @@ export default {
       /* 得到拷贝列表 */
       this.$axios({
         method: "post",
-        url: "https://localhost:44372/system/serv/user.asmx/Get_post_by_PostID",
+        url: this.glob.root_path + "/user/Get_post_by_PostID",
         data: qs.stringify({
           PostID: this.$route.params.post_id,
         }),
@@ -188,8 +185,7 @@ export default {
       /* 得到拷贝列表 */
       this.$axios({
         method: "post",
-        url:
-          "https://localhost:44372/system/serv/user.asmx/Get_neg_posts_by_PostID",
+        url: this.glob.root_path + "/user/Get_neg_posts_by_PostID",
         data: qs.stringify({
           PostID: this.$route.params.post_id,
         }),
