@@ -432,14 +432,6 @@
             <param name="PWD">密码</param>
             <returns>返回一个MySqlConnection对象，错误则返回null</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.ParmQueryCMD1(System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            建立参数化查询CMD对象
-            </summary>
-            <param name="SQL">携带查询参数的SQL语句</param>
-            <param name="parameters">查询参数列表</param>
-            <returns>返回建立的参数化查询CMD对象</returns>
-        </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.GetKey(System.String)">
             <summary>
             取得首个键值（键匹配查询）
@@ -854,7 +846,7 @@
             数据库管理器实例
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.IPLComponent">
+        <member name="T:WaterLibrary.pilipala.IPLComponent`1">
             <summary>
             噼里啪啦配件接口
             </summary>
@@ -864,9 +856,29 @@
             噼里啪啦内核接口
             </summary>
         </member>
+        <member name="P:WaterLibrary.pilipala.ICORE.Views">
+            <summary>
+            内核视图访问器
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.pilipala.ICORE.Tables">
+            <summary>
+            内核表访问器
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.pilipala.ICORE.MySqlManager">
+            <summary>
+            内核MySql数据库控制器
+            </summary>
+        </member>
         <member name="E:WaterLibrary.pilipala.ICORE.LinkOn">
             <summary>
             开始配件连接事件
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.pilipala.ICORE.UserGUID">
+            <summary>
+            登录到内核的用户GUID
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.ICORE.Run">
@@ -925,6 +937,11 @@
         <member name="P:WaterLibrary.pilipala.CORE.MySqlManager">
             <summary>
             MySql控制器
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.pilipala.CORE.UserGUID">
+            <summary>
+            登录内核的用户GUID
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.CORE.#ctor(WaterLibrary.pilipala.Database.PLDatabase,System.String,System.String)">
@@ -1308,12 +1325,41 @@
             星星计数
             </summary>
         </member>
+        <member name="T:WaterLibrary.pilipala.Components.ComponentFactory">
+            <summary>
+            组件工厂
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.Ready(WaterLibrary.pilipala.ICORE)">
+            <summary>
+            准备完成
+            </summary>
+            <param name="CORE"></param>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.GenReader">
+            <summary>
+            生成读组件
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.GenWriter">
+            <summary>
+            生成写组件
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.GenCounter">
+            <summary>
+            生成计数组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:WaterLibrary.pilipala.Components.Reader">
             <summary>
             啪啦数据读取器
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.Ready(WaterLibrary.pilipala.CORE)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.Ready(WaterLibrary.pilipala.ICORE)">
             <summary>
             准备读取器
             </summary>
@@ -1394,7 +1440,7 @@
             啪啦数据修改器
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.Ready(WaterLibrary.pilipala.CORE)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.Ready(WaterLibrary.pilipala.ICORE)">
             <summary>
             准备修改器
             </summary>
@@ -1556,7 +1602,7 @@
             啪啦计数管理器
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Counter.Ready(WaterLibrary.pilipala.CORE)">
+        <member name="M:WaterLibrary.pilipala.Components.Counter.Ready(WaterLibrary.pilipala.ICORE)">
             <summary>
             准备计数器
             </summary>

@@ -229,9 +229,13 @@ namespace WaterLibrary.pilipala
     /// <summary>
     /// 噼里啪啦配件接口
     /// </summary>
-    interface IPLComponent
+    interface IPLComponent<out T>
     {
-        void Ready(CORE CORE);
+        T Ready(ICORE CORE);
+    }
+    interface IPLComponentFactory
+    {
+        void Ready(ICORE CORE);
     }
     /// <summary>
     /// 噼里啪啦内核接口
@@ -239,9 +243,27 @@ namespace WaterLibrary.pilipala
     public interface ICORE
     {
         /// <summary>
+        /// 内核视图访问器
+        /// </summary>
+        PLViews Views { get; }
+        /// <summary>
+        /// 内核表访问器
+        /// </summary>
+        PLTables Tables { get; }
+        /// <summary>
+        /// 内核MySql数据库控制器
+        /// </summary>
+        MySqlManager MySqlManager { get; }
+
+        /// <summary>
         /// 开始配件连接事件
         /// </summary>
         public event LinkEventHandler LinkOn;
+
+        /// <summary>
+        /// 登录到内核的用户GUID
+        /// </summary>
+        string UserGUID { get; }
 
         /// <summary>
         /// 启动内核
@@ -299,8 +321,13 @@ namespace WaterLibrary.pilipala
         /// </summary>
         public MySqlManager MySqlManager { get; private set; }
 
-        internal readonly string UserName;
-        internal readonly string UserPWD;
+        /// <summary>
+        /// 登录内核的用户GUID
+        /// </summary>
+        public string UserGUID { get; }
+
+        internal string UserName { get; }
+        internal string UserPWD { get; }
 
         /// <summary>
         /// 初始化pilipala内核
@@ -846,9 +873,39 @@ namespace WaterLibrary.pilipala
     namespace Components
     {
         /// <summary>
+        /// 组件工厂
+        /// </summary>
+        public class ComponentFactory : IPLComponentFactory
+        {
+            private ICORE CORE;
+            /// <summary>
+            /// 准备完成
+            /// </summary>
+            /// <param name="CORE"></param>
+            public void Ready(ICORE CORE) => this.CORE = CORE;
+
+
+            /// <summary>
+            /// 生成读组件
+            /// </summary>
+            /// <returns></returns>
+            public Reader GenReader() => new Reader().Ready(CORE);
+            /// <summary>
+            /// 生成写组件
+            /// </summary>
+            /// <returns></returns>
+            public Writer GenWriter() => new Writer().Ready(CORE);
+            /// <summary>
+            /// 生成计数组件
+            /// </summary>
+            /// <returns></returns>
+            public Counter GenCounter() => new Counter().Ready(CORE);
+        }
+
+        /// <summary>
         /// 啪啦数据读取器
         /// </summary>
-        public class Reader : IPLComponent
+        public class Reader : IPLComponent<Reader>
         {
             private PLViews Views { get; set; }
             private MySqlManager MySqlManager { get; set; }
@@ -857,10 +914,12 @@ namespace WaterLibrary.pilipala
             /// 准备读取器
             /// </summary>
             /// <param name="CORE"></param>
-            public void Ready(CORE CORE)
+            public Reader Ready(ICORE CORE)
             {
                 Views = CORE.Views;
                 MySqlManager = CORE.MySqlManager;
+
+                return this;
             }
 
             /// <summary>
@@ -1137,22 +1196,24 @@ namespace WaterLibrary.pilipala
         /// <summary>
         /// 啪啦数据修改器
         /// </summary>
-        public class Writer : IPLComponent
+        public class Writer : IPLComponent<Writer>
         {
             private PLTables Tables { get; set; }
             private MySqlManager MySqlManager { get; set; }
 
-            private string UserName;
+            private string UserGUID;
 
             /// <summary>
             /// 准备修改器
             /// </summary>
             /// <param name="CORE"></param>
-            public void Ready(CORE CORE)
+            public Writer Ready(ICORE CORE)
             {
                 Tables = CORE.Tables;
                 MySqlManager = CORE.MySqlManager;
-                UserName = CORE.UserName;
+                UserGUID = CORE.UserGUID;
+
+                return this;
             }
 
             /// <summary>
@@ -1239,7 +1300,7 @@ namespace WaterLibrary.pilipala
                     new("CT", t),
                     new("LCT", t),
 
-                    new("User", UserName),/* 使用登录内核的用户名 */
+                    new("User", UserGUID),/* 使用登录内核的用户GUID */
 
                     /* 可传参数 */
                     new("Mode", Post.Mode),
@@ -1324,7 +1385,7 @@ namespace WaterLibrary.pilipala
                     new("GUID", MathH.GenerateGUID("N") ),
                     new("LCT", DateTime.Now ),
 
-                    new("User", UserName),/* 使用登录内核的用户名 */
+                    new("User", UserGUID),/* 使用登录内核的用户GUID */
 
                     /* 可传参数 */
                     new("ID", Post.ID),
@@ -1718,7 +1779,7 @@ namespace WaterLibrary.pilipala
         /// <summary>
         /// 啪啦计数管理器
         /// </summary>
-        public class Counter : IPLComponent
+        public class Counter : IPLComponent<Counter>
         {
             private PLTables Tables { get; set; }
             private MySqlManager MySqlManager { get; set; }
@@ -1727,10 +1788,11 @@ namespace WaterLibrary.pilipala
             /// 准备计数器
             /// </summary>
             /// <param name="CORE"></param>
-            public void Ready(CORE CORE)
+            public Counter Ready(ICORE CORE)
             {
                 Tables = CORE.Tables;
                 MySqlManager = CORE.MySqlManager;
+                return this;
             }
 
 
