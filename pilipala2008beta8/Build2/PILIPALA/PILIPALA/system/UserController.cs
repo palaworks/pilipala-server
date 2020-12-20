@@ -22,9 +22,10 @@ namespace PILIPALA.system
     [EnableCors("DefaultPolicy")]
     public class UserController : Controller
     {
-        public Reader Reader = new Reader();
-        public Writer Writer = new Writer();
-        public Counter Counter = new Counter();
+        public Reader Reader;
+        public Writer Writer;
+        public Counter Counter;
+        private ComponentFactory ComponentFactory = new ComponentFactory();
 
         public CommentLake CommentLake = new CommentLake();
 
@@ -33,13 +34,15 @@ namespace PILIPALA.system
             CORE.SetTables();
             CORE.SetViews(PosUnion: "pos>dirty>union", NegUnion: "neg>dirty>union");
 
-            CORE.LinkOn += Reader.Ready;
-            CORE.LinkOn += Writer.Ready;
-            CORE.LinkOn += Counter.Ready;
+            CORE.LinkOn += ComponentFactory.Ready;
             CORE.LinkOn += CommentLake.Ready;
 
             /* 启动内核 */
             CORE.Run();
+
+            Reader = ComponentFactory.GenReader();
+            Writer = ComponentFactory.GenWriter();
+            Counter = ComponentFactory.GenCounter();
         }
 
 
