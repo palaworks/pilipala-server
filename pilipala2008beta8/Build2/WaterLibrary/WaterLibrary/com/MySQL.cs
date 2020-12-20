@@ -99,23 +99,6 @@ namespace WaterLibrary.MySQL
 
 
         /// <summary>
-        /// 建立参数化查询CMD对象
-        /// </summary>
-        /// <param name="SQL">携带查询参数的SQL语句</param>
-        /// <param name="parameters">查询参数列表</param>
-        /// <returns>返回建立的参数化查询CMD对象</returns>
-        public static MySqlCommand ParmQueryCMD1(string SQL, MySqlParameter[] parameters)
-        {
-            //建立CMD对象，用于执行参数化查询
-            using MySqlCommand MySqlCommand = new MySqlCommand(SQL);
-
-            MySqlCommand.Parameters.AddRange(parameters);//添加参数
-
-            return MySqlCommand;
-        }
-
-
-        /// <summary>
         /// 取得首个键值（键匹配查询）
         /// </summary>
         /// <param name="SQL">SQL语句</param>
