@@ -357,6 +357,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WaterLibrary.CommentLake.CommentSet.ForEach(System.Action{WaterLibrary.CommentLake.Comment})">
+            <summary>
+            对数据集内的每一个对象应用Action
+            </summary>
+            <param name="action">Action委托</param>
+            <returns>返回操作后的数据集</returns>
+        </member>
         <member name="M:WaterLibrary.CommentLake.CommentSet.WithinMonthCount">
             <summary>
             数据集内最近一月(30天内)的评论数量
@@ -425,20 +432,12 @@
             <param name="PWD">密码</param>
             <returns>返回一个MySqlConnection对象，错误则返回null</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.ParmQueryCMD(System.String,System.Collections.Generic.List{WaterLibrary.MySQL.MySqlParm})">
+        <member name="M:WaterLibrary.MySQL.MySqlManager.ParmQueryCMD1(System.String,MySql.Data.MySqlClient.MySqlParameter[])">
             <summary>
             建立参数化查询CMD对象
             </summary>
             <param name="SQL">携带查询参数的SQL语句</param>
-            <param name="ParmList">查询参数列表</param>
-            <returns>返回建立的参数化查询CMD对象</returns>
-        </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.ParmQueryCMD(System.String,WaterLibrary.MySQL.MySqlParm[])">
-            <summary>
-            建立参数化查询CMD对象
-            </summary>
-            <param name="SQL">携带查询参数的SQL语句</param>
-            <param name="Parm">查询参数</param>
+            <param name="parameters">查询参数列表</param>
             <returns>返回建立的参数化查询CMD对象</returns>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.GetKey(System.String)">
@@ -448,11 +447,12 @@
             <param name="SQL">SQL语句</param>
             <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.GetKey(MySql.Data.MySqlClient.MySqlCommand)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager.GetKey(System.String,MySql.Data.MySqlClient.MySqlParameter[])">
             <summary>
             取得首个键值（键匹配查询）
             </summary>
-            <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+            <param name="SQL">携带查询参数的SQL语句</param>
+            <param name="parameters">查询参数列表</param>
             <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.GetKey(WaterLibrary.MySQL.MySqlKey,System.String)">
@@ -470,11 +470,12 @@
             <param name="SQL">SQL语句</param>
             <returns>操作异常或目标行不存在时，返回null</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.GetRow(MySql.Data.MySqlClient.MySqlCommand)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager.GetRow(System.String,MySql.Data.MySqlClient.MySqlParameter[])">
             <summary>
             获得数据行（适用于参数化查询）
             </summary>
-            <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+            <param name="SQL">携带查询参数的SQL语句</param>
+            <param name="parameters">查询参数列表</param>
             <returns>操作异常或目标行不存在时，返回null</returns>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.GetRow(System.Data.DataTable,System.String,System.Object)">
@@ -493,11 +494,12 @@
             <param name="SQL">SQL语句，用于查询数据表</param>
             <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.GetTable(MySql.Data.MySqlClient.MySqlCommand)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager.GetTable(System.String,MySql.Data.MySqlClient.MySqlParameter[])">
             <summary>
             获取单张数据表（适用于参数化查询）
             </summary>
-            <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+            <param name="SQL">携带查询参数的SQL语句</param>
+            <param name="parameters">查询参数列表</param>
             <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.GetColumn``1(System.String)">
@@ -517,20 +519,22 @@
             <param name="Key">目标列键名</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.GetColumn``1(MySql.Data.MySqlClient.MySqlCommand)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager.GetColumn``1(System.String,MySql.Data.MySqlClient.MySqlParameter[])">
             <summary>
-            取得查询结果中的第一列（适用于参数化查询）
+            取得查询结果中的第一列
             </summary>
             <typeparam name="T">元素类型</typeparam>
-            <param name="MySqlCommand">CMD实例</param>
+            <param name="SQL">携带查询参数的SQL语句</param>
+            <param name="parameters">查询参数列表</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.GetColumn``1(MySql.Data.MySqlClient.MySqlCommand,System.String)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager.GetColumn``1(System.String,MySql.Data.MySqlClient.MySqlParameter[],System.String)">
             <summary>
-            取得查询结果中的指定列（适用于参数化查询）
+            取得查询结果中的指定列
             </summary>
             <typeparam name="T">元素类型</typeparam>
-            <param name="MySqlCommand">CMD实例</param>
+            <param name="SQL">携带查询参数的SQL语句</param>
+            <param name="parameters">查询参数列表</param>
             <param name="Key">目标列键名</param>
             <returns></returns>
         </member>
@@ -558,6 +562,16 @@
             <param name="MySqlKey">操作定位器</param>
             <param name="Key">要更改的键</param>
             <param name="NewValue">新键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.MySQL.MySqlManager.UpdateKey(System.String,System.String,System.String,System.String)">
+            <summary>
+            更新单个键值
+            </summary>
+            <param name="Table">目标表</param>
+            <param name="Key">键名</param>
+            <param name="OldValue">旧值</param>
+            <param name="NewValue">新值</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.QueryOnly(System.String)">
@@ -622,21 +636,6 @@
         <member name="P:WaterLibrary.MySQL.MySqlConnMsg.PWD">
             <summary>
             用户名对应的密码
-            </summary>
-        </member>
-        <member name="T:WaterLibrary.MySQL.MySqlParm">
-            <summary>
-            参数（用于参数化查询添加参数）
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.MySQL.MySqlParm.Name">
-            <summary>
-            参数名
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.MySQL.MySqlParm.Val">
-            <summary>
-            参数值
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Database.IPLDatabase">
@@ -1186,6 +1185,13 @@
             </summary>
             <param name="Post">文章对象</param>
         </member>
+        <member name="M:WaterLibrary.pilipala.Entity.PostSet.ForEach(System.Action{WaterLibrary.pilipala.Entity.Post})">
+            <summary>
+            对数据集内的每一个对象应用Action
+            </summary>
+            <param name="action">Action委托</param>
+            <returns>返回操作后的数据集</returns>
+        </member>
         <member name="M:WaterLibrary.pilipala.Entity.PostSet.WithinMonthCreateCount">
             <summary>
             数据集内最近一月(30天内)的文章创建数
@@ -1706,17 +1712,9 @@
             <param name="Delimiter">分隔符</param>
             <returns>返回切割结果集</returns>
         </member>
-        <member name="M:WaterLibrary.Tools.ConvertH.ListToString(System.Collections.Generic.List{System.String},System.Char)">
-            <summary>
-            将字符串集合按照分隔符合并为一个字符串
-            </summary>
-            <param name="List">待合并string集合</param>
-            <param name="Delimiter">分隔符</param>
-            <returns></returns>
-        </member>
         <member name="M:WaterLibrary.Tools.ConvertH.ListToString(System.Object,System.String,System.Char)">
             <summary>
-            将可遍历对象的元素值按照分隔符合并为一个字符串
+            将可迭代对象的元素值按照分隔符合并为一个字符串
             </summary>
             <param name="List">可遍历对象，其中的元素需能通过指定属性获取值</param>
             <param name="PropertyName">属性名</param>
