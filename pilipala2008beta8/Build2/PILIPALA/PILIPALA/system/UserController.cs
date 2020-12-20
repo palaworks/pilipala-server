@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Microsoft.AspNetCore.Cors;
 
 using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity.PostProperty;
@@ -18,6 +19,7 @@ using PILIPALA.Models.UserModel;
 
 namespace PILIPALA.system
 {
+    [EnableCors("DefaultPolicy")]
     public class UserController : Controller
     {
         public Reader Reader = new Reader();
@@ -51,7 +53,6 @@ namespace PILIPALA.system
             var data = new List<Hashtable>();
             foreach (int ID in CommentLake.GetCommentedPostID())
             {
-
                 /* 评论列表 */
                 var CommentSet = CommentLake.GetComments(ID);
 
@@ -114,21 +115,15 @@ namespace PILIPALA.system
         /// </summary>
         public string Get_posts()
         {
-            var data = new PostSet();
-
-            foreach (Post item in Reader.GetPost<ID>("^"))
-            {
-                item.PropertyContainer = new Hashtable()
+            return Reader.GetPost<ID>("^")
+                .ForEach((item) =>
                 {
-                    { "CommentCount", CommentLake.GetCommentCount(item.ID) },
-                    { "MD5", item.MD5() }
-                };
-
-                data.Add(item);
-            }
-
-            return data.ToJSON();
-
+                    item.PropertyContainer = new Hashtable()
+                    {
+                        { "CommentCount", CommentLake.GetCommentCount(item.ID) },
+                        { "MD5", item.MD5() }
+                    };
+                }).ToJSON();
         }
         /// <summary>
         /// 取得文章数据
@@ -144,16 +139,12 @@ namespace PILIPALA.system
         /// </summary>
         public string Get_neg_posts_by_PostID(int PostID)
         {
-            var data = new PostSet();
-
-            foreach (Post item in Reader.GetPost<ID>(PostID.ToString(), true))
-            {
-                item.PropertyContainer.Add("MD5", item.MD5());
-                data.Add(item);
-            }
-
-            return data.ToJSON();
-
+            return Reader.GetPost<ID>(PostID.ToString(), true)
+                .ForEach((item) =>
+                {
+                    item.PropertyContainer.Add("MD5", item.MD5());
+                }
+                ).ToJSON();
         }
 
         /* 写文章管理 */
@@ -179,12 +170,10 @@ namespace PILIPALA.system
             });
 
         }
-
         public bool Dispose_post_by_PostID(int PostID)
         {
             return Writer.Dispose(PostID);
         }
-
         public bool Update_post_by_PostID(PostModel PostModel)
         {
             return Writer.Update(new Post
@@ -208,29 +197,9 @@ namespace PILIPALA.system
         }
 
 
-        public bool Delete_post_by_GUID(string GUID)
-        {
-            return Writer.Delete(GUID);
-
-        }
-
-        public bool Apply_post_by_GUID(string GUID)
-        {
-            return Writer.Apply(GUID);
-
-        }
-
-        public bool Rollback_post_by_PostID(int PostID)
-        {
-            return Writer.Rollback(PostID);
-
-        }
-
-        public bool Release_post_by_PostID(int PostID)
-        {
-            return Writer.Release(PostID);
-
-        }
-
+        public bool Delete_post_by_GUID(string GUID) => Writer.Delete(GUID);
+        public bool Apply_post_by_GUID(string GUID) => Writer.Apply(GUID);
+        public bool Rollback_post_by_PostID(int PostID) => Writer.Rollback(PostID);
+        public bool Release_post_by_PostID(int PostID) => Writer.Release(PostID);
     }
 }
