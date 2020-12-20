@@ -58,8 +58,7 @@ export default {
     Get_commented_posts: function () {
       this.$axios({
         method: "post",
-        url:
-          "https://localhost:44372/system/serv/user.asmx/Get_commented_posts",
+        url: this.glob.root_path + "/user/Get_commented_posts",
       })
         .then((response) => {
           this.commented_post_list = response.data;

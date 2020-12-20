@@ -110,7 +110,7 @@ export default {
     Dispose: function (ID) {
       this.$axios({
         method: "post",
-        url: "https://localhost:44372/system/serv/user.asmx/Dispose_post_by_PostID",
+        url: this.glob.root_path + "/user/Dispose_post_by_PostID",
         data: qs.stringify({
           PostID: ID,
         }),
@@ -125,7 +125,7 @@ export default {
     },
     GetData: function () {
       this.$axios
-        .post("https://localhost:44372/system/serv/user.asmx/Get_posts")
+        .post(this.glob.root_path + "/user/Get_posts")
         .then((response) => (this.post_list = response.data))
         .catch(function (error) {
           // 请求失败处理

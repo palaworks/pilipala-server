@@ -21,7 +21,7 @@ export default {
   mounted() {
     /* 得到拷贝列表 */
     this.$axios
-      .get("https://localhost:44372/system/serv/sysserv.asmx/Get_core_version")
+      .get(this.glob.root_path + "/guest/Get_core_version")
       .then((response) => (this.wl_core_verison = response.data))
       .catch(function (error) {
         // 请求失败处理
