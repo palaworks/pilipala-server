@@ -284,22 +284,7 @@ namespace WaterLibrary.Tools
             return StringList;
         }
         /// <summary>
-        /// 将字符串集合按照分隔符合并为一个字符串
-        /// </summary>
-        /// <param name="List">待合并string集合</param>
-        /// <param name="Delimiter">分隔符</param>
-        /// <returns></returns>
-        public static string ListToString(List<string> List, char Delimiter)
-        {
-            string Result = "";
-            foreach (string temp in List)
-            {
-                Result += temp + Delimiter;
-            }
-            return Result[0..^1];
-        }
-        /// <summary>
-        /// 将可遍历对象的元素值按照分隔符合并为一个字符串
+        /// 将可迭代对象的元素值按照分隔符合并为一个字符串
         /// </summary>
         /// <param name="List">可遍历对象，其中的元素需能通过指定属性获取值</param>
         /// <param name="PropertyName">属性名</param>

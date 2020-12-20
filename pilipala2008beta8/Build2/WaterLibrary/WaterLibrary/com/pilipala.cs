@@ -8,6 +8,7 @@ using System.Collections;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using MySql.Data.MySqlClient;
+using System.Threading.Tasks;
 
 using WaterLibrary.MySQL;
 using WaterLibrary.Tools;
@@ -327,14 +328,12 @@ namespace WaterLibrary.pilipala
             MySqlManager.Open();
             string SQL = $"SELECT COUNT(*) FROM {Tables.User} WHERE Name = ?UserName AND PWD = ?UserPWD";
 
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "UserName", Val = UserName },
-                    new MySqlParm() { Name = "UserPWD", Val = MathH.MD5(UserPWD) }
-                };
-
-            using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-            if (MySqlManager.GetKey(MySqlCommand).ToString() == "1")
+            if (MySqlManager.GetKey(SQL, new MySqlParameter[]
+            {
+                new("UserName", UserName),
+                new("UserPWD", MathH.MD5(UserPWD))
+            })
+            .ToString() == "1")
             {
                 /* 通知所有订阅到当前内核的所有配件内核已经准备完成，并分发内核到各配件 */
                 LinkOn(this);
@@ -571,27 +570,19 @@ namespace WaterLibrary.pilipala
             /// </summary>
             /// <param name="Length">取用长度</param>
             /// <returns></returns>
-            public string HtmlContent(int Length)
-            {
-                return ConvertH.MarkdownToHtml(Content).Substring(0, Length);
-            }
+            public string HtmlContent(int Length) => ConvertH.MarkdownToHtml(Content).Substring(0, Length);
             /// <summary>
             /// 获得纯文本格式的文章内容，过滤掉任何Markdown和Html标记
             /// </summary>
             /// <returns></returns>
-            public string TextContent()
-            {
-                return ConvertH.HtmlFilter(HtmlContent());
-            }
+            public string TextContent() => ConvertH.HtmlFilter(HtmlContent());
             /// <summary>
             /// 获得纯文本格式的文章内容，过滤掉任何Markdown和Html标记，并从首位置限定取用长度
             /// </summary>
             /// <param name="Length">取用长度</param>
             /// <returns></returns>
-            public string TextContent(int Length)
-            {
-                return ConvertH.HtmlFilter(HtmlContent()).Substring(0, Length);
-            }
+            public string TextContent(int Length) => ConvertH.HtmlFilter(HtmlContent()).Substring(0, Length);
+
             /// <summary>
             /// 封面
             /// </summary>
@@ -609,7 +600,7 @@ namespace WaterLibrary.pilipala
             /// 获得标签集合
             /// </summary>
             /// <returns></returns>
-            public List<string> LabelList() { return ConvertH.StringToList(Label, '$'); }
+            public List<string> LabelList() => ConvertH.StringToList(Label, '$');
 
             /// <summary>
             /// 文章模式
@@ -663,8 +654,8 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public string ToJSON()
             {
-                return JsonConvert.SerializeObject
-                    (this, new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
+                return JsonConvert
+                    .SerializeObject(this, new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
             }
             /// <summary>
             /// 当前数据集的文章对象数
@@ -677,117 +668,57 @@ namespace WaterLibrary.pilipala
             /// 取得数据集中的最后一个评论对象
             /// </summary>
             /// <returns></returns>
-            public Post Last()
-            {
-                return PostList.Last();
-            }
-
+            public Post Last() => PostList.Last();
             /// <summary>
             /// 添加文章
             /// </summary>
             /// <param name="Post">文章对象</param>
-            public void Add(Post Post)
+            public void Add(Post Post) => PostList.Add(Post);
+            /// <summary>
+            /// 对数据集内的每一个对象应用Action
+            /// </summary>
+            /// <param name="action">Action委托</param>
+            /// <returns>返回操作后的数据集</returns>
+            public PostSet ForEach(Action<Post> action)
             {
-                PostList.Add(Post);
+                PostList.ForEach(action);
+                return this;
             }
+
 
             /// <summary>
             /// 数据集内最近一月(30天内)的文章创建数
             /// </summary>
             /// <returns></returns>
-            public int WithinMonthCreateCount()
-            {
-                int Count = 0;
-                foreach (Post el in PostList)
-                {
-                    if (el.CT > DateTime.Now.AddDays(-30))
-                    {
-                        Count++;
-                    }
-                }
-                return Count;
-            }
+            public int WithinMonthCreateCount() => CreateCounter(-30);
             /// <summary>
             /// 数据集内最近一周(7天内)的文章创建数
             /// </summary>
             /// <returns></returns>
-            public int WithinWeekCreateCount()
-            {
-                int Count = 0;
-                foreach (Post el in PostList)
-                {
-                    if (el.CT > DateTime.Now.AddDays(-7))
-                    {
-                        Count++;
-                    }
-                }
-                return Count;
-            }
+            public int WithinWeekCreateCount() => CreateCounter(-7);
             /// <summary>
             /// 数据集内最近一天(24小时内)的文章创建数
             /// </summary>
             /// <returns></returns>
-            public int WithinDayCreateCount()
-            {
-                int Count = 0;
-                foreach (Post el in PostList)
-                {
-                    if (el.CT > DateTime.Now.AddDays(-1))
-                    {
-                        Count++;
-                    }
-                }
-                return Count;
-            }
+            public int WithinDayCreateCount() => CreateCounter(-1);
+            private int CreateCounter(int Days) => (from el in PostList where el.CT > DateTime.Now.AddDays(Days) select el).Count();
 
             /// <summary>
             /// 数据集内最近一月(30天内)的文章修改数
             /// </summary>
             /// <returns></returns>
-            public int WithinMonthUpdateCount()
-            {
-                int Count = 0;
-                foreach (Post el in PostList)
-                {
-                    if (el.LCT > DateTime.Now.AddDays(-30))
-                    {
-                        Count++;
-                    }
-                }
-                return Count;
-            }
+            public int WithinMonthUpdateCount() => UpdateCounter(-30);
             /// <summary>
             /// 数据集内最近一周(7天内)的文章修改数
             /// </summary>
             /// <returns></returns>
-            public int WithinWeekUpdateCount()
-            {
-                int Count = 0;
-                foreach (Post el in PostList)
-                {
-                    if (el.LCT > DateTime.Now.AddDays(-7))
-                    {
-                        Count++;
-                    }
-                }
-                return Count;
-            }
+            public int WithinWeekUpdateCount() => UpdateCounter(-7);
             /// <summary>
             /// 数据集内最近一天(24小时内)的文章修改数
             /// </summary>
             /// <returns></returns>
-            public int WithinDayUpdateCount()
-            {
-                int Count = 0;
-                foreach (Post el in PostList)
-                {
-                    if (el.LCT > DateTime.Now.AddDays(-1))
-                    {
-                        Count++;
-                    }
-                }
-                return Count;
-            }
+            public int WithinDayUpdateCount() => UpdateCounter(-1);
+            private int UpdateCounter(int Days) => (from el in PostList where el.CT > DateTime.Now.AddDays(Days) select el).Count();
         }
 
         namespace PostProperty
@@ -932,8 +863,6 @@ namespace WaterLibrary.pilipala
                 MySqlManager = CORE.MySqlManager;
             }
 
-
-
             /// <summary>
             /// 获取指定文章数据
             /// </summary>
@@ -942,7 +871,6 @@ namespace WaterLibrary.pilipala
             public Post GetPost(int ID)
             {
                 string SQL = $"SELECT * FROM `{Views.PosUnion}` WHERE ID={ID}";
-
                 DataRow Row = MySqlManager.GetRow(SQL);
 
                 return new Post
@@ -979,13 +907,10 @@ namespace WaterLibrary.pilipala
             {
                 string SQL = $"SELECT {typeof(T).Name} FROM `{Views.PosUnion}` WHERE ID = ?ID";
 
-                List<MySqlParm> ParmList = new List<MySqlParm>/* 为参数化查询添加元素 */
+                return MySqlManager.GetKey(SQL, new MySqlParameter[]
                 {
-                    new MySqlParm() { Name = "ID", Val = ID }
-                };
-
-                using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-                return MySqlManager.GetKey(MySqlCommand);
+                    new("ID", ID)
+                });
             }
 
             /// <summary>
@@ -1009,39 +934,35 @@ namespace WaterLibrary.pilipala
 
                 PostSet PostSet = new PostSet();
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+                foreach (DataRow Row in MySqlManager.GetTable(SQL, new MySqlParameter[]
                 {
-                    new MySqlParm() { Name = "REGEXP", Val = REGEXP }
-                };
-
-                using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
+                    new("REGEXP", REGEXP)
+                }).Rows)
                 {
-                    foreach (DataRow Row in MySqlManager.GetTable(MySqlCommand).Rows)
+                    PostSet.Add(new Post
                     {
-                        PostSet.Add(new Post
-                        {
-                            ID = Convert.ToInt32(Row["ID"]),
-                            GUID = Convert.ToString(Row["GUID"]),
+                        ID = Convert.ToInt32(Row["ID"]),
+                        GUID = Convert.ToString(Row["GUID"]),
 
-                            CT = Convert.ToDateTime(Row["CT"]),
-                            LCT = Convert.ToDateTime(Row["LCT"]),
-                            Title = Convert.ToString(Row["Title"]),
-                            Summary = Convert.ToString(Row["Summary"]),
-                            Content = Convert.ToString(Row["Content"]),
+                        CT = Convert.ToDateTime(Row["CT"]),
+                        LCT = Convert.ToDateTime(Row["LCT"]),
+                        Title = Convert.ToString(Row["Title"]),
+                        Summary = Convert.ToString(Row["Summary"]),
+                        Content = Convert.ToString(Row["Content"]),
 
-                            Archiv = Convert.ToString(Row["Archiv"]),
-                            Label = Convert.ToString(Row["Label"]),
-                            Cover = Convert.ToString(Row["Cover"]),
+                        Archiv = Convert.ToString(Row["Archiv"]),
+                        Label = Convert.ToString(Row["Label"]),
+                        Cover = Convert.ToString(Row["Cover"]),
 
-                            Mode = Convert.ToString(Row["Mode"]),
-                            Type = Convert.ToString(Row["Type"]),
-                            User = Convert.ToString(Row["User"]),
+                        Mode = Convert.ToString(Row["Mode"]),
+                        Type = Convert.ToString(Row["Type"]),
+                        User = Convert.ToString(Row["User"]),
 
-                            UVCount = Convert.ToInt32(Row["UVCount"]),
-                            StarCount = Convert.ToInt32(Row["StarCount"])
-                        });
-                    }
+                        UVCount = Convert.ToInt32(Row["UVCount"]),
+                        StarCount = Convert.ToInt32(Row["StarCount"])
+                    });
                 }
+
 
                 return PostSet;
             }
@@ -1067,28 +988,23 @@ namespace WaterLibrary.pilipala
                     SQL = $"SELECT {KeysStr} FROM `{Views.NegUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC";
                 }
 
-
                 PostSet PostSet = new PostSet();
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+                foreach (DataRow Row in MySqlManager.GetTable(SQL, new MySqlParameter[]
                 {
-                    new MySqlParm() { Name = "REGEXP", Val = REGEXP }
-                };
+                    new("REGEXP", REGEXP)
+                }).Rows)
+                {
+                    Post Post = new Post();
 
-                using (MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList))
-                {
-                    foreach (DataRow Row in MySqlManager.GetTable(MySqlCommand).Rows)
+                    for (int i = 0; i < Properties.Length; i++)
                     {
-                        Post Post = new Post();
-
-                        for (int i = 0; i < Properties.Length; i++)
-                        {
-                            Post[Properties[i].Name] = Row.ItemArray[i];
-                        }
-
-                        PostSet.Add(Post);
+                        Post[Properties[i].Name] = Row.ItemArray[i];
                     }
+
+                    PostSet.Add(Post);
                 }
+
                 return PostSet;
             }
 
@@ -1104,17 +1020,13 @@ namespace WaterLibrary.pilipala
 
                 if (typeof(T) == typeof(ID))/* 对查询ID有优化 */
                 {
-                    SQL = string.Format
-                    (
-                    "SELECT ID FROM `{0}` WHERE ID=( SELECT min(ID) FROM `{0}` WHERE ID > {1})"
-                    , Views.PosUnion, ID
-                    );
+                    SQL = $"SELECT ID FROM `{Views.PosUnion}` WHERE ID=( SELECT min(ID) FROM `{Views.PosUnion}` WHERE ID > {ID})";
                 }
                 else
                 {
                     SQL = string.Format
                     (
-                    "SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE {1} > ( SELECT {1} FROM `{0}` WHERE ID = {2} ))"
+                    $"SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE {1} > ( SELECT {1} FROM `{0}` WHERE ID = {2} ))"
                     , Views.PosUnion, typeof(T).Name, ID
                     );
                 }
@@ -1151,15 +1063,11 @@ namespace WaterLibrary.pilipala
                     );
                 }
 
-
-                List<MySqlParm> ParmList = new List<MySqlParm>
+                object NextID = MySqlManager.GetKey(SQL, new MySqlParameter[]
                 {
-                    new MySqlParm() { Name = "ID", Val = ID },
-                    new MySqlParm() { Name = "REGEXP", Val = REGEXP }
-                };
-
-                using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-                object NextID = MySqlManager.GetKey(MySqlCommand);
+                    new("ID", ID),
+                    new("REGEXP", REGEXP)
+                });
 
                 return NextID == null ? -1 : Convert.ToInt32(NextID);
             }
@@ -1175,11 +1083,7 @@ namespace WaterLibrary.pilipala
 
                 if (typeof(T) == typeof(ID))/* 对查询ID有优化 */
                 {
-                    SQL = string.Format
-                    (
-                    "SELECT ID FROM `{0}` WHERE ID=( SELECT max(ID) FROM `{0}` WHERE ID < {1})"
-                    , Views.PosUnion, ID
-                    );
+                    SQL = $"SELECT ID FROM `{Views.PosUnion}` WHERE ID=( SELECT max(ID) FROM `{Views.PosUnion}` WHERE ID < {ID})";
                 }
                 else
                 {
@@ -1221,14 +1125,11 @@ namespace WaterLibrary.pilipala
                     );
                 }
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
+                object PrevID = MySqlManager.GetKey(SQL, new MySqlParameter[]
                 {
-                    new MySqlParm() { Name = "ID", Val = ID },
-                    new MySqlParm() { Name = "REGEXP", Val = REGEXP }
-                };
-
-                using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-                object PrevID = MySqlManager.GetKey(MySqlCommand);
+                    new("ID", ID),
+                    new("REGEXP", REGEXP)
+                });
 
                 return PrevID == null ? -1 : Convert.ToInt32(PrevID);
             }
@@ -1322,46 +1223,42 @@ namespace WaterLibrary.pilipala
             {
                 DateTime t = DateTime.Now;
 
-                string SQL = string.Format
-                    (
-                    "INSERT INTO {0}" +
-                    " ( ID, GUID, CT, Mode, Type, User, UVCount, StarCount) VALUES" +
-                    " (?ID,?GUID,?CT,?Mode,?Type,?User,?UVCount,?StarCount);" +
-                    "INSERT INTO {1}" +
-                    " ( ID, GUID, LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
-                    " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);"
-                    , Tables.Index, Tables.Backup
-                    );
+                string SQL = $"INSERT INTO {Tables.Index}" +
+                            " ( ID, GUID, CT, Mode, Type, User, UVCount, StarCount) VALUES" +
+                            " (?ID,?GUID,?CT,?Mode,?Type,?User,?UVCount,?StarCount);" +
+                            $"INSERT INTO {Tables.Backup}" +
+                            " ( ID, GUID, LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
+                            " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);";
 
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
-            {
-                new MySqlParm() { Name = "ID", Val = GetMaxID() + 1 },
-                new MySqlParm() { Name = "GUID", Val = MathH.GenerateGUID("N") },
+                MySqlParameter[] parameters =
+                {
+                    new("ID", GetMaxID() + 1 ),
+                    new("GUID", MathH.GenerateGUID("N") ),
 
-                new MySqlParm() { Name = "CT", Val = t },
-                new MySqlParm() { Name = "LCT", Val = t },
+                    new("CT", t),
+                    new("LCT", t),
 
-                new MySqlParm() { Name = "User", Val = UserName},/* 使用登录内核的用户名 */
+                    new("User", UserName),/* 使用登录内核的用户名 */
 
-                /* 可传参数 */
-                new MySqlParm() { Name = "Mode", Val = Post.Mode },
-                new MySqlParm() { Name = "Type", Val = Post.Type },
+                    /* 可传参数 */
+                    new("Mode", Post.Mode),
+                    new("Type", Post.Type),
 
-                new MySqlParm() { Name = "UVCount", Val = Post.UVCount },
-                new MySqlParm() { Name = "StarCount", Val = Post.StarCount },
+                    new("UVCount", Post.UVCount),
+                    new("StarCount", Post.StarCount),
 
-                new MySqlParm() { Name = "Title", Val = Post.Title },
-                new MySqlParm() { Name = "Summary", Val = Post.Summary },
-                new MySqlParm() { Name = "Content", Val = Post.Content },
+                    new("Title", Post.Title),
+                    new("Summary", Post.Summary ),
+                    new("Content", Post.Content ),
 
-                new MySqlParm() { Name = "Archiv", Val = Post.Archiv },
-                new MySqlParm() { Name = "Label", Val = Post.Label },
-                new MySqlParm() { Name = "Cover", Val = Post.Cover }
-            };
+                    new("Archiv", Post.Archiv ),
+                    new("Label", Post.Label ),
+                    new("Cover", Post.Cover )
+                };
 
-                MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-                MySqlCommand.Connection = MySqlManager.Connection;
+                MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
+                MySqlCommand.Parameters.AddRange(parameters);
 
                 /* 开始事务 */
                 MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
@@ -1388,12 +1285,8 @@ namespace WaterLibrary.pilipala
                 /* int参数无法用于参数化攻击 */
                 MySqlCommand MySqlCommand = new MySqlCommand
                 {
-                    CommandText = string.Format
-                    (
-                    "DELETE FROM {0} WHERE ID={2};" +
-                    "DELETE FROM {1} WHERE ID={2};"
-                    , Tables.Index, Tables.Backup, ID
-                    ),
+                    CommandText =
+                    $"DELETE FROM {Tables.Index} WHERE ID={ID};DELETE FROM {Tables.Backup} WHERE ID={ID};",
 
                     Connection = MySqlManager.Connection,
 
@@ -1420,42 +1313,39 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public bool Update(Post Post)
             {
-                string SQL = string.Format
-                    (
-                    "UPDATE {0} SET GUID=?GUID, Mode=?Mode, Type=?Type, User=?User, UVCount=?UVCount, StarCount=?StarCount WHERE ID=?ID;" +
-                    "INSERT INTO {1}" +
+                string SQL =
+                    $"UPDATE {Tables.Index} SET GUID=?GUID, Mode=?Mode, Type=?Type, User=?User, UVCount=?UVCount, StarCount=?StarCount WHERE ID=?ID;" +
+                    $"INSERT INTO {Tables.Backup}" +
                     " ( ID, GUID, LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
-                    " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);"
-                    , Tables.Index, Tables.Backup
-                    );
+                    " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);";
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
-            {
-                new MySqlParm() { Name = "GUID", Val = MathH.GenerateGUID("N") },
-                new MySqlParm() { Name = "LCT", Val = DateTime.Now },
+                MySqlParameter[] parameters =
+                {
+                    new("GUID", MathH.GenerateGUID("N") ),
+                    new("LCT", DateTime.Now ),
 
-                new MySqlParm() { Name = "User", Val = UserName},/* 使用登录内核的用户名 */
+                    new("User", UserName),/* 使用登录内核的用户名 */
 
-                /* 可传参数 */
-                new MySqlParm() { Name = "ID", Val = Post.ID },
+                    /* 可传参数 */
+                    new("ID", Post.ID),
 
-                new MySqlParm() { Name = "Mode", Val = Post.Mode },
-                new MySqlParm() { Name = "Type", Val = Post.Type },
+                    new("Mode", Post.Mode),
+                    new("Type", Post.Type),
 
-                new MySqlParm() { Name = "UVCount", Val = Post.UVCount },
-                new MySqlParm() { Name = "StarCount", Val = Post.StarCount },
+                    new("UVCount", Post.UVCount),
+                    new("StarCount", Post.StarCount),
 
-                new MySqlParm() { Name = "Title", Val = Post.Title },
-                new MySqlParm() { Name = "Summary", Val = Post.Summary },
-                new MySqlParm() { Name = "Content", Val = Post.Content },
+                    new("Title", Post.Title),
+                    new("Summary", Post.Summary),
+                    new("Content", Post.Content),
 
-                new MySqlParm() { Name = "Archiv", Val = Post.Archiv },
-                new MySqlParm() { Name = "Label", Val = Post.Label },
-                new MySqlParm() { Name = "Cover", Val = Post.Cover }
-            };
+                    new("Archiv", Post.Archiv),
+                    new("Label", Post.Label),
+                    new("Cover", Post.Cover)
+                };
 
-                MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-                MySqlCommand.Connection = MySqlManager.Connection;
+                MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
+                MySqlCommand.Parameters.AddRange(parameters);
 
                 /* 开始事务 */
                 MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
@@ -1487,13 +1377,13 @@ namespace WaterLibrary.pilipala
                     , Tables.Index, Tables.Backup
                     );
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
-            {
-                new MySqlParm() { Name = "GUID", Val = GUID }
-            };
+                MySqlParameter[] parameters =
+                {
+                    new("GUID", GUID )
+                };
 
-                MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-                MySqlCommand.Connection = MySqlManager.Connection;
+                MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
+                MySqlCommand.Parameters.AddRange(parameters);
 
                 /* 开始事务 */
                 MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
@@ -1518,26 +1408,20 @@ namespace WaterLibrary.pilipala
             public bool Apply(string GUID)
             {
                 /* 此处，即使SQL注入造成了ID错误，由于第二步参数化查询的作用，GUID也会造成错误无法成功攻击 */
-                object ID = MySqlManager.GetKey
-                    (
-                    $"SELECT ID FROM {Tables.Backup} WHERE GUID = '{GUID}'"
-                    );
+                object ID = MySqlManager.GetKey($"SELECT ID FROM {Tables.Backup} WHERE GUID = '{GUID}'");
 
-                string SQL = string.Format
-                    (
-                    "DELETE FROM {1} WHERE GUID = (SELECT GUID FROM {0} WHERE ID = ?ID);" +
-                    "UPDATE {0} SET GUID = ?GUID WHERE ID = ?ID;"
-                    , Tables.Index, Tables.Backup
-                    );
+                string SQL =
+                    $"DELETE FROM {Tables.Backup} WHERE GUID = (SELECT GUID FROM {Tables.Index} WHERE ID = ?ID);" +
+                    $"UPDATE {Tables.Index} SET GUID = ?GUID WHERE ID = ?ID;";
 
-                List<MySqlParm> ParmList = new List<MySqlParm>
-            {
-                new MySqlParm() { Name = "ID", Val = ID },
-                new MySqlParm() { Name = "GUID", Val = GUID }
-            };
+                MySqlParameter[] parameters =
+                {
+                    new("ID", ID),
+                    new("GUID", GUID)
+                };
 
-                MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-                MySqlCommand.Connection = MySqlManager.Connection;
+                MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
+                MySqlCommand.Parameters.AddRange(parameters);
 
                 /* 开始事务 */
                 MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
