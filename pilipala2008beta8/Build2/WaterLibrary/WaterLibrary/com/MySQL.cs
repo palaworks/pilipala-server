@@ -102,33 +102,15 @@ namespace WaterLibrary.MySQL
         /// 建立参数化查询CMD对象
         /// </summary>
         /// <param name="SQL">携带查询参数的SQL语句</param>
-        /// <param name="ParmList">查询参数列表</param>
+        /// <param name="parameters">查询参数列表</param>
         /// <returns>返回建立的参数化查询CMD对象</returns>
-        public static MySqlCommand ParmQueryCMD(string SQL, List<MySqlParm> ParmList)
+        public static MySqlCommand ParmQueryCMD1(string SQL, MySqlParameter[] parameters)
         {
             //建立CMD对象，用于执行参数化查询
             using MySqlCommand MySqlCommand = new MySqlCommand(SQL);
-            foreach (MySqlParm Parm in ParmList)
-            {
-                MySqlCommand.Parameters.AddWithValue(Parm.Name, Parm.Val);//添加参数
-            }
-            return MySqlCommand;
-        }
-        /// <summary>
-        /// 建立参数化查询CMD对象
-        /// </summary>
-        /// <param name="SQL">携带查询参数的SQL语句</param>
-        /// <param name="Parm">查询参数</param>
-        /// <returns>返回建立的参数化查询CMD对象</returns>
-        public static MySqlCommand ParmQueryCMD(string SQL, params MySqlParm[] Parm)
-        {
-            //建立CMD对象，用于执行参数化查询
-            MySqlCommand MySqlCommand = new MySqlCommand(SQL);
 
-            foreach (MySqlParm p in Parm)
-            {
-                MySqlCommand.Parameters.AddWithValue(p.Name, p.Val);//添加参数
-            }
+            MySqlCommand.Parameters.AddRange(parameters);//添加参数
+
             return MySqlCommand;
         }
 
@@ -146,12 +128,13 @@ namespace WaterLibrary.MySQL
         /// <summary>
         /// 取得首个键值（键匹配查询）
         /// </summary>
-        /// <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+        /// <param name="SQL">携带查询参数的SQL语句</param>
+        /// <param name="parameters">查询参数列表</param>
         /// <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
-        public object GetKey(MySqlCommand MySqlCommand)
+        public object GetKey(string SQL, MySqlParameter[] parameters)
         {
-            //将外来CMD设置为基于HandlerConnection执行
-            MySqlCommand.Connection = Connection;
+            using MySqlCommand MySqlCommand = new MySqlCommand(SQL, Connection);
+            MySqlCommand.Parameters.AddRange(parameters);
 
             /* 如果结果集为空，该方法返回null */
             return MySqlCommand.ExecuteScalar();
@@ -183,14 +166,12 @@ namespace WaterLibrary.MySQL
         /// <summary>
         /// 获得数据行（适用于参数化查询）
         /// </summary>
-        /// <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+        /// <param name="SQL">携带查询参数的SQL语句</param>
+        /// <param name="parameters">查询参数列表</param>
         /// <returns>操作异常或目标行不存在时，返回null</returns>
-        public DataRow GetRow(MySqlCommand MySqlCommand)
+        public DataRow GetRow(string SQL, MySqlParameter[] parameters)
         {
-            //将外来CMD设置为基于HandlerConnection执行
-            MySqlCommand.Connection = Connection;
-
-            return GetTable(MySqlCommand).Rows[0];
+            return GetTable(SQL, parameters).Rows[0];
         }
         /// <summary>
         /// 从DataTable中提取指定行
@@ -230,12 +211,13 @@ namespace WaterLibrary.MySQL
         /// <summary>
         /// 获取单张数据表（适用于参数化查询）
         /// </summary>
-        /// <param name="MySqlCommand">MySqlCommand对象，用于进行查询</param>
+        /// <param name="SQL">携带查询参数的SQL语句</param>
+        /// <param name="parameters">查询参数列表</param>
         /// <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
-        public DataTable GetTable(MySqlCommand MySqlCommand)
+        public DataTable GetTable(string SQL, MySqlParameter[] parameters)
         {
-            //将外来CMD设置为基于HandlerConnection执行
-            MySqlCommand.Connection = Connection;
+            using MySqlCommand MySqlCommand = new MySqlCommand(SQL, Connection);
+            MySqlCommand.Parameters.AddRange(parameters);//添加参数
 
             DataTable table = new DataTable();
 
@@ -268,25 +250,27 @@ namespace WaterLibrary.MySQL
             return GetColumn<T>(GetTable(SQL), Key);
         }
         /// <summary>
-        /// 取得查询结果中的第一列（适用于参数化查询）
+        /// 取得查询结果中的第一列
         /// </summary>
         /// <typeparam name="T">元素类型</typeparam>
-        /// <param name="MySqlCommand">CMD实例</param>
+        /// <param name="SQL">携带查询参数的SQL语句</param>
+        /// <param name="parameters">查询参数列表</param>
         /// <returns></returns>
-        public List<T> GetColumn<T>(MySqlCommand MySqlCommand)
+        public List<T> GetColumn<T>(string SQL, MySqlParameter[] parameters)
         {
-            return GetColumn<T>(GetTable(MySqlCommand));
+            return GetColumn<T>(GetTable(SQL, parameters));
         }
         /// <summary>
-        /// 取得查询结果中的指定列（适用于参数化查询）
+        /// 取得查询结果中的指定列
         /// </summary>
         /// <typeparam name="T">元素类型</typeparam>
-        /// <param name="MySqlCommand">CMD实例</param>
+        /// <param name="SQL">携带查询参数的SQL语句</param>
+        /// <param name="parameters">查询参数列表</param>
         /// <param name="Key">目标列键名</param>
         /// <returns></returns>
-        public List<T> GetColumn<T>(MySqlCommand MySqlCommand, string Key)
+        public List<T> GetColumn<T>(string SQL, MySqlParameter[] parameters, string Key)
         {
-            return GetColumn<T>(GetTable(MySqlCommand), Key);
+            return GetColumn<T>(GetTable(SQL, parameters), Key);
         }
         /// <summary>
         /// 从DataTable中提取第一列（此方法无空值判断）
@@ -331,7 +315,7 @@ namespace WaterLibrary.MySQL
         /// <returns></returns>
         public bool UpdateKey(MySqlKey MySqlKey, string Key, string NewValue)
         {
-            using MySqlCommand MySqlCommand = new MySqlCommand
+            using MySqlCommand MySqlCommand = new()
             {
                 CommandText = $"UPDATE {MySqlKey.Table} SET {Key}=?NewValue WHERE {MySqlKey.Name}=?Val",
                 Connection = Connection,
@@ -339,6 +323,36 @@ namespace WaterLibrary.MySQL
             };
             MySqlCommand.Parameters.AddWithValue("NewValue", NewValue);
             MySqlCommand.Parameters.AddWithValue("Val", MySqlKey.Val);
+
+            if (MySqlCommand.ExecuteNonQuery() == 1)
+            {
+                MySqlCommand.Transaction.Commit();
+                return true;
+            }
+            else
+            {
+                MySqlCommand.Transaction.Rollback();
+                return false;
+            }
+        }
+        /// <summary>
+        /// 更新单个键值
+        /// </summary>
+        /// <param name="Table">目标表</param>
+        /// <param name="Key">键名</param>
+        /// <param name="OldValue">旧值</param>
+        /// <param name="NewValue">新值</param>
+        /// <returns></returns>
+        public bool UpdateKey(string Table, string Key, string OldValue, string NewValue)
+        {
+            using MySqlCommand MySqlCommand = new()
+            {
+                CommandText = $"UPDATE {Table} SET {Key}=?NewValue WHERE {Key}=?OldValue",
+                Connection = Connection,
+                Transaction = Connection.BeginTransaction()
+            };
+            MySqlCommand.Parameters.AddWithValue("NewValue", NewValue);
+            MySqlCommand.Parameters.AddWithValue("OldValue", OldValue);
 
             if (MySqlCommand.ExecuteNonQuery() == 1)
             {
@@ -418,19 +432,5 @@ namespace WaterLibrary.MySQL
         /// 用户名对应的密码
         /// </summary>
         public string PWD { get; set; }
-    }
-    /// <summary>
-    /// 参数（用于参数化查询添加参数）
-    /// </summary>
-    public struct MySqlParm
-    {
-        /// <summary>
-        /// 参数名
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// 参数值
-        /// </summary>
-        public object Val { get; set; }
     }
 }

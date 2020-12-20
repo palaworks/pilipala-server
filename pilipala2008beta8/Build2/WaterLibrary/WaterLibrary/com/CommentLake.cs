@@ -104,7 +104,7 @@ namespace WaterLibrary.CommentLake
         /// <returns></returns>
         public List<int> GetCommentedPostID()
         {
-            var List = new List<int>();
+            List<int> List = new();
 
             string SQL = string.Format("SELECT ID FROM {0} JOIN {1} ON {0}.ID={1}.PostID GROUP BY {0}.ID", Tables.Index, Tables.Comment);
 
@@ -122,18 +122,15 @@ namespace WaterLibrary.CommentLake
         /// <returns></returns>
         public CommentSet GetComments(int PostID)
         {
-            CommentSet CommentSet = new CommentSet();
+            CommentSet CommentSet = new();
 
             /* 按楼层排序 */
             string SQL = $"SELECT * FROM {Tables.Comment} WHERE PostID = ?PostID ORDER BY Floor";
 
-            List<MySqlParm> ParmList = new List<MySqlParm>
-                {
-                    new MySqlParm() { Name = "?PostID", Val = PostID }
-                };
-
-            using MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-            DataTable result = MySqlManager.GetTable(MySqlCommand);
+            DataTable result = MySqlManager.GetTable(SQL, new MySqlParameter[]
+            {
+                new("PostID", PostID)
+            });
 
             foreach (DataRow Row in result.Rows)
             {
@@ -160,7 +157,7 @@ namespace WaterLibrary.CommentLake
         /// <returns></returns>
         public CommentSet GetCommentReplies(int CommentID)
         {
-            CommentSet CommentSet = new CommentSet();
+            CommentSet CommentSet = new();
 
             DataTable result =
                 MySqlManager.GetTable($"SELECT * FROM {Tables.Comment} WHERE HEAD={CommentID} ORDER BY Floor");
@@ -192,29 +189,26 @@ namespace WaterLibrary.CommentLake
         /// <returns></returns>
         public bool AddComment(Comment Comment)
         {
-            string SQL = string.Format(
-                "INSERT INTO {0} " +
-                "(CommentID , HEAD, PostID, Floor, User, Email, Content, WebSite, Time) VALUES " +
-                "(?CommentID,?HEAD,?PostID,?Floor,?User,?Email,?Content,?WebSite,?Time)"
+            string SQL = $"INSERT INTO {Tables.Comment} " +
+                        "(CommentID , HEAD, PostID, Floor, User, Email, Content, WebSite, Time) VALUES " +
+                        "(?CommentID,?HEAD,?PostID,?Floor,?User,?Email,?Content,?WebSite,?Time)";
 
-                , Tables.Comment);
-
-            List<MySqlParm> ParmList = new List<MySqlParm>
+            MySqlParameter[] parameters =
             {
-                new MySqlParm() { Name = "CommentID", Val = GetMaxCommentID() + 1 },
-                new MySqlParm() { Name = "HEAD", Val =  Comment.HEAD},
-                new MySqlParm() { Name = "PostID", Val =  Comment.PostID},
-                new MySqlParm() { Name = "Floor", Val =  GetMaxFloor(Comment.PostID) + 1 },
+                new("CommentID", GetMaxCommentID() + 1 ),
+                new("HEAD", Comment.HEAD),
+                new("PostID", Comment.PostID),
+                new("Floor", GetMaxFloor(Comment.PostID) + 1 ),
 
-                new MySqlParm() { Name = "User", Val =  Comment.User},
-                new MySqlParm() { Name = "Email", Val =  Comment.Email},
-                new MySqlParm() { Name = "Content", Val =  Comment.Content},
-                new MySqlParm() { Name = "WebSite", Val =  Comment.WebSite},
-                new MySqlParm() { Name = "Time", Val =  DateTime.Now},
+                new("User", Comment.User),
+                new("Email", Comment.Email),
+                new("Content", Comment.Content),
+                new("WebSite", Comment.WebSite),
+                new("Time", DateTime.Now),
             };
 
-            MySqlCommand MySqlCommand = MySqlManager.ParmQueryCMD(SQL, ParmList);
-            MySqlCommand.Connection = MySqlManager.Connection;
+            MySqlCommand MySqlCommand = new(SQL, MySqlManager.Connection);
+            MySqlCommand.Parameters.AddRange(parameters);
 
             /* 开始事务 */
             MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
@@ -513,17 +507,21 @@ namespace WaterLibrary.CommentLake
         /// 添加评论
         /// </summary>
         /// <param name="Comment">评论对象</param>
-        public void Add(Comment Comment)
-        {
-            CommentList.Add(Comment);
-        }
+        public void Add(Comment Comment) => CommentList.Add(Comment);
         /// <summary>
         /// 取得数据集中的最后一个评论对象
         /// </summary>
         /// <returns></returns>
-        public Comment Last()
+        public Comment Last() => CommentList.Last();
+        /// <summary>
+        /// 对数据集内的每一个对象应用Action
+        /// </summary>
+        /// <param name="action">Action委托</param>
+        /// <returns>返回操作后的数据集</returns>
+        public CommentSet ForEach(Action<Comment> action)
         {
-            return CommentList.Last();
+            CommentList.ForEach(action);
+            return this;
         }
 
         /// <summary>
