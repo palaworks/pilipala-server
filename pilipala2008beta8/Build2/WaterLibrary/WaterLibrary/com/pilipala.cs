@@ -229,7 +229,7 @@ namespace WaterLibrary.pilipala
     /// <summary>
     /// 噼里啪啦配件接口
     /// </summary>
-    interface IPLComponent<out T>
+    interface IPLComponent<T>
     {
         T Ready(ICORE CORE);
     }
@@ -889,17 +889,17 @@ namespace WaterLibrary.pilipala
             /// 生成读组件
             /// </summary>
             /// <returns></returns>
-            public Reader GenReader() => new Reader().Ready(CORE);
+            public Reader GenReader() => new Reader().Ready(CORE.Views, CORE.MySqlManager);
             /// <summary>
             /// 生成写组件
             /// </summary>
             /// <returns></returns>
-            public Writer GenWriter() => new Writer().Ready(CORE);
+            public Writer GenWriter() => new Writer().Ready(CORE.Tables, CORE.MySqlManager, CORE.UserGUID);
             /// <summary>
             /// 生成计数组件
             /// </summary>
             /// <returns></returns>
-            public Counter GenCounter() => new Counter().Ready(CORE);
+            public Counter GenCounter() => new Counter().Ready(CORE.Tables, CORE.MySqlManager);
         }
 
         /// <summary>
@@ -919,6 +919,13 @@ namespace WaterLibrary.pilipala
                 Views = CORE.Views;
                 MySqlManager = CORE.MySqlManager;
 
+                return this;
+            }
+
+            internal Reader Ready(PLViews Views, MySqlManager MySqlManager)
+            {
+                this.Views = Views;
+                this.MySqlManager = MySqlManager;
                 return this;
             }
 
@@ -1212,6 +1219,15 @@ namespace WaterLibrary.pilipala
                 Tables = CORE.Tables;
                 MySqlManager = CORE.MySqlManager;
                 UserGUID = CORE.UserGUID;
+
+                return this;
+            }
+
+            internal Writer Ready(PLTables Tables, MySqlManager MySqlManager, string UserGUID)
+            {
+                this.Tables = Tables;
+                this.MySqlManager = MySqlManager;
+                this.UserGUID = UserGUID;
 
                 return this;
             }
@@ -1795,6 +1811,12 @@ namespace WaterLibrary.pilipala
                 return this;
             }
 
+            internal Counter Ready(PLTables Tables, MySqlManager MySqlManager)
+            {
+                this.Tables = Tables;
+                this.MySqlManager = MySqlManager;
+                return this;
+            }
 
             /// <summary>
             /// 文章计数
