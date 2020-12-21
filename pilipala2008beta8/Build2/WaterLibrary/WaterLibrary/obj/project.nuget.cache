@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zxIcWcwB+dc90PVY/vHF1BxraYDaE0Z15uhB38R1MElLuzG4x7O0pWTqbzM96YxQEVvZuESRUVMfZLva6l0ytw==",
+  "dgSpecHash": "LaK2dPk/B21NCDXx/UVw3JMykHLtPJUr9qKWWxfMlKeRT1UewnOOMPHdxPQI60jIUlPIP5/M+vnWMNSQG+DADw==",
   "success": true,
   "projectFilePath": "H:\\博客项目\\pilipala2008beta8\\Build2\\WaterLibrary\\WaterLibrary\\WaterLibrary.csproj",
   "expectedPackageFiles": [
@@ -37,6 +37,7 @@
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.diagnostics.tracing\\4.1.0\\system.diagnostics.tracing.4.1.0.nupkg.sha512",
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512",
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.dynamic.runtime\\4.0.11\\system.dynamic.runtime.4.0.11.nupkg.sha512",
+    "C:\\Users\\Thaumy\\.nuget\\packages\\system.formats.asn1\\5.0.0\\system.formats.asn1.5.0.0.nupkg.sha512",
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.globalization\\4.0.11\\system.globalization.4.0.11.nupkg.sha512",
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.globalization.calendars\\4.0.1\\system.globalization.calendars.4.0.1.nupkg.sha512",
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.globalization.extensions\\4.0.1\\system.globalization.extensions.4.0.1.nupkg.sha512",
@@ -72,7 +73,7 @@
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.security.cryptography.cng\\4.2.0\\system.security.cryptography.cng.4.2.0.nupkg.sha512",
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.security.cryptography.csp\\4.0.0\\system.security.cryptography.csp.4.0.0.nupkg.sha512",
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.security.cryptography.encoding\\4.0.0\\system.security.cryptography.encoding.4.0.0.nupkg.sha512",
-    "C:\\Users\\Thaumy\\.nuget\\packages\\system.security.cryptography.openssl\\4.0.0\\system.security.cryptography.openssl.4.0.0.nupkg.sha512",
+    "C:\\Users\\Thaumy\\.nuget\\packages\\system.security.cryptography.openssl\\5.0.0\\system.security.cryptography.openssl.5.0.0.nupkg.sha512",
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.security.cryptography.primitives\\4.0.0\\system.security.cryptography.primitives.4.0.0.nupkg.sha512",
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.security.cryptography.protecteddata\\4.4.0\\system.security.cryptography.protecteddata.4.4.0.nupkg.sha512",
     "C:\\Users\\Thaumy\\.nuget\\packages\\system.security.cryptography.x509certificates\\4.1.0\\system.security.cryptography.x509certificates.4.1.0.nupkg.sha512",
