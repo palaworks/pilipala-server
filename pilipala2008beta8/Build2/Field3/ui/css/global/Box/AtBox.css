@@ -81,7 +81,13 @@
 
 /* CoBox里的星星有不同的样式 */
 .CoBox>.AtBox>.StarCount::before {
+    line-height: 18px;
     content: "\e3014";
+}
+
+.CoBox>.AtBox>.CommentCount::before {
+    line-height: 18px;
+    content: "\e3010";
 }
 
 .AtBox>.Time::before {
