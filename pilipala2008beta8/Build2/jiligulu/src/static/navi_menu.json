@@ -1,0 +1,43 @@
+[{
+        "title": "概览",
+        "icon": "mdi-gauge",
+        "src": "/Home",
+        "is_disabled": false
+    },
+    {
+        "title": "工作台",
+        "icon": "mdi-ruler-square",
+        "src": "/PostList",
+        "is_disabled": false
+    },
+    {
+        "title": "迭代化",
+        "icon": "mdi-source-merge",
+        "src": "/Iteration",
+        "is_disabled": true
+    },
+    {
+        "title": "写字台",
+        "icon": "mdi-pencil-outline",
+        "src": "/Edit",
+        "is_disabled": true
+    },
+    {
+        "title": "评论区",
+        "icon": "mdi-tooltip-text-outline",
+        "src": "/Comment_Home",
+        "is_disabled": false
+    },
+    {
+        "title": "用户",
+        "icon": "mdi-account-circle",
+        "src": "/User",
+        "is_disabled": false
+    },
+    {
+        "title": "关于后台",
+        "icon": "mdi-cog",
+        "src": "/Setting",
+        "is_disabled": false
+    }
+]
