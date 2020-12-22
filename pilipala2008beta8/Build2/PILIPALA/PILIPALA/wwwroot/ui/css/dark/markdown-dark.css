@@ -838,8 +838,8 @@
     margin-right: 2px;
 
     font-size: 85%;
-    color: #bf4040;
-    background-color: #141414;
+    color: rgb(227, 227, 227);
+    background-color: rgb(70, 70, 70);
     border-radius: 4px;
 }
 

@@ -30,8 +30,16 @@ namespace PILIPALA
         {
             services.AddControllersWithViews();
 
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddDistributedMemoryCache();
 
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddTransient<ICORE>(x => new CORE(new PLDatabase
             {
                 MySqlManager = new MySqlManager(new MySqlConnMsg
@@ -71,6 +79,7 @@ namespace PILIPALA
             app.UseRouting();
             app.UseAuthorization();
             app.UseCors();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

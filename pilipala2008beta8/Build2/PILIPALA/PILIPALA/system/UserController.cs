@@ -8,7 +8,9 @@ using System.Collections;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 
+using WaterLibrary.Tools;
 using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity.PostProperty;
 using WaterLibrary.pilipala.Entity;
@@ -29,23 +31,54 @@ namespace PILIPALA.system
 
         public CommentLake CommentLake = new CommentLake();
 
+        public ICORE CORE;
+
         public UserController(ICORE CORE)
         {
-            CORE.SetTables();
-            CORE.SetViews(PosUnion: "pos>dirty>union", NegUnion: "neg>dirty>union");
+            this.CORE = CORE;
+            this.CORE.SetTables();
+            this.CORE.SetViews(PosUnion: "pos>dirty>union", NegUnion: "neg>dirty>union");
 
-            CORE.LinkOn += ComponentFactory.Ready;
-            CORE.LinkOn += CommentLake.Ready;
+            this.CORE.LinkOn += ComponentFactory.Ready;
+            this.CORE.LinkOn += CommentLake.Ready;
 
-            /* 启动内核 */
-            CORE.Run();
+            if (HttpContext.Session.TryGetValue("UserName", out byte[] bytes))
+            {
+                CORE.Run(HttpContext.Session.GetString("UserName"), HttpContext.Session.GetString("UserPWD"));
+
+                Reader = ComponentFactory.GenReader();
+                Writer = ComponentFactory.GenWriter();
+                Counter = ComponentFactory.GenCounter();
+            }
+        }
+
+
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="UserName">登录用户名</param>
+        /// <param name="UserPWD">登录用户密码</param>
+        /// <returns></returns>
+        public bool Login(string UserName, string UserPWD)
+        {
+            try
+            {
+                CORE.Run(UserName, UserPWD);
+            }
+            catch
+            {
+                return false;
+            }
+
+            HttpContext.Session.SetString("UserName", UserName);
+            HttpContext.Session.SetString("UserPWD", UserName);
 
             Reader = ComponentFactory.GenReader();
             Writer = ComponentFactory.GenWriter();
             Counter = ComponentFactory.GenCounter();
+
+            return true;
         }
-
-
 
         /* 评论管理 */
         /// <summary>
