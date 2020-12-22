@@ -4,7 +4,6 @@ H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Pu
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\dark\Box\AtBox.css
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\dark\Box\CardCol.css
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\dark\Box\CoBox.css
-H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\dark\Box\CodeBox.css
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\dark\Box\CommentBox.css
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\dark\Box\CommentList.css
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\dark\Box\NavCol.css
@@ -42,7 +41,6 @@ H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Pu
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\white\Box\AtBox.css
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\white\Box\CardCol.css
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\white\Box\CoBox.css
-H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\white\Box\CodeBox.css
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\white\Box\CommentBox.css
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\white\Box\CommentList.css
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\white\Box\NavCol.css
@@ -71,6 +69,9 @@ H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\Pu
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\K4os.Compression.LZ4.Streams.dll
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\K4os.Hash.xxHash.dll
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\Markdig.dll
+H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.Certificate.dll
+H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Server.Kestrel.Https.dll
+H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.dll
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\MySql.Data.dll
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\Ubiety.Dns.Core.dll
 H:\博客项目\pilipala2008beta8\Build2\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\Zstandard.Net.dll
