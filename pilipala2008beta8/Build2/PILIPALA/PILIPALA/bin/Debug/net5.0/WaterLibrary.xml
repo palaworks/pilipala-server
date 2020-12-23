@@ -1352,6 +1352,12 @@
             </summary>
             <param name="CORE"></param>
         </member>
+        <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.GetAuthentication">
+            <summary>
+            生成权限管理组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.GenReader">
             <summary>
             生成读组件
@@ -1370,16 +1376,53 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:WaterLibrary.pilipala.Components.Reader">
+        <member name="T:WaterLibrary.pilipala.Components.Authentication">
             <summary>
-            啪啦数据读取器
+            权限管理组件
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.Ready(WaterLibrary.pilipala.ICORE)">
+        <member name="M:WaterLibrary.pilipala.Components.Authentication.#ctor">
             <summary>
-            准备读取器
+            默认构造
             </summary>
-            <param name="CORE"></param>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Authentication.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager,System.String)">
+            <summary>
+            工厂构造
+            </summary>
+            <param name="Tables">数据库表</param>
+            <param name="MySqlManager">数据库管理器</param>
+            <param name="UserGUID">用户GUID</param>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Authentication.GetPrivateKey">
+            <summary>
+            取得私钥
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Authentication.SetPrivateKey(System.String)">
+            <summary>
+            设置私钥
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:WaterLibrary.pilipala.Components.Reader">
+            <summary>
+            数据读取组件
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Reader.#ctor">
+            <summary>
+            默认构造
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Reader.#ctor(WaterLibrary.pilipala.Database.PLViews,WaterLibrary.MySQL.MySqlManager)">
+            <summary>
+            工厂构造
+            </summary>
+            <param name="Views">数据库视图</param>
+            <param name="MySqlManager">数据库管理器</param>
+            <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost(System.Int32)">
             <summary>
@@ -1453,14 +1496,22 @@
         </member>
         <member name="T:WaterLibrary.pilipala.Components.Writer">
             <summary>
-            啪啦数据修改器
+            数据修改组件
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.Ready(WaterLibrary.pilipala.ICORE)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.#ctor">
             <summary>
-            准备修改器
+            默认构造
             </summary>
-            <param name="CORE"></param>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Writer.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager,System.String)">
+            <summary>
+            工厂构造
+            </summary>
+            <param name="Tables">数据库表</param>
+            <param name="MySqlManager">数据库管理器</param>
+            <param name="UserGUID">用户GUID</param>
+            <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.GetMaxID">
             <summary>
@@ -1615,14 +1666,21 @@
         </member>
         <member name="T:WaterLibrary.pilipala.Components.Counter">
             <summary>
-            啪啦计数管理器
+            计数管理组件
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Counter.Ready(WaterLibrary.pilipala.ICORE)">
+        <member name="M:WaterLibrary.pilipala.Components.Counter.#ctor">
             <summary>
-            准备计数器
+            默认构造
             </summary>
-            <param name="CORE"></param>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Counter.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager)">
+            <summary>
+            工厂构造
+            </summary>
+            <param name="Tables">数据库表</param>
+            <param name="MySqlManager">数据库管理器</param>
+            <returns></returns>
         </member>
         <member name="P:WaterLibrary.pilipala.Components.Counter.TotalPostCount">
             <summary>
