@@ -108,20 +108,23 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Reg_post",
         data: qs.stringify({
-          Mode: this.new_data.Mode,
-          Type: this.new_data.Type,
-          User: this.new_data.User,
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
+          PostModel: {
+            Mode: this.new_data.Mode,
+            Type: this.new_data.Type,
+            User: this.new_data.User,
 
-          UVCount: this.new_data.UVCount,
-          StarCount: this.new_data.StarCount,
+            UVCount: this.new_data.UVCount,
+            StarCount: this.new_data.StarCount,
 
-          Title: this.new_data.Title,
-          Summary: this.new_data.Summary,
-          Content: this.new_data.Content,
+            Title: this.new_data.Title,
+            Summary: this.new_data.Summary,
+            Content: this.new_data.Content,
 
-          Archiv: this.new_data.Archiv,
-          Label: this.new_data.Label,
-          Cover: this.new_data.Cover,
+            Archiv: this.new_data.Archiv,
+            Label: this.new_data.Label,
+            Cover: this.new_data.Cover,
+          },
         }),
       })
         .then((response) => console.log(response))
@@ -134,20 +137,23 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Update_post_by_PostID",
         data: qs.stringify({
-          PostID: this.new_data.ID,
-          Mode: this.new_data.Mode,
-          Type: this.new_data.Type,
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
+          PostModel: {
+            PostID: this.new_data.ID,
+            Mode: this.new_data.Mode,
+            Type: this.new_data.Type,
 
-          UVCount: this.new_data.UVCount,
-          StarCount: this.new_data.StarCount,
+            UVCount: this.new_data.UVCount,
+            StarCount: this.new_data.StarCount,
 
-          Title: this.new_data.Title,
-          Summary: this.new_data.Summary,
-          Content: this.new_data.Content,
+            Title: this.new_data.Title,
+            Summary: this.new_data.Summary,
+            Content: this.new_data.Content,
 
-          Archiv: this.new_data.Archiv,
-          Label: this.new_data.Label,
-          Cover: this.new_data.Cover,
+            Archiv: this.new_data.Archiv,
+            Label: this.new_data.Label,
+            Cover: this.new_data.Cover,
+          },
         }),
       })
         .then((response) => console.log(response))
@@ -162,6 +168,7 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Get_post_by_PostID",
         data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           PostID: this.$route.params.post_id,
         }),
       })

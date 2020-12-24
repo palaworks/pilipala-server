@@ -5,7 +5,7 @@
         <div style="font-size:24px;margin-top:10px" class="mx-auto">欢迎来到叽里咕噜</div>
       </v-card-title>
       <v-card-text>
-        <v-text-field v-model="login_data.UserName" label="用户名" hint="UserName" auto-grow></v-text-field>
+        <v-text-field v-model="login_data.UserAccount" label="用户名" hint="UserName" auto-grow></v-text-field>
         <v-text-field
           v-model="login_data.UserPWD"
           label="密码"
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       login_data: {
-        UserName: "",
+        UserAccount: "",
         UserPWD: "",
         is_loading: false,
       },
@@ -47,15 +47,17 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Login",
         data: qs.stringify({
-          UserName: this.login_data.UserName,
+          UserAccount: this.login_data.UserAccount,
           UserPWD: this.login_data.UserPWD,
         }),
       }).then((response) => {
-        if (response.data == true) {
+        if (response.data != null) {
           this.is_loading = false;
           this.$root.navi_show = true;
-          this.$root.UserName = this.login_data.UserName;
-          this.$router.push({ name: "PostList" });
+          this.$root.UserAccount = this.login_data.UserAccount;
+          this.$root.PublicKey = response.data;
+
+          this.$router.push({ name: "Home" });
         }
       });
     },

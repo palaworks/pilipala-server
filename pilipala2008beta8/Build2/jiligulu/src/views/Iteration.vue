@@ -104,6 +104,7 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Rollback_post_by_PostID",
         data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           PostID: this.$route.params.post_id,
         }),
       })
@@ -112,15 +113,13 @@ export default {
           this.GetData();
           console.log(response);
         })
-        .catch(function (error) {
-          console.log(error); //请求失败处理
-        });
     },
     Release: function () {
       this.$axios({
         method: "post",
         url: this.glob.root_path + "/user/Release_post_by_PostID",
         data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           PostID: this.$route.params.post_id,
         }),
       })
@@ -138,6 +137,7 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Apply_post_by_GUID",
         data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           GUID: GUID,
         }),
       })
@@ -155,6 +155,7 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Delete_post_by_GUID",
         data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           GUID: GUID,
         }),
       })
@@ -173,6 +174,7 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Get_post_by_PostID",
         data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           PostID: this.$route.params.post_id,
         }),
       })
@@ -187,6 +189,7 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Get_neg_posts_by_PostID",
         data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           PostID: this.$route.params.post_id,
         }),
       })
