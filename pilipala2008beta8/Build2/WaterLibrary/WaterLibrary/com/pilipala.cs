@@ -235,7 +235,7 @@ namespace WaterLibrary.pilipala
     }
     interface IPLComponentFactory
     {
-        void Ready(ICORE CORE);
+        void Ready(ICORE CORE, Components.User User);
     }
     /// <summary>
     /// 噼里啪啦内核接口
@@ -258,7 +258,7 @@ namespace WaterLibrary.pilipala
         /// <summary>
         /// 开始配件连接事件
         /// </summary>
-        public event LinkEventHandler LinkOn;
+        public event CoreReadyEventHandler CoreReady;
 
         /// <summary>
         /// 登录到内核的用户GUID
@@ -271,7 +271,7 @@ namespace WaterLibrary.pilipala
         /// <param name="UserName">用户名</param>
         /// <param name="UserPWD">用户密码</param>
         /// <returns></returns>
-        public Entity.User Run(string UserName, string UserPWD);
+        public Components.User Run(string UserName, string UserPWD);
         /// <summary>
         /// 以初始化用户身份启动内核
         /// </summary>
@@ -302,19 +302,20 @@ namespace WaterLibrary.pilipala
 
 
     /// <summary>
-    /// 配件连接委托
+    /// 内核准备完成委托
     /// </summary>
     /// <param name="CORE">内核对象</param>
-    public delegate void LinkEventHandler(CORE CORE);
+    /// <param name="User">用户对象</param>
+    public delegate void CoreReadyEventHandler(ICORE CORE, Components.User User);
     /// <summary>
     /// pilipala内核
     /// </summary>
     public class CORE : ICORE
     {
         /// <summary>
-        /// 开始配件连接事件
+        /// 内核准备完成事件
         /// </summary>
-        public event LinkEventHandler LinkOn;
+        public event CoreReadyEventHandler CoreReady;
 
         /// <summary>
         /// 核心表结构
@@ -351,7 +352,7 @@ namespace WaterLibrary.pilipala
         /// <param name="UserAccount">用户账号</param>
         /// <param name="UserPWD">用户密码</param>
         /// <returns></returns>
-        public Entity.User Run(string UserAccount, string UserPWD)
+        public Components.User Run(string UserAccount, string UserPWD)
         {
             MySqlManager.Open();
             string SQL = $"SELECT COUNT(*) FROM {Tables.User} WHERE Account = ?UserAccount AND PWD = ?UserPWD";
@@ -363,18 +364,14 @@ namespace WaterLibrary.pilipala
             })
             .ToString() == "1")
             {
-                /* 通知所有订阅到当前内核的所有配件内核已经准备完成，并分发内核到各配件 */
-                LinkOn(this);
+                Components.User User = new Components.User(Tables, MySqlManager, UserAccount);
+
+                /* 触发内核准备完成事件，并分发数据到工厂 */
+                CoreReady(this, User);
                 /* 验证成功，赋值内核UserAccount */
                 this.UserAccount = UserAccount;
-                /* 取得用户数据并返回 */
-                return new Entity.User()
-                {
-                    Tables = Tables,
-                    MySqlManager = MySqlManager,
-
-                    Account = UserAccount,
-                };
+                /* 返回用户对象 */
+                return User;
             }
             else
             {
@@ -389,7 +386,7 @@ namespace WaterLibrary.pilipala
         public void Run()
         {
             MySqlManager.Open();
-            LinkOn(this);
+            CoreReady(this, null);/* 分配一个空用户给工厂 */
         }
         /// <summary>
         /// 关闭内核
@@ -425,70 +422,6 @@ namespace WaterLibrary.pilipala
 
     namespace Entity
     {
-        /// <summary>
-        /// 用户
-        /// </summary>
-        public class User
-        {
-            internal PLTables Tables { get; set; }
-            internal MySqlManager MySqlManager { get; set; }
-
-            /// <summary>
-            /// 索引器
-            /// </summary>
-            /// <param name="Key">索引名</param>
-            /// <returns></returns>
-            public object this[string Key]
-            {
-                get
-                {
-                    /* 通过反射获取属性 */
-                    return GetType().GetProperty(Key).GetValue(this);
-                }
-                set
-                {
-                    /* 通过反射设置属性 */
-                    System.Type ThisType = GetType();
-                    System.Type KeyType = ThisType.GetProperty(Key).GetValue(this).GetType();
-                    ThisType.GetProperty(Key).SetValue(this, Convert.ChangeType(value, KeyType));
-                }
-            }
-
-            /// <summary>
-            /// 用户账号
-            /// </summary>
-            public string Account { get; internal set; }
-
-            /// <summary>
-            /// 用户名
-            /// </summary>
-            public string Name { get { return Getter("Name"); } set { Setter("Name", value); } }
-            /// <summary>
-            /// 自我介绍
-            /// </summary>
-            public string Bio { get { return Getter("Bio"); } set { Setter("Bio", value); } }
-            /// <summary>
-            /// 分组
-            /// </summary>
-            public string Group { get { return Getter("Group"); } set { Setter("Group", value); } }
-            /// <summary>
-            /// 邮箱
-            /// </summary>
-            public string Email { get { return Getter("Email"); } set { Setter("Email", value); } }
-            /// <summary>
-            /// 头像(链接)
-            /// </summary>
-            public string Avatar { get { return Getter("Avatar"); } set { Setter("Avatar", value); } }
-
-            private string Getter(string Key)
-            {
-                return MySqlManager.GetRow($"SELECT {Key} FROM {Tables.User} WHERE Account = '{Account}'")[Key].ToString();
-            }
-            private bool Setter(string Key, string Value)
-            {
-                return MySqlManager.UpdateKey(new MySqlKey() { Table = Tables.User, Name = "Account", Val = Account }, Key, Value);
-            }
-        }
         /// <summary>
         /// 文章
         /// </summary>
@@ -886,18 +819,24 @@ namespace WaterLibrary.pilipala
         public class ComponentFactory : IPLComponentFactory
         {
             private ICORE CORE;
+            private User User;
             /// <summary>
             /// 准备完成
             /// </summary>
-            /// <param name="CORE"></param>
-            public void Ready(ICORE CORE) => this.CORE = CORE;
+            /// <param name="CORE">内核对象</param>
+            /// <param name="User">用户对象</param>
+            public void Ready(ICORE CORE, User User)
+            {
+                this.CORE = CORE;
+                this.User = User;
+            }
 
 
             /// <summary>
             /// 生成权限管理组件
             /// </summary>
             /// <returns></returns>
-            public Authentication GenAuthentication() => new(CORE.Tables, CORE.MySqlManager, CORE.UserAccount);
+            public Authentication GenAuthentication() => new(CORE.Tables, CORE.MySqlManager, User);
             /// <summary>
             /// 生成读组件
             /// </summary>
@@ -928,7 +867,7 @@ namespace WaterLibrary.pilipala
             private PLTables Tables { get; set; }
             private MySqlManager MySqlManager { get; set; }
 
-            private readonly string UserAccount;
+            private readonly User User;
 
             /// <summary>
             /// 默认构造
@@ -939,12 +878,12 @@ namespace WaterLibrary.pilipala
             /// </summary>
             /// <param name="Tables">数据库表</param>
             /// <param name="MySqlManager">数据库管理器</param>
-            /// <param name="UserAccount">用户账号</param>
-            internal Authentication(PLTables Tables, MySqlManager MySqlManager, string UserAccount)
+            /// <param name="User">用户对象</param>
+            internal Authentication(PLTables Tables, MySqlManager MySqlManager, User User)
             {
                 this.Tables = Tables;
                 this.MySqlManager = MySqlManager;
-                this.UserAccount = UserAccount;
+                this.User = User;
             }
 
             /// <summary>
@@ -964,13 +903,14 @@ namespace WaterLibrary.pilipala
                     return default;
                 }
             }
+
             /// <summary>
             /// 取得私钥
             /// </summary>
             /// <returns></returns>
             public string GetPrivateKey()
             {
-                return MySqlManager.GetKey($"SELECT PrivateKey FROM {Tables.User} WHERE Account = '{UserAccount}'").ToString();
+                return MySqlManager.GetKey($"SELECT PrivateKey FROM {Tables.User} WHERE Account = '{User.Account}'").ToString();
             }
             /// <summary>
             /// 设置私钥
@@ -979,16 +919,113 @@ namespace WaterLibrary.pilipala
             public bool SetPrivateKey(string PrivateKey)
             {
                 return MySqlManager.UpdateKey
-                    (new MySqlKey() { Table = Tables.User, Name = "Account", Val = UserAccount }, "PrivateKey", PrivateKey);
+                    (new MySqlKey() { Table = Tables.User, Name = "Account", Val = User.Account }, "PrivateKey", PrivateKey);
             }
             /// <summary>
-            /// 设置最后Token获取时间
+            /// 取得最后Token获取时间
+            /// </summary>
+            /// <returns></returns>
+            public DateTime GetTokenTime()
+            {
+                return Convert.ToDateTime(MySqlManager.GetKey($"SELECT TokenTime FROM {Tables.User} WHERE Account = '{User.Account}'"));
+            }
+            /// <summary>
+            /// 设置最后Token获取时间为当前时间
             /// </summary>
             /// <returns></returns>
             public bool UpdateTokenTime()
             {
                 return MySqlManager.UpdateKey
-                    (new MySqlKey() { Table = Tables.User, Name = "Account", Val = UserAccount }, "TokenTime", DateTime.Now.ToString());
+                    (new MySqlKey() { Table = Tables.User, Name = "Account", Val = User.Account }, "TokenTime", DateTime.Now.ToString());
+            }
+        }
+        /// <summary>
+        /// 用户组件
+        /// </summary>
+        public class User
+        {
+            internal PLTables Tables { get; set; }
+            internal MySqlManager MySqlManager { get; set; }
+
+            /// <summary>
+            /// 默认构造
+            /// </summary>
+            public User() => throw (new Exception("非法的构造模式，该对象仅允许由内核抛出"));
+            /// <summary>
+            /// 内核构造
+            /// </summary>
+            /// <param name="Tables">数据库表</param>
+            /// <param name="MySqlManager">数据库管理器</param>
+            /// <param name="UserAccount">用户账号</param>
+            internal User(PLTables Tables, MySqlManager MySqlManager, string UserAccount)
+            {
+                this.Tables = Tables;
+                this.MySqlManager = MySqlManager;
+                Account = UserAccount;
+            }
+
+            /// <summary>
+            /// 将当前对象序列化到JSON
+            /// </summary>
+            /// <returns></returns>
+            public string ToJSON()
+            {
+                return JsonConvert.SerializeObject
+                    (this, new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
+            }
+
+            /// <summary>
+            /// 用户账号
+            /// </summary>
+            public string Account { get; internal set; }
+
+            /// <summary>
+            /// 检查密码
+            /// </summary>
+            /// <param name="PWD">等待检查是否正确的密码</param>
+            /// <returns></returns>
+            public bool CheckPWD(string PWD)
+            {
+                return MathH.MD5(PWD) == Get("PWD");
+            }
+            /// <summary>
+            /// 设置密码
+            /// </summary>
+            /// <param name="NewPWD">新的密码</param>
+            /// <returns></returns>
+            public bool SetPWD(string NewPWD)
+            {
+                return Set("PWD", NewPWD);
+            }
+
+            /// <summary>
+            /// 用户名
+            /// </summary>
+            public string Name { get { return Get("Name"); } set { Set("Name", value); } }
+            /// <summary>
+            /// 自我介绍
+            /// </summary>
+            public string Bio { get { return Get("Bio"); } set { Set("Bio", value); } }
+            /// <summary>
+            /// 分组
+            /// </summary>
+            public string Group { get { return Get("Group"); } set { Set("Group", value); } }
+            /// <summary>
+            /// 邮箱
+            /// </summary>
+            public string Email { get { return Get("Email"); } set { Set("Email", value); } }
+            /// <summary>
+            /// 头像(链接)
+            /// </summary>
+            public string Avatar { get { return Get("Avatar"); } set { Set("Avatar", value); } }
+
+            private string Get(string Key)
+            {
+                return MySqlManager.GetRow($"SELECT {Key} FROM {Tables.User} WHERE Account = '{Account}'")[Key].ToString();
+            }
+            private bool Set(string Key, string Value)
+            {
+                return MySqlManager.UpdateKey(new MySqlKey() { Table = Tables.User, Name = "Account", Val = Account }, Key, Value);
             }
         }
         /// <summary>
