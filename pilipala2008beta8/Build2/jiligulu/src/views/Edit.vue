@@ -128,9 +128,6 @@ export default {
         }),
       })
         .then((response) => console.log(response))
-        .catch(function (error) {
-          console.log(error); //请求失败处理
-        });
     },
     Update: function () {
       this.$axios({
@@ -157,9 +154,6 @@ export default {
         }),
       })
         .then((response) => console.log(response))
-        .catch(function (error) {
-          console.log(error); //请求失败处理
-        });
     },
   },
   mounted() {
@@ -188,9 +182,6 @@ export default {
           this.new_data.Label = response.data.Label;
           this.new_data.Cover = response.data.Cover;
         })
-        .catch(function (error) {
-          console.log(error); //请求失败处理
-        });
     }
   },
 };
