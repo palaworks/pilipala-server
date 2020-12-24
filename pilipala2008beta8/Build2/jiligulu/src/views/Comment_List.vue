@@ -99,9 +99,6 @@ export default {
           this.comment_list = response.data;
           console.log(response);
         })
-        .catch(function (error) {
-          console.log(error); //请求失败处理
-        });
     },
     Delete_comment_by_CommentID: function (CommentID) {
       this.$axios({
@@ -116,9 +113,6 @@ export default {
           this.Get_comments_by_PostID();
           console.log(response);
         })
-        .catch(function (error) {
-          console.log(error); //请求失败处理
-        });
     },
   },
   mounted() {

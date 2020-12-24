@@ -62,14 +62,10 @@ export default {
         data: qs.stringify({
           Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
         }),
-      })
-        .then((response) => {
-          this.commented_post_list = response.data;
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error); //请求失败处理
-        });
+      }).then((response) => {
+        this.commented_post_list = response.data;
+        console.log(response);
+      });
     },
   },
   mounted() {
