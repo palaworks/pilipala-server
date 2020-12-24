@@ -1,11 +1,28 @@
 <template>
   <v-app>
-    <v-card class="mx-auto mt-2" rounded>
-      <v-card-title>
-        <v-icon left class="mt-n1">mdi-desktop-tower</v-icon>试作型控制台(JILIGULU)
-      </v-card-title>
-      <v-card-subtitle>PILIPALA BETA8</v-card-subtitle>
-      <v-card-text>WL内核信息:{{wl_core_verison}}</v-card-text>
+    <v-card rounded class="mx-2 mt-4">
+      <v-list>
+        <v-list-item>
+          <v-icon left>mdi-desktop-tower</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>试作型控制台</v-list-item-title>
+            <v-list-item-subtitle>jiligulu</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider class="mb-2"></v-divider>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>噼里啪啦版本</v-list-item-title>
+            <v-list-item-subtitle>BETA8</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>内核版本</v-list-item-title>
+            <v-list-item-subtitle>{{wl_core_verison}}</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-card>
   </v-app>
 </template>
@@ -22,7 +39,7 @@ export default {
   mounted() {
     this.$axios({
       method: "post",
-      url: this.glob.root_path + "/guest/Get_core_version",
+      url: this.glob.root_path + "/user/Get_core_version",
       data: qs.stringify({
         Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
       }),

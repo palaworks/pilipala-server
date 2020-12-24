@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div class="mb-11 mx-auto" style="width:98%">
+    <div class="mb-16 mx-auto" style="width:98%">
       <v-card class="mt-2" v-for="comment in comment_list" :key="comment.CommentID">
         <v-list-item>
           <v-list-item-content>
@@ -91,14 +91,13 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Get_comments_by_PostID",
         data: qs.stringify({
-           Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           PostID: this.$route.params.ID,
         }),
-      })
-        .then((response) => {
-          this.comment_list = response.data;
-          console.log(response);
-        })
+      }).then((response) => {
+        this.comment_list = response.data;
+        console.log(response);
+      });
     },
     Delete_comment_by_CommentID: function (CommentID) {
       this.$axios({
@@ -108,11 +107,10 @@ export default {
           Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           CommentID: CommentID,
         }),
-      })
-        .then((response) => {
-          this.Get_comments_by_PostID();
-          console.log(response);
-        })
+      }).then((response) => {
+        this.Get_comments_by_PostID();
+        console.log(response);
+      });
     },
   },
   mounted() {

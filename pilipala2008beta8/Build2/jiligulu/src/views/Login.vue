@@ -52,13 +52,26 @@ export default {
         }),
       }).then((response) => {
         if (response.data != null) {
+          this.$root.PublicKey = response.data;
+          this.Get_user_data();
+
           this.is_loading = false;
           this.$root.navi_show = true;
-          this.$root.UserAccount = this.login_data.UserAccount;
-          this.$root.PublicKey = response.data;
-
+          
           this.$router.push({ name: "Home" });
         }
+      });
+    },
+    Get_user_data: function () {
+      this.$axios({
+        method: "post",
+        url: this.glob.root_path + "/user/Get_user_data",
+        data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
+        }),
+      }).then((response) => {
+        this.$root.UserName = response.data.Name;
+        this.$root.UserAvatar = response.data.Avatar;
       });
     },
   },

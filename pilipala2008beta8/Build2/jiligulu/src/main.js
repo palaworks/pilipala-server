@@ -33,8 +33,9 @@ new Vue({
   data() {
     return {
       navi_show: false,
-      UserAccount: "",
-      UserAvatar: "http://q1.qlogo.cn/g?b=qq&nk=1951327599&s=640",
+
+      UserName: "1",
+      UserAvatar: "",
       PublicKey: "",
     }
 
