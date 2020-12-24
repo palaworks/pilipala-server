@@ -112,18 +112,23 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Dispose_post_by_PostID",
         data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           PostID: ID,
         }),
-      })
-        .then((response) => {
-          this.GetData();
-          console.log(response);
-        })
+      }).then(() => {
+        this.GetData();
+      });
     },
     GetData: function () {
-      this.$axios
-        .post(this.glob.root_path + "/user/Get_posts")
-        .then((response) => (this.post_list = response.data))
+      this.$axios({
+        method: "post",
+        url: this.glob.root_path + "/user/Get_posts",
+        data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
+        }),
+      }).then((response) => {
+        this.post_list = response.data;
+      });
     },
   },
   mounted() {

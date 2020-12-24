@@ -45,7 +45,7 @@
   </v-app>
 </template>
 <script>
-//import qs from "qs";
+import qs from "qs";
 
 export default {
   name: "Comment_Home",
@@ -59,6 +59,9 @@ export default {
       this.$axios({
         method: "post",
         url: this.glob.root_path + "/user/Get_commented_posts",
+        data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
+        }),
       })
         .then((response) => {
           this.commented_post_list = response.data;

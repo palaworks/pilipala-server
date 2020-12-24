@@ -91,6 +91,7 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Get_comments_by_PostID",
         data: qs.stringify({
+           Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           PostID: this.$route.params.ID,
         }),
       })
@@ -107,6 +108,7 @@ export default {
         method: "post",
         url: this.glob.root_path + "/user/Delete_comment_by_CommentID",
         data: qs.stringify({
+          Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           CommentID: CommentID,
         }),
       })

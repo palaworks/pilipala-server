@@ -21,6 +21,8 @@
 
 
 <script>
+import qs from 'qs'
+
 export default {
   name: "Home",
   data() {
@@ -38,21 +40,21 @@ export default {
     };
   },
   mounted() {
-    this.$axios
-      .post(this.glob.root_path + "/user/Get_counts")
-      .then((response) => {
-        this.preview_list.文章总计 = response.data.PostCount;
-        this.preview_list.备份数 = response.data.CopyCount;
-        this.preview_list.隐藏 = response.data.HiddenCount;
-        this.preview_list.展示 = response.data.OnDisplayCount;
-        this.preview_list.归档 = response.data.ArchivedCount;
-        this.preview_list.计划 = response.data.ScheduledCount;
-        this.preview_list.评论 = response.data.CommentCount;
-      })
-      .catch(function (error) {
-        // 请求失败处理
-        console.log(error);
-      });
+    this.$axios({
+      method: "post",
+      url: this.glob.root_path + "/user/Get_counts",
+      data: qs.stringify({
+        Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
+      }),
+    }).then((response) => {
+      this.preview_list.文章总计 = response.data.PostCount;
+      this.preview_list.备份数 = response.data.CopyCount;
+      this.preview_list.隐藏 = response.data.HiddenCount;
+      this.preview_list.展示 = response.data.OnDisplayCount;
+      this.preview_list.归档 = response.data.ArchivedCount;
+      this.preview_list.计划 = response.data.ScheduledCount;
+      this.preview_list.评论 = response.data.CommentCount;
+    });
   },
 };
 </script>

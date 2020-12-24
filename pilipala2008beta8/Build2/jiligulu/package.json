@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "jsencrypt": "^3.0.0-rc.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuetify": "^2.2.11"
@@ -27,7 +28,8 @@
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-vuetify": "^2.0.7",
     "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.3.0"
+    "vuetify-loader": "^1.3.0",
+    "jiligulu": "file:H:\\博客项目\\pilipala2008beta8\\Build2\\jiligulu"
   },
   "eslintConfig": {
     "root": true,
