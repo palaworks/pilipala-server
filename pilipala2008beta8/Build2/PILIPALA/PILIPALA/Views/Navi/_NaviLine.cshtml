@@ -1,25 +1,26 @@
 ﻿@using WaterLibrary.pilipala;
 @using WaterLibrary.pilipala.Entity;
-@using WaterLibrary.CommentLake;
+@using WaterLibrary.pilipala.Components;
 
 @inject ICORE CORE
 
 @{
-    CommentLake CommentLake = new CommentLake();
+    ComponentFactory ComponentFactory = new ComponentFactory();
 
 
     CORE.SetTables();
     CORE.SetViews();
 
-    CORE.LinkOn += CommentLake.Ready;
+    CORE.LinkOn += ComponentFactory.Ready;
     /* 启动内核 */
-    User User = CORE.Run();
+    CORE.Run();
+    CommentLake CommentLake = ComponentFactory.GenCommentLake();
 }
 
 <div id="NavLine" class="L M bSha">
     <div class="contain cur bRds" onclick="up();showPost(12387, '我');">
-        <img class="Avatar bSha" src="@User.Avatar">
-        <div class="Name">@User.Name.ToUpper()的小站</div>
+        <img class="Avatar bSha" src="http://q1.qlogo.cn/g?b=qq&nk=1951327599&s=640">
+        <div class="Name">THAUMY的小站</div>
     </div>
     <div class="SiderBtn R cur" onclick="ListToggle()"></div>
 </div>
@@ -28,7 +29,7 @@
     <m-card v-for="d in List" v-bind:item="d" v-bind:key="d.index"></m-card>
 
     <div class="Co cur" onclick="up();showPost(12388, '关于博客');ListToggle()">
-        @(User.Name)的博客©2016-2020保留所有权利<br>
+        THAUMY的博客©2016-2020保留所有权利<br>
         基于pilipala构建<br>
         Field Theme Designed By Thaumy<br>
     </div>

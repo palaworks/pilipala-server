@@ -3,32 +3,28 @@
 @using WaterLibrary.pilipala.Entity;
 @using WaterLibrary.pilipala.Entity.PostProperty;
 @using WaterLibrary.pilipala.Components;
-@using WaterLibrary.CommentLake;
 
 @inject ICORE CORE
 
 @{
-    WaterLibrary.pilipala.Entity.User User;
     Reader Reader;
     Writer Writer;
     Counter Counter;
+    CommentLake CommentLake;
     ComponentFactory ComponentFactory = new ComponentFactory();
-
-    CommentLake CommentLake = new CommentLake();
-
 
     CORE.SetTables();
     CORE.SetViews();
 
     CORE.LinkOn += ComponentFactory.Ready;
-    CORE.LinkOn += CommentLake.Ready;
 
     /* 启动内核 */
-    User = CORE.Run();
+    CORE.Run();
 
     Reader = ComponentFactory.GenReader();
     Writer = ComponentFactory.GenWriter();
     Counter = ComponentFactory.GenCounter();
+    CommentLake = ComponentFactory.GenCommentLake();
 
     var array = new System.Type[2] { typeof(ID), typeof(Title) };
     PostSet PostSet = Reader.GetPost<Archiv>("页面|友情链接", array);
@@ -38,11 +34,11 @@
 <div class="box bSha bRds-t">
     <div class="AvaBox">
         <div class="Ava-outline" v-bind:style="style" v-on:click="click" id="Ava-outline">
-            <img class="Ava bSha cur" src="@User.Avatar">
+            <img class="Ava bSha cur" src="http://q1.qlogo.cn/g?b=qq&nk=1951327599&s=640">
         </div>
     </div>
 
-    <div class="Name">@User.Name.ToUpper()的小站</div>
+    <div class="Name">THAUMY的小站</div>
     <div class="Note"><span id="note"></span></div>
 </div>
 
@@ -59,7 +55,7 @@
 
 <div class="Co-outline" v-bind:style="style" v-on:click="click" id="Co-outline">
     <div class="Co cur">
-        @(User.Name)的博客©2016-2020保留所有权利<br>
+        THAUMY的博客©2016-2020保留所有权利<br>
         基于pilipala构建<br>
         Field Theme Designed By Thaumy<br>
     </div>

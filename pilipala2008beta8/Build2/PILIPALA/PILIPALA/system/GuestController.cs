@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Cors;
 
-using WaterLibrary.pilipala.Entity.PostProperty;
 using WaterLibrary.pilipala;
-using WaterLibrary.CommentLake;
+using WaterLibrary.pilipala.Entity;
+using WaterLibrary.pilipala.Entity.PostProperty;
 using WaterLibrary.pilipala.Components;
 
 using PILIPALA.Models.Guest;
@@ -20,9 +20,9 @@ namespace PILIPALA.system
         public Reader Reader;
         public Writer Writer;
         public Counter Counter;
-        private ComponentFactory ComponentFactory = new ComponentFactory();
+        public CommentLake CommentLake;
 
-        public CommentLake CommentLake = new CommentLake();
+        private readonly ComponentFactory ComponentFactory = new();
 
         public GuestController(ICORE CORE)
         {
@@ -30,7 +30,6 @@ namespace PILIPALA.system
             CORE.SetViews(PosUnion: "pos>dirty>union", NegUnion: "neg>dirty>union");
 
             CORE.LinkOn += ComponentFactory.Ready;
-            CORE.LinkOn += CommentLake.Ready;
 
             /* 启动内核 */
             CORE.Run();
@@ -38,6 +37,7 @@ namespace PILIPALA.system
             Reader = ComponentFactory.GenReader();
             Writer = ComponentFactory.GenWriter();
             Counter = ComponentFactory.GenCounter();
+            CommentLake = ComponentFactory.GenCommentLake();
         }
 
         /// <summary>
