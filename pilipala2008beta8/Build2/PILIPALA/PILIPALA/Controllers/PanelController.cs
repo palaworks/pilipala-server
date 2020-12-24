@@ -25,7 +25,7 @@ namespace PILIPALA.Controllers
             CORE.SetTables();
             CORE.SetViews();
 
-            CORE.LinkOn += ComponentFactory.Ready;
+            CORE.CoreReady += ComponentFactory.Ready;
 
             /* 启动内核 */
             CORE.Run();

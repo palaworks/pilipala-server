@@ -29,7 +29,7 @@ namespace PILIPALA.system
             CORE.SetTables();
             CORE.SetViews(PosUnion: "pos>dirty>union", NegUnion: "neg>dirty>union");
 
-            CORE.LinkOn += ComponentFactory.Ready;
+            CORE.CoreReady += ComponentFactory.Ready;
 
             /* 启动内核 */
             CORE.Run();

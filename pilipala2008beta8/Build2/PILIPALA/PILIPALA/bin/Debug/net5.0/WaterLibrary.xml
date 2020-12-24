@@ -137,11 +137,12 @@
             组件工厂
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.Ready(WaterLibrary.pilipala.ICORE)">
+        <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.Ready(WaterLibrary.pilipala.ICORE,WaterLibrary.pilipala.Components.User)">
             <summary>
             准备完成
             </summary>
-            <param name="CORE"></param>
+            <param name="CORE">内核对象</param>
+            <param name="User">用户对象</param>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.GenAuthentication">
             <summary>
@@ -183,13 +184,13 @@
             默认构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Authentication.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager,System.String)">
+        <member name="M:WaterLibrary.pilipala.Components.Authentication.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager,WaterLibrary.pilipala.Components.User)">
             <summary>
             工厂构造
             </summary>
             <param name="Tables">数据库表</param>
             <param name="MySqlManager">数据库管理器</param>
-            <param name="UserAccount">用户账号</param>
+            <param name="User">用户对象</param>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Authentication.Auth``1(System.String,System.Func{``0})">
             <summary>
@@ -211,11 +212,85 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Authentication.UpdateTokenTime">
+        <member name="M:WaterLibrary.pilipala.Components.Authentication.GetTokenTime">
             <summary>
-            设置最后Token获取时间
+            取得最后Token获取时间
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Authentication.UpdateTokenTime">
+            <summary>
+            设置最后Token获取时间为当前时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:WaterLibrary.pilipala.Components.User">
+            <summary>
+            用户组件
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.User.#ctor">
+            <summary>
+            默认构造
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.User.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager,System.String)">
+            <summary>
+            内核构造
+            </summary>
+            <param name="Tables">数据库表</param>
+            <param name="MySqlManager">数据库管理器</param>
+            <param name="UserAccount">用户账号</param>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.User.ToJSON">
+            <summary>
+            将当前对象序列化到JSON
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:WaterLibrary.pilipala.Components.User.Account">
+            <summary>
+            用户账号
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.User.CheckPWD(System.String)">
+            <summary>
+            检查密码
+            </summary>
+            <param name="PWD">等待检查是否正确的密码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.User.SetPWD(System.String)">
+            <summary>
+            设置密码
+            </summary>
+            <param name="NewPWD">新的密码</param>
+            <returns></returns>
+        </member>
+        <member name="P:WaterLibrary.pilipala.Components.User.Name">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.pilipala.Components.User.Bio">
+            <summary>
+            自我介绍
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.pilipala.Components.User.GroupType">
+            <summary>
+            分组类别
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.pilipala.Components.User.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.pilipala.Components.User.Avatar">
+            <summary>
+            头像(链接)
+            </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Components.Reader">
             <summary>
@@ -778,48 +853,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.User">
-            <summary>
-            用户
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Entity.User.Item(System.String)">
-            <summary>
-            索引器
-            </summary>
-            <param name="Key">索引名</param>
-            <returns></returns>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Entity.User.Account">
-            <summary>
-            用户账号
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Entity.User.Name">
-            <summary>
-            用户名
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Entity.User.Bio">
-            <summary>
-            自我介绍
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Entity.User.Group">
-            <summary>
-            分组
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Entity.User.Email">
-            <summary>
-            邮箱
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Entity.User.Avatar">
-            <summary>
-            头像(链接)
-            </summary>
-        </member>
         <member name="T:WaterLibrary.pilipala.Entity.Post">
             <summary>
             文章
@@ -1360,7 +1393,7 @@
             内核MySql数据库控制器
             </summary>
         </member>
-        <member name="E:WaterLibrary.pilipala.ICORE.LinkOn">
+        <member name="E:WaterLibrary.pilipala.ICORE.CoreReady">
             <summary>
             开始配件连接事件
             </summary>
@@ -1405,20 +1438,21 @@
             <param name="PosUnion">积极联合视图</param>
             <param name="NegUnion">消极联合视图</param>
         </member>
-        <member name="T:WaterLibrary.pilipala.LinkEventHandler">
+        <member name="T:WaterLibrary.pilipala.CoreReadyEventHandler">
             <summary>
-            配件连接委托
+            内核准备完成委托
             </summary>
             <param name="CORE">内核对象</param>
+            <param name="User">用户对象</param>
         </member>
         <member name="T:WaterLibrary.pilipala.CORE">
             <summary>
             pilipala内核
             </summary>
         </member>
-        <member name="E:WaterLibrary.pilipala.CORE.LinkOn">
+        <member name="E:WaterLibrary.pilipala.CORE.CoreReady">
             <summary>
-            开始配件连接事件
+            内核准备完成事件
             </summary>
         </member>
         <member name="P:WaterLibrary.pilipala.CORE.Tables">

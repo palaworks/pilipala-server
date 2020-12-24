@@ -54,7 +54,7 @@ namespace PILIPALA
 
             MySqlManager.Open();
 
-            if ((DateTime.Now - Convert.ToDateTime(MySqlManager.GetKey("SELECT TokenTime FROM pl_user WHERE `Group` = 'user'"))).TotalMinutes < 120)
+            if ((DateTime.Now - Convert.ToDateTime(MySqlManager.GetKey("SELECT TokenTime FROM pl_user WHERE GroupType = 'user'"))).TotalMinutes < 120)
             {
 
                 CORE CORE = new CORE(new PLDatabase { MySqlManager = MySqlManager });
@@ -64,9 +64,9 @@ namespace PILIPALA
                 CORE.SetTables();
                 CORE.SetViews(PosUnion: "pos>dirty>union", NegUnion: "neg>dirty>union");
 
-                CORE.LinkOn += ComponentFactory.Ready;
+                CORE.CoreReady += ComponentFactory.Ready;
 
-                CORE.Run("1951327599", "thaumy12384");
+                var User = CORE.Run("1951327599", "thaumy12384");
 
                 var Authentication = ComponentFactory.GenAuthentication();
                 var Reader = ComponentFactory.GenReader();
@@ -74,11 +74,12 @@ namespace PILIPALA
                 var Counter = ComponentFactory.GenCounter();
                 var CommentLake = ComponentFactory.GenCommentLake();
 
-                services.AddSingleton(x => Authentication);
-                services.AddSingleton(x => Reader);
-                services.AddSingleton(x => Writer);
-                services.AddSingleton(x => Counter);
-                services.AddSingleton(x => CommentLake);
+                services.AddScoped(x => Authentication);
+                services.AddScoped(x => Reader);
+                services.AddScoped(x => Writer);
+                services.AddScoped(x => Counter);
+                services.AddScoped(x => CommentLake);
+                services.AddScoped(x => User);
             }
 
             services.AddCors(options =>
