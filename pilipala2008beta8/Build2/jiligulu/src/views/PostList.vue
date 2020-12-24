@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="pb-16">
     <v-btn
       to="/Edit"
       color="primary"
@@ -10,8 +10,14 @@
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <v-lazy min-height="100" transition="fade-transition" v-for="item in post_list" :key="item.ID">
-      <v-card class="mx-auto mt-3" width="92%">
+    <v-lazy
+      min-height="100"
+      transition="fade-transition"
+      class="mx-2 mt-2"
+      v-for="item in post_list"
+      :key="item.ID"
+    >
+      <v-card>
         <v-list-item>
           <v-list-item-content>
             <p
@@ -82,7 +88,6 @@
         </v-card-actions>
       </v-card>
     </v-lazy>
-    <v-sheet height="68px"></v-sheet>
   </v-app>
 </template>
 

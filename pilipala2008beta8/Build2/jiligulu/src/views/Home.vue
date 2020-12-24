@@ -1,12 +1,12 @@
 <template>
   <v-app>
-    <div class="d-flex justify-center flex-wrap mt-4">
+    <div class="d-flex justify-center flex-wrap">
       <v-card
         v-for="(value,key) in preview_list"
         :key="key"
         elevation="2"
         outlined
-        class="ma-2 flex-grow-1"
+        class="mx-2 mt-4 flex-grow-1"
         min-width="120px"
       >
         <v-card-title class="text-subtitle-1">{{key}}</v-card-title>
@@ -21,7 +21,7 @@
 
 
 <script>
-import qs from 'qs'
+import qs from "qs";
 
 export default {
   name: "Home",

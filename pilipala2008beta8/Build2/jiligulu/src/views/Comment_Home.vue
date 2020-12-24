@@ -1,11 +1,7 @@
 <template>
   <v-app>
     <div class="d-flex justify-center flex-wrap">
-      <v-card
-        v-for="item in commented_post_list"
-        :key="item.CommentID"
-        class="mx-2 mt-4 flex-grow-1"
-      >
+      <v-card v-for="item in commented_post_list" :key="item.CommentID" class="mx-2 mt-4 flex-grow-1">
         <v-card-title>
           <p v-if="item.Title" class="text-h6">{{ item.Title }}</p>
           <p v-if="!item.Title" class="text-subtitle-1">
