@@ -10,16 +10,16 @@ using Newtonsoft.Json.Converters;
 using MySql.Data.MySqlClient;
 
 using WaterLibrary.MySQL;
-using WaterLibrary.pilipala;
+using WaterLibrary.pilipala.Entity;
+using WaterLibrary.pilipala.Entity.CommentProperty;
 using WaterLibrary.pilipala.Database;
-using WaterLibrary.CommentLake.CommentKey;
 
-namespace WaterLibrary.CommentLake
+namespace WaterLibrary.pilipala.Components
 {
     /// <summary>
     /// 评论湖
     /// </summary>
-    public class CommentLake
+    public class CommentLake : IPLComponent<CommentLake>
     {
         /// <summary>
         /// 表集
@@ -31,13 +31,18 @@ namespace WaterLibrary.CommentLake
         private MySqlManager MySqlManager { get; set; }
 
         /// <summary>
-        /// 准备评论湖
+        /// 默认构造
         /// </summary>
-        /// <param name="CORE"></param>
-        public void Ready(CORE CORE)
+        public CommentLake() => throw (new Exception("非法的构造模式，请使用ComponentFactory"));
+        /// <summary>
+        /// 工厂构造
+        /// </summary>
+        /// <param name="Tables">数据库表</param>
+        /// <param name="MySqlManager">数据库管理器</param>
+        internal CommentLake(PLTables Tables, MySqlManager MySqlManager)
         {
-            Tables = CORE.Tables;
-            MySqlManager = CORE.MySqlManager;
+            this.Tables = Tables;
+            this.MySqlManager = MySqlManager;
         }
 
         /// <summary>
@@ -254,8 +259,10 @@ namespace WaterLibrary.CommentLake
             }
         }
     }
-
-    namespace CommentKey
+}
+namespace WaterLibrary.pilipala.Entity
+{
+    namespace CommentProperty
     {
         /// <summary>
         /// 表键值接口

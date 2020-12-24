@@ -8,7 +8,6 @@ using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity;
 using WaterLibrary.pilipala.Entity.PostProperty;
 using WaterLibrary.pilipala.Components;
-using WaterLibrary.CommentLake;
 
 namespace PILIPALA.Controllers
 {
@@ -17,9 +16,9 @@ namespace PILIPALA.Controllers
         public Reader Reader;
         public Writer Writer;
         public Counter Counter;
-        private ComponentFactory ComponentFactory = new ComponentFactory();
+        public CommentLake CommentLake;
 
-        public CommentLake CommentLake = new CommentLake();
+        private readonly ComponentFactory ComponentFactory = new();
 
         public PanelController(ICORE CORE)
         {
@@ -27,7 +26,6 @@ namespace PILIPALA.Controllers
             CORE.SetViews();
 
             CORE.LinkOn += ComponentFactory.Ready;
-            CORE.LinkOn += CommentLake.Ready;
 
             /* 启动内核 */
             CORE.Run();
@@ -35,6 +33,7 @@ namespace PILIPALA.Controllers
             Reader = ComponentFactory.GenReader();
             Writer = ComponentFactory.GenWriter();
             Counter = ComponentFactory.GenCounter();
+            CommentLake = ComponentFactory.GenCommentLake();
         }
 
         public ActionResult List(bool ajax)

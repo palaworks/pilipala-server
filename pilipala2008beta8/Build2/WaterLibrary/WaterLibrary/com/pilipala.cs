@@ -231,7 +231,7 @@ namespace WaterLibrary.pilipala
     /// </summary>
     interface IPLComponent<T>
     {
-        T Ready(ICORE CORE);
+
     }
     interface IPLComponentFactory
     {
@@ -263,13 +263,21 @@ namespace WaterLibrary.pilipala
         /// <summary>
         /// 登录到内核的用户GUID
         /// </summary>
-        string UserGUID { get; }
+        string UserAccount { get; }
 
         /// <summary>
-        /// 启动内核
+        /// 以其他用户身份启动内核
+        /// </summary>
+        /// <param name="UserName">用户名</param>
+        /// <param name="UserPWD">用户密码</param>
+        /// <returns></returns>
+        public Entity.User Run(string UserName, string UserPWD);
+        /// <summary>
+        /// 以初始化用户身份启动内核
         /// </summary>
         /// <returns></returns>
-        Entity.User Run();
+        public void Run();
+
         /// <summary>
         /// 关闭内核
         /// </summary>
@@ -324,59 +332,64 @@ namespace WaterLibrary.pilipala
         /// <summary>
         /// 登录内核的用户GUID
         /// </summary>
-        public string UserGUID { get; }
-
-        internal string UserName { get; }
-        internal string UserPWD { get; }
+        public string UserAccount { get; private set; }
 
         /// <summary>
         /// 初始化pilipala内核
         /// </summary>
         /// <param name="PLDatabase">pilipala数据库信息</param>
-        /// <param name="UserName">用户名</param>
-        /// <param name="UserPWD">用户密码</param>
-        public CORE(PLDatabase PLDatabase, string UserName, string UserPWD)
+        public CORE(PLDatabase PLDatabase)
         {
             MySqlManager = PLDatabase.MySqlManager;
             SetTables(PLDatabase.Tables.User, PLDatabase.Tables.Index, PLDatabase.Tables.Backup);
             SetViews(PLDatabase.Views.PosUnion, PLDatabase.Views.NegUnion);
-
-            /* 用户信息录入 */
-            this.UserName = UserName;
-            this.UserPWD = UserPWD;
         }
 
         /// <summary>
-        /// 内核启动
+        /// 以有效用户身份启动内核
         /// </summary>
-        /// <returns>返回用户数据</returns>
-        public Entity.User Run()
+        /// <param name="UserAccount">用户账号</param>
+        /// <param name="UserPWD">用户密码</param>
+        /// <returns></returns>
+        public Entity.User Run(string UserAccount, string UserPWD)
         {
             MySqlManager.Open();
-            string SQL = $"SELECT COUNT(*) FROM {Tables.User} WHERE Name = ?UserName AND PWD = ?UserPWD";
+            string SQL = $"SELECT COUNT(*) FROM {Tables.User} WHERE Account = ?UserAccount AND PWD = ?UserPWD";
 
             if (MySqlManager.GetKey(SQL, new MySqlParameter[]
             {
-                new("UserName", UserName),
+                new("UserAccount", UserAccount),
                 new("UserPWD", MathH.MD5(UserPWD))
             })
             .ToString() == "1")
             {
                 /* 通知所有订阅到当前内核的所有配件内核已经准备完成，并分发内核到各配件 */
                 LinkOn(this);
+                /* 验证成功，赋值内核UserAccount */
+                this.UserAccount = UserAccount;
                 /* 取得用户数据并返回 */
                 return new Entity.User()
                 {
-                    GUID = MySqlManager.GetRow($"SELECT GUID FROM {Tables.User} WHERE Name = '{UserName}'")["GUID"].ToString(),
                     Tables = Tables,
                     MySqlManager = MySqlManager,
+
+                    Account = UserAccount,
                 };
             }
             else
             {
                 MySqlManager.Close();
-                throw (new Exception("非法的用户签名"));
+                throw new Exception("非法的用户签名");
             }
+        }
+        /// <summary>
+        /// 以访客身份启动内核
+        /// </summary>
+        /// <returns></returns>
+        public void Run()
+        {
+            MySqlManager.Open();
+            LinkOn(this);
         }
         /// <summary>
         /// 关闭内核
@@ -442,19 +455,14 @@ namespace WaterLibrary.pilipala
             }
 
             /// <summary>
-            /// 用户GUID
+            /// 用户账号
             /// </summary>
-            public string GUID { get; internal set; }
+            public string Account { get; internal set; }
 
             /// <summary>
             /// 用户名
             /// </summary>
             public string Name { get { return Getter("Name"); } set { Setter("Name", value); } }
-            /// <summary>
-            /// 密码(MD5值)
-            /// </summary>
-            public string PWD { get { return Getter("PWD"); } set { Setter("PWD", value); } }
-
             /// <summary>
             /// 自我介绍
             /// </summary>
@@ -474,11 +482,11 @@ namespace WaterLibrary.pilipala
 
             private string Getter(string Key)
             {
-                return MySqlManager.GetRow($"SELECT {Key} FROM {Tables.User} WHERE GUID = '{GUID}'")[Key].ToString();
+                return MySqlManager.GetRow($"SELECT {Key} FROM {Tables.User} WHERE Account = '{Account}'")[Key].ToString();
             }
             private bool Setter(string Key, string Value)
             {
-                return MySqlManager.UpdateKey(new MySqlKey() { Table = Tables.User, Name = "GUID", Val = GUID }, Key, Value);
+                return MySqlManager.UpdateKey(new MySqlKey() { Table = Tables.User, Name = "Account", Val = Account }, Key, Value);
             }
         }
         /// <summary>
@@ -886,24 +894,105 @@ namespace WaterLibrary.pilipala
 
 
             /// <summary>
+            /// 生成权限管理组件
+            /// </summary>
+            /// <returns></returns>
+            public Authentication GenAuthentication() => new(CORE.Tables, CORE.MySqlManager, CORE.UserAccount);
+            /// <summary>
             /// 生成读组件
             /// </summary>
             /// <returns></returns>
-            public Reader GenReader() => new Reader().Ready(CORE.Views, CORE.MySqlManager);
+            public Reader GenReader() => new(CORE.Views, CORE.MySqlManager);
             /// <summary>
             /// 生成写组件
             /// </summary>
             /// <returns></returns>
-            public Writer GenWriter() => new Writer().Ready(CORE.Tables, CORE.MySqlManager, CORE.UserGUID);
+            public Writer GenWriter() => new(CORE.Tables, CORE.MySqlManager);
             /// <summary>
             /// 生成计数组件
             /// </summary>
             /// <returns></returns>
-            public Counter GenCounter() => new Counter().Ready(CORE.Tables, CORE.MySqlManager);
+            public Counter GenCounter() => new(CORE.Tables, CORE.MySqlManager);
+            /// <summary>
+            /// 生成评论湖组件
+            /// </summary>
+            /// <returns></returns>
+            public CommentLake GenCommentLake() => new(CORE.Tables, CORE.MySqlManager);
         }
 
         /// <summary>
-        /// 啪啦数据读取器
+        /// 权限管理组件
+        /// </summary>
+        public class Authentication : IPLComponent<Authentication>
+        {
+            private PLTables Tables { get; set; }
+            private MySqlManager MySqlManager { get; set; }
+
+            private readonly string UserAccount;
+
+            /// <summary>
+            /// 默认构造
+            /// </summary>
+            public Authentication() => throw (new Exception("非法的构造模式，请使用ComponentFactory"));
+            /// <summary>
+            /// 工厂构造
+            /// </summary>
+            /// <param name="Tables">数据库表</param>
+            /// <param name="MySqlManager">数据库管理器</param>
+            /// <param name="UserAccount">用户账号</param>
+            internal Authentication(PLTables Tables, MySqlManager MySqlManager, string UserAccount)
+            {
+                this.Tables = Tables;
+                this.MySqlManager = MySqlManager;
+                this.UserAccount = UserAccount;
+            }
+
+            /// <summary>
+            /// 权限验证
+            /// </summary>
+            /// <param name="Token">Token</param>
+            /// <param name="todo">行为委托</param>
+            /// <returns></returns>
+            public T Auth<T>(string Token, Func<T> todo)
+            {
+                if ((DateTime.Now - Convert.ToDateTime(MathH.RSADecrypt(GetPrivateKey(), Token))).TotalSeconds < 10)
+                {
+                    return todo();
+                }
+                else
+                {
+                    return default;
+                }
+            }
+            /// <summary>
+            /// 取得私钥
+            /// </summary>
+            /// <returns></returns>
+            public string GetPrivateKey()
+            {
+                return MySqlManager.GetKey($"SELECT PrivateKey FROM {Tables.User} WHERE Account = '{UserAccount}'").ToString();
+            }
+            /// <summary>
+            /// 设置私钥
+            /// </summary>
+            /// <returns></returns>
+            public bool SetPrivateKey(string PrivateKey)
+            {
+                return MySqlManager.UpdateKey
+                    (new MySqlKey() { Table = Tables.User, Name = "Account", Val = UserAccount }, "PrivateKey", PrivateKey);
+            }
+            /// <summary>
+            /// 设置最后Token获取时间
+            /// </summary>
+            /// <returns></returns>
+            public bool UpdateTokenTime()
+            {
+                return MySqlManager.UpdateKey
+                    (new MySqlKey() { Table = Tables.User, Name = "Account", Val = UserAccount }, "TokenTime", DateTime.Now.ToString());
+            }
+        }
+        /// <summary>
+        /// 数据读取组件
         /// </summary>
         public class Reader : IPLComponent<Reader>
         {
@@ -911,22 +1000,19 @@ namespace WaterLibrary.pilipala
             private MySqlManager MySqlManager { get; set; }
 
             /// <summary>
-            /// 准备读取器
+            /// 默认构造
             /// </summary>
-            /// <param name="CORE"></param>
-            public Reader Ready(ICORE CORE)
-            {
-                Views = CORE.Views;
-                MySqlManager = CORE.MySqlManager;
-
-                return this;
-            }
-
-            internal Reader Ready(PLViews Views, MySqlManager MySqlManager)
+            public Reader() => throw (new Exception("非法的构造模式，请使用ComponentFactory"));
+            /// <summary>
+            /// 工厂构造
+            /// </summary>
+            /// <param name="Views">数据库视图</param>
+            /// <param name="MySqlManager">数据库管理器</param>
+            /// <returns></returns>
+            internal Reader(PLViews Views, MySqlManager MySqlManager)
             {
                 this.Views = Views;
                 this.MySqlManager = MySqlManager;
-                return this;
             }
 
             /// <summary>
@@ -1201,35 +1287,27 @@ namespace WaterLibrary.pilipala
             }
         }
         /// <summary>
-        /// 啪啦数据修改器
+        /// 数据修改组件
         /// </summary>
         public class Writer : IPLComponent<Writer>
         {
             private PLTables Tables { get; set; }
             private MySqlManager MySqlManager { get; set; }
 
-            private string UserGUID;
-
             /// <summary>
-            /// 准备修改器
+            /// 默认构造
             /// </summary>
-            /// <param name="CORE"></param>
-            public Writer Ready(ICORE CORE)
-            {
-                Tables = CORE.Tables;
-                MySqlManager = CORE.MySqlManager;
-                UserGUID = CORE.UserGUID;
-
-                return this;
-            }
-
-            internal Writer Ready(PLTables Tables, MySqlManager MySqlManager, string UserGUID)
+            public Writer() => throw (new Exception("非法的构造模式，请使用ComponentFactory"));
+            /// <summary>
+            /// 工厂构造
+            /// </summary>
+            /// <param name="Tables">数据库表</param>
+            /// <param name="MySqlManager">数据库管理器</param>
+            /// <returns></returns>
+            internal Writer(PLTables Tables, MySqlManager MySqlManager)
             {
                 this.Tables = Tables;
                 this.MySqlManager = MySqlManager;
-                this.UserGUID = UserGUID;
-
-                return this;
             }
 
             /// <summary>
@@ -1316,7 +1394,7 @@ namespace WaterLibrary.pilipala
                     new("CT", t),
                     new("LCT", t),
 
-                    new("User", UserGUID),/* 使用登录内核的用户GUID */
+                    new("User", Post.User),/* 指定用户账号 */
 
                     /* 可传参数 */
                     new("Mode", Post.Mode),
@@ -1401,7 +1479,7 @@ namespace WaterLibrary.pilipala
                     new("GUID", MathH.GenerateGUID("N") ),
                     new("LCT", DateTime.Now ),
 
-                    new("User", UserGUID),/* 使用登录内核的用户GUID */
+                    new("User", Post.User),/* 指定用户账号 */
 
                     /* 可传参数 */
                     new("ID", Post.ID),
@@ -1793,7 +1871,7 @@ namespace WaterLibrary.pilipala
             }
         }
         /// <summary>
-        /// 啪啦计数管理器
+        /// 计数管理组件
         /// </summary>
         public class Counter : IPLComponent<Counter>
         {
@@ -1801,21 +1879,19 @@ namespace WaterLibrary.pilipala
             private MySqlManager MySqlManager { get; set; }
 
             /// <summary>
-            /// 准备计数器
+            /// 默认构造
             /// </summary>
-            /// <param name="CORE"></param>
-            public Counter Ready(ICORE CORE)
-            {
-                Tables = CORE.Tables;
-                MySqlManager = CORE.MySqlManager;
-                return this;
-            }
-
-            internal Counter Ready(PLTables Tables, MySqlManager MySqlManager)
+            public Counter() => throw (new Exception("非法的构造模式，请使用ComponentFactory"));
+            /// <summary>
+            /// 工厂构造
+            /// </summary>
+            /// <param name="Tables">数据库表</param>
+            /// <param name="MySqlManager">数据库管理器</param>
+            /// <returns></returns>
+            internal Counter(PLTables Tables, MySqlManager MySqlManager)
             {
                 this.Tables = Tables;
                 this.MySqlManager = MySqlManager;
-                return this;
             }
 
             /// <summary>

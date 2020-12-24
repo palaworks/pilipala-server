@@ -305,25 +305,23 @@ namespace WaterLibrary.Tools
                 return rsa.Encrypt(data, false);
             }
 
-            using (var dataStream = new MemoryStream(data))
-            using (var enStream = new MemoryStream())
+            using var dataStream = new MemoryStream(data);
+            using var enStream = new MemoryStream();
+            Byte[] buffer = new Byte[blockLen];
+            int len = dataStream.Read(buffer, 0, blockLen);
+
+            while (len > 0)
             {
-                Byte[] buffer = new Byte[blockLen];
-                int len = dataStream.Read(buffer, 0, blockLen);
+                Byte[] block = new Byte[len];
+                Array.Copy(buffer, 0, block, 0, len);
 
-                while (len > 0)
-                {
-                    Byte[] block = new Byte[len];
-                    Array.Copy(buffer, 0, block, 0, len);
+                Byte[] enBlock = rsa.Encrypt(block, false);
+                enStream.Write(enBlock, 0, enBlock.Length);
 
-                    Byte[] enBlock = rsa.Encrypt(block, false);
-                    enStream.Write(enBlock, 0, enBlock.Length);
-
-                    len = dataStream.Read(buffer, 0, blockLen);
-                }
-
-                return enStream.ToArray();
+                len = dataStream.Read(buffer, 0, blockLen);
             }
+
+            return enStream.ToArray();
         }
         /// <summary>
         /// 解密字符串（utf-8），解密异常返回null
@@ -360,25 +358,23 @@ namespace WaterLibrary.Tools
                     return rsa.Decrypt(data, false);
                 }
 
-                using (var dataStream = new MemoryStream(data))
-                using (var deStream = new MemoryStream())
+                using var dataStream = new MemoryStream(data);
+                using var deStream = new MemoryStream();
+                Byte[] buffer = new Byte[blockLen];
+                int len = dataStream.Read(buffer, 0, blockLen);
+
+                while (len > 0)
                 {
-                    Byte[] buffer = new Byte[blockLen];
-                    int len = dataStream.Read(buffer, 0, blockLen);
+                    Byte[] block = new Byte[len];
+                    Array.Copy(buffer, 0, block, 0, len);
 
-                    while (len > 0)
-                    {
-                        Byte[] block = new Byte[len];
-                        Array.Copy(buffer, 0, block, 0, len);
+                    Byte[] deBlock = rsa.Decrypt(block, false);
+                    deStream.Write(deBlock, 0, deBlock.Length);
 
-                        Byte[] deBlock = rsa.Decrypt(block, false);
-                        deStream.Write(deBlock, 0, deBlock.Length);
-
-                        len = dataStream.Read(buffer, 0, blockLen);
-                    }
-
-                    return deStream.ToArray();
+                    len = dataStream.Read(buffer, 0, blockLen);
                 }
+
+                return deStream.ToArray();
             }
             catch
             {
@@ -430,7 +426,7 @@ namespace WaterLibrary.Tools
 
 
 
-        private RSACryptoServiceProvider rsa;
+        private readonly RSACryptoServiceProvider rsa;
         /// <summary>
         /// 最底层的RSACryptoServiceProvider对象
         /// </summary>
@@ -468,8 +464,10 @@ namespace WaterLibrary.Tools
         /// </summary>
         public RSA(int keySize)
         {
-            var rsaParams = new CspParameters();
-            rsaParams.Flags = CspProviderFlags.UseMachineKeyStore;
+            var rsaParams = new CspParameters
+            {
+                Flags = CspProviderFlags.UseMachineKeyStore
+            };
             rsa = new RSACryptoServiceProvider(keySize, rsaParams);
         }
         /// <summary>
@@ -656,13 +654,17 @@ namespace WaterLibrary.Tools
         /// </summary>
         public RSACryptoServiceProvider GetRSA()
         {
-            var rsaParams = new CspParameters();
-            rsaParams.Flags = CspProviderFlags.UseMachineKeyStore;
+            var rsaParams = new CspParameters
+            {
+                Flags = CspProviderFlags.UseMachineKeyStore
+            };
             var rsa = new RSACryptoServiceProvider(rsaParams);
 
-            var param = new RSAParameters();
-            param.Modulus = Key_Modulus;
-            param.Exponent = Key_Exponent;
+            var param = new RSAParameters
+            {
+                Modulus = Key_Modulus,
+                Exponent = Key_Exponent
+            };
             if (Key_D != null)
             {
                 param.D = Key_D;
@@ -787,7 +789,7 @@ namespace WaterLibrary.Tools
             var idx = 0;
 
             //读取长度
-            Func<byte, int> readLen = (first) =>
+            int readLen(byte first)
             {
                 if (data[idx] == first)
                 {
@@ -808,9 +810,9 @@ namespace WaterLibrary.Tools
                     }
                 }
                 throw new Exception("PEM未能提取到数据");
-            };
+            }
             //读取块数据
-            Func<byte[]> readBlock = () =>
+            byte[] readBlock()
             {
                 var len = readLen(0x02);
                 if (data[idx] == 0x00)
@@ -825,9 +827,9 @@ namespace WaterLibrary.Tools
                 }
                 idx += len;
                 return val;
-            };
+            }
             //比较data从idx位置开始是否是byts内容
-            Func<byte[], bool> eq = (byts) =>
+            bool eq(byte[] byts)
             {
                 for (var i = 0; i < byts.Length; i++, idx++)
                 {
@@ -841,7 +843,7 @@ namespace WaterLibrary.Tools
                     }
                 }
                 return true;
-            };
+            }
 
 
 
@@ -910,7 +912,7 @@ namespace WaterLibrary.Tools
                 param.Key_Exponent = readBlock();
                 int keyLen = param.Key_Modulus.Length;
                 param.Key_D = BigL(readBlock(), keyLen);
-                keyLen = keyLen / 2;
+                keyLen /= 2;
                 param.Val_P = BigL(readBlock(), keyLen);
                 param.Val_Q = BigL(readBlock(), keyLen);
                 param.Val_DP = BigL(readBlock(), keyLen);
@@ -969,7 +971,7 @@ namespace WaterLibrary.Tools
 
             var ms = new MemoryStream();
             //写入一个长度字节码
-            Action<int> writeLenByte = (len) =>
+            void writeLenByte(int len)
             {
                 if (len < 0x80)
                 {
@@ -986,9 +988,9 @@ namespace WaterLibrary.Tools
                     ms.WriteByte((byte)(len >> 8 & 0xff));
                     ms.WriteByte((byte)(len & 0xff));
                 }
-            };
+            }
             //写入一块数据
-            Action<byte[]> writeBlock = (byts) =>
+            void writeBlock(byte[] byts)
             {
                 var addZero = (byts[0] >> 4) >= 0x8;
                 ms.WriteByte(0x02);
@@ -1000,9 +1002,9 @@ namespace WaterLibrary.Tools
                     ms.WriteByte(0x00);
                 }
                 ms.Write(byts, 0, byts.Length);
-            };
+            }
             //根据后续内容长度写入长度数据
-            Func<int, byte[], byte[]> writeLen = (index, byts) =>
+            byte[] writeLen(int index, byte[] byts)
             {
                 var len = byts.Length - index;
 
@@ -1012,12 +1014,12 @@ namespace WaterLibrary.Tools
                 ms.Write(byts, index, len);
 
                 return ms.ToArray();
-            };
-            Action<MemoryStream, byte[]> writeAll = (stream, byts) =>
+            }
+            void writeAll(MemoryStream stream, byte[] byts)
             {
                 stream.Write(byts, 0, byts.Length);
-            };
-            Func<string, int, string> TextBreak = (text, line) =>
+            }
+            string TextBreak(string text, int line)
             {
                 var idx = 0;
                 var len = text.Length;
@@ -1030,7 +1032,7 @@ namespace WaterLibrary.Tools
                     }
                     if (idx + line >= len)
                     {
-                        str.Append(text.Substring(idx));
+                        str.Append(text[idx..]);
                     }
                     else
                     {
@@ -1039,7 +1041,7 @@ namespace WaterLibrary.Tools
                     idx += line;
                 }
                 return str.ToString();
-            };
+            }
 
 
             if (Key_D == null || convertToPublic)
