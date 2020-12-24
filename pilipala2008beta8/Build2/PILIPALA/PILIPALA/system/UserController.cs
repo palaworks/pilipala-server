@@ -21,6 +21,8 @@ using PILIPALA.Models.UserModel;
 
 namespace PILIPALA.system
 {
+    using WaterLibrary.pilipala.Components;
+
     [EnableCors("DefaultPolicy")]
     public class UserController : Controller
     {
@@ -29,10 +31,11 @@ namespace PILIPALA.system
         private Writer Writer;
         private Counter Counter;
         private CommentLake CommentLake;
+        private User User;
 
         private ICORE CORE;
 
-        public UserController(ICORE CORE, Authentication Authentication = null, Reader Reader = null, Writer Writer = null, Counter Counter = null, CommentLake CommentLake = null)
+        public UserController(ICORE CORE, Authentication Authentication = null, Reader Reader = null, Writer Writer = null, Counter Counter = null, CommentLake CommentLake = null, User User = null)
         {
             this.CORE = CORE;
             CORE.SetTables();
@@ -43,6 +46,7 @@ namespace PILIPALA.system
             this.Writer = Writer;
             this.Counter = Counter;
             this.CommentLake = CommentLake;
+            this.User = User;
         }
 
 
@@ -55,7 +59,7 @@ namespace PILIPALA.system
         public string Login(string UserAccount, string UserPWD)
         {
             ComponentFactory ComponentFactory = new();
-            CORE.LinkOn += ComponentFactory.Ready;
+            CORE.CoreReady += ComponentFactory.Ready;
             CORE.Run(UserAccount, UserPWD);
 
             Authentication = ComponentFactory.GenAuthentication();
@@ -64,6 +68,29 @@ namespace PILIPALA.system
             Authentication.UpdateTokenTime();
 
             return KeyPair.PublicKey;
+        }
+
+        /// <summary>
+        /// 获取用户数据
+        /// </summary>
+        /// <returns></returns>
+        public string Get_user_data(string Token)
+        {
+            return Authentication.Auth(Token, () =>
+            {
+                return User.ToJSON();
+            });
+        }
+        /// <summary>
+        /// 取得内核版本
+        /// </summary>
+        /// <returns>返回内核版本</returns>
+        public string Get_core_version(string Token)
+        {
+            return Authentication.Auth(Token, () =>
+            {
+                return WaterLibrary.Assembly.Version;
+            });
         }
 
         /* 评论管理 */
