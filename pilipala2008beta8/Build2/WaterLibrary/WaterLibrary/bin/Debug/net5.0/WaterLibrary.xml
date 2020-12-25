@@ -277,9 +277,9 @@
             自我介绍
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Components.User.Group">
+        <member name="P:WaterLibrary.pilipala.Components.User.GroupType">
             <summary>
-            分组
+            组别
             </summary>
         </member>
         <member name="P:WaterLibrary.pilipala.Components.User.Email">
@@ -1417,11 +1417,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.ICORE.Shutdown">
-            <summary>
-            关闭内核
-            </summary>
-        </member>
         <member name="M:WaterLibrary.pilipala.ICORE.SetTables(System.String,System.String,System.String,System.String)">
             <summary>
             设置内核所需要的表
@@ -1495,9 +1490,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.CORE.Shutdown">
+        <member name="M:WaterLibrary.pilipala.CORE.Dispose">
             <summary>
-            关闭内核
+            注销内核
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.CORE.SetTables(System.String,System.String,System.String,System.String)">
@@ -1705,13 +1700,6 @@
             单纯执行SQL查询
             </summary>
             <param name="SQL">用于查询的SQL语句</param>
-            <returns>返回受影响的行数</returns>
-        </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.QueryOnly(MySql.Data.MySqlClient.MySqlCommand@)">
-            <summary>
-            单纯执行SQL查询（适用于参数化查询）
-            </summary>
-            <param name="MySqlCommand">CMD实例</param>
             <returns>返回受影响的行数</returns>
         </member>
         <member name="T:WaterLibrary.MySQL.MySqlKey">

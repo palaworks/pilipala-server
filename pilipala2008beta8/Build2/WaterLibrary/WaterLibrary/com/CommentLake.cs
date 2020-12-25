@@ -212,7 +212,7 @@ namespace WaterLibrary.pilipala.Components
                 new("Time", DateTime.Now),
             };
 
-            MySqlCommand MySqlCommand = new(SQL, MySqlManager.Connection);
+            using MySqlCommand MySqlCommand = new(SQL, MySqlManager.Connection);
             MySqlCommand.Parameters.AddRange(parameters);
 
             /* 开始事务 */
@@ -237,7 +237,7 @@ namespace WaterLibrary.pilipala.Components
         /// <returns></returns>
         public bool DeleteComment(int CommentID)
         {
-            MySqlCommand MySqlCommand = new MySqlCommand
+            using MySqlCommand MySqlCommand = new MySqlCommand
             {
                 CommandText = $"DELETE FROM {Tables.Comment} WHERE CommentID = {CommentID}",
                 Connection = MySqlManager.Connection,
@@ -246,7 +246,7 @@ namespace WaterLibrary.pilipala.Components
                 Transaction = MySqlManager.Connection.BeginTransaction()
             };
 
-            if (MySqlManager.QueryOnly(ref MySqlCommand) == 1)
+            if (MySqlCommand.ExecuteNonQuery() == 1)
             {
                 /* 删除1条评论，操作行为1 */
                 MySqlCommand.Transaction.Commit();
