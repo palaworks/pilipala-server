@@ -42,11 +42,11 @@ namespace PILIPALA
 
             var MySqlManager = new MySqlManager(new MySqlConnMsg
             {
-                DataSource = Configuration.GetSection("AppSettings:DataSource").Value,
-                DataBase = Configuration.GetSection("AppSettings:DataBase").Value,
-                Port = Configuration.GetSection("AppSettings:Port").Value,
-                User = Configuration.GetSection("AppSettings:User").Value,
-                PWD = Configuration.GetSection("AppSettings:PWD").Value
+                DataSource = Configuration.GetSection("AppSettings:MySQL:DataSource").Value,
+                DataBase = Configuration.GetSection("AppSettings:MySQL:DataBase").Value,
+                Port = Configuration.GetSection("AppSettings:MySQL:Port").Value,
+                User = Configuration.GetSection("AppSettings:MySQL:User").Value,
+                PWD = Configuration.GetSection("AppSettings:MySQL:PWD").Value
             });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
@@ -66,7 +66,10 @@ namespace PILIPALA
 
                 CORE.CoreReady += ComponentFactory.Ready;
 
-                var User = CORE.Run("1951327599", "thaumy12384");
+                var UserAccount = Configuration.GetSection("AppSettings:User:Account").Value;
+                var UserPWD = Configuration.GetSection("AppSettings:User:PWD").Value;
+
+                var User = CORE.Run(UserAccount, UserPWD);
 
                 var Authentication = ComponentFactory.GenAuthentication();
                 var Reader = ComponentFactory.GenReader();
