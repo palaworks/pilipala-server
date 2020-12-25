@@ -279,11 +279,6 @@ namespace WaterLibrary.pilipala
         public void Run();
 
         /// <summary>
-        /// 关闭内核
-        /// </summary>
-        void Shutdown();
-
-        /// <summary>
         /// 设置内核所需要的表
         /// </summary>
         /// <param name="User">用户表</param>
@@ -389,11 +384,11 @@ namespace WaterLibrary.pilipala
             CoreReady(this, null);/* 分配一个空用户给工厂 */
         }
         /// <summary>
-        /// 关闭内核
+        /// 注销内核
         /// </summary>
-        public void Shutdown()
+        public void Dispose()
         {
-            MySqlManager.Close();
+            MySqlManager.Dispose();
         }
 
         /// <summary>
@@ -1007,9 +1002,9 @@ namespace WaterLibrary.pilipala
             /// </summary>
             public string Bio { get { return Get("Bio"); } set { Set("Bio", value); } }
             /// <summary>
-            /// 分组
+            /// 组别
             /// </summary>
-            public string Group { get { return Get("Group"); } set { Set("Group", value); } }
+            public string GroupType { get { return Get("GroupType"); } set { Set("GroupType", value); } }
             /// <summary>
             /// 邮箱
             /// </summary>
@@ -1449,7 +1444,7 @@ namespace WaterLibrary.pilipala
                     new("Cover", Post.Cover )
                 };
 
-                MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
+                using MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
                 MySqlCommand.Parameters.AddRange(parameters);
 
                 /* 开始事务 */
@@ -1475,7 +1470,7 @@ namespace WaterLibrary.pilipala
             public bool Dispose(int ID)
             {
                 /* int参数无法用于参数化攻击 */
-                MySqlCommand MySqlCommand = new MySqlCommand
+                using MySqlCommand MySqlCommand = new MySqlCommand
                 {
                     CommandText =
                     $"DELETE FROM {Tables.Index} WHERE ID={ID};DELETE FROM {Tables.Backup} WHERE ID={ID};",
@@ -1536,7 +1531,7 @@ namespace WaterLibrary.pilipala
                     new("Cover", Post.Cover)
                 };
 
-                MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
+                using MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
                 MySqlCommand.Parameters.AddRange(parameters);
 
                 /* 开始事务 */
@@ -1574,7 +1569,7 @@ namespace WaterLibrary.pilipala
                     new("GUID", GUID )
                 };
 
-                MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
+                using MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
                 MySqlCommand.Parameters.AddRange(parameters);
 
                 /* 开始事务 */
@@ -1612,7 +1607,7 @@ namespace WaterLibrary.pilipala
                     new("GUID", GUID)
                 };
 
-                MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
+                using MySqlCommand MySqlCommand = new MySqlCommand(SQL, MySqlManager.Connection);
                 MySqlCommand.Parameters.AddRange(parameters);
 
                 /* 开始事务 */
@@ -1637,14 +1632,14 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public bool Rollback(int ID)
             {
-                MySqlCommand MySqlCommand = new MySqlCommand
+                using MySqlCommand MySqlCommand = new MySqlCommand
                 {
                     CommandText = string.Format
-                    (
-                    "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.GUID={1}.GUID AND {0}.ID={2};" +
-                    "UPDATE {0} SET GUID = (SELECT GUID FROM {1} WHERE ID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE ID={2};"
-                    , Tables.Index, Tables.Backup, ID
-                    ),
+                     (
+                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.GUID={1}.GUID AND {0}.ID={2};" +
+                     "UPDATE {0} SET GUID = (SELECT GUID FROM {1} WHERE ID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE ID={2};"
+                     , Tables.Index, Tables.Backup, ID
+                     ),
 
                     Connection = MySqlManager.Connection,
 
@@ -1671,13 +1666,13 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public bool Release(int ID)
             {
-                MySqlCommand MySqlCommand = new MySqlCommand
+                using MySqlCommand MySqlCommand = new MySqlCommand
                 {
                     CommandText = string.Format
-                   (
-                   "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID AND {0}.ID={2}"
-                   , Tables.Index, Tables.Backup, ID
-                   ),
+                     (
+                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID AND {0}.ID={2}"
+                     , Tables.Index, Tables.Backup, ID
+                     ),
 
                     Connection = MySqlManager.Connection,
 
