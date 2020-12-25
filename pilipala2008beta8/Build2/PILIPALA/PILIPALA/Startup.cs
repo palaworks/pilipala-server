@@ -40,7 +40,7 @@ namespace PILIPALA
                 options.Cookie.IsEssential = true;
             });
 
-            var MySqlManager = new MySqlManager(new MySqlConnMsg
+            using MySqlManager MySqlManager = new MySqlManager(new MySqlConnMsg
             {
                 DataSource = Configuration.GetSection("AppSettings:MySQL:DataSource").Value,
                 DataBase = Configuration.GetSection("AppSettings:MySQL:DataBase").Value,
@@ -50,13 +50,12 @@ namespace PILIPALA
             });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            services.AddScoped<ICORE>(x => new CORE(new PLDatabase { MySqlManager = MySqlManager }));
+            services.AddTransient<ICORE>(x => new CORE(new PLDatabase { MySqlManager = MySqlManager }));
 
             MySqlManager.Open();
 
             if ((DateTime.Now - Convert.ToDateTime(MySqlManager.GetKey("SELECT TokenTime FROM pl_user WHERE GroupType = 'user'"))).TotalMinutes < 120)
             {
-
                 CORE CORE = new CORE(new PLDatabase { MySqlManager = MySqlManager });
 
                 var ComponentFactory = new ComponentFactory();
@@ -77,12 +76,12 @@ namespace PILIPALA
                 var Counter = ComponentFactory.GenCounter();
                 var CommentLake = ComponentFactory.GenCommentLake();
 
-                services.AddScoped(x => Authentication);
-                services.AddScoped(x => Reader);
-                services.AddScoped(x => Writer);
-                services.AddScoped(x => Counter);
-                services.AddScoped(x => CommentLake);
-                services.AddScoped(x => User);
+                services.AddTransient(x => Authentication);
+                services.AddTransient(x => Reader);
+                services.AddTransient(x => Writer);
+                services.AddTransient(x => Counter);
+                services.AddTransient(x => CommentLake);
+                services.AddTransient(x => User);
             }
 
             services.AddCors(options =>

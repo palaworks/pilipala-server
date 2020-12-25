@@ -177,8 +177,8 @@ namespace PILIPALA.system
                       {
                           item.PropertyContainer = new Hashtable()
                           {
-                        { "CommentCount", CommentLake.GetCommentCount(item.ID) },
-                        { "MD5", item.MD5() }
+                              { "CommentCount", CommentLake.GetCommentCount(item.ID) },
+                              { "MD5", item.MD5() }
                           };
                       }).ToJSON());
         }
