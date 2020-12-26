@@ -8,13 +8,14 @@ using MySql.Data.MySqlClient;
 
 namespace WaterLibrary.MySQL
 {
+
     /// <summary>
     /// MySql数据库管理器
     /// </summary>
     public class MySqlManager
     {
         private MySqlConnMsg MySqlConnMsg { get; set; }
-        private List<MySqlConnection> ConnectionPool = new();
+        private List<MySqlConnection> ConnectionPool = new();//连接池
         /// <summary>
         /// 数据库连接访问器
         /// </summary>
@@ -22,24 +23,26 @@ namespace WaterLibrary.MySQL
         {
             get
             {
-                var el = new MySqlConnection(
-                    "DataSource=" + MySqlConnMsg.DataSource +
-                    ";DataBase=" + MySqlConnMsg.DataBase +
-                    ";Port=" + MySqlConnMsg.Port +
-                    ";UserID=" + MySqlConnMsg.User +
-                    ";Password=" + MySqlConnMsg.PWD +
-                    /* UPDATE语句返回受影响的行数而不是符合查询条件的行数|兼容旧版语法 */
-                    ";UseAffectedRows=TRUE;"
-                    );
-                el.Open();
-                
+
+                MySqlConnection GenConn()
+                {
+                    var conn = new MySqlConnection(
+                        "DataSource=" + MySqlConnMsg.DataSource +
+                        ";DataBase=" + MySqlConnMsg.DataBase +
+                        ";Port=" + MySqlConnMsg.Port +
+                        ";UserID=" + MySqlConnMsg.User +
+                        ";Password=" + MySqlConnMsg.PWD +
+                        /* UPDATE语句返回受影响的行数而不是符合查询条件的行数|兼容旧版语法 */
+                        ";UseAffectedRows=TRUE;"
+                        );
+                    return conn;
+                }
 
                 if (ConnectionPool.Count >= 8)/* 在连接数达到8时检查无用连接并进行清理 */
                 {
                     for (int i = ConnectionPool.Count - 1; i >= 0; i--)
                     { /* 如果连接打开、中断或是关闭（这都是不工作的状态） */
-                        if (ConnectionPool[i].State == ConnectionState.Open
-                         || ConnectionPool[i].State == ConnectionState.Broken
+                        if (ConnectionPool[i].State == ConnectionState.Broken
                          || ConnectionPool[i].State == ConnectionState.Closed)
                         {
                             ConnectionPool[i].Dispose();
@@ -48,13 +51,15 @@ namespace WaterLibrary.MySQL
                     };
                 }
 
-                ConnectionPool.Add(el);
+                ConnectionPool.Add(GenConn());
+                if (ConnectionPool[0].State != ConnectionState.Open)
+                    ConnectionPool[0].Open();
                 return ConnectionPool[0];
             }
         }
 
         /// <summary>
-        /// 初始化管理器
+        /// 标准构造
         /// </summary>
         /// <param name="MySqlConnMsg"></param>
         public MySqlManager(MySqlConnMsg MySqlConnMsg)
