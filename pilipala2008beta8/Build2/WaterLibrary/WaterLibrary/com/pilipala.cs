@@ -349,7 +349,6 @@ namespace WaterLibrary.pilipala
         /// <returns></returns>
         public Components.User Run(string UserAccount, string UserPWD)
         {
-            MySqlManager.Open();
             string SQL = $"SELECT COUNT(*) FROM {Tables.User} WHERE Account = ?UserAccount AND PWD = ?UserPWD";
 
             if (MySqlManager.GetKey(SQL, new MySqlParameter[]
@@ -370,7 +369,6 @@ namespace WaterLibrary.pilipala
             }
             else
             {
-                MySqlManager.Close();
                 throw new Exception("非法的用户签名");
             }
         }
@@ -380,15 +378,7 @@ namespace WaterLibrary.pilipala
         /// <returns></returns>
         public void Run()
         {
-            MySqlManager.Open();
             CoreReady(this, null);/* 分配一个空用户给工厂 */
-        }
-        /// <summary>
-        /// 注销内核
-        /// </summary>
-        public void Dispose()
-        {
-            MySqlManager.Dispose();
         }
 
         /// <summary>
@@ -516,6 +506,22 @@ namespace WaterLibrary.pilipala
             /// 概要
             /// </summary>
             public string Summary { get; set; }
+            /// <summary>
+            /// 尝试概要
+            /// </summary>
+            /// <param name="todo">概要为空时的操作</param>
+            /// <returns></returns>
+            public string TrySummary(Func<string> todo)
+            {
+                if (Summary == "")
+                {
+                    return todo();
+                }
+                else
+                {
+                    return Summary;
+                }
+            }
             /// <summary>
             /// 内容
             /// </summary>
@@ -1865,7 +1871,7 @@ namespace WaterLibrary.pilipala
                 }
                 else
                 {
-                    throw new Exception("ERROR");
+                    throw new Exception("GUID不匹配，该联合存在安全隐患");
                 }
             }
             /// <summary>
