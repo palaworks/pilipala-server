@@ -867,7 +867,7 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 默认构造
             /// </summary>
-            public Authentication() => throw (new Exception("非法的构造模式，请使用ComponentFactory"));
+            private Authentication() { }
             /// <summary>
             /// 工厂构造
             /// </summary>
@@ -945,7 +945,7 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 默认构造
             /// </summary>
-            public User() => throw (new Exception("非法的构造模式，该对象仅允许由内核抛出"));
+            private User() { }
             /// <summary>
             /// 内核构造
             /// </summary>
@@ -1034,7 +1034,7 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 默认构造
             /// </summary>
-            public Reader() => throw (new Exception("非法的构造模式，请使用ComponentFactory"));
+            private Reader() { }
             /// <summary>
             /// 工厂构造
             /// </summary>
@@ -1329,7 +1329,7 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 默认构造
             /// </summary>
-            public Writer() => throw (new Exception("非法的构造模式，请使用ComponentFactory"));
+            private Writer() { }
             /// <summary>
             /// 工厂构造
             /// </summary>
@@ -1913,7 +1913,7 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 默认构造
             /// </summary>
-            public Counter() => throw (new Exception("非法的构造模式，请使用ComponentFactory"));
+            private Counter() { }
             /// <summary>
             /// 工厂构造
             /// </summary>

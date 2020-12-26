@@ -123,7 +123,7 @@ namespace WaterLibrary.MySQL
             return MySqlCommand.ExecuteScalar();
         }
         /// <summary>
-        /// 取得首个键值（键匹配查询）
+        /// 取得指定键值（键匹配查询）
         /// </summary>
         /// <param name="MySqlKey">操作定位器</param>
         /// <param name="KeyName">键名</param>
@@ -187,7 +187,6 @@ namespace WaterLibrary.MySQL
             using DataTable table = new DataTable();
 
             new MySqlDataAdapter(SQL, Connection).Fill(table);
-
             return table;
         }
         /// <summary>
@@ -204,7 +203,6 @@ namespace WaterLibrary.MySQL
             using DataTable table = new DataTable();
 
             new MySqlDataAdapter(MySqlCommand).Fill(table);
-
             return table;
         }
 
