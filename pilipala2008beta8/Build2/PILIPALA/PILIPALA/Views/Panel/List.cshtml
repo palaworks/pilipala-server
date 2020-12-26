@@ -18,14 +18,7 @@
                 <!-- 前置样式 -->
                 @Html.Raw(Post.Cover)
                 <div class="Title">@Post.Title</div>
-                @if (Post.Summary == "")
-                {
-                    <div class="Summary">@Post.TextContent(80)</div>
-                }
-                else
-                {
-                    <div class="Summary">@Post.Summary</div>
-                }
+                <div class="Summary">@Post.TrySummary(() => Post.TextContent(80))</div>
             </div>
 
             <div class="AtBox bRds-b">
@@ -68,14 +61,7 @@
                 <!-- 前置样式 -->
                 @Html.Raw(Post.Cover)
                 <div class="Title">@Post.Title</div>
-                @if (Post.Summary == "")
-                {
-                    <div class="Summary">@Post.TextContent(80)</div>
-                }
-                else
-                {
-                    <div class="Summary">@Post.Summary</div>
-                }
+                <div class="Summary">@Post.TrySummary(() => Post.TextContent(80))</div>
             </div>
 
             <div class="AtBox bRds-b">

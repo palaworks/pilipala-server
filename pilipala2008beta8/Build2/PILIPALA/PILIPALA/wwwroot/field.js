@@ -28,7 +28,7 @@ var showPost = throttle(function (ID, push = true) {
 
         });
 
-}, 600);
+}, 300);
 
 
 /*星星熄灭/点亮*/
