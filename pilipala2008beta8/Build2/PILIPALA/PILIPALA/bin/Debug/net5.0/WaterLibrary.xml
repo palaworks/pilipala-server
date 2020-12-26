@@ -909,6 +909,13 @@
             概要
             </summary>
         </member>
+        <member name="M:WaterLibrary.pilipala.Entity.Post.TrySummary(System.Func{System.String})">
+            <summary>
+            尝试概要
+            </summary>
+            <param name="todo">概要为空时的操作</param>
+            <returns></returns>
+        </member>
         <member name="P:WaterLibrary.pilipala.Entity.Post.Content">
             <summary>
             内容
@@ -1490,11 +1497,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.CORE.Dispose">
-            <summary>
-            注销内核
-            </summary>
-        </member>
         <member name="M:WaterLibrary.pilipala.CORE.SetTables(System.String,System.String,System.String,System.String)">
             <summary>
             设置内核所需要的表
@@ -1518,7 +1520,7 @@
         </member>
         <member name="P:WaterLibrary.MySQL.MySqlManager.Connection">
             <summary>
-            MySql控制器的数据库连接
+            数据库连接访问器
             </summary>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.#ctor(WaterLibrary.MySQL.MySqlConnMsg)">
@@ -1526,23 +1528,6 @@
             初始化管理器
             </summary>
             <param name="MySqlConnMsg"></param>
-        </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.Open">
-            <summary>
-            启动连接
-            </summary>
-        </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.Close">
-            <summary>
-            关闭连接
-            </summary>
-            <returns>成功返回ture，反之或报错返回false</returns>
-        </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.Dispose">
-            <summary>
-            注销连接
-            </summary>
-            <returns>成功返回ture，反之或报错返回false</returns>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.GetSqlConnection(WaterLibrary.MySQL.MySqlConnMsg)">
             <summary>
@@ -1560,6 +1545,21 @@
             <param name="User">用户名</param>
             <param name="PWD">密码</param>
             <returns>返回一个MySqlConnection对象，错误则返回null</returns>
+        </member>
+        <member name="M:WaterLibrary.MySQL.MySqlManager.GetTable(System.String)">
+            <summary>
+            获取单张数据表
+            </summary>
+            <param name="SQL">SQL语句，用于查询数据表</param>
+            <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
+        </member>
+        <member name="M:WaterLibrary.MySQL.MySqlManager.GetTable(System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            获取单张数据表（适用于参数化查询）
+            </summary>
+            <param name="SQL">携带查询参数的SQL语句</param>
+            <param name="parameters">查询参数列表</param>
+            <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.GetKey(System.String)">
             <summary>
@@ -1607,21 +1607,6 @@
             <param name="KeyName">键名</param>
             <param name="KeyValue">键值</param>
             <returns>返回获得的DataRow数据行实例，表为空或未检索到返回null</returns>
-        </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.GetTable(System.String)">
-            <summary>
-            获取单张数据表
-            </summary>
-            <param name="SQL">SQL语句，用于查询数据表</param>
-            <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
-        </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.GetTable(System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            获取单张数据表（适用于参数化查询）
-            </summary>
-            <param name="SQL">携带查询参数的SQL语句</param>
-            <param name="parameters">查询参数列表</param>
-            <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.GetColumn``1(System.String)">
             <summary>
@@ -1694,13 +1679,6 @@
             <param name="OldValue">旧值</param>
             <param name="NewValue">新值</param>
             <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.QueryOnly(System.String)">
-            <summary>
-            单纯执行SQL查询
-            </summary>
-            <param name="SQL">用于查询的SQL语句</param>
-            <returns>返回受影响的行数</returns>
         </member>
         <member name="T:WaterLibrary.MySQL.MySqlKey">
             <summary>

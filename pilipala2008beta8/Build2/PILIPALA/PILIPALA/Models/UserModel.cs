@@ -10,7 +10,9 @@ namespace PILIPALA.Models.UserModel
     public class PostModel
     {
         public int PostID { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Mode { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Type { get; set; }
         public string User { get; set; }
         public int UVCount { get; set; }
@@ -20,6 +22,7 @@ namespace PILIPALA.Models.UserModel
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Summary { get; set; }
         public string Content { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Archiv { get; set; }
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Label { get; set; }

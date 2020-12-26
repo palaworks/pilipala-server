@@ -33,9 +33,9 @@ namespace PILIPALA.system
         private CommentLake CommentLake;
         private User User;
 
-        private ICORE CORE;
+        private CORE CORE;
 
-        public UserController(ICORE CORE, Authentication Authentication = null, Reader Reader = null, Writer Writer = null, Counter Counter = null, CommentLake CommentLake = null, User User = null)
+        public UserController(CORE CORE, Authentication Authentication = null, Reader Reader = null, Writer Writer = null, Counter Counter = null, CommentLake CommentLake = null, User User = null)
         {
             this.CORE = CORE;
             CORE.SetTables();
@@ -82,14 +82,20 @@ namespace PILIPALA.system
             });
         }
         /// <summary>
-        /// 取得内核版本
+        /// 取得系统信息
         /// </summary>
         /// <returns>返回内核版本</returns>
-        public string Get_core_version(string Token)
+        public string Get_system_info(string Token)
         {
             return Authentication.Auth(Token, () =>
             {
-                return WaterLibrary.Assembly.Version;
+                return JsonConvert.SerializeObject(new Hashtable()
+                {
+                    { "pilipala_version", "BETA8"  },
+                    { "core_version",  WaterLibrary.Assembly.Version},
+                    { "auth",  "启用"},
+                    { "auth_end_time",  Authentication.GetTokenTime().AddHours(2).ToString() },
+                });
             });
         }
 
@@ -237,6 +243,7 @@ namespace PILIPALA.system
                 ID = PostModel.PostID,
                 Mode = PostModel.Mode,
                 Type = PostModel.Type,
+                User = PostModel.User,
 
                 UVCount = PostModel.UVCount,
                 StarCount = PostModel.StarCount,
