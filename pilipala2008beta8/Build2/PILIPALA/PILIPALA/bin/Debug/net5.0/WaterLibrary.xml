@@ -1525,7 +1525,7 @@
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.#ctor(WaterLibrary.MySQL.MySqlConnMsg)">
             <summary>
-            初始化管理器
+            标准构造
             </summary>
             <param name="MySqlConnMsg"></param>
         </member>
