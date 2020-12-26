@@ -33,7 +33,7 @@ namespace WaterLibrary.pilipala.Components
         /// <summary>
         /// 默认构造
         /// </summary>
-        public CommentLake() => throw (new Exception("非法的构造模式，请使用ComponentFactory"));
+        private CommentLake() { }
         /// <summary>
         /// 工厂构造
         /// </summary>

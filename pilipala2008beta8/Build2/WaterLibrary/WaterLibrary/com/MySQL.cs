@@ -11,13 +11,47 @@ namespace WaterLibrary.MySQL
     /// <summary>
     /// MySql数据库管理器
     /// </summary>
-    public class MySqlManager : IDisposable
+    public class MySqlManager
     {
         private MySqlConnMsg MySqlConnMsg { get; set; }
+        private List<MySqlConnection> ConnectionPool = new();
         /// <summary>
-        /// MySql控制器的数据库连接
+        /// 数据库连接访问器
         /// </summary>
-        public MySqlConnection Connection { get; private set; }
+        public MySqlConnection Connection
+        {
+            get
+            {
+                var el = new MySqlConnection(
+                    "DataSource=" + MySqlConnMsg.DataSource +
+                    ";DataBase=" + MySqlConnMsg.DataBase +
+                    ";Port=" + MySqlConnMsg.Port +
+                    ";UserID=" + MySqlConnMsg.User +
+                    ";Password=" + MySqlConnMsg.PWD +
+                    /* UPDATE语句返回受影响的行数而不是符合查询条件的行数|兼容旧版语法 */
+                    ";UseAffectedRows=TRUE;"
+                    );
+                el.Open();
+                
+
+                if (ConnectionPool.Count >= 8)/* 在连接数达到8时检查无用连接并进行清理 */
+                {
+                    for (int i = ConnectionPool.Count - 1; i >= 0; i--)
+                    { /* 如果连接打开、中断或是关闭（这都是不工作的状态） */
+                        if (ConnectionPool[i].State == ConnectionState.Open
+                         || ConnectionPool[i].State == ConnectionState.Broken
+                         || ConnectionPool[i].State == ConnectionState.Closed)
+                        {
+                            ConnectionPool[i].Dispose();
+                            ConnectionPool.Remove(ConnectionPool[i]);
+                        }
+                    };
+                }
+
+                ConnectionPool.Add(el);
+                return ConnectionPool[0];
+            }
+        }
 
         /// <summary>
         /// 初始化管理器
@@ -27,43 +61,6 @@ namespace WaterLibrary.MySQL
         {
             this.MySqlConnMsg = MySqlConnMsg;
         }
-
-        /// <summary>
-        /// 启动连接
-        /// </summary>
-        public void Open()
-        {
-            /* 拼接连接字符串 */
-            Connection = new MySqlConnection
-                (
-                "DataSource=" + MySqlConnMsg.DataSource +
-                ";DataBase=" + MySqlConnMsg.DataBase +
-                ";Port=" + MySqlConnMsg.Port +
-                ";UserID=" + MySqlConnMsg.User +
-                ";Password=" + MySqlConnMsg.PWD +
-                /* UPDATE语句返回受影响的行数而不是符合查询条件的行数|兼容旧版语法 */
-                ";UseAffectedRows=TRUE;"
-                );
-            /* 打开连接 */
-            Connection.Open();
-        }
-        /// <summary>
-        /// 关闭连接
-        /// </summary>
-        /// <returns>成功返回ture，反之或报错返回false</returns>
-        public void Close()
-        {
-            Connection.Close();
-        }
-        /// <summary>
-        /// 注销连接
-        /// </summary>
-        /// <returns>成功返回ture，反之或报错返回false</returns>
-        public void Dispose()
-        {
-            Connection.Dispose();
-        }
-
 
         /// <summary>
         /// 生成MySqlConnection（重载一）
@@ -97,6 +94,37 @@ namespace WaterLibrary.MySQL
                 );
         }
 
+
+        /// <summary>
+        /// 获取单张数据表
+        /// </summary>
+        /// <param name="SQL">SQL语句，用于查询数据表</param>
+        /// <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
+        public DataTable GetTable(string SQL)
+        {
+            using DataTable table = new DataTable();
+
+            new MySqlDataAdapter(SQL, Connection).Fill(table);
+
+            return table;
+        }
+        /// <summary>
+        /// 获取单张数据表（适用于参数化查询）
+        /// </summary>
+        /// <param name="SQL">携带查询参数的SQL语句</param>
+        /// <param name="parameters">查询参数列表</param>
+        /// <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
+        public DataTable GetTable(string SQL, MySqlParameter[] parameters)
+        {
+            using MySqlCommand MySqlCommand = new MySqlCommand(SQL, Connection);
+            MySqlCommand.Parameters.AddRange(parameters);//添加参数
+
+            using DataTable table = new DataTable();
+
+            new MySqlDataAdapter(MySqlCommand).Fill(table);
+
+            return table;
+        }
 
         /// <summary>
         /// 取得首个键值（键匹配查询）
@@ -144,7 +172,9 @@ namespace WaterLibrary.MySQL
         /// <returns>操作异常或目标行不存在时，返回null</returns>
         public DataRow GetRow(string SQL)
         {
-            return GetTable(SQL).Rows[0];
+            /* 数组越界防止 */
+            DataRowCollection collection = GetTable(SQL).Rows;
+            return collection.Count == 0 ? null : collection[0];
         }
         /// <summary>
         /// 获得数据行（适用于参数化查询）
@@ -154,7 +184,8 @@ namespace WaterLibrary.MySQL
         /// <returns>操作异常或目标行不存在时，返回null</returns>
         public DataRow GetRow(string SQL, MySqlParameter[] parameters)
         {
-            return GetTable(SQL, parameters).Rows[0];
+            DataRowCollection collection = GetTable(SQL, parameters).Rows;
+            return collection.Count == 0 ? null : collection[0];
         }
         /// <summary>
         /// 从DataTable中提取指定行
@@ -174,36 +205,6 @@ namespace WaterLibrary.MySQL
                 }
             }
             return null;/* 未检索到 */
-        }
-
-
-        /// <summary>
-        /// 获取单张数据表
-        /// </summary>
-        /// <param name="SQL">SQL语句，用于查询数据表</param>
-        /// <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
-        public DataTable GetTable(string SQL)
-        {
-            using DataTable table = new DataTable();
-
-            new MySqlDataAdapter(SQL, Connection).Fill(table);
-            return table;
-        }
-        /// <summary>
-        /// 获取单张数据表（适用于参数化查询）
-        /// </summary>
-        /// <param name="SQL">携带查询参数的SQL语句</param>
-        /// <param name="parameters">查询参数列表</param>
-        /// <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
-        public DataTable GetTable(string SQL, MySqlParameter[] parameters)
-        {
-            using MySqlCommand MySqlCommand = new MySqlCommand(SQL, Connection);
-            MySqlCommand.Parameters.AddRange(parameters);//添加参数
-
-            using DataTable table = new DataTable();
-
-            new MySqlDataAdapter(MySqlCommand).Fill(table);
-            return table;
         }
 
 
@@ -346,7 +347,7 @@ namespace WaterLibrary.MySQL
         }
 
 
-        /* 实验性内容，不建议使用 */
+        /* 实验性内容，不建议使用 
         /// <summary>
         /// 单纯执行SQL查询
         /// </summary>
@@ -356,6 +357,7 @@ namespace WaterLibrary.MySQL
         {
             return new MySqlCommand(SQL, Connection).ExecuteNonQuery();
         }
+        */
     }
 
     /// <summary>
