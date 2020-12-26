@@ -1,4 +1,0 @@
-H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\netcoreapp3.1\WaterLibrary.csprojAssemblyReference.cache
-H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\netcoreapp3.1\WaterLibrary.AssemblyInfoInputs.cache
-H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\netcoreapp3.1\WaterLibrary.AssemblyInfo.cs
-H:\博客项目\pilipala2008beta8\Build2\WaterLibrary\WaterLibrary\obj\Debug\netcoreapp3.1\WaterLibrary.csproj.CoreCompileInputs.cache
