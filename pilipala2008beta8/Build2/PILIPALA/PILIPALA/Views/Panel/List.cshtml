@@ -29,14 +29,7 @@
             </div>
 
             <div class="AtBox bRds-b">
-                @if (Formatter.CN_TimeSummary(Post.CT) == null)
-                {
-                    <div class="Date">@(Convert.ToString(Post.CT.Year) + "-" + Post.CT.Month + "-" + Post.CT.Day)</div>
-                }
-                else
-                {
-                    <div class="Date">@Formatter.CN_TimeSummary(Post.CT)</div>
-                }
+                <div class="Date">@Formatter.CN_TimeSummary(Post.CT, x => Convert.ToString(Post.CT.Year) + "-" + Post.CT.Month + "-" + Post.CT.Day)</div>
                 <div class="UVCount">@Post.UVCount</div>
                 <div class="CommentCount">@Post.PropertyContainer["CommentCount"]</div>
                 <div class="StarCount">@Post.StarCount</div>
@@ -86,14 +79,7 @@
             </div>
 
             <div class="AtBox bRds-b">
-                @if (Formatter.CN_TimeSummary(Post.CT) == null)
-                {
-                    <div class="Date">@(Convert.ToString(Post.CT.Year) + "-" + Post.CT.Month + "-" + Post.CT.Day)</div>
-                }
-                else
-                {
-                    <div class="Date">@Formatter.CN_TimeSummary(Post.CT)</div>
-                }
+                <div class="Date">@Formatter.CN_TimeSummary(Post.CT, x => Convert.ToString(Post.CT.Year) + "-" + Post.CT.Month + "-" + Post.CT.Day)</div>
                 <div class="UVCount">@Post.UVCount</div>
                 <div class="CommentCount">@Post.PropertyContainer["CommentCount"]</div>
                 <div class="StarCount">@Post.StarCount</div>
