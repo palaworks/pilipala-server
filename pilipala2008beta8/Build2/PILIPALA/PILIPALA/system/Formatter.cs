@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using System.Collections;
+
 namespace PILIPALA.system
 {
     public class Formatter
@@ -12,65 +14,36 @@ namespace PILIPALA.system
         /// </summary>
         /// <param name="dateTime">要计算的时间</param>
         /// <returns></returns>
-        public static string CN_TimeSummary(DateTime dateTime)
+        public static string CN_TimeSummary(DateTime time, Func<DateTime, string> todo)
         {
-            //获取当前时间
-            DateTime DateTime1 = DateTime.Now;
+            var span = (DateTime.Now - time).TotalHours;
 
-            TimeSpan ts1 = new TimeSpan(DateTime1.Ticks);
-            TimeSpan ts2 = new TimeSpan(dateTime.Ticks);
+            Hashtable Table = new()
+            {
+                { new[] { 00 * 00, 06 * 01 }, "刚刚" },
+                { new[] { 06 * 01, 01 * 24 }, "今天" },
+                { new[] { 01 * 24, 02 * 24 }, "昨天" },
+                { new[] { 02 * 24, 03 * 24 }, "前天" },
+                { new[] { 03 * 24, 04 * 24 }, "三天前" },
+                { new[] { 04 * 24, 05 * 24 }, "四天前" },
+                { new[] { 05 * 24, 06 * 24 }, "五天前" },
+                { new[] { 06 * 24, 07 * 24 }, "六天前" },
+                { new[] { 07 * 24, 14 * 24 }, "一周前" },
+                { new[] { 14 * 24, 21 * 24 }, "两周前" },
+                { new[] { 21 * 24, 28 * 24 }, "三周前" },
+                { new[] { 28 * 24, 60 * 24 }, "一月前" },
+                { new[] { 60 * 24, 90 * 24 }, "两月前" },
+            };
 
-            //时间比较，得出差值
-            TimeSpan ts = ts1.Subtract(ts2).Duration();
-
-            if (ts.Days >= 60)
+            foreach (int[] el in Table.Keys)
             {
-                return null;
-            }
-            else
-            if (ts.Days >= 50 && ts.Days < 80)
-            {
-                return "两月前";
-            }
-            else
-            if (ts.Days >= 28 && ts.Days < 50)
-            {
-                return "一月前";
-            }
-            else
-            if (ts.Days >= 21 && ts.Days < 28)
-            {
-                return "三周前";
-            }
-            else
-            if (ts.Days >= 14 && ts.Days < 21)
-            {
-                return "两周前";
-            }
-            else
-            if (ts.Days >= 7)
-            {
-                return "一周前";
-            }
-            else
-            if (ts.Days < 1 && ts.Hours < 6)
-            {
-                return "刚刚";
-            }
-            else
-            {
-                return ts.Days switch
+                if (span > el[0] && span < el[1])
                 {
-                    0 => "今天",
-                    1 => "昨天",
-                    2 => "两天前",
-                    3 => "三天前",
-                    4 => "四天前",
-                    5 => "五天前",
-                    6 => "六天前",
-                    _ => null,
-                };
+                    return (string)Table[el];
+                }
             }
+
+            return todo(time);
         }
         /// <summary>
         /// 转到中文星期（星期三、星期五...）
