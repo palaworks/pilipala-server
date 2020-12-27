@@ -1,4 +1,4 @@
-const root_path = "http://localhost:9621"
+const root_path = "http://www.gxhsoulstar.cn"
 
 export default {
     root_path,

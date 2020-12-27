@@ -5,9 +5,7 @@
         <v-list-item-avatar size="40">
           <v-img :src="this.$root.UserAvatar"></v-img>
         </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title class="mt-1">{{this.$root.UserName}}</v-list-item-title>
-        </v-list-item-content>
+        <v-list-item-content>{{this.$root.UserName}}</v-list-item-content>
         <v-list-item-action>
           <v-switch
             append-icon="mdi-moon-waning-crescent"
