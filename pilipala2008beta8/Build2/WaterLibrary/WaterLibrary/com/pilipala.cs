@@ -937,7 +937,7 @@ namespace WaterLibrary.pilipala
             public bool UpdateTokenTime()
             {
                 return MySqlManager.UpdateKey
-                    (new MySqlKey() { Table = Tables.User, Name = "Account", Val = User.Account }, "TokenTime", DateTime.Now.ToString());
+                    (new MySqlKey() { Table = Tables.User, Name = "Account", Val = User.Account }, "TokenTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             }
         }
         /// <summary>

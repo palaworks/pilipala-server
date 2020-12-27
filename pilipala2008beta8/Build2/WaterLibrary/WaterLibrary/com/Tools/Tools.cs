@@ -262,6 +262,115 @@ namespace WaterLibrary.Tools
             return sha256.ToString();
         }
     }
+    /// <summary>
+    /// 转换管理器
+    /// </summary>
+    public static class ConvertH
+    {
+        /// <summary>
+        /// 将字符串按照分隔符字符切割
+        /// </summary>
+        /// <param name="str">待切割字符串</param>
+        /// <param name="Delimiter">分隔符</param>
+        /// <returns>返回切割结果集</returns>
+        public static List<string> StringToList(string str, char Delimiter)
+        {
+            List<string> StringList = new List<string>();
+            foreach (string el in str.Split(Delimiter))
+            {
+                StringList.Add(el);
+            }
+            return StringList;
+        }
+        /// <summary>
+        /// 将可迭代对象的元素值按照分隔符合并为一个字符串
+        /// </summary>
+        /// <param name="List">可遍历对象，其中的元素需能通过指定属性获取值</param>
+        /// <param name="PropertyName">属性名</param>
+        /// <param name="Delimiter">分隔符</param>
+        /// <returns></returns>
+        public static string ListToString(dynamic List, string PropertyName, char Delimiter)
+        {
+            string Result = "";
+            PropertyInfo info = List[0].GetType().GetProperty(PropertyName);
+            foreach (dynamic temp in List)
+            {
+                Result += info.GetValue(temp) + Delimiter;
+            }
+            return Result[0..^1];
+        }
+
+        /// <summary>
+        /// Html过滤器
+        /// </summary>
+        /// <param name="HtmlText">Html文本</param>
+        /// <returns></returns>
+        public static string HtmlFilter(string HtmlText)
+        {
+            if (string.IsNullOrEmpty(HtmlText))
+            {
+                return "";
+            }
+
+            HtmlText = Regex.Replace(HtmlText, "<style[^>]*?>[\\s\\S]*?<\\/style>", "");
+            HtmlText = Regex.Replace(HtmlText, "<script[^>]*?>[\\s\\S]*?<\\/script>", "");
+            HtmlText = Regex.Replace(HtmlText, "<[^>]+>", "");
+            HtmlText = Regex.Replace(HtmlText, "\\s*|\t|\r|\n", "");
+            HtmlText = Regex.Replace(HtmlText, "&(#\\d*)?\\w*;", "");
+            HtmlText = HtmlText.Replace(" ", "");
+
+            return HtmlText.Trim();
+        }
+        /// <summary>
+        /// Markdown转Html
+        /// </summary>
+        /// <param name="MarkdownText">Markdown文本</param>
+        /// <returns></returns>
+        public static string MarkdownToHtml(string MarkdownText)
+        {
+            var builder = new MarkdownPipelineBuilder();//添加对表格的解析支持
+            builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
+            builder.Extensions.Add(new Markdig.Extensions.EmphasisExtras.EmphasisExtraExtension());
+
+            var pipeline = builder.Build();
+
+            return Markdown.ToHtml(MarkdownText, pipeline);
+        }
+    }
+
+    /// <summary>
+    /// RSA密钥对
+    /// </summary>
+    public class KeyPair
+    {
+        /// <summary>
+        /// 初始化密钥对
+        /// </summary>
+        /// <param name="keySize">密钥位数</param>
+        /// <param name="IS_INIT">是否在初始化时自动填充密钥对</param>
+        public KeyPair(int? keySize = null)
+        {
+            if (keySize != null)
+            {
+                Dictionary<string, string> KeyPair = MathH.GenRSAKeyPair((int)keySize);
+                PublicKey = KeyPair["PUBLIC"];
+                PrivateKey = KeyPair["PRIVATE"];
+            }
+            else
+            {
+                PublicKey = "";
+                PrivateKey = "";
+            }
+        }
+        /// <summary>
+        /// 公钥
+        /// </summary>
+        public string PublicKey { get; set; }
+        /// <summary>
+        /// 私钥
+        /// </summary>
+        public string PrivateKey { get; set; }
+    }
 
     /// <summary>
     /// RSA操作类
@@ -270,22 +379,12 @@ namespace WaterLibrary.Tools
     internal class RSA
     {
         /// <summary>
-        /// 导出XML格式密钥对，如果convertToPublic含私钥的RSA将只返回公钥，仅含公钥的RSA不受影响
-        /// </summary>
-        public string ToXML(bool convertToPublic = false)
-        {
-            return rsa.ToXmlString(!rsa.PublicOnly && !convertToPublic);
-        }
-        /// <summary>
         /// 将密钥对导出成PEM对象，如果convertToPublic含私钥的RSA将只返回公钥，仅含公钥的RSA不受影响
         /// </summary>
         public RSA_PEM ToPEM(bool convertToPublic = false)
         {
             return new RSA_PEM(rsa, convertToPublic);
         }
-
-
-
 
         /// <summary>
         /// 加密字符串（utf-8），出错抛异常
@@ -302,7 +401,7 @@ namespace WaterLibrary.Tools
             int blockLen = rsa.KeySize / 8 - 11;
             if (data.Length <= blockLen)
             {
-                return rsa.Encrypt(data, false);
+                return rsa.Encrypt(data, RSAEncryptionPadding.Pkcs1);
             }
 
             using var dataStream = new MemoryStream(data);
@@ -315,7 +414,7 @@ namespace WaterLibrary.Tools
                 Byte[] block = new Byte[len];
                 Array.Copy(buffer, 0, block, 0, len);
 
-                Byte[] enBlock = rsa.Encrypt(block, false);
+                Byte[] enBlock = rsa.Encrypt(block, RSAEncryptionPadding.Pkcs1);
                 enStream.Write(enBlock, 0, enBlock.Length);
 
                 len = dataStream.Read(buffer, 0, blockLen);
@@ -355,7 +454,7 @@ namespace WaterLibrary.Tools
                 int blockLen = rsa.KeySize / 8;
                 if (data.Length <= blockLen)
                 {
-                    return rsa.Decrypt(data, false);
+                    return rsa.Decrypt(data, RSAEncryptionPadding.Pkcs1);
                 }
 
                 using var dataStream = new MemoryStream(data);
@@ -368,7 +467,7 @@ namespace WaterLibrary.Tools
                     Byte[] block = new Byte[len];
                     Array.Copy(buffer, 0, block, 0, len);
 
-                    Byte[] deBlock = rsa.Decrypt(block, false);
+                    Byte[] deBlock = rsa.Decrypt(block, RSAEncryptionPadding.Pkcs1);
                     deStream.Write(deBlock, 0, deBlock.Length);
 
                     len = dataStream.Read(buffer, 0, blockLen);
@@ -381,56 +480,12 @@ namespace WaterLibrary.Tools
                 return null;
             }
         }
-        /// <summary>
-        /// 对str进行签名，并指定hash算法（如：SHA256）
-        /// </summary>
-        public string Sign(string hash, string str)
-        {
-            return Convert.ToBase64String(Sign(hash, Encoding.UTF8.GetBytes(str)));
-        }
-        /// <summary>
-        /// 对data进行签名，并指定hash算法（如：SHA256）
-        /// </summary>
-        public byte[] Sign(string hash, byte[] data)
-        {
-            return rsa.SignData(data, hash);
-        }
-        /// <summary>
-        /// 验证字符串str的签名是否是sgin，并指定hash算法（如：SHA256）
-        /// </summary>
-        public bool Verify(string hash, string sgin, string str)
-        {
-            byte[] byts = null;
-            try { byts = Convert.FromBase64String(sgin); } catch { }
-            if (byts == null)
-            {
-                return false;
-            }
-            return Verify(hash, byts, Encoding.UTF8.GetBytes(str));
-        }
-        /// <summary>
-        /// 验证data的签名是否是sgin，并指定hash算法（如：SHA256）
-        /// </summary>
-        public bool Verify(string hash, byte[] sgin, byte[] data)
-        {
-            try
-            {
-                return rsa.VerifyData(data, hash, sgin);
-            }
-            catch
-            {
-                return false;
-            }
-        }
 
-
-
-
-        private readonly RSACryptoServiceProvider rsa;
+        private readonly System.Security.Cryptography.RSA rsa;
         /// <summary>
         /// 最底层的RSACryptoServiceProvider对象
         /// </summary>
-        public RSACryptoServiceProvider RSAObject
+        public System.Security.Cryptography.RSA RSAObject
         {
             get
             {
@@ -448,27 +503,13 @@ namespace WaterLibrary.Tools
                 return rsa.KeySize;
             }
         }
-        /// <summary>
-        /// 是否包含私钥
-        /// </summary>
-        public bool HasPrivate
-        {
-            get
-            {
-                return !rsa.PublicOnly;
-            }
-        }
 
         /// <summary>
         /// 用指定密钥大小创建一个新的RSA，出错抛异常
         /// </summary>
         public RSA(int keySize)
         {
-            var rsaParams = new CspParameters
-            {
-                Flags = CspProviderFlags.UseMachineKeyStore
-            };
-            rsa = new RSACryptoServiceProvider(keySize, rsaParams);
+            rsa = System.Security.Cryptography.RSA.Create(keySize);
         }
         /// <summary>
         /// 通过一个pem文件创建RSA，pem为公钥或私钥，出错抛异常
@@ -524,7 +565,6 @@ namespace WaterLibrary.Tools
         /// </summary>
         public byte[] Key_D;
 
-        //以下参数只有私钥才有 https://docs.microsoft.com/zh-cn/dotnet/api/system.security.cryptography.rsaparameters?redirectedfrom=MSDN&view=netframework-4.8
         /// <summary>
         /// prime1
         /// </summary>
@@ -551,9 +591,9 @@ namespace WaterLibrary.Tools
         /// <summary>
         /// 通过RSA中的公钥和私钥构造一个PEM，如果convertToPublic含私钥的RSA将只读取公钥，仅含公钥的RSA不受影响
         /// </summary>
-        public RSA_PEM(RSACryptoServiceProvider rsa, bool convertToPublic = false)
+        public RSA_PEM(System.Security.Cryptography.RSA rsa, bool convertToPublic = false)
         {
-            var isPublic = convertToPublic || rsa.PublicOnly;
+            var isPublic = convertToPublic;
             var param = rsa.ExportParameters(!isPublic);
 
             Key_Modulus = param.Modulus;
@@ -640,25 +680,11 @@ namespace WaterLibrary.Tools
             }
         }
         /// <summary>
-        /// 是否包含私钥
-        /// </summary>
-        public bool HasPrivate
-        {
-            get
-            {
-                return Key_D != null;
-            }
-        }
-        /// <summary>
         /// 将PEM中的公钥私钥转成RSA对象，如果未提供私钥，RSA中就只包含公钥
         /// </summary>
-        public RSACryptoServiceProvider GetRSA()
+        public System.Security.Cryptography.RSA GetRSA()
         {
-            var rsaParams = new CspParameters
-            {
-                Flags = CspProviderFlags.UseMachineKeyStore
-            };
-            var rsa = new RSACryptoServiceProvider(rsaParams);
+            var rsa = System.Security.Cryptography.RSA.Create();
 
             var param = new RSAParameters
             {
@@ -760,16 +786,6 @@ namespace WaterLibrary.Tools
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// 用PEM格式密钥对创建RSA，支持PKCS#1、PKCS#8格式的PEM
@@ -929,12 +945,6 @@ namespace WaterLibrary.Tools
         static private readonly Regex _PEMCode = new Regex(@"--+.+?--+|\s+");
         static private readonly byte[] _SeqOID = new byte[] { 0x30, 0x0D, 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01, 0x05, 0x00 };
         static private readonly byte[] _Ver = new byte[] { 0x02, 0x01, 0x00 };
-
-
-
-
-
-
 
         /// <summary>
         /// 将RSA中的密钥对转换成PEM PKCS#1格式
@@ -1155,218 +1165,5 @@ namespace WaterLibrary.Tools
                 return "-----BEGIN" + flag + "-----\n" + TextBreak(Convert.ToBase64String(byts), 64) + "\n-----END" + flag + "-----";
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// 将XML格式密钥转成PEM，支持公钥xml、私钥xml
-        /// 出错将会抛出异常
-        /// </summary>
-        static public RSA_PEM FromXML(string xml)
-        {
-            RSA_PEM rtv = new RSA_PEM();
-
-            Match xmlM = xmlExp.Match(xml);
-            if (!xmlM.Success)
-            {
-                throw new Exception("XML内容不符合要求");
-            }
-
-            Match tagM = xmlTagExp.Match(xmlM.Groups[1].Value);
-            while (tagM.Success)
-            {
-                string tag = tagM.Groups[1].Value;
-                string b64 = tagM.Groups[2].Value;
-                byte[] val = Convert.FromBase64String(b64);
-                switch (tag)
-                {
-                    case "Modulus": rtv.Key_Modulus = val; break;
-                    case "Exponent": rtv.Key_Exponent = val; break;
-                    case "D": rtv.Key_D = val; break;
-
-                    case "P": rtv.Val_P = val; break;
-                    case "Q": rtv.Val_Q = val; break;
-                    case "DP": rtv.Val_DP = val; break;
-                    case "DQ": rtv.Val_DQ = val; break;
-                    case "InverseQ": rtv.Val_InverseQ = val; break;
-                }
-                tagM = tagM.NextMatch();
-            }
-
-            if (rtv.Key_Modulus == null || rtv.Key_Exponent == null)
-            {
-                throw new Exception("XML公钥丢失");
-            }
-            if (rtv.Key_D != null)
-            {
-                if (rtv.Val_P == null || rtv.Val_Q == null || rtv.Val_DP == null || rtv.Val_DQ == null || rtv.Val_InverseQ == null)
-                {
-                    return new RSA_PEM(rtv.Key_Modulus, rtv.Key_Exponent, rtv.Key_D);
-                }
-            }
-
-            return rtv;
-        }
-        static private readonly Regex xmlExp = new Regex("\\s*<RSAKeyValue>([<>\\/\\+=\\w\\s]+)</RSAKeyValue>\\s*");
-        static private readonly Regex xmlTagExp = new Regex("<(.+?)>\\s*([^<]+?)\\s*</");
-
-
-
-
-
-        /// <summary>
-        /// 将RSA中的密钥对转换成XML格式
-        /// ，如果convertToPublic含私钥的RSA将只返回公钥，仅含公钥的RSA不受影响
-        /// </summary>
-        public string ToXML(bool convertToPublic)
-        {
-            StringBuilder str = new StringBuilder();
-            str.Append("<RSAKeyValue>");
-            str.Append("<Modulus>" + Convert.ToBase64String(Key_Modulus) + "</Modulus>");
-            str.Append("<Exponent>" + Convert.ToBase64String(Key_Exponent) + "</Exponent>");
-            if (Key_D == null || convertToPublic)
-            {
-                /****生成公钥****/
-                //NOOP
-            }
-            else
-            {
-                /****生成私钥****/
-                str.Append("<P>" + Convert.ToBase64String(Val_P) + "</P>");
-                str.Append("<Q>" + Convert.ToBase64String(Val_Q) + "</Q>");
-                str.Append("<DP>" + Convert.ToBase64String(Val_DP) + "</DP>");
-                str.Append("<DQ>" + Convert.ToBase64String(Val_DQ) + "</DQ>");
-                str.Append("<InverseQ>" + Convert.ToBase64String(Val_InverseQ) + "</InverseQ>");
-                str.Append("<D>" + Convert.ToBase64String(Key_D) + "</D>");
-            }
-            str.Append("</RSAKeyValue>");
-            return str.ToString();
-        }
-
-
-
-    }
-
-
-    /// <summary>
-    /// 转换管理器
-    /// </summary>
-    public static class ConvertH
-    {
-        /// <summary>
-        /// 将字符串按照分隔符字符切割
-        /// </summary>
-        /// <param name="str">待切割字符串</param>
-        /// <param name="Delimiter">分隔符</param>
-        /// <returns>返回切割结果集</returns>
-        public static List<string> StringToList(string str, char Delimiter)
-        {
-            List<string> StringList = new List<string>();
-            foreach (string el in str.Split(Delimiter))
-            {
-                StringList.Add(el);
-            }
-            return StringList;
-        }
-        /// <summary>
-        /// 将可迭代对象的元素值按照分隔符合并为一个字符串
-        /// </summary>
-        /// <param name="List">可遍历对象，其中的元素需能通过指定属性获取值</param>
-        /// <param name="PropertyName">属性名</param>
-        /// <param name="Delimiter">分隔符</param>
-        /// <returns></returns>
-        public static string ListToString(dynamic List, string PropertyName, char Delimiter)
-        {
-            string Result = "";
-            PropertyInfo info = List[0].GetType().GetProperty(PropertyName);
-            foreach (dynamic temp in List)
-            {
-                Result += info.GetValue(temp) + Delimiter;
-            }
-            return Result[0..^1];
-        }
-
-        /// <summary>
-        /// Html过滤器
-        /// </summary>
-        /// <param name="HtmlText">Html文本</param>
-        /// <returns></returns>
-        public static string HtmlFilter(string HtmlText)
-        {
-            if (string.IsNullOrEmpty(HtmlText))
-            {
-                return "";
-            }
-
-            HtmlText = Regex.Replace(HtmlText, "<style[^>]*?>[\\s\\S]*?<\\/style>", "");
-            HtmlText = Regex.Replace(HtmlText, "<script[^>]*?>[\\s\\S]*?<\\/script>", "");
-            HtmlText = Regex.Replace(HtmlText, "<[^>]+>", "");
-            HtmlText = Regex.Replace(HtmlText, "\\s*|\t|\r|\n", "");
-            HtmlText = Regex.Replace(HtmlText, "&(#\\d*)?\\w*;", "");
-            HtmlText = HtmlText.Replace(" ", "");
-
-            return HtmlText.Trim();
-        }
-        /// <summary>
-        /// Markdown转Html
-        /// </summary>
-        /// <param name="MarkdownText">Markdown文本</param>
-        /// <returns></returns>
-        public static string MarkdownToHtml(string MarkdownText)
-        {
-            var builder = new MarkdownPipelineBuilder();//添加对表格的解析支持
-            builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
-            builder.Extensions.Add(new Markdig.Extensions.EmphasisExtras.EmphasisExtraExtension());
-
-            var pipeline = builder.Build();
-
-            return Markdown.ToHtml(MarkdownText, pipeline);
-        }
-    }
-
-    /// <summary>
-    /// RSA密钥对
-    /// </summary>
-    public class KeyPair
-    {
-        /// <summary>
-        /// 初始化密钥对
-        /// </summary>
-        /// <param name="keySize">密钥位数</param>
-        /// <param name="IS_INIT">是否在初始化时自动填充密钥对</param>
-        public KeyPair(int keySize = 2048, bool IS_INIT = false)
-        {
-            if (IS_INIT == true)
-            {
-                Dictionary<string, string> KeyPair = MathH.GenRSAKeyPair(keySize);
-                PublicKey = KeyPair["PUBLIC"];
-                PrivateKey = KeyPair["PRIVATE"];
-            }
-            else
-            {
-                PublicKey = "";
-                PrivateKey = "";
-            }
-        }
-        /// <summary>
-        /// 公钥
-        /// </summary>
-        public string PublicKey { get; set; }
-        /// <summary>
-        /// 私钥
-        /// </summary>
-        public string PrivateKey { get; set; }
     }
 }
