@@ -71,7 +71,7 @@ namespace PILIPALA.system
             CORE.Run(UserAccount, UserPWD);
 
             Authentication = ComponentFactory.GenAuthentication();
-            KeyPair KeyPair = new KeyPair(2048, true);
+            KeyPair KeyPair = new KeyPair(2048);
             Authentication.SetPrivateKey(KeyPair.PrivateKey);
             Authentication.UpdateTokenTime();
 
