@@ -68,7 +68,6 @@
     <div style="left:50%;transform:translateX(-50%);z-index:1;bottom:0;position:fixed;">
       <v-btn
         :disabled="copy_list.length==1?true:false"
-        small
         class="ma-1 mb-2"
         color="primary"
         @click="Rollback()"
@@ -77,7 +76,6 @@
       </v-btn>
       <v-btn
         :disabled="copy_list.length==1?true:false"
-        small
         class="ma-1 mb-2"
         color="error"
         @click="Release()"
@@ -107,10 +105,8 @@ export default {
           Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           PostID: this.$route.params.post_id,
         }),
-      }).then((response) => {
+      }).then(() => {
         this.GetActiveGUID();
-        this.GetData();
-        console.log(response);
       });
     },
     Release: function () {
@@ -121,10 +117,8 @@ export default {
           Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           PostID: this.$route.params.post_id,
         }),
-      }).then((response) => {
+      }).then(() => {
         this.GetActiveGUID();
-        this.GetData();
-        console.log(response);
       });
     },
     Apply: function (GUID) {
@@ -135,10 +129,8 @@ export default {
           Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           GUID: GUID,
         }),
-      }).then((response) => {
+      }).then(() => {
         this.GetActiveGUID();
-        this.GetData();
-        console.log(response);
       });
     },
     Delete: function (GUID) {
@@ -149,10 +141,8 @@ export default {
           Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           GUID: GUID,
         }),
-      }).then((response) => {
+      }).then(() => {
         this.GetActiveGUID();
-        this.GetData();
-        console.log(response);
       });
     },
     GetActiveGUID: function () {
@@ -164,7 +154,10 @@ export default {
           Token: this.$encrypt(this.$root.PublicKey, new Date().toISOString()),
           PostID: this.$route.params.post_id,
         }),
-      }).then((response) => (this.active_guid = response.data.GUID));
+      }).then((response) => {
+        this.active_guid = response.data.GUID;
+        this.GetData();
+      });
     },
     GetData: function () {
       /* 得到拷贝列表 */
@@ -180,7 +173,6 @@ export default {
   },
   mounted() {
     this.GetActiveGUID();
-    this.GetData();
   },
 };
 </script>

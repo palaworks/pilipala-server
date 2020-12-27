@@ -3,7 +3,10 @@
     <v-chip
       v-if="this.commented_post_list.length==0"
       style="margin:auto;letter-spacing:1px"
-    >现在还没有评论呢......</v-chip>
+      color="accent"
+    >
+      <v-icon left>mdi-sleep</v-icon>现在还没有评论呢......
+    </v-chip>
     <div class="d-flex justify-center flex-wrap">
       <v-card
         v-for="item in commented_post_list"

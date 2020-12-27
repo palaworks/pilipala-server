@@ -5,7 +5,7 @@
         <div style="font-size:24px;margin-top:10px" class="mx-auto">欢迎来到叽里咕噜</div>
       </v-card-title>
       <v-card-text>
-        <v-text-field v-model="login_data.UserAccount" label="用户名" hint="UserName" auto-grow></v-text-field>
+        <v-text-field v-model="login_data.UserAccount" label="账号" hint="UserAccount" auto-grow></v-text-field>
         <v-text-field
           v-model="login_data.UserPWD"
           label="密码"

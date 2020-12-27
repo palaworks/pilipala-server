@@ -1,5 +1,8 @@
 <template>
   <v-app class="pb-16">
+    <v-chip v-if="this.post_list.length==0" style="margin:auto;letter-spacing:1px" color="accent">
+      <v-icon left>mdi-sleep</v-icon>现在还没有文章呢......
+    </v-chip>
     <v-btn
       to="/Edit"
       color="primary"
@@ -70,7 +73,7 @@
           >编辑</v-btn>
 
           <v-btn :to="{ name: 'Iteration', params: { post_id:item.ID}}" class="text-caption" text>
-            <v-icon color="secondary" left>mdi-source-merge</v-icon>迭代化
+            <v-icon color="secondary" left>mdi-source-merge</v-icon>迭代栈
           </v-btn>
 
           <v-tooltip right>

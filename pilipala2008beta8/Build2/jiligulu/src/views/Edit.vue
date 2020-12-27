@@ -51,16 +51,13 @@
           <v-textarea v-model="new_data.Cover" label="封面" hint="Cover" rows="8" counter class></v-textarea>
         </v-col>
       </v-row>
-
-      <v-btn
-        color="success"
-        fixed
-        bottom
-        elevation="4"
-        style="left:50%;transform:translateX(-50%);z-index:1"
-        @click="new_data.ID == null?Reg():Update()"
-      >
-        <v-icon left small>mdi-subdirectory-arrow-right</v-icon>
+    </div>
+    <div style="left:50%;transform:translateX(-50%);z-index:1;bottom:0;position:fixed;">
+      <v-btn class="ma-1 mb-2" color="warning" :to="{ name: 'PostList'}">
+        <v-icon left>mdi-cancel</v-icon>取消
+      </v-btn>
+      <v-btn class="ma-1 mb-2" color="success" @click="new_data.ID == null?Reg():Update()">
+        <v-icon left>mdi-subdirectory-arrow-right</v-icon>
         {{new_data.ID == null ? '新建' : '编辑到 '+new_data.ID}}
       </v-btn>
     </div>

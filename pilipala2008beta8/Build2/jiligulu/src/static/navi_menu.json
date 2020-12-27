@@ -11,7 +11,7 @@
         "is_disabled": false
     },
     {
-        "title": "迭代化",
+        "title": "迭代栈",
         "icon": "mdi-source-merge",
         "src": "/Iteration",
         "is_disabled": true
