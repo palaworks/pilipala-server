@@ -1,0 +1,43 @@
+html::-webkit-scrollbar {
+    display: none;
+}
+
+body>#contain {
+    margin: auto;
+    display: grid;
+    grid-template-columns: 32% 2% 32% 2% 32%;
+    max-width: 1160px;
+}
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+
+    margin: 0;
+}
+
+/* 屏幕宽度 [ 1001 , + ) */
+@media (min-width: 1001px) {
+    body>#contain {
+        width: 99%;
+        padding-top: 55px;
+    }
+
+    html {
+        background: url("http://thblog-img.test.upcdn.net/ui-background/pc.jpg") fixed;
+        background-size: cover;
+    }
+}
+
+/* 屏幕宽度 ( - , 1000 ] */
+@media screen and (max-width: 1000px) {
+    body>#contain {
+        padding: 7px;
+        padding-top: 55px;
+    }
+
+    html {
+        background: url("http://thblog-img.test.upcdn.net/ui-background/mobi.jpg") fixed;
+        background-size: cover;
+    }
+}
