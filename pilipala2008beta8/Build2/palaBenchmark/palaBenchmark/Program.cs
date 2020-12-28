@@ -13,26 +13,16 @@
 //#define 回滚拷贝
 //#define 释放拷贝
 
-//#define RSA测试
-
-#region 引用
+#region using
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Timers;
-using System.Threading;
-
-using WaterLibrary.stru.MySQL;
-using WaterLibrary.stru.pilipala.Post;
-using WaterLibrary.stru.pilipala.Post.Property;
-using WaterLibrary.stru.pilipala;
-using WaterLibrary.com.MySQL;
-using WaterLibrary.com.pilipala;
+using WaterLibrary;
+using WaterLibrary.Tools;
+using WaterLibrary.MySQL;
+using WaterLibrary.pilipala;
+using WaterLibrary.pilipala.Entity;
+using WaterLibrary.pilipala.Database;
+using WaterLibrary.pilipala.Components;
 #endregion
-using Type = WaterLibrary.stru.pilipala.Post.Property.Type;
 
 namespace palaBenchmark
 {
@@ -48,13 +38,10 @@ namespace palaBenchmark
             Console.WriteLine("Press any key to START palaBenchmark");
             #endregion
             /* 负载初始化 */
-            Benchmark benchmark = new Benchmark();
+            Init benchmark = new Init();
             benchmark.INIT();
             var iwatch = new System.Diagnostics.Stopwatch();
             iwatch.Start();
-
-
-
 
 #if 读测试
             System.Type[] Properties = { typeof(Title), typeof(Summary), typeof(Content), typeof(Cover),
@@ -235,29 +222,8 @@ namespace palaBenchmark
             }
 #endif
 
-#if RSA测试
-            string s = "stringstringstringstringstring";
-
-            WaterLibrary.stru.basic.KeyPair kp = new WaterLibrary.stru.basic.KeyPair(true);
-            Console.WriteLine("原文:\n" + s);
-
-            Console.WriteLine("公钥:\n" + kp.PublicKey);
-            Console.WriteLine("私钥:\n" + kp.PrivateKey);
-
-
-            /*
-            string CipherText = WaterLibrary.com.basic.MathH.RSAEncrypt(kp.PublicKey, s);
-            string PlainText = WaterLibrary.com.basic.MathH.RSADecrypt(kp.PrivateKey, CipherText);
-
-            Console.WriteLine("密文:\n" + CipherText);
-            Console.WriteLine("明文:\n" + PlainText);
-            */
-
-
-
-#endif
             iwatch.Stop();
-            Console.WriteLine("负载耗时：\n" + iwatch.Elapsed.ToString());
+            Console.WriteLine($"负载耗时 : {iwatch.Elapsed}");
             Console.ReadKey();
         }
     }

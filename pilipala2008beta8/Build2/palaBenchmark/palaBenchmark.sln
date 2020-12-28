@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30611.23
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "palaBenchmark", "palaBenchmark\palaBenchmark.csproj", "{65C43EA3-E7CF-469D-864D-42E71E1E9B09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "palaBenchmark", "palaBenchmark\palaBenchmark.csproj", "{6F7695E1-9CD1-4172-99FE-23502B2A1C7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{65C43EA3-E7CF-469D-864D-42E71E1E9B09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65C43EA3-E7CF-469D-864D-42E71E1E9B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65C43EA3-E7CF-469D-864D-42E71E1E9B09}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65C43EA3-E7CF-469D-864D-42E71E1E9B09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F7695E1-9CD1-4172-99FE-23502B2A1C7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F7695E1-9CD1-4172-99FE-23502B2A1C7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F7695E1-9CD1-4172-99FE-23502B2A1C7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F7695E1-9CD1-4172-99FE-23502B2A1C7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FFD8CFC9-D68E-492A-8B05-5807002D2F5F}
+		SolutionGuid = {9E3E9663-C978-4911-9FB1-D24980CF4F1E}
 	EndGlobalSection
 EndGlobal
