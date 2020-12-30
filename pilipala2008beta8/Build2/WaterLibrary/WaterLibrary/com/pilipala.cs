@@ -513,14 +513,11 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public string TrySummary(Func<string> todo)
             {
-                if (Summary == "")
+                return Summary switch
                 {
-                    return todo();
-                }
-                else
-                {
-                    return Summary;
-                }
+                    "" => todo(),
+                    _ => Summary
+                };
             }
             /// <summary>
             /// 内容
@@ -895,14 +892,11 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public T Auth<T>(string Token, Func<T> todo)
             {
-                if ((DateTime.Now - Convert.ToDateTime(MathH.RSADecrypt(GetPrivateKey(), Token))).TotalSeconds < 10)
+                return (DateTime.Now - Convert.ToDateTime(MathH.RSADecrypt(GetPrivateKey(), Token))).TotalSeconds switch
                 {
-                    return todo();
-                }
-                else
-                {
-                    return default;
-                }
+                    < 10 => todo(),
+                    _ => default
+                };
             }
 
             /// <summary>
@@ -1112,15 +1106,11 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public PostSet GetPost<T>(string REGEXP, bool IncludeNeg = false) where T : IProperty
             {
-                string SQL;
-                if (IncludeNeg == false)
+                string SQL = IncludeNeg switch
                 {
-                    SQL = $"SELECT * FROM `{Views.PosUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC";
-                }
-                else
-                {
-                    SQL = $"SELECT * FROM `{Views.NegUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC";
-                }
+                    false => $"SELECT * FROM `{Views.PosUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC",
+                    _ => $"SELECT * FROM `{Views.NegUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC"
+                };
 
                 PostSet PostSet = new PostSet();
 
@@ -1168,15 +1158,12 @@ namespace WaterLibrary.pilipala
             {
                 /* 键名字符串格式化 */
                 string KeysStr = ConvertH.ListToString(Properties, "Name", ',');
-                string SQL;
-                if (IncludeNeg == false)
+                string SQL = IncludeNeg switch
                 {
-                    SQL = $"SELECT {KeysStr} FROM `{Views.PosUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC";
-                }
-                else//显示消极
-                {
-                    SQL = $"SELECT {KeysStr} FROM `{Views.NegUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC";
-                }
+                    false => $"SELECT {KeysStr} FROM `{Views.PosUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC",
+                    _ => $"SELECT {KeysStr} FROM `{Views.NegUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC"
+                };
+
 
                 PostSet PostSet = new PostSet();
 
