@@ -44,15 +44,12 @@ namespace PILIPALA
             var MySQLSection = Configuration.GetSection("AppSettings:MySQL");
             var DatabaseSection = Configuration.GetSection("AppSettings:Database");
             var UserSection = Configuration.GetSection("AppSettings:User");
-
-            var MySqlManager = new MySqlManager(new MySqlConnMsg
-            {
-                DataSource = MySQLSection.GetSection("DataSource").Value,
-                Port = MySQLSection.GetSection("Port").Value,
-                User = MySQLSection.GetSection("User").Value,
-                PWD = MySQLSection.GetSection("PWD").Value,
-                DataBase = DatabaseSection.GetSection("Name").Value
-            });
+            var MySqlManager = new MySqlManager(new(
+                MySQLSection.GetSection("DataSource").Value,
+                MySQLSection.GetSection("Port").Value,
+                MySQLSection.GetSection("User").Value,
+                MySQLSection.GetSection("PWD").Value
+            ), DatabaseSection.GetSection("Name").Value);
 
             services.AddTransient(x => new Models.User()
             {

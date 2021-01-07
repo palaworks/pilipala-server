@@ -9,13 +9,12 @@ using MySql.Data.MySqlClient;
 
 namespace WaterLibrary.MySQL
 {
-
     /// <summary>
     /// MySql数据库管理器
     /// </summary>
     public class MySqlManager
     {
-        private MySqlConnMsg MySqlConnMsg;
+        private readonly string ConnectionString;
         private readonly List<MySqlConnection> ConnectionPool = new();
         /// <summary>
         /// 数据库连接访问器
@@ -24,19 +23,6 @@ namespace WaterLibrary.MySQL
         {
             get
             {
-                MySqlConnection GenConn()
-                {
-                    return new(
-                        "DataSource=" + MySqlConnMsg.DataSource +
-                        ";DataBase=" + MySqlConnMsg.DataBase +
-                        ";Port=" + MySqlConnMsg.Port +
-                        ";UserID=" + MySqlConnMsg.User +
-                        ";Password=" + MySqlConnMsg.PWD +
-                        /* UPDATE语句返回受影响的行数而不是符合查询条件的行数|兼容旧版语法 */
-                        ";UseAffectedRows=TRUE;"
-                        );
-                }
-
                 if (ConnectionPool.Count > 16)/* 在连接数超过8时检查无用连接并进行清理 */
                 {
                     for (int i = ConnectionPool.Count - 1; i >= 0; i--)
@@ -49,19 +35,43 @@ namespace WaterLibrary.MySQL
                     };
                 }
 
-                ConnectionPool.Add(GenConn());
+                ConnectionPool.Add(new(ConnectionString));
                 ConnectionPool.Last().Open();
                 return ConnectionPool.Last();
             }
         }
 
         /// <summary>
-        /// 标准构造
+        /// 默认构造
         /// </summary>
-        /// <param name="MySqlConnMsg"></param>
+        private MySqlManager() { }
+        /// <summary>
+        /// 连接信息构造
+        /// </summary>
+        /// <param name="MySqlConnMsg">MySQL数据库连接信息</param>
         public MySqlManager(MySqlConnMsg MySqlConnMsg)
         {
-            this.MySqlConnMsg = MySqlConnMsg;
+            ConnectionString =
+                $";DataSource={MySqlConnMsg.DataSource}" +
+                $";Port={MySqlConnMsg.Port }" +
+                $";UserID={MySqlConnMsg.User}" +
+                $";Password={MySqlConnMsg.PWD}" +
+                $";UseAffectedRows=TRUE;";/* UPDATE语句返回受影响的行数而不是符合查询条件的行数 */
+        }
+        /// <summary>
+        /// 带有目标数据库的连接信息构造
+        /// </summary>
+        /// <param name="MySqlConnMsg">MySQL数据库连接信息</param>
+        /// <param name="Database">目标数据库</param>
+        public MySqlManager(MySqlConnMsg MySqlConnMsg, string Database)
+        {
+            ConnectionString =
+                $";DataSource={MySqlConnMsg.DataSource}" +
+                $";DataBase={Database}" +/* USING目标数据库 */
+                $";Port={MySqlConnMsg.Port }" +
+                $";UserID={MySqlConnMsg.User}" +
+                $";Password={MySqlConnMsg.PWD}" +
+                $";UseAffectedRows=TRUE;";
         }
 
         /// <summary>
@@ -350,29 +360,12 @@ namespace WaterLibrary.MySQL
     }
 
     /// <summary>
-    /// MySql连接信息
+    /// MySql数据库连接信息
+    /// 数据源
+    /// 数据库
+    /// 端口
+    /// 用户名
+    /// 密码
     /// </summary>
-    public struct MySqlConnMsg
-    {
-        /// <summary>
-        /// 数据源
-        /// </summary>
-        public string DataSource { get; set; }
-        /// <summary>
-        /// 数据库
-        /// </summary>
-        public string DataBase { get; set; }
-        /// <summary>
-        /// 端口
-        /// </summary>
-        public string Port { get; set; }
-        /// <summary>
-        /// 用户名
-        /// </summary>
-        public string User { get; set; }
-        /// <summary>
-        /// 用户名对应的密码
-        /// </summary>
-        public string PWD { get; set; }
-    }
+    public record MySqlConnMsg(string DataSource, string Port, string User, string PWD);
 }

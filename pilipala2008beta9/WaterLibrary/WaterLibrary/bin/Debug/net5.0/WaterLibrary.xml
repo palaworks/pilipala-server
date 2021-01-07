@@ -1228,62 +1228,43 @@
         <member name="T:WaterLibrary.pilipala.Database.PLTables">
             <summary>
             数据库表集合
+            用户表
+            索引表
+            主表
+            评论表
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.Database.PLTables.#ctor(System.String,System.String,System.String,System.String)">
             <summary>
-            初始化表名结构
-            </summary>
-            <parmm name="root"></parmm>
-            <parmm name="IndexTable"></parmm>
-            <parmm name="BackupTable"></parmm>
-            <parmm name="text_sub"></parmm>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.PLTables.User">
-            <summary>
+            数据库表集合
             用户表
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.PLTables.Index">
-            <summary>
             索引表
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.PLTables.Backup">
-            <summary>
             主表
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.PLTables.Comment">
-            <summary>
             评论表
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Database.PLViews">
             <summary>
             数据库视图视图集合
+            积极联合视图（不包含备份）
+            消极联合视图（包含备份）
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.Database.PLViews.#ctor(System.String,System.String)">
             <summary>
-            初始化视图名结构
-            </summary>
-            <param name="PosUnion">积极联合视图</param>
-            <param name="NegUnion">消极联合视图</param>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.PLViews.PosUnion">
-            <summary>
+            数据库视图视图集合
             积极联合视图（不包含备份）
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.PLViews.NegUnion">
-            <summary>
             消极联合视图（包含备份）
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Database.PLDatabase">
             <summary>
-            啪啦数据库信息
+            啪啦数据库操作盒
+            </summary>
+        </member>
+        <member name="P:WaterLibrary.pilipala.Database.PLDatabase.Database">
+            <summary>
+            数据库名
             </summary>
         </member>
         <member name="P:WaterLibrary.pilipala.Database.PLDatabase.Tables">
@@ -1417,11 +1398,23 @@
             数据库连接访问器
             </summary>
         </member>
+        <member name="M:WaterLibrary.MySQL.MySqlManager.#ctor">
+            <summary>
+            默认构造
+            </summary>
+        </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.#ctor(WaterLibrary.MySQL.MySqlConnMsg)">
             <summary>
-            标准构造
+            连接信息构造
             </summary>
-            <param name="MySqlConnMsg"></param>
+            <param name="MySqlConnMsg">MySQL数据库连接信息</param>
+        </member>
+        <member name="M:WaterLibrary.MySQL.MySqlManager.#ctor(WaterLibrary.MySQL.MySqlConnMsg,System.String)">
+            <summary>
+            带有目标数据库的连接信息构造
+            </summary>
+            <param name="MySqlConnMsg">MySQL数据库连接信息</param>
+            <param name="Database">目标数据库</param>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.DoInConnection``1(System.Func{MySql.Data.MySqlClient.MySqlConnection,``0})">
             <summary>
@@ -1567,32 +1560,22 @@
         </member>
         <member name="T:WaterLibrary.MySQL.MySqlConnMsg">
             <summary>
-            MySql连接信息
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.MySQL.MySqlConnMsg.DataSource">
-            <summary>
+            MySql数据库连接信息
             数据源
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.MySQL.MySqlConnMsg.DataBase">
-            <summary>
             数据库
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.MySQL.MySqlConnMsg.Port">
-            <summary>
             端口
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.MySQL.MySqlConnMsg.User">
-            <summary>
             用户名
+            密码
             </summary>
         </member>
-        <member name="P:WaterLibrary.MySQL.MySqlConnMsg.PWD">
+        <member name="M:WaterLibrary.MySQL.MySqlConnMsg.#ctor(System.String,System.String,System.String,System.String)">
             <summary>
-            用户名对应的密码
+            MySql数据库连接信息
+            数据源
+            数据库
+            端口
+            用户名
+            密码
             </summary>
         </member>
         <member name="T:WaterLibrary.Util.MathH">
