@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>WaterLibrary</id>
+    <version>1.1.7</version>
+    <authors>Thaumy</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>An advanced library for web development</description>
+    <releaseNotes>WaterLibrary 1.17 (preview)</releaseNotes>
+    <copyright>Copyright 2019-2021 H2OMELON'SOCIE All Rights Reserved</copyright>
+    <dependencies>
+      <group targetFramework="net5.0">
+        <dependency id="Markdig" version="0.22.1" exclude="Build,Analyzers" />
+        <dependency id="MySql.Data" version="8.0.22" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="12.0.3" exclude="Build,Analyzers" />
+        <dependency id="System.Security.Cryptography.OpenSsl" version="5.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="H:\博客项目\pilipala2008beta9\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll" target="lib\net5.0\WaterLibrary.dll" />
+    <file src="H:\博客项目\pilipala2008beta9\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.xml" target="lib\net5.0\WaterLibrary.xml" />
+  </files>
+</package>
