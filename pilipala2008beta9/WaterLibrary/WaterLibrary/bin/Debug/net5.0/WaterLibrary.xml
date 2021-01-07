@@ -613,6 +613,11 @@
             计划中文章计数
             </summary>
         </member>
+        <member name="T:WaterLibrary.pilipala.Components.Plugin">
+            <summary>
+            插件管理组件
+            </summary>
+        </member>
         <member name="T:WaterLibrary.pilipala.Entity.CommentProperty.ICommentKey">
             <summary>
             表键值接口
@@ -1512,7 +1517,7 @@
             <param name="parameters">查询参数列表</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.GetColumn``1(System.String,MySql.Data.MySqlClient.MySqlParameter[],System.String)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager.GetColumn``1(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
             <summary>
             取得查询结果中的指定列
             </summary>

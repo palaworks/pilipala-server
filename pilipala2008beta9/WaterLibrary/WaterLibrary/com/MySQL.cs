@@ -14,8 +14,8 @@ namespace WaterLibrary.MySQL
     /// </summary>
     public class MySqlManager
     {
-        private readonly string ConnectionString;
-        private readonly List<MySqlConnection> ConnectionPool = new();
+        private string ConnectionString { get; init; }
+        private List<MySqlConnection> ConnectionPool { get; init; }
         /// <summary>
         /// 数据库连接访问器
         /// </summary>
@@ -51,6 +51,7 @@ namespace WaterLibrary.MySQL
         /// <param name="MySqlConnMsg">MySQL数据库连接信息</param>
         public MySqlManager(MySqlConnMsg MySqlConnMsg)
         {
+            ConnectionPool = new();
             ConnectionString =
                 $";DataSource={MySqlConnMsg.DataSource}" +
                 $";Port={MySqlConnMsg.Port }" +
@@ -65,6 +66,7 @@ namespace WaterLibrary.MySQL
         /// <param name="Database">目标数据库</param>
         public MySqlManager(MySqlConnMsg MySqlConnMsg, string Database)
         {
+            ConnectionPool = new();
             ConnectionString =
                 $";DataSource={MySqlConnMsg.DataSource}" +
                 $";DataBase={Database}" +/* USING目标数据库 */
@@ -109,7 +111,7 @@ namespace WaterLibrary.MySQL
         /// <param name="SQL">携带查询参数的SQL语句</param>
         /// <param name="parameters">查询参数列表</param>
         /// <returns>返回一个DataTable对象，无结果或错误则返回null</returns>
-        public DataTable GetTable(string SQL, MySqlParameter[] parameters)
+        public DataTable GetTable(string SQL, params MySqlParameter[] parameters)
         {
             return DoInConnection(conn =>
             {
@@ -143,7 +145,7 @@ namespace WaterLibrary.MySQL
         /// <param name="SQL">携带查询参数的SQL语句</param>
         /// <param name="parameters">查询参数列表</param>
         /// <returns>返回结果集中的第一行第一列，若查询无果或异常则返回null</returns>
-        public object GetKey(string SQL, MySqlParameter[] parameters)
+        public object GetKey(string SQL, params MySqlParameter[] parameters)
         {
             return DoInConnection(conn =>
             {
@@ -188,7 +190,7 @@ namespace WaterLibrary.MySQL
         /// <param name="SQL">携带查询参数的SQL语句</param>
         /// <param name="parameters">查询参数列表</param>
         /// <returns>操作异常或目标行不存在时，返回null</returns>
-        public DataRow GetRow(string SQL, MySqlParameter[] parameters)
+        public DataRow GetRow(string SQL, params MySqlParameter[] parameters)
         {
             DataRowCollection collection = GetTable(SQL, parameters).Rows;
             return collection.Count == 0 ? null : collection[0];
@@ -242,7 +244,7 @@ namespace WaterLibrary.MySQL
         /// <param name="SQL">携带查询参数的SQL语句</param>
         /// <param name="parameters">查询参数列表</param>
         /// <returns></returns>
-        public List<T> GetColumn<T>(string SQL, MySqlParameter[] parameters)
+        public List<T> GetColumn<T>(string SQL, params MySqlParameter[] parameters)
         {
             return GetColumn<T>(GetTable(SQL, parameters));
         }
@@ -254,7 +256,7 @@ namespace WaterLibrary.MySQL
         /// <param name="parameters">查询参数列表</param>
         /// <param name="Key">目标列键名</param>
         /// <returns></returns>
-        public List<T> GetColumn<T>(string SQL, MySqlParameter[] parameters, string Key)
+        public List<T> GetColumn<T>(string SQL, string Key, params MySqlParameter[] parameters)
         {
             return GetColumn<T>(GetTable(SQL, parameters), Key);
         }

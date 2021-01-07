@@ -1894,5 +1894,15 @@ namespace WaterLibrary.pilipala
                 return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
             }
         }
+        /// <summary>
+        /// 插件管理组件
+        /// </summary>
+        public class Plugin
+        {
+            private PLTables Tables { get; init; }
+            private MySqlManager MySqlManager { get; init; }
+
+            private List<string> PluginPool;
+        }
     }
 }
