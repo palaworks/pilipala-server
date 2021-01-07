@@ -146,71 +146,28 @@ namespace WaterLibrary.pilipala
 
         /// <summary>
         /// 数据库表集合
+        /// 用户表
+        /// 索引表
+        /// 主表
+        /// 评论表
         /// </summary>
-        public struct PLTables
-        {
-            /// <summary>
-            /// 初始化表名结构
-            /// </summary>
-            /// <parmm name="root"></parmm>
-            /// <parmm name="IndexTable"></parmm>
-            /// <parmm name="BackupTable"></parmm>
-            /// <parmm name="text_sub"></parmm>
-            public PLTables(string User, string Index, string Backup, string Comment) : this()
-            {
-                this.User = User;
-                this.Index = Index;
-                this.Backup = Backup;
-                this.Comment = Comment;
-            }
-
-            /// <summary>
-            /// 用户表
-            /// </summary>
-            public string User { get; set; }
-            /// <summary>
-            /// 索引表
-            /// </summary>
-            public string Index { get; set; }
-            /// <summary>
-            /// 主表
-            /// </summary>
-            public string Backup { get; set; }
-            /// <summary>
-            /// 评论表
-            /// </summary>
-            public string Comment { get; set; }
-        }
+        public record PLTables(string User, string Index, string Backup, string Comment);
         /// <summary>
         /// 数据库视图视图集合
+        /// 积极联合视图（不包含备份）
+        /// 消极联合视图（包含备份）
         /// </summary>
-        public struct PLViews
-        {
-            /// <summary>
-            /// 初始化视图名结构
-            /// </summary>
-            /// <param name="PosUnion">积极联合视图</param>
-            /// <param name="NegUnion">消极联合视图</param>
-            public PLViews(string PosUnion, string NegUnion) : this()
-            {
-                this.PosUnion = PosUnion;
-                this.NegUnion = NegUnion;
-            }
-            /// <summary>
-            /// 积极联合视图（不包含备份）
-            /// </summary>
-            public string PosUnion { get; set; }
-            /// <summary>
-            /// 消极联合视图（包含备份）
-            /// </summary>
-            public string NegUnion { get; set; }
-        }
+        public record PLViews(string PosUnion, string NegUnion);
 
         /// <summary>
-        /// 啪啦数据库信息
+        /// 啪啦数据库操作盒
         /// </summary>
         public struct PLDatabase : IPLDatabase
         {
+            /// <summary>
+            /// 数据库名
+            /// </summary>
+            public string Database { get; set; }
             /// <summary>
             /// 数据表
             /// </summary>
@@ -366,7 +323,6 @@ namespace WaterLibrary.pilipala
             CoreReady(this, null);/* 分配一个空用户给工厂 */
         }
     }
-
 
     namespace Entity
     {
@@ -905,7 +861,7 @@ namespace WaterLibrary.pilipala
         /// <summary>
         /// 用户组件
         /// </summary>
-        public class User
+        public class User : IPLComponent<User>
         {
             internal PLTables Tables { get; init; }
             internal MySqlManager MySqlManager { get; init; }
