@@ -39,7 +39,7 @@ namespace PILIPALA.system
         {
             this.CORE = CORE;
 
-            if ((DateTime.Now - Convert.ToDateTime(CORE.MySqlManager.GetKey("SELECT TokenTime FROM pl_user WHERE GroupType = 'user'"))).TotalMinutes <= 120)
+            if ((DateTime.Now - Convert.ToDateTime(CORE.MySqlManager.GetKey($"SELECT TokenTime FROM {CORE.Tables.User} WHERE GroupType = 'user'"))).TotalMinutes <= 120)
             {
                 ComponentFactory ComponentFactory = new();
 
@@ -166,15 +166,15 @@ namespace PILIPALA.system
         {
             return Authentication.Auth(Token, () =>
                JsonConvert.SerializeObject(new Hashtable()
-              {
-                { "PostCount", Counter.TotalPostCount },
-                { "CopyCount",  Counter.BackupCount },
-                { "HiddenCount",  Counter.HiddenCount },
-                { "OnDisplayCount",  Counter.OnDisplayCount },
-                { "ArchivedCount",  Counter.ArchivedCount },
-                { "ScheduledCount",  Counter.ScheduledCount },
-                { "CommentCount",   CommentLake.TotalCommentCount},
-              }));
+               {
+               { "PostCount", Counter.TotalPostCount },
+               { "CopyCount",  Counter.BackupCount },
+               { "HiddenCount",  Counter.HiddenCount },
+               { "OnDisplayCount",  Counter.OnDisplayCount },
+               { "ArchivedCount",  Counter.ArchivedCount },
+               { "ScheduledCount",  Counter.ScheduledCount },
+               { "CommentCount",   CommentLake.TotalCommentCount},
+               }));
         }
 
         /// <summary>
