@@ -523,32 +523,12 @@
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.UnsetMode(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateMode``1(System.Int32)">
             <summary>
-            将目标文章指向的模式设为：未设置
+            设置文章模式
             </summary>
-            <param name="ID">目标文章ID</param>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.HiddenMode(System.Int32)">
-            <summary>
-            将目标文章指向的模式设为：隐藏
-            </summary>
-            <param name="ID">目标文章ID</param>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.ScheduledMode(System.Int32)">
-            <summary>
-            将目标文章指向的模式设为：计划中
-            </summary>
-            <param name="ID">目标文章ID</param>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.ArchivedMode(System.Int32)">
-            <summary>
-            将目标文章指向的模式设为：已归档
-            </summary>
-            <param name="ID">目标文章ID</param>
+            <param name="ID">文章索引</param>
+            <param name="Mode">目标模式</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateIndex``1(System.Int32,System.Object)">
@@ -631,6 +611,11 @@
         <member name="P:WaterLibrary.pilipala.Components.Counter.ScheduledCount">
             <summary>
             计划中文章计数
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.pilipala.Components.Archive">
+            <summary>
+            归档管理组件
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Components.Plugin">
@@ -1160,6 +1145,25 @@
             模式
             </summary>
         </member>
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Mode.Unset">
+            <summary>
+            未设置
+            </summary>
+            <remarks>默认的文章模式，不带有任何模式特性</remarks>
+        </member>
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Mode.Hidden">
+            <summary>
+            隐藏
+            </summary>
+            <remarks>文章被隐藏，此状态下的文章不会被展示</remarks>
+        </member>
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Mode.Scheduled">
+            <summary>
+            计划
+            </summary>
+            <remarks>表示文章处于计划状态</remarks>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:WaterLibrary.pilipala.Entity.PostProp.Mode.Archived" -->
         <member name="T:WaterLibrary.pilipala.Entity.PostProp.Type">
             <summary>
             类型

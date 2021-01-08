@@ -741,9 +741,28 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 模式
             /// </summary>
-            public struct Mode : IPostProp
+            public class Mode : IPostProp
             {
-
+                /// <summary>
+                /// 未设置
+                /// </summary>
+                /// <remarks>默认的文章模式，不带有任何模式特性</remarks>
+                public class Unset : Mode { }
+                /// <summary>
+                /// 隐藏
+                /// </summary>
+                /// <remarks>文章被隐藏，此状态下的文章不会被展示</remarks>
+                public class Hidden : Mode { }
+                /// <summary>
+                /// 计划
+                /// </summary>
+                /// <remarks>表示文章处于计划状态</remarks>
+                public class Scheduled : Mode { }
+                /// <summary>
+                /// 归档
+                /// </summary>
+                /// <remarks>表示文章处于归档状态/remarks>
+                public class Archived : Mode { }
             }
             /// <summary>
             /// 类型
@@ -1744,48 +1763,25 @@ namespace WaterLibrary.pilipala
             }
 
             /// <summary>
-            /// 将目标文章指向的模式设为：未设置
+            /// 设置文章模式
             /// </summary>
-            /// <param name="ID">目标文章ID</param>
+            /// <param name="ID">文章索引</param>
+            /// <param name="Mode">目标模式</param>
             /// <returns></returns>
-            public bool UnsetMode(int ID)
+            public bool UpdateMode<Mode>(int ID) where Mode : Entity.PostProp.Mode
             {
-                //初始化键定位
                 var MySqlKey = (Tables.Index, "ID", ID);
-                return MySqlManager.UpdateKey(MySqlKey, "Mode", "");
-            }
-            /// <summary>
-            /// 将目标文章指向的模式设为：隐藏
-            /// </summary>
-            /// <param name="ID">目标文章ID</param>
-            /// <returns></returns>
-            public bool HiddenMode(int ID)
-            {
-                //初始化键定位
-                var MySqlKey = (Tables.Index, "ID", ID);
-                return MySqlManager.UpdateKey(MySqlKey, "Mode", "hidden");
-            }
-            /// <summary>
-            /// 将目标文章指向的模式设为：计划中
-            /// </summary>
-            /// <param name="ID">目标文章ID</param>
-            /// <returns></returns>
-            public bool ScheduledMode(int ID)
-            {
-                //初始化键定位
-                var MySqlKey = (Tables.Index, "ID", ID);
-                return MySqlManager.UpdateKey(MySqlKey, "Mode", "scheduled");
-            }
-            /// <summary>
-            /// 将目标文章指向的模式设为：已归档
-            /// </summary>
-            /// <param name="ID">目标文章ID</param>
-            /// <returns></returns>
-            public bool ArchivedMode(int ID)
-            {
-                //初始化键定位
-                var MySqlKey = (Tables.Index, "ID", ID);
-                return MySqlManager.UpdateKey(MySqlKey, "Mode", "archived");
+                static bool pm<T1, T2>() => typeof(T1) == typeof(T2);//用于模式匹配的十分丑陋的本地函数
+
+                if (pm<Mode, Entity.PostProp.Mode.Unset>())
+                    return MySqlManager.UpdateKey(MySqlKey, "Mode", "");
+                if (pm<Mode, Entity.PostProp.Mode.Hidden>())
+                    return MySqlManager.UpdateKey(MySqlKey, "Mode", "hidden");
+                if (pm<Mode, Entity.PostProp.Mode.Scheduled>())
+                    return MySqlManager.UpdateKey(MySqlKey, "Mode", "scheduled");
+                if (pm<Mode, Entity.PostProp.Mode.Archived>())
+                    return MySqlManager.UpdateKey(MySqlKey, "Mode", "archived");
+                throw new NotImplementedException("模式匹配失败");
             }
 
             /// <summary>
@@ -1967,6 +1963,13 @@ namespace WaterLibrary.pilipala
                 object Count = MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID;", Tables.Index, Tables.Backup));
                 return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
             }
+        }
+        /// <summary>
+        /// 归档管理组件
+        /// </summary>
+        public class Archive
+        {
+
         }
         /// <summary>
         /// 插件管理组件
