@@ -14,7 +14,7 @@ using WaterLibrary.MySQL;
 using WaterLibrary.Util;
 using WaterLibrary.pilipala.Database;
 using WaterLibrary.pilipala.Entity;
-using WaterLibrary.pilipala.Entity.PostProperty;
+using WaterLibrary.pilipala.Entity.PostProp;
 
 namespace WaterLibrary.pilipala
 {
@@ -602,13 +602,79 @@ namespace WaterLibrary.pilipala
             public int WithinDayUpdateCount() => UpdateCounter(-1);
             private int UpdateCounter(int Days) => (from el in PostList where el.CT > DateTime.Now.AddDays(Days) select el).Count();
         }
-
-        namespace PostProperty
+        /// <summary>
+        /// 文章属性枚举
+        /// </summary>
+        public enum PostPropEnum
+        {
+            /// <summary>
+            /// 文章索引
+            /// </summary>
+            ID,
+            /// <summary>
+            /// 文章全局标识
+            /// </summary>
+            GUID,
+            /// <summary>
+            /// 文章标题
+            /// </summary>
+            Title,
+            /// <summary>
+            /// 文章摘要
+            /// </summary>
+            Summary,
+            /// <summary>
+            /// 文章内容
+            /// </summary>
+            Content,
+            /// <summary>
+            /// 封面
+            /// </summary>
+            Cover,
+            /// <summary>
+            /// 归档
+            /// </summary>
+            Archiv,
+            /// <summary>
+            /// 标签
+            /// </summary>
+            Label,
+            /// <summary>
+            /// 模式
+            /// </summary>
+            Mode,
+            /// <summary>
+            /// 类型
+            /// </summary>
+            Type,
+            /// <summary>
+            /// 作者
+            /// </summary>
+            User,
+            /// <summary>
+            /// 创建时间
+            /// </summary>
+            CT,
+            /// <summary>
+            /// 最后修改时间
+            /// </summary>
+            LCT,
+            /// <summary>
+            /// 浏览计数
+            /// </summary>
+            UVCount,
+            /// <summary>
+            /// 星星计数
+            /// </summary>
+            StarCount
+        }
+        //思路：利用枚举和反射取得枚举名的方式，代替部分PostProp的使用（方法参数，而不是泛型）
+        namespace PostProp
         {
             /// <summary>
             /// 文章属性接口
             /// </summary>
-            public interface IProperty
+            public interface IPostProp
             {
 
             }
@@ -616,80 +682,80 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 文章索引
             /// </summary>
-            public struct ID : IProperty
+            public struct ID : IPostProp
             {
 
             }
             /// <summary>
             /// 文章全局标识
             /// </summary>
-            public struct GUID : IProperty
+            public struct GUID : IPostProp
             {
 
             }
 
             /// <summary>
-            /// 文章标题
+            /// 标题
             /// </summary>
-            public struct Title : IProperty
+            public struct Title : IPostProp
             {
 
             }
             /// <summary>
-            /// 文章摘要
+            /// 摘要
             /// </summary>
-            public struct Summary : IProperty
+            public struct Summary : IPostProp
             {
 
             }
             /// <summary>
-            /// 文章内容
+            /// 内容
             /// </summary>
-            public struct Content : IProperty
+            public struct Content : IPostProp
             {
 
             }
             /// <summary>
-            /// 文章标题
+            /// 封面
             /// </summary>
-            public struct Cover : IProperty
-            {
-
-            }
-
-            /// <summary>
-            /// 文章归档
-            /// </summary>
-            public struct Archiv : IProperty
-            {
-
-            }
-            /// <summary>
-            /// 文章标签
-            /// </summary>
-            public struct Label : IProperty
+            public struct Cover : IPostProp
             {
 
             }
 
             /// <summary>
-            /// 文章模式
+            /// 归档
             /// </summary>
-            public struct Mode : IProperty
+            public struct Archiv : IPostProp
             {
 
             }
             /// <summary>
-            /// 文章类型
+            /// 标签
             /// </summary>
-            public struct Type : IProperty
+            public struct Label : IPostProp
+            {
+
+            }
+
+            /// <summary>
+            /// 模式
+            /// </summary>
+            public struct Mode : IPostProp
             {
 
             }
             /// <summary>
-            /// 归属用户
+            /// 类型
             /// </summary>
-            public struct User : IProperty
+            public struct Type : IPostProp
+            {
+
+            }
+            /// <summary>
+            /// 作者
+            /// </summary>
+            public struct User : IPostProp
             {
 
             }
@@ -697,14 +763,14 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 创建时间
             /// </summary>
-            public struct CT : IProperty
+            public struct CT : IPostProp
             {
 
             }
             /// <summary>
             /// 最后修改时间
             /// </summary>
-            public struct LCT : IProperty
+            public struct LCT : IPostProp
             {
 
             }
@@ -712,14 +778,14 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 浏览计数
             /// </summary>
-            public struct UVCount : IProperty
+            public struct UVCount : IPostProp
             {
 
             }
             /// <summary>
             /// 星星计数
             /// </summary>
-            public struct StarCount : IProperty
+            public struct StarCount : IPostProp
             {
 
             }
@@ -1027,7 +1093,7 @@ namespace WaterLibrary.pilipala
             /// <typeparam name="T">目标属性类型</typeparam>
             /// <param name="ID">目标文章ID</param>
             /// <returns></returns>
-            public object GetProperty<T>(int ID) where T : IProperty
+            public object GetProperty<T>(int ID) where T : IPostProp
             {
                 string SQL = $"SELECT {typeof(T).Name} FROM `{Views.PosUnion}` WHERE ID = ?ID";
 
@@ -1044,7 +1110,7 @@ namespace WaterLibrary.pilipala
             /// <param name="REGEXP">正则表达式</param>
             /// <param name="IncludeNeg">是否包含消极文章(备份)</param>
             /// <returns></returns>
-            public PostSet GetPost<T>(string REGEXP, bool IncludeNeg = false) where T : IProperty
+            public PostSet GetPost<T>(string REGEXP, bool IncludeNeg = false) where T : IPostProp
             {
                 string SQL = IncludeNeg switch
                 {
@@ -1091,13 +1157,13 @@ namespace WaterLibrary.pilipala
             /// </summary>
             /// <typeparam name="T">正则表达式匹配的属性类型</typeparam>
             /// <param name="REGEXP">正则表达式</param>
-            /// <param name="Properties">所需属性类型</param>
+            /// <param name="PostProps">所需属性类型</param>
             /// <param name="IncludeNeg">是否包含消极文章(备份)</param>
             /// <returns></returns>
-            public PostSet GetPost<T>(string REGEXP, System.Type[] Properties, bool IncludeNeg = false) where T : IProperty
+            public PostSet GetPost<T>(string REGEXP, PostPropEnum[] PostProps, bool IncludeNeg = false) where T : IPostProp
             {
                 /* 键名字符串格式化 */
-                string KeysStr = ConvertH.ListToString(Properties, "Name", ',');
+                string KeysStr = ConvertH.ListToString(PostProps, ',');
                 string SQL = IncludeNeg switch
                 {
                     false => $"SELECT {KeysStr} FROM `{Views.PosUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC",
@@ -1114,9 +1180,9 @@ namespace WaterLibrary.pilipala
                 {
                     Post Post = new Post();
 
-                    for (int i = 0; i < Properties.Length; i++)
+                    for (int i = 0; i < PostProps.Length; i++)
                     {
-                        Post[Properties[i].Name] = Row.ItemArray[i];
+                        Post[PostProps[i].ToString()] = Row.ItemArray[i];
                     }
 
                     PostSet.Add(Post);
@@ -1158,9 +1224,9 @@ namespace WaterLibrary.pilipala
             /// <typeparam name="T">指定属性</typeparam>
             /// <param name="ID">目标文章的ID</param>
             /// <param name="REGEXP">正则表达式</param>
-            /// <param name="Property">用于被正则表达式筛选的属性</param>
+            /// <param name="PostProp">用于被正则表达式筛选的属性</param>
             /// <returns>不存在符合要求的ID时，返回-1</returns>
-            public int Bigger<T>(int ID, string REGEXP, System.Type Property)
+            public int Bigger<T>(int ID, string REGEXP, PostPropEnum PostProp)
             {
                 string SQL;
                 if (typeof(T) == typeof(ID))
@@ -1168,7 +1234,7 @@ namespace WaterLibrary.pilipala
                     SQL = string.Format
                     (
                     "SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE ID > {2} AND {3} REGEXP ?REGEXP )"
-                    , Views.PosUnion, typeof(T).Name, ID, Property.Name
+                    , Views.PosUnion, typeof(T).Name, ID, PostProp
                     );
                 }
                 else
@@ -1176,7 +1242,7 @@ namespace WaterLibrary.pilipala
                     SQL = string.Format
                     (
                     "SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE {1} > ( SELECT {1} FROM `{0}` WHERE ID = ?ID ) AND {2} REGEXP ?REGEXP )"
-                    , Views.PosUnion, typeof(T).Name, Property.Name
+                    , Views.PosUnion, typeof(T).Name, PostProp
                     );
                 }
 
@@ -1220,9 +1286,9 @@ namespace WaterLibrary.pilipala
             /// <typeparam name="T">指定属性</typeparam>
             /// <param name="ID">目标文章的ID</param>
             /// <param name="REGEXP">正则表达式</param>
-            /// <param name="Property">用于被正则表达式筛选的属性</param>
+            /// <param name="PostProp">用于被正则表达式筛选的属性</param>
             /// <returns>不存在符合要求的ID时，返回-1</returns>
-            public int Smaller<T>(int ID, string REGEXP, System.Type Property)
+            public int Smaller<T>(int ID, string REGEXP, PostPropEnum PostProp)
             {
                 string SQL;
                 if (typeof(T) == typeof(ID))
@@ -1230,7 +1296,7 @@ namespace WaterLibrary.pilipala
                     SQL = string.Format
                     (
                     "SELECT ID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE ID < {2} AND {3} REGEXP ?REGEXP )"
-                    , Views.PosUnion, typeof(T).Name, ID, Property.Name
+                    , Views.PosUnion, typeof(T).Name, ID, PostProp
                     );
                 }
                 else
@@ -1238,7 +1304,7 @@ namespace WaterLibrary.pilipala
                     SQL = string.Format
                     (
                     "SELECT ID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE {1} < ( SELECT {1} FROM `{0}` WHERE ID = ?ID ) AND {2} REGEXP ?REGEXP )"
-                    , Views.PosUnion, typeof(T).Name, Property.Name
+                    , Views.PosUnion, typeof(T).Name, PostProp
                     );
                 }
 
@@ -1322,21 +1388,12 @@ namespace WaterLibrary.pilipala
                     ));
             }
 
-
-            /*
-            Reg       注册文章：新建一个拷贝，并将index指向该拷贝
-            Dispose   注销文章：删除所有拷贝和index指向
-
-            Update    更新拷贝：新建一个拷贝，并将index更改为指向该拷贝
-            Delete    删除拷贝：删除指定拷贝，且该拷贝不能为当前index指向
-            Apply     应用拷贝：将现有index指向删除（顶出），然后将index指向设置为指定文章拷贝
-            Rollback  回滚拷贝：将现有index指向删除（顶出），然后将index指向设置到另一个最近更新的拷贝
-            Release   释放拷贝：删除非当前index指向的所有拷贝
-            */
-
             /// <summary>
             /// 注册文章
             /// </summary>
+            /// <remarks>
+            /// 新建一个拷贝，并将index指向该拷贝
+            /// </remarks>
             /// <param name="Post">文章数据（其中的ID、GUID、CT、LCT、User由系统生成）</param>
             /// <returns>返回受影响的行数</returns>
             public bool Reg(Post Post)
@@ -1401,6 +1458,9 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 注销文章
             /// </summary>
+            /// <remarks>
+            /// 删除所有拷贝和index指向
+            /// </remarks>
             /// <param name="ID">目标文章ID</param>
             /// <returns></returns>
             public bool Dispose(int ID)
@@ -1435,6 +1495,9 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 更新文章
             /// </summary>
+            /// <remarks>
+            /// 新建一个拷贝，并将index更改为指向该拷贝
+            /// </remarks>
             /// <param name="Post">文章数据</param>
             /// <returns></returns>
             public bool Update(Post Post)
@@ -1496,6 +1559,9 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 删除拷贝
             /// </summary>
+            /// <remarks>
+            /// 删除指定拷贝，且该拷贝不能为当前index指向
+            /// </remarks>
             /// <param name="GUID">目标文章的GUID</param>
             /// <returns></returns>
             public bool Delete(string GUID)
@@ -1535,6 +1601,9 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 应用拷贝
             /// </summary>
+            /// <remarks>
+            /// 将现有index指向删除（顶出），然后将index指向设置为指定文章拷贝
+            /// </remarks>
             /// <param name="GUID">目标拷贝的GUID</param>
             /// <returns></returns>
             public bool Apply(string GUID)
@@ -1576,6 +1645,9 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 回滚拷贝
             /// </summary>
+            /// <remarks>
+            /// 将现有index指向删除（顶出），然后将index指向设置到另一个最近更新的拷贝
+            /// </remarks>
             /// <param name="ID">目标文章的ID</param>
             /// <returns></returns>
             public bool Rollback(int ID)
@@ -1613,6 +1685,8 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 释放拷贝
             /// </summary>
+            /// <remarks>删除非当前index指向的所有拷贝
+            /// </remarks>
             /// <param name="ID">目标文章的ID</param>
             /// <returns></returns>
             public bool Release(int ID)
@@ -1721,7 +1795,7 @@ namespace WaterLibrary.pilipala
             /// <param name="ID">目标文章ID</param>
             /// <param name="Value">新属性值</param>
             /// <returns></returns>
-            public bool UpdateIndex<T>(int ID, object Value) where T : IProperty
+            public bool UpdateIndex<T>(int ID, object Value) where T : IPostProp
             {
                 //初始化键定位
                 var MySqlKey = (Tables.Index, "ID", ID);
@@ -1734,7 +1808,7 @@ namespace WaterLibrary.pilipala
             /// <param name="ID">目标拷贝GUID</param>
             /// <param name="Value">新属性值</param>
             /// <returns></returns>
-            public bool UpdateBackup<T>(int ID, object Value) where T : IProperty
+            public bool UpdateBackup<T>(int ID, object Value) where T : IPostProp
             {
                 //初始化键定位
                 var MySqlKey = (Tables.Backup, "GUID", GetPositiveGUID(ID));
@@ -1903,6 +1977,7 @@ namespace WaterLibrary.pilipala
             private MySqlManager MySqlManager { get; init; }
 
             private List<string> PluginPool;
+            /* 此组件是为未来而保留的 */
         }
     }
 }

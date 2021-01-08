@@ -1067,6 +1067,21 @@ namespace WaterLibrary.Util
         /// <summary>
         /// 将可迭代对象的元素值按照分隔符合并为一个字符串
         /// </summary>
+        /// <param name="List">可遍历对象，其中的元素需能转换为字符串</param>
+        /// <param name="Delimiter">分隔符</param>
+        /// <returns></returns>
+        public static string ListToString(dynamic List, char Delimiter)
+        {
+            string Result = "";
+            foreach (dynamic temp in List)
+            {
+                Result += temp.ToString() + Delimiter;
+            }
+            return Result[0..^1];
+        }
+        /// <summary>
+        /// 将可迭代对象的元素值按照分隔符合并为一个字符串
+        /// </summary>
         /// <param name="List">可遍历对象，其中的元素需能通过指定属性获取值</param>
         /// <param name="PropertyName">属性名</param>
         /// <param name="Delimiter">分隔符</param>

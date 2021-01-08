@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 
 using WaterLibrary.Util;
 using WaterLibrary.pilipala;
-using WaterLibrary.pilipala.Entity.PostProperty;
+using WaterLibrary.pilipala.Entity.PostProp;
 using WaterLibrary.pilipala.Entity;
 using WaterLibrary.pilipala.Components;
 using WaterLibrary.MySQL;
