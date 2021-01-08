@@ -190,7 +190,6 @@ namespace PILIPALA.system
                           item.PropertyContainer = new()
                           {
                               { "CommentCount", CommentLake.GetCommentCount(item.ID) },
-                              { "MD5", item.MD5() }
                           };
                       }).ToJSON());
         }
