@@ -11,7 +11,7 @@ using MySql.Data.MySqlClient;
 
 using WaterLibrary.MySQL;
 using WaterLibrary.pilipala.Entity;
-using WaterLibrary.pilipala.Entity.CommentProperty;
+using WaterLibrary.pilipala.Entity.CommentProp;
 using WaterLibrary.pilipala.Database;
 
 namespace WaterLibrary.pilipala.Components
@@ -95,7 +95,7 @@ namespace WaterLibrary.pilipala.Components
         /// <typeparam name="T">属性类型</typeparam>
         /// <param name="CommentID">目标评论ID</param>
         /// <returns></returns>
-        public string GetComment<T>(int CommentID) where T : ICommentKey
+        public string GetComment<T>(int CommentID) where T : ICommentProp
         {
             /* int类型传入，SQL注入无效 */
             string SQL = $"SELECT {typeof(T).Name} FROM {Tables.Comment} WHERE CommentID = {CommentID}";
@@ -261,12 +261,12 @@ namespace WaterLibrary.pilipala.Components
 }
 namespace WaterLibrary.pilipala.Entity
 {
-    namespace CommentProperty
+    namespace CommentProp
     {
         /// <summary>
         /// 表键值接口
         /// </summary>
-        public interface ICommentKey
+        public interface ICommentProp
         {
 
         }
@@ -274,49 +274,49 @@ namespace WaterLibrary.pilipala.Entity
         /// <summary>
         /// 被评论的文章ID
         /// </summary>
-        public struct PostID : ICommentKey
+        public struct PostID : ICommentProp
         {
 
         }
         /// <summary>
         /// 评论用户
         /// </summary>
-        public struct User : ICommentKey
+        public struct User : ICommentProp
         {
 
         }
         /// <summary>
         /// 用户邮箱
         /// </summary>
-        public struct Email : ICommentKey
+        public struct Email : ICommentProp
         {
 
         }
         /// <summary>
         /// 评论内容
         /// </summary>
-        public struct Content : ICommentKey
+        public struct Content : ICommentProp
         {
 
         }
         /// <summary>
         /// 用户站点
         /// </summary>
-        public struct WebSite : ICommentKey
+        public struct WebSite : ICommentProp
         {
 
         }
         /// <summary>
         /// 回复到的评论ID
         /// </summary>
-        public struct HEAD : ICommentKey
+        public struct HEAD : ICommentProp
         {
 
         }
         /// <summary>
         /// 评论创建时间
         /// </summary>
-        public struct Time : ICommentKey
+        public struct Time : ICommentProp
         {
 
         }
@@ -324,7 +324,7 @@ namespace WaterLibrary.pilipala.Entity
         /// <summary>
         /// 所在楼层
         /// </summary>
-        public struct Floor : ICommentKey
+        public struct Floor : ICommentProp
         {
 
         }

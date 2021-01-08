@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Cors;
 
 using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity;
-using WaterLibrary.pilipala.Entity.PostProperty;
+using WaterLibrary.pilipala.Entity.PostProp;
 using WaterLibrary.pilipala.Components;
 
 using PILIPALA.Models.Guest;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity;
-using WaterLibrary.pilipala.Entity.PostProperty;
+using WaterLibrary.pilipala.Entity.PostProp;
 using WaterLibrary.pilipala.Components;
 
 namespace PILIPALA.Controllers
@@ -74,10 +74,10 @@ namespace PILIPALA.Controllers
 
             ViewBag.CommentList = CommentLake.GetComments(ID);//评论数据
 
-            ViewBag.PrevID = Reader.Smaller<ID>(ID, "生活|技术", typeof(Archiv));
+            ViewBag.PrevID = Reader.Smaller<ID>(ID, "生活|技术", PostPropEnum.Archiv);
             ViewBag.PrevTitle = Reader.GetProperty<Title>(ViewBag.PrevID);
 
-            ViewBag.NextID = Reader.Bigger<ID>(ID, "生活|技术", typeof(Archiv));
+            ViewBag.NextID = Reader.Bigger<ID>(ID, "生活|技术", PostPropEnum.Archiv);
             ViewBag.NextTitle = Reader.GetProperty<Title>(ViewBag.NextID);
 
 

@@ -1,7 +1,7 @@
 ﻿
 @using WaterLibrary.pilipala;
 @using WaterLibrary.pilipala.Entity;
-@using WaterLibrary.pilipala.Entity.PostProperty;
+@using WaterLibrary.pilipala.Entity.PostProp;
 @using WaterLibrary.pilipala.Components;
 
 @inject ICORE CORE
@@ -23,8 +23,7 @@
     Counter = ComponentFactory.GenCounter();
     CommentLake = ComponentFactory.GenCommentLake();
 
-    var array = new System.Type[2] { typeof(ID), typeof(Title) };
-    PostSet PostSet = Reader.GetPost<Archiv>("页面|友情链接", array);
+    PostSet PostSet = Reader.GetPost<Archiv>("页面|友情链接", new[] { PostPropEnum.ID, PostPropEnum.Title });
 }
 
 
