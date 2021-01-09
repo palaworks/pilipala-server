@@ -15,6 +15,8 @@ using WaterLibrary.Util;
 using WaterLibrary.pilipala.Database;
 using WaterLibrary.pilipala.Entity;
 using WaterLibrary.pilipala.Entity.PostProp;
+using Type = WaterLibrary.pilipala.Entity.PostProp.Type;
+
 
 namespace WaterLibrary.pilipala
 {
@@ -741,35 +743,57 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 模式
             /// </summary>
-            public class Mode : IPostProp
+            public struct Mode : IPostProp
             {
                 /// <summary>
-                /// 未设置
+                /// 状态枚举
                 /// </summary>
-                /// <remarks>默认的文章模式，不带有任何模式特性</remarks>
-                public class Unset : Mode { }
-                /// <summary>
-                /// 隐藏
-                /// </summary>
-                /// <remarks>文章被隐藏，此状态下的文章不会被展示</remarks>
-                public class Hidden : Mode { }
-                /// <summary>
-                /// 计划
-                /// </summary>
-                /// <remarks>表示文章处于计划状态</remarks>
-                public class Scheduled : Mode { }
-                /// <summary>
-                /// 归档
-                /// </summary>
-                /// <remarks>表示文章处于归档状态/remarks>
-                public class Archived : Mode { }
+                public enum States
+                {
+                    /// <summary>
+                    /// 未设置
+                    /// </summary>
+                    /// <remarks>默认的文章模式，不带有任何模式特性</remarks>
+                    Unset,
+                    /// <summary>
+                    /// 隐藏
+                    /// </summary>
+                    /// <remarks>文章被隐藏，此状态下的文章不会被展示</remarks>
+                    Hidden,
+                    /// <summary>
+                    /// 计划
+                    /// </summary>
+                    /// <remarks>表示文章处于计划状态</remarks>
+                    Scheduled,
+                    /// <summary>
+                    /// 归档
+                    /// </summary>
+                    /// <remarks>表示文章处于归档状态</remarks>
+                    Archived
+                }
             }
+
             /// <summary>
             /// 类型
             /// </summary>
             public struct Type : IPostProp
             {
-
+                /// <summary>
+                /// 状态枚举
+                /// </summary>
+                public enum States
+                {
+                    /// <summary>
+                    /// 未设置
+                    /// </summary>
+                    /// <remarks>默认的文章类型，不带有任何类型特性</remarks>
+                    Unset,
+                    /// <summary>
+                    /// 便签
+                    /// </summary>
+                    /// <remarks>表示文章以便签形式展示</remarks>
+                    Note,
+                }
             }
             /// <summary>
             /// 作者
@@ -1741,47 +1765,39 @@ namespace WaterLibrary.pilipala
             }
 
             /// <summary>
-            /// 将目标文章指向的类型设为：未设置
+            /// 设置文章类型
             /// </summary>
-            /// <param name="ID">目标文章ID</param>
+            /// <param name="ID">文章索引</param>
+            /// <param name="TypeState">目标类型</param>
             /// <returns></returns>
-            public bool UnsetType(int ID)
+            public bool UpdateType(int ID, Type.States TypeState)
             {
-                var MySqlKey = (Tables.Index, "ID", ID);
-                return MySqlManager.UpdateKey(MySqlKey, "Type", "");
+                bool fun(string value) => MySqlManager.UpdateKey((Tables.Index, "ID", ID), "Type", value);
+                return TypeState switch
+                {
+                    Type.States.Unset => fun(""),
+                    Type.States.Note => fun("note"),
+                    _ => throw new NotImplementedException("模式匹配失败")
+                };
             }
-            /// <summary>
-            /// 将目标文章指向的类型设为：便签
-            /// </summary>
-            /// <param name="ID">目标文章ID</param>
-            /// <returns></returns>
-            public bool NoteType(int ID)
-            {
-
-                var MySqlKey = (Tables.Index, "ID", ID);
-                return MySqlManager.UpdateKey(MySqlKey, "Type", "note");
-            }
-
             /// <summary>
             /// 设置文章模式
             /// </summary>
             /// <param name="ID">文章索引</param>
-            /// <param name="Mode">目标模式</param>
+            /// <param name="ModeState">目标模式</param>
             /// <returns></returns>
-            public bool UpdateMode<Mode>(int ID) where Mode : Entity.PostProp.Mode
+            public bool UpdateMode(int ID, Mode.States ModeState)
             {
-                var MySqlKey = (Tables.Index, "ID", ID);
-                static bool pm<T1, T2>() => typeof(T1) == typeof(T2);//用于模式匹配的十分丑陋的本地函数
+                bool fun(string value) => MySqlManager.UpdateKey((Tables.Index, "ID", ID), "Mode", value);
 
-                if (pm<Mode, Entity.PostProp.Mode.Unset>())
-                    return MySqlManager.UpdateKey(MySqlKey, "Mode", "");
-                if (pm<Mode, Entity.PostProp.Mode.Hidden>())
-                    return MySqlManager.UpdateKey(MySqlKey, "Mode", "hidden");
-                if (pm<Mode, Entity.PostProp.Mode.Scheduled>())
-                    return MySqlManager.UpdateKey(MySqlKey, "Mode", "scheduled");
-                if (pm<Mode, Entity.PostProp.Mode.Archived>())
-                    return MySqlManager.UpdateKey(MySqlKey, "Mode", "archived");
-                throw new NotImplementedException("模式匹配失败");
+                return ModeState switch
+                {
+                    Mode.States.Unset => fun(""),
+                    Mode.States.Hidden => fun("hidden"),
+                    Mode.States.Scheduled => fun("scheduled"),
+                    Mode.States.Archived => fun("archived"),
+                    _ => throw new NotImplementedException("模式匹配失败")
+                };
             }
 
             /// <summary>
@@ -1791,7 +1807,7 @@ namespace WaterLibrary.pilipala
             /// <param name="ID">目标文章ID</param>
             /// <param name="Value">新属性值</param>
             /// <returns></returns>
-            public bool UpdateIndex<T>(int ID, object Value) where T : IPostProp
+            public bool UpdateIndexTable<T>(int ID, object Value) where T : IPostProp
             {
                 //初始化键定位
                 var MySqlKey = (Tables.Index, "ID", ID);
@@ -1804,7 +1820,7 @@ namespace WaterLibrary.pilipala
             /// <param name="ID">目标拷贝GUID</param>
             /// <param name="Value">新属性值</param>
             /// <returns></returns>
-            public bool UpdateBackup<T>(int ID, object Value) where T : IPostProp
+            public bool UpdateBackupTable<T>(int ID, object Value) where T : IPostProp
             {
                 //初始化键定位
                 var MySqlKey = (Tables.Backup, "GUID", GetPositiveGUID(ID));
@@ -1976,10 +1992,10 @@ namespace WaterLibrary.pilipala
         /// </summary>
         public class Plugin
         {
-            private PLTables Tables { get; init; }
-            private MySqlManager MySqlManager { get; init; }
+            //private PLTables Tables { get; init; }
+            //private MySqlManager MySqlManager { get; init; }
 
-            private List<string> PluginPool;
+            //private List<string> PluginPool;
             /* 此组件是为未来而保留的 */
         }
     }

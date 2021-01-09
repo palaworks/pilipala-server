@@ -46,7 +46,7 @@ namespace PILIPALA.system
         {
             int StarCount = Convert.ToInt32(Reader.GetProperty<StarCount>(PostID));
 
-            Writer.UpdateIndex<StarCount>(PostID, StarCount - 1);
+            Writer.UpdateIndexTable<StarCount>(PostID, StarCount - 1);
 
             return StarCount - 1;
         }
@@ -59,7 +59,7 @@ namespace PILIPALA.system
         {
             int StarCount = Convert.ToInt32(Reader.GetProperty<StarCount>(PostID));
 
-            Writer.UpdateIndex<StarCount>(PostID, StarCount + 1);
+            Writer.UpdateIndexTable<StarCount>(PostID, StarCount + 1);
 
             return StarCount + 1;
 
@@ -75,7 +75,7 @@ namespace PILIPALA.system
 
             int UVCount = Convert.ToInt32(Reader.GetProperty<UVCount>(PostID));
 
-            Writer.UpdateIndex<UVCount>(PostID, UVCount + 1);
+            Writer.UpdateIndexTable<UVCount>(PostID, UVCount + 1);
 
             return UVCount + 1;
         }
