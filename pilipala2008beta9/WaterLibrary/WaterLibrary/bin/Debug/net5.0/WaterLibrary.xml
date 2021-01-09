@@ -509,29 +509,23 @@
             <param name="ID">目标文章的ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.UnsetType(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateType(System.Int32,WaterLibrary.pilipala.Entity.PostProp.Type.States)">
             <summary>
-            将目标文章指向的类型设为：未设置
+            设置文章类型
             </summary>
-            <param name="ID">目标文章ID</param>
+            <param name="ID">文章索引</param>
+            <param name="TypeState">目标类型</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.NoteType(System.Int32)">
-            <summary>
-            将目标文章指向的类型设为：便签
-            </summary>
-            <param name="ID">目标文章ID</param>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateMode``1(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateMode(System.Int32,WaterLibrary.pilipala.Entity.PostProp.Mode.States)">
             <summary>
             设置文章模式
             </summary>
             <param name="ID">文章索引</param>
-            <param name="Mode">目标模式</param>
+            <param name="ModeState">目标模式</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateIndex``1(System.Int32,System.Object)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateIndexTable``1(System.Int32,System.Object)">
             <summary>
             通用文章指向更新器
             </summary>
@@ -540,7 +534,7 @@
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateBackup``1(System.Int32,System.Object)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateBackupTable``1(System.Int32,System.Object)">
             <summary>
             通用文章拷贝更新器
             </summary>
@@ -1145,29 +1139,56 @@
             模式
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Mode.Unset">
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Mode.States">
+            <summary>
+            状态枚举
+            </summary>
+        </member>
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Mode.States.Unset">
             <summary>
             未设置
             </summary>
             <remarks>默认的文章模式，不带有任何模式特性</remarks>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Mode.Hidden">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Mode.States.Hidden">
             <summary>
             隐藏
             </summary>
             <remarks>文章被隐藏，此状态下的文章不会被展示</remarks>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Mode.Scheduled">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Mode.States.Scheduled">
             <summary>
             计划
             </summary>
             <remarks>表示文章处于计划状态</remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:WaterLibrary.pilipala.Entity.PostProp.Mode.Archived" -->
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Mode.States.Archived">
+            <summary>
+            归档
+            </summary>
+            <remarks>表示文章处于归档状态</remarks>
+        </member>
         <member name="T:WaterLibrary.pilipala.Entity.PostProp.Type">
             <summary>
             类型
             </summary>
+        </member>
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Type.States">
+            <summary>
+            状态枚举
+            </summary>
+        </member>
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Type.States.Unset">
+            <summary>
+            未设置
+            </summary>
+            <remarks>默认的文章类型，不带有任何类型特性</remarks>
+        </member>
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Type.States.Note">
+            <summary>
+            便签
+            </summary>
+            <remarks>表示文章以便签形式展示</remarks>
         </member>
         <member name="T:WaterLibrary.pilipala.Entity.PostProp.User">
             <summary>
