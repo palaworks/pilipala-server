@@ -863,13 +863,14 @@ namespace WaterLibrary.pilipala
             /// 生成读组件
             /// </summary>
             /// <param name="ReadMode">读取模式枚举</param>
+            /// <param name="WithBackupMode">以备份管理模式启动(读取到的数据包含备份)</param>
             /// <returns></returns>
-            public Reader GenReader(Reader.ReadMode ReadMode)
+            public Reader GenReader(Reader.ReadMode ReadMode, bool WithBackupMode = false)
             {
                 return ReadMode switch
                 {
-                    Reader.ReadMode.CleanRead => new(CORE.ViewsSet.CleanViews, CORE.MySqlManager),
-                    Reader.ReadMode.DirtyRead => new(CORE.ViewsSet.DirtyViews, CORE.MySqlManager),
+                    Reader.ReadMode.CleanRead => new(CORE.ViewsSet.CleanViews, CORE.MySqlManager, WithBackupMode),
+                    Reader.ReadMode.DirtyRead => new(CORE.ViewsSet.DirtyViews, CORE.MySqlManager, WithBackupMode),
                     _ => throw new NotImplementedException(),
                 };
             }
@@ -1076,7 +1077,7 @@ namespace WaterLibrary.pilipala
                 DirtyRead = 1
             }
 
-            private PLViews Views { get; init; }
+            private string UnionView { get; init; }
 
             private MySqlManager MySqlManager { get; init; }
 
@@ -1089,10 +1090,15 @@ namespace WaterLibrary.pilipala
             /// </summary>
             /// <param name="Views">数据库视图</param>
             /// <param name="MySqlManager">数据库管理器</param>
+            /// <param name="WithBackupMode">以备份管理模式启动(读取到的数据包含备份)</param>
             /// <returns></returns>
-            internal Reader(PLViews Views, MySqlManager MySqlManager)
+            internal Reader(PLViews Views, MySqlManager MySqlManager, bool WithBackupMode)
             {
-                this.Views = Views;
+                UnionView = WithBackupMode switch
+                {
+                    false => Views.PosUnion,
+                    true => Views.NegUnion
+                };
                 this.MySqlManager = MySqlManager;
             }
 
@@ -1103,7 +1109,7 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public Post GetPost(int ID)
             {
-                string SQL = $"SELECT * FROM `{Views.PosUnion}` WHERE ID={ID}";
+                string SQL = $"SELECT * FROM `{UnionView}` WHERE ID={ID}";
                 DataRow Row = MySqlManager.GetRow(SQL);
 
                 return new Post
@@ -1128,7 +1134,6 @@ namespace WaterLibrary.pilipala
                     UVCount = Convert.ToInt32(Row["UVCount"]),
                     StarCount = Convert.ToInt32(Row["StarCount"])
                 };
-
             }
             /// <summary>
             /// 取得指定文章属性
@@ -1138,7 +1143,7 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public object GetProperty<T>(int ID) where T : IPostProp
             {
-                string SQL = $"SELECT {typeof(T).Name} FROM `{Views.PosUnion}` WHERE ID = ?ID";
+                string SQL = $"SELECT {typeof(T).Name} FROM `{UnionView}` WHERE ID = ?ID";
 
                 return MySqlManager.GetKey(SQL, new MySqlParameter[]
                 {
@@ -1153,13 +1158,9 @@ namespace WaterLibrary.pilipala
             /// <param name="REGEXP">正则表达式</param>
             /// <param name="IncludeNeg">是否包含消极文章(备份)</param>
             /// <returns></returns>
-            public PostSet GetPost<T>(string REGEXP, bool IncludeNeg = false) where T : IPostProp
+            public PostSet GetPost<T>(string REGEXP) where T : IPostProp
             {
-                string SQL = IncludeNeg switch
-                {
-                    false => $"SELECT * FROM `{Views.PosUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC",
-                    _ => $"SELECT * FROM `{Views.NegUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC"
-                };
+                string SQL = $"SELECT * FROM `{UnionView}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC";
 
                 PostSet PostSet = new PostSet();
 
@@ -1203,16 +1204,11 @@ namespace WaterLibrary.pilipala
             /// <param name="PostProps">所需属性类型</param>
             /// <param name="IncludeNeg">是否包含消极文章(备份)</param>
             /// <returns></returns>
-            public PostSet GetPost<T>(string REGEXP, PostPropEnum[] PostProps, bool IncludeNeg = false) where T : IPostProp
+            public PostSet GetPost<T>(string REGEXP, params PostPropEnum[] PostProps) where T : IPostProp
             {
                 /* 键名字符串格式化 */
                 string KeysStr = ConvertH.ListToString(PostProps, ',');
-                string SQL = IncludeNeg switch
-                {
-                    false => $"SELECT {KeysStr} FROM `{Views.PosUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC",
-                    _ => $"SELECT {KeysStr} FROM `{Views.NegUnion}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC"
-                };
-
+                string SQL = $"SELECT {KeysStr} FROM `{UnionView}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC";
 
                 PostSet PostSet = new PostSet();
 
@@ -1237,23 +1233,23 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 取得具有比目标文章的指定属性具有更大的值的文章ID
             /// </summary>
-            /// <typeparam name="T">指定属性</typeparam>
+            /// <typeparam name="Prop">指定属性</typeparam>
             /// <param name="ID">目标文章的ID</param>
             /// <returns>不存在符合要求的ID时，返回-1</returns>
-            public int Bigger<T>(int ID)
+            public int Bigger<Prop>(int ID)
             {
                 string SQL;
 
-                if (typeof(T) == typeof(ID))/* 对查询ID有优化 */
+                if (typeof(Prop) == typeof(ID))/* 对查询ID有优化 */
                 {
-                    SQL = $"SELECT ID FROM `{Views.PosUnion}` WHERE ID=( SELECT min(ID) FROM `{Views.PosUnion}` WHERE ID > {ID})";
+                    SQL = $"SELECT ID FROM `{UnionView}` WHERE ID=( SELECT min(ID) FROM `{UnionView}` WHERE ID > {ID})";
                 }
                 else
                 {
                     SQL = string.Format
                     (
                     $"SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE {1} > ( SELECT {1} FROM `{0}` WHERE ID = {2} ))"
-                    , Views.PosUnion, typeof(T).Name, ID
+                    , UnionView, typeof(Prop).Name, ID
                     );
                 }
                 object NextID = MySqlManager.GetKey(SQL);
@@ -1264,20 +1260,20 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 取得具有比目标文章的指定属性具有更大的值的文章ID
             /// </summary>
-            /// <typeparam name="T">指定属性</typeparam>
+            /// <typeparam name="Prop">指定属性</typeparam>
             /// <param name="ID">目标文章的ID</param>
             /// <param name="REGEXP">正则表达式</param>
             /// <param name="PostProp">用于被正则表达式筛选的属性</param>
             /// <returns>不存在符合要求的ID时，返回-1</returns>
-            public int Bigger<T>(int ID, string REGEXP, PostPropEnum PostProp)
+            public int Bigger<Prop>(int ID, string REGEXP, PostPropEnum PostProp)
             {
                 string SQL;
-                if (typeof(T) == typeof(ID))
+                if (typeof(Prop) == typeof(ID))
                 {
                     SQL = string.Format
                     (
                     "SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE ID > {2} AND {3} REGEXP ?REGEXP )"
-                    , Views.PosUnion, typeof(T).Name, ID, PostProp
+                    , UnionView, typeof(Prop).Name, ID, PostProp
                     );
                 }
                 else
@@ -1285,7 +1281,7 @@ namespace WaterLibrary.pilipala
                     SQL = string.Format
                     (
                     "SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE {1} > ( SELECT {1} FROM `{0}` WHERE ID = ?ID ) AND {2} REGEXP ?REGEXP )"
-                    , Views.PosUnion, typeof(T).Name, PostProp
+                    , UnionView, typeof(Prop).Name, PostProp
                     );
                 }
 
@@ -1300,23 +1296,23 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 取得具有比目标文章的指定属性具有更小的值的文章ID
             /// </summary>
-            /// <typeparam name="T">指定属性</typeparam>
+            /// <typeparam name="Prop">指定属性</typeparam>
             /// <param name="ID">目标文章的ID</param>
             /// <returns>不存在符合要求的ID时，返回-1</returns>
-            public int Smaller<T>(int ID)
+            public int Smaller<Prop>(int ID)
             {
                 string SQL;
 
-                if (typeof(T) == typeof(ID))/* 对查询ID有优化 */
+                if (typeof(Prop) == typeof(ID))/* 对查询ID有优化 */
                 {
-                    SQL = $"SELECT ID FROM `{Views.PosUnion}` WHERE ID=( SELECT max(ID) FROM `{Views.PosUnion}` WHERE ID < {ID})";
+                    SQL = $"SELECT ID FROM `{UnionView}` WHERE ID=( SELECT max(ID) FROM `{UnionView}` WHERE ID < {ID})";
                 }
                 else
                 {
                     SQL = string.Format
                     (
                     "SELECT ID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE {1} < ( SELECT {1} FROM `{0}` WHERE ID = {2} ))"
-                    , Views.PosUnion, typeof(T).Name, ID
+                    , UnionView, typeof(Prop).Name, ID
                     );
                 }
                 object PrevID = MySqlManager.GetKey(SQL);
@@ -1326,20 +1322,20 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 取得具有比目标文章的指定属性具有更小的值的文章ID
             /// </summary>
-            /// <typeparam name="T">指定属性</typeparam>
+            /// <typeparam name="Prop">指定属性</typeparam>
             /// <param name="ID">目标文章的ID</param>
             /// <param name="REGEXP">正则表达式</param>
             /// <param name="PostProp">用于被正则表达式筛选的属性</param>
             /// <returns>不存在符合要求的ID时，返回-1</returns>
-            public int Smaller<T>(int ID, string REGEXP, PostPropEnum PostProp)
+            public int Smaller<Prop>(int ID, string REGEXP, PostPropEnum PostProp)
             {
                 string SQL;
-                if (typeof(T) == typeof(ID))
+                if (typeof(Prop) == typeof(ID))
                 {
                     SQL = string.Format
                     (
                     "SELECT ID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE ID < {2} AND {3} REGEXP ?REGEXP )"
-                    , Views.PosUnion, typeof(T).Name, ID, PostProp
+                    , UnionView, typeof(Prop).Name, ID, PostProp
                     );
                 }
                 else
@@ -1347,7 +1343,7 @@ namespace WaterLibrary.pilipala
                     SQL = string.Format
                     (
                     "SELECT ID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE {1} < ( SELECT {1} FROM `{0}` WHERE ID = ?ID ) AND {2} REGEXP ?REGEXP )"
-                    , Views.PosUnion, typeof(T).Name, PostProp
+                    , UnionView, typeof(Prop).Name, PostProp
                     );
                 }
 

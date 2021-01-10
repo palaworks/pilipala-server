@@ -150,11 +150,12 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.GenReader(WaterLibrary.pilipala.Components.Reader.ReadMode)">
+        <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.GenReader(WaterLibrary.pilipala.Components.Reader.ReadMode,System.Boolean)">
             <summary>
             生成读组件
             </summary>
             <param name="ReadMode">读取模式枚举</param>
+            <param name="WithBackupMode">以备份管理模式启动(读取到的数据包含备份)</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.GenWriter">
@@ -318,12 +319,13 @@
             默认构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.#ctor(WaterLibrary.pilipala.Database.PLViews,WaterLibrary.MySQL.MySqlManager)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.#ctor(WaterLibrary.pilipala.Database.PLViews,WaterLibrary.MySQL.MySqlManager,System.Boolean)">
             <summary>
             工厂构造
             </summary>
             <param name="Views">数据库视图</param>
             <param name="MySqlManager">数据库管理器</param>
+            <param name="WithBackupMode">以备份管理模式启动(读取到的数据包含备份)</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost(System.Int32)">
@@ -341,7 +343,7 @@
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost``1(System.String,System.Boolean)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost``1(System.String)">
             <summary>
             获取文章数据
             </summary>
@@ -350,7 +352,7 @@
             <param name="IncludeNeg">是否包含消极文章(备份)</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost``1(System.String,WaterLibrary.pilipala.Entity.PostPropEnum[],System.Boolean)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost``1(System.String,WaterLibrary.pilipala.Entity.PostPropEnum[])">
             <summary>
             获取文章数据
             </summary>
@@ -364,7 +366,7 @@
             <summary>
             取得具有比目标文章的指定属性具有更大的值的文章ID
             </summary>
-            <typeparam name="T">指定属性</typeparam>
+            <typeparam name="Prop">指定属性</typeparam>
             <param name="ID">目标文章的ID</param>
             <returns>不存在符合要求的ID时，返回-1</returns>
         </member>
@@ -372,7 +374,7 @@
             <summary>
             取得具有比目标文章的指定属性具有更大的值的文章ID
             </summary>
-            <typeparam name="T">指定属性</typeparam>
+            <typeparam name="Prop">指定属性</typeparam>
             <param name="ID">目标文章的ID</param>
             <param name="REGEXP">正则表达式</param>
             <param name="PostProp">用于被正则表达式筛选的属性</param>
@@ -382,7 +384,7 @@
             <summary>
             取得具有比目标文章的指定属性具有更小的值的文章ID
             </summary>
-            <typeparam name="T">指定属性</typeparam>
+            <typeparam name="Prop">指定属性</typeparam>
             <param name="ID">目标文章的ID</param>
             <returns>不存在符合要求的ID时，返回-1</returns>
         </member>
@@ -390,7 +392,7 @@
             <summary>
             取得具有比目标文章的指定属性具有更小的值的文章ID
             </summary>
-            <typeparam name="T">指定属性</typeparam>
+            <typeparam name="Prop">指定属性</typeparam>
             <param name="ID">目标文章的ID</param>
             <param name="REGEXP">正则表达式</param>
             <param name="PostProp">用于被正则表达式筛选的属性</param>

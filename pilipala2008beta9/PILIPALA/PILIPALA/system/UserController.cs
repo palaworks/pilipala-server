@@ -27,7 +27,7 @@ namespace PILIPALA.system
     public class UserController : Controller
     {
         private Authentication Authentication;
-        private readonly Reader Reader;
+        private readonly Reader Reader, BackUpReader;
         private readonly Writer Writer;
         private readonly Counter Counter;
         private readonly CommentLake CommentLake;
@@ -49,6 +49,7 @@ namespace PILIPALA.system
 
                 Authentication = ComponentFactory.GenAuthentication();
                 Reader = ComponentFactory.GenReader(Reader.ReadMode.DirtyRead);
+                BackUpReader = ComponentFactory.GenReader(Reader.ReadMode.DirtyRead, true);
                 Writer = ComponentFactory.GenWriter();
                 Counter = ComponentFactory.GenCounter();
                 CommentLake = ComponentFactory.GenCommentLake();
@@ -208,7 +209,7 @@ namespace PILIPALA.system
         public string Get_neg_posts_by_PostID(string Token, int PostID)
         {
             return Authentication.Auth(Token, () =>
-             Reader.GetPost<ID>(PostID.ToString(), true)
+             BackUpReader.GetPost<ID>(PostID.ToString())
                  .ForEach((item) =>
                  {
                      item.PropertyContainer.Add("MD5", item.MD5());
