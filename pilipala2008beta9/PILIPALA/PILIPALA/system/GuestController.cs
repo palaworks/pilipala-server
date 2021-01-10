@@ -31,7 +31,7 @@ namespace PILIPALA.system
             /* 启动内核 */
             CORE.Run();
 
-            Reader = ComponentFactory.GenReader(Reader.ReadMode.DirtyRead);
+            Reader = ComponentFactory.GenReader(Reader.ReadMode.DirtyRead, true);
             Writer = ComponentFactory.GenWriter();
             Counter = ComponentFactory.GenCounter();
             CommentLake = ComponentFactory.GenCommentLake();
