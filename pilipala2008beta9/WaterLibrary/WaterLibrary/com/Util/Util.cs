@@ -72,11 +72,11 @@ namespace WaterLibrary.Util
         }
 
         /// <summary>
-        /// 生成GUID
+        /// 生成UUID
         /// </summary>
         /// <param name="format">生成格式，可选值有N、D、B、P、X</param>
         /// <returns></returns>
-        public static string GenerateGUID(string format)
+        public static string GenerateUUID(string format)
         {
             return Guid.NewGuid().ToString(format);
         }

@@ -537,7 +537,7 @@
             </summary>
             <param name="User">用户表</param>
             <param name="Index">索引表</param>
-            <param name="Backup">备份表</param>
+            <param name="Stack">备份表</param>
             <param name="Comment">备份表</param>
         </member>
         <member name="M:WaterLibrary.com.pilipala.CORE.SetViews(System.String,System.String)">
@@ -765,7 +765,7 @@
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.com.pilipala.Components.Writer.UpdateBackup``1(System.Int32,System.Object)">
+        <member name="M:WaterLibrary.com.pilipala.Components.Writer.UpdateStack``1(System.Int32,System.Object)">
             <summary>
             通用文章拷贝更新器
             </summary>
@@ -779,7 +779,7 @@
             检测ID、GUID是否匹配，之后合并Post数据表
             </summary>
             <parmm name="Index">索引表Post实例</parmm>
-            <parmm name="Backup">主表Post实例</parmm>
+            <parmm name="Stack">主表Post实例</parmm>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.com.pilipala.Components.Writer.ForcedJoin(WaterLibrary.stru.pilipala.Post.Post,WaterLibrary.stru.pilipala.Post.Post)">
@@ -787,7 +787,7 @@
             强制合并Post数据表（风险性重载，不考虑ID、GUID是否匹配，调用不当易引发逻辑故障）
             </summary>
             <parmm name="Index">索引表Post实例</parmm>
-            <parmm name="Backup">主表Post实例</parmm>
+            <parmm name="Stack">主表Post实例</parmm>
             <returns>始终返回以Index的ID、GUID为最终合并结果的Post实例</returns>
         </member>
         <member name="T:WaterLibrary.com.pilipala.Components.Counter">
@@ -806,7 +806,7 @@
             文章计数
             </summary>
         </member>
-        <member name="P:WaterLibrary.com.pilipala.Components.Counter.BackupCount">
+        <member name="P:WaterLibrary.com.pilipala.Components.Counter.StackCount">
             <summary>
             拷贝计数
             </summary>
@@ -1231,52 +1231,52 @@
             星星计数
             </summary>
         </member>
-        <member name="T:WaterLibrary.stru.pilipala.DB.IBackupTable">
+        <member name="T:WaterLibrary.stru.pilipala.DB.IStackTable">
             <summary>
             备份表数据接口
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.ID">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IStackTable.ID">
             <summary>
             索引
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.GUID">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IStackTable.GUID">
             <summary>
             GUID标识
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.LCT">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IStackTable.LCT">
             <summary>
             最后修改时间
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Title">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IStackTable.Title">
             <summary>
             标题
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Summary">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IStackTable.Summary">
             <summary>
             摘要
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Content">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IStackTable.Content">
             <summary>
             正文
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Archiv">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IStackTable.Archiv">
             <summary>
             归档
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Label">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IStackTable.Label">
             <summary>
             标签
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.IBackupTable.Cover">
+        <member name="P:WaterLibrary.stru.pilipala.DB.IStackTable.Cover">
             <summary>
             封面
             </summary>
@@ -1317,7 +1317,7 @@
             </summary>
             <parmm name="root"></parmm>
             <parmm name="IndexTable"></parmm>
-            <parmm name="BackupTable"></parmm>
+            <parmm name="StackTable"></parmm>
             <parmm name="text_sub"></parmm>
         </member>
         <member name="P:WaterLibrary.stru.pilipala.DB.PLTables.User">
@@ -1330,7 +1330,7 @@
             索引表
             </summary>
         </member>
-        <member name="P:WaterLibrary.stru.pilipala.DB.PLTables.Backup">
+        <member name="P:WaterLibrary.stru.pilipala.DB.PLTables.Stack">
             <summary>
             主表
             </summary>
