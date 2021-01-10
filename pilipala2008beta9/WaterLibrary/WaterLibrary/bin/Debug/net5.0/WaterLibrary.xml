@@ -155,7 +155,7 @@
             生成读组件
             </summary>
             <param name="ReadMode">读取模式枚举</param>
-            <param name="WithBackupMode">以备份管理模式启动(读取到的数据包含备份)</param>
+            <param name="WithStackMode">以备份管理模式启动(读取到的数据包含备份)</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.GenWriter">
@@ -325,7 +325,7 @@
             </summary>
             <param name="Views">数据库视图</param>
             <param name="MySqlManager">数据库管理器</param>
-            <param name="WithBackupMode">以备份管理模式启动(读取到的数据包含备份)</param>
+            <param name="WithStackMode">以备份管理模式启动(读取到的数据包含备份)</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost(System.Int32)">
@@ -349,7 +349,6 @@
             </summary>
             <typeparam name="T">正则表达式匹配的属性类型</typeparam>
             <param name="REGEXP">正则表达式</param>
-            <param name="IncludeNeg">是否包含消极文章(备份)</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost``1(System.String,WaterLibrary.pilipala.Entity.PostPropEnum[])">
@@ -359,7 +358,6 @@
             <typeparam name="T">正则表达式匹配的属性类型</typeparam>
             <param name="REGEXP">正则表达式</param>
             <param name="PostProps">所需属性类型</param>
-            <param name="IncludeNeg">是否包含消极文章(备份)</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.Bigger``1(System.Int32)">
@@ -416,28 +414,28 @@
             <param name="MySqlManager">数据库管理器</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.GetMaxID">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.GetMaxPostID">
             <summary>
             得到最大文章ID（私有）
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.GetMinID">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.GetMinPostID">
             <summary>
             得到最小文章ID（私有）
             </summary>
             <returns>错误则返回-1</returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.GetPositiveGUID(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.GetPositiveUUID(System.Int32)">
             <summary>
-            获取指定文章的积极备份的GUID
+            获取指定文章的积极备份的UUID
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.GetNegativeGUID(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.GetNegativeUUID(System.Int32)">
             <summary>
-            获取指定文章的消极备份的GUID
+            获取指定文章的消极备份的UUID
             </summary>
             <param name="ID">目标文章ID</param>
             <returns></returns>
@@ -449,7 +447,7 @@
             <remarks>
             新建一个拷贝，并将index指向该拷贝
             </remarks>
-            <param name="Post">文章数据（其中的ID、GUID、CT、LCT、User由系统生成）</param>
+            <param name="Post">文章数据（其中的ID、UUID、CT、LCT、User由系统生成）</param>
             <returns>返回受影响的行数</returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.Dispose(System.Int32)">
@@ -479,7 +477,7 @@
             <remarks>
             删除指定拷贝，且该拷贝不能为当前index指向
             </remarks>
-            <param name="GUID">目标文章的GUID</param>
+            <param name="UUID">目标文章的UUID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.Apply(System.String)">
@@ -489,7 +487,7 @@
             <remarks>
             将现有index指向删除（顶出），然后将index指向设置为指定文章拷贝
             </remarks>
-            <param name="GUID">目标拷贝的GUID</param>
+            <param name="UUID">目标拷贝的UUID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.Rollback(System.Int32)">
@@ -536,30 +534,30 @@
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateBackupTable``1(System.Int32,System.Object)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateStackTable``1(System.Int32,System.Object)">
             <summary>
             通用文章拷贝更新器
             </summary>
             <typeparam name="T">目标属性类型</typeparam>
-            <param name="ID">目标拷贝GUID</param>
+            <param name="ID">目标拷贝UUID</param>
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.Join(WaterLibrary.pilipala.Entity.Post,WaterLibrary.pilipala.Entity.Post)">
             <summary>
-            检测ID、GUID是否匹配，之后合并Post数据表
+            检测ID、UUID是否匹配，之后合并Post数据表
             </summary>
             <parmm name="Index">索引表Post实例</parmm>
-            <parmm name="Backup">主表Post实例</parmm>
+            <parmm name="Stack">主表Post实例</parmm>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.ForcedJoin(WaterLibrary.pilipala.Entity.Post,WaterLibrary.pilipala.Entity.Post)">
             <summary>
-            强制合并Post数据表（风险性重载，不考虑ID、GUID是否匹配，调用不当易引发逻辑故障）
+            强制合并Post数据表（风险性重载，不考虑ID、UUID是否匹配，调用不当易引发逻辑故障）
             </summary>
             <parmm name="Index">索引表Post实例</parmm>
-            <parmm name="Backup">主表Post实例</parmm>
-            <returns>始终返回以Index的ID、GUID为最终合并结果的Post实例</returns>
+            <parmm name="Stack">主表Post实例</parmm>
+            <returns>始终返回以Index的ID、UUID为最终合并结果的Post实例</returns>
         </member>
         <member name="T:WaterLibrary.pilipala.Components.Counter">
             <summary>
@@ -584,7 +582,7 @@
             文章计数
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Components.Counter.BackupCount">
+        <member name="P:WaterLibrary.pilipala.Components.Counter.StackCount">
             <summary>
             拷贝计数
             </summary>
@@ -821,12 +819,12 @@
             <param name="Length">取用长度</param>
             <returns></returns>
         </member>
-        <member name="P:WaterLibrary.pilipala.Entity.Post.ID">
+        <member name="P:WaterLibrary.pilipala.Entity.Post.PostID">
             <summary>
             索引
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Entity.Post.GUID">
+        <member name="P:WaterLibrary.pilipala.Entity.Post.UUID">
             <summary>
             全局标识
             </summary>
@@ -884,9 +882,9 @@
             封面
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Entity.Post.Archiv">
+        <member name="P:WaterLibrary.pilipala.Entity.Post.ArchiveID">
             <summary>
-            归档
+            归档ID
             </summary>
         </member>
         <member name="P:WaterLibrary.pilipala.Entity.Post.Label">
@@ -1016,12 +1014,12 @@
             文章属性枚举
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.ID">
+        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.PostID">
             <summary>
             文章索引
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.GUID">
+        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.UUID">
             <summary>
             文章全局标识
             </summary>
@@ -1046,7 +1044,7 @@
             封面
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.Archiv">
+        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.ArchiveID">
             <summary>
             归档
             </summary>
@@ -1096,12 +1094,12 @@
             文章属性接口
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.ID">
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.PostID">
             <summary>
             文章索引
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.GUID">
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.UUID">
             <summary>
             文章全局标识
             </summary>
@@ -1126,9 +1124,9 @@
             封面
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Archiv">
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.ArchiveID">
             <summary>
-            归档
+            归档索引
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Entity.PostProp.Label">
@@ -1242,14 +1240,14 @@
             索引表数据接口
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.ID">
+        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.PostID">
             <summary>
             索引
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.GUID">
+        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.UUID">
             <summary>
-            GUID标识
+            UUID标识
             </summary>
         </member>
         <member name="P:WaterLibrary.pilipala.Database.IIndexTable.CT">
@@ -1282,52 +1280,52 @@
             星星计数
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Database.IBackupTable">
+        <member name="T:WaterLibrary.pilipala.Database.IStackTable">
             <summary>
             备份表数据接口
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.ID">
+        <member name="P:WaterLibrary.pilipala.Database.IStackTable.PostID">
             <summary>
             索引
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.GUID">
+        <member name="P:WaterLibrary.pilipala.Database.IStackTable.UUID">
             <summary>
-            GUID标识
+            UUID标识
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.LCT">
+        <member name="P:WaterLibrary.pilipala.Database.IStackTable.LCT">
             <summary>
             最后修改时间
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Title">
+        <member name="P:WaterLibrary.pilipala.Database.IStackTable.Title">
             <summary>
             标题
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Summary">
+        <member name="P:WaterLibrary.pilipala.Database.IStackTable.Summary">
             <summary>
             摘要
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Content">
+        <member name="P:WaterLibrary.pilipala.Database.IStackTable.Content">
             <summary>
             正文
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Archiv">
+        <member name="P:WaterLibrary.pilipala.Database.IStackTable.ArchiveID">
             <summary>
-            归档
+            归档ID
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Label">
+        <member name="P:WaterLibrary.pilipala.Database.IStackTable.Label">
             <summary>
             标签
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Cover">
+        <member name="P:WaterLibrary.pilipala.Database.IStackTable.Cover">
             <summary>
             封面
             </summary>
@@ -1342,9 +1340,9 @@
             用户ID
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Database.IUserTable.GUID">
+        <member name="P:WaterLibrary.pilipala.Database.IUserTable.UUID">
             <summary>
-            GUID标识
+            UUID标识
             </summary>
         </member>
         <member name="P:WaterLibrary.pilipala.Database.IUserTable.Name">
@@ -1378,15 +1376,15 @@
         <member name="T:WaterLibrary.pilipala.Database.PLViews">
             <summary>
             数据库视图视图集合
-            积极联合视图（不包含备份）
-            消极联合视图（包含备份）
+            显性联合视图（不包含备份）
+            隐性联合视图（包含备份）
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.Database.PLViews.#ctor(System.String,System.String)">
             <summary>
             数据库视图视图集合
-            积极联合视图（不包含备份）
-            消极联合视图（包含备份）
+            显性联合视图（不包含备份）
+            隐性联合视图（包含备份）
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Database.PLDatabase">
@@ -1446,7 +1444,7 @@
         </member>
         <member name="P:WaterLibrary.pilipala.ICORE.UserAccount">
             <summary>
-            登录到内核的用户GUID
+            登录到内核的用户UUID
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.ICORE.Run(System.String,System.String)">
@@ -1497,7 +1495,7 @@
         </member>
         <member name="P:WaterLibrary.pilipala.CORE.UserAccount">
             <summary>
-            登录内核的用户GUID
+            登录内核的用户UUID
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.CORE.#ctor(WaterLibrary.pilipala.Database.PLDatabase)">
@@ -1752,9 +1750,9 @@
             <param name="num">待判断的数值</param>
             <returns>num为奇数返回true，num为偶数返回false</returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.GenerateGUID(System.String)">
+        <member name="M:WaterLibrary.Util.MathH.GenerateUUID(System.String)">
             <summary>
-            生成GUID
+            生成UUID
             </summary>
             <param name="format">生成格式，可选值有N、D、B、P、X</param>
             <returns></returns>

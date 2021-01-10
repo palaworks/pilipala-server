@@ -50,11 +50,11 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 索引
             /// </summary>
-            int ID { get; set; }
+            int PostID { get; set; }
             /// <summary>
-            /// GUID标识
+            /// UUID标识
             /// </summary>
-            string GUID { get; set; }
+            string UUID { get; set; }
             /// <summary>
             /// 创建时间
             /// </summary>
@@ -84,16 +84,16 @@ namespace WaterLibrary.pilipala
         /// <summary>
         /// 备份表数据接口
         /// </summary>
-        public interface IBackupTable
+        public interface IStackTable
         {
             /// <summary>
             /// 索引
             /// </summary>
-            int ID { get; set; }
+            int PostID { get; set; }
             /// <summary>
-            /// GUID标识
+            /// UUID标识
             /// </summary>
-            string GUID { get; set; }
+            string UUID { get; set; }
             /// <summary>
             /// 最后修改时间
             /// </summary>
@@ -111,9 +111,9 @@ namespace WaterLibrary.pilipala
             /// </summary>
             string Content { get; set; }
             /// <summary>
-            /// 归档
+            /// 归档ID
             /// </summary>
-            string Archiv { get; set; }
+            int ArchiveID { get; set; }
             /// <summary>
             /// 标签
             /// </summary>
@@ -133,9 +133,9 @@ namespace WaterLibrary.pilipala
             /// </summary>
             int ID { get; set; }
             /// <summary>
-            /// GUID标识
+            /// UUID标识
             /// </summary>
-            string GUID { get; set; }
+            string UUID { get; set; }
             /// <summary>
             /// 用户名
             /// </summary>
@@ -153,11 +153,11 @@ namespace WaterLibrary.pilipala
         /// 主表
         /// 评论表
         /// </summary>
-        public record PLTables(string User, string Index, string Backup, string Comment);
+        public record PLTables(string User, string Index, string Stack, string Comment);
         /// <summary>
         /// 数据库视图视图集合
-        /// 积极联合视图（不包含备份）
-        /// 消极联合视图（包含备份）
+        /// 显性联合视图（不包含备份）
+        /// 隐性联合视图（包含备份）
         /// </summary>
         public record PLViews(string PosUnion, string NegUnion);
 
@@ -220,7 +220,7 @@ namespace WaterLibrary.pilipala
         public event CoreReadyEventHandler CoreReady;
 
         /// <summary>
-        /// 登录到内核的用户GUID
+        /// 登录到内核的用户UUID
         /// </summary>
         string UserAccount { get; }
 
@@ -270,7 +270,7 @@ namespace WaterLibrary.pilipala
         public MySqlManager MySqlManager { get; init; }
 
         /// <summary>
-        /// 登录内核的用户GUID
+        /// 登录内核的用户UUID
         /// </summary>
         public string UserAccount { get; private set; }
 
@@ -331,7 +331,7 @@ namespace WaterLibrary.pilipala
         /// <summary>
         /// 文章
         /// </summary>
-        public class Post : IIndexTable, IBackupTable
+        public class Post : IIndexTable, IStackTable
         {
             /// <summary>
             /// 索引器
@@ -365,15 +365,15 @@ namespace WaterLibrary.pilipala
             public Post()
             {
                 /* -1表示未被赋值，同时也于数据库的非负冲突 */
-                ID = -1;
-                GUID = "";
+                PostID = -1;
+                UUID = "";
 
                 Title = "";
                 Summary = "";
                 Content = "";
                 Cover = "";
 
-                Archiv = "";
+                ArchiveID = -1;
                 Label = "";
 
                 Mode = "";
@@ -410,11 +410,11 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 索引
             /// </summary>
-            public int ID { get; set; }
+            public int PostID { get; set; }
             /// <summary>
             /// 全局标识
             /// </summary>
-            public string GUID { get; set; }
+            public string UUID { get; set; }
 
             /// <summary>
             /// 标题
@@ -473,9 +473,9 @@ namespace WaterLibrary.pilipala
             public string Cover { get; set; }
 
             /// <summary>
-            /// 归档
+            /// 归档ID
             /// </summary>
-            public string Archiv { get; set; }
+            public int ArchiveID { get; set; }
             /// <summary>
             /// 标签
             /// </summary>
@@ -612,11 +612,11 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 文章索引
             /// </summary>
-            ID,
+            PostID,
             /// <summary>
             /// 文章全局标识
             /// </summary>
-            GUID,
+            UUID,
             /// <summary>
             /// 文章标题
             /// </summary>
@@ -636,7 +636,7 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 归档
             /// </summary>
-            Archiv,
+            ArchiveID,
             /// <summary>
             /// 标签
             /// </summary>
@@ -684,14 +684,14 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 文章索引
             /// </summary>
-            public struct ID : IPostProp
+            public struct PostID : IPostProp
             {
 
             }
             /// <summary>
             /// 文章全局标识
             /// </summary>
-            public struct GUID : IPostProp
+            public struct UUID : IPostProp
             {
 
             }
@@ -726,9 +726,9 @@ namespace WaterLibrary.pilipala
             }
 
             /// <summary>
-            /// 归档
+            /// 归档索引
             /// </summary>
-            public struct Archiv : IPostProp
+            public struct ArchiveID : IPostProp
             {
 
             }
@@ -863,14 +863,14 @@ namespace WaterLibrary.pilipala
             /// 生成读组件
             /// </summary>
             /// <param name="ReadMode">读取模式枚举</param>
-            /// <param name="WithBackupMode">以备份管理模式启动(读取到的数据包含备份)</param>
+            /// <param name="WithStackMode">以备份管理模式启动(读取到的数据包含备份)</param>
             /// <returns></returns>
-            public Reader GenReader(Reader.ReadMode ReadMode, bool WithBackupMode = false)
+            public Reader GenReader(Reader.ReadMode ReadMode, bool WithStackMode = false)
             {
                 return ReadMode switch
                 {
-                    Reader.ReadMode.CleanRead => new(CORE.ViewsSet.CleanViews, CORE.MySqlManager, WithBackupMode),
-                    Reader.ReadMode.DirtyRead => new(CORE.ViewsSet.DirtyViews, CORE.MySqlManager, WithBackupMode),
+                    Reader.ReadMode.CleanRead => new(CORE.ViewsSet.CleanViews, CORE.MySqlManager, WithStackMode),
+                    Reader.ReadMode.DirtyRead => new(CORE.ViewsSet.DirtyViews, CORE.MySqlManager, WithStackMode),
                     _ => throw new NotImplementedException(),
                 };
             }
@@ -1090,11 +1090,11 @@ namespace WaterLibrary.pilipala
             /// </summary>
             /// <param name="Views">数据库视图</param>
             /// <param name="MySqlManager">数据库管理器</param>
-            /// <param name="WithBackupMode">以备份管理模式启动(读取到的数据包含备份)</param>
+            /// <param name="WithStackMode">以备份管理模式启动(读取到的数据包含备份)</param>
             /// <returns></returns>
-            internal Reader(PLViews Views, MySqlManager MySqlManager, bool WithBackupMode)
+            internal Reader(PLViews Views, MySqlManager MySqlManager, bool WithStackMode)
             {
-                UnionView = WithBackupMode switch
+                UnionView = WithStackMode switch
                 {
                     false => Views.PosUnion,
                     true => Views.NegUnion
@@ -1105,17 +1105,17 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 获取指定文章数据
             /// </summary>
-            /// <param name="ID">目标文章ID</param>
+            /// <param name="PostID">目标文章PostID</param>
             /// <returns></returns>
-            public Post GetPost(int ID)
+            public Post GetPost(int PostID)
             {
-                string SQL = $"SELECT * FROM `{UnionView}` WHERE ID={ID}";
+                string SQL = $"SELECT * FROM `{UnionView}` WHERE PostID={PostID}";
                 DataRow Row = MySqlManager.GetRow(SQL);
 
                 return new Post
                 {
-                    ID = Convert.ToInt32(Row["ID"]),
-                    GUID = Convert.ToString(Row["GUID"]),
+                    PostID = Convert.ToInt32(Row["PostID"]),
+                    UUID = Convert.ToString(Row["UUID"]),
 
                     CT = Convert.ToDateTime(Row["CT"]),
                     LCT = Convert.ToDateTime(Row["LCT"]),
@@ -1123,7 +1123,7 @@ namespace WaterLibrary.pilipala
                     Summary = Convert.ToString(Row["Summary"]),
                     Content = Convert.ToString(Row["Content"]),
 
-                    Archiv = Convert.ToString(Row["Archiv"]),
+                    ArchiveID = Convert.ToInt32(Row["ArchiveID"]),
                     Label = Convert.ToString(Row["Label"]),
                     Cover = Convert.ToString(Row["Cover"]),
 
@@ -1156,7 +1156,6 @@ namespace WaterLibrary.pilipala
             /// </summary>
             /// <typeparam name="T">正则表达式匹配的属性类型</typeparam>
             /// <param name="REGEXP">正则表达式</param>
-            /// <param name="IncludeNeg">是否包含消极文章(备份)</param>
             /// <returns></returns>
             public PostSet GetPost<T>(string REGEXP) where T : IPostProp
             {
@@ -1171,8 +1170,8 @@ namespace WaterLibrary.pilipala
                 {
                     PostSet.Add(new Post
                     {
-                        ID = Convert.ToInt32(Row["ID"]),
-                        GUID = Convert.ToString(Row["GUID"]),
+                        PostID = Convert.ToInt32(Row["PostID"]),
+                        UUID = Convert.ToString(Row["UUID"]),
 
                         CT = Convert.ToDateTime(Row["CT"]),
                         LCT = Convert.ToDateTime(Row["LCT"]),
@@ -1180,7 +1179,7 @@ namespace WaterLibrary.pilipala
                         Summary = Convert.ToString(Row["Summary"]),
                         Content = Convert.ToString(Row["Content"]),
 
-                        Archiv = Convert.ToString(Row["Archiv"]),
+                        ArchiveID = Convert.ToInt32(Row["ArchiveID"]),
                         Label = Convert.ToString(Row["Label"]),
                         Cover = Convert.ToString(Row["Cover"]),
 
@@ -1202,7 +1201,6 @@ namespace WaterLibrary.pilipala
             /// <typeparam name="T">正则表达式匹配的属性类型</typeparam>
             /// <param name="REGEXP">正则表达式</param>
             /// <param name="PostProps">所需属性类型</param>
-            /// <param name="IncludeNeg">是否包含消极文章(备份)</param>
             /// <returns></returns>
             public PostSet GetPost<T>(string REGEXP, params PostPropEnum[] PostProps) where T : IPostProp
             {
@@ -1240,7 +1238,7 @@ namespace WaterLibrary.pilipala
             {
                 string SQL;
 
-                if (typeof(Prop) == typeof(ID))/* 对查询ID有优化 */
+                if (typeof(Prop) == typeof(PostID))/* 对查询ID有优化 */
                 {
                     SQL = $"SELECT ID FROM `{UnionView}` WHERE ID=( SELECT min(ID) FROM `{UnionView}` WHERE ID > {ID})";
                 }
@@ -1268,7 +1266,7 @@ namespace WaterLibrary.pilipala
             public int Bigger<Prop>(int ID, string REGEXP, PostPropEnum PostProp)
             {
                 string SQL;
-                if (typeof(Prop) == typeof(ID))
+                if (typeof(Prop) == typeof(PostID))
                 {
                     SQL = string.Format
                     (
@@ -1303,7 +1301,7 @@ namespace WaterLibrary.pilipala
             {
                 string SQL;
 
-                if (typeof(Prop) == typeof(ID))/* 对查询ID有优化 */
+                if (typeof(Prop) == typeof(PostID))/* 对查询ID有优化 */
                 {
                     SQL = $"SELECT ID FROM `{UnionView}` WHERE ID=( SELECT max(ID) FROM `{UnionView}` WHERE ID < {ID})";
                 }
@@ -1330,7 +1328,7 @@ namespace WaterLibrary.pilipala
             public int Smaller<Prop>(int ID, string REGEXP, PostPropEnum PostProp)
             {
                 string SQL;
-                if (typeof(Prop) == typeof(ID))
+                if (typeof(Prop) == typeof(PostID))
                 {
                     SQL = string.Format
                     (
@@ -1384,7 +1382,7 @@ namespace WaterLibrary.pilipala
             /// 得到最大文章ID（私有）
             /// </summary>
             /// <returns></returns>
-            internal int GetMaxID()
+            internal int GetMaxPostID()
             {
                 string SQL = $"SELECT MAX(ID) FROM {Tables.Index}";
                 var value = MySqlManager.GetKey(SQL);
@@ -1395,7 +1393,7 @@ namespace WaterLibrary.pilipala
             /// 得到最小文章ID（私有）
             /// </summary>
             /// <returns>错误则返回-1</returns>
-            internal int GetMinID()
+            internal int GetMinPostID()
             {
                 string SQL = $"SELECT MIN(ID) FROM {Tables.Index}";
                 var value = MySqlManager.GetKey(SQL);
@@ -1403,26 +1401,26 @@ namespace WaterLibrary.pilipala
                 return Convert.ToInt32(value == DBNull.Value ? 12000 : value);
             }
             /// <summary>
-            /// 获取指定文章的积极备份的GUID
+            /// 获取指定文章的积极备份的UUID
             /// </summary>
             /// <param name="ID">目标文章ID</param>
             /// <returns></returns>
-            internal string GetPositiveGUID(int ID)
+            internal string GetPositiveUUID(int ID)
             {
-                return Convert.ToString(MySqlManager.GetKey($"SELECT GUID FROM {Tables.Index} WHERE ID={ID}"));
+                return Convert.ToString(MySqlManager.GetKey($"SELECT UUID FROM {Tables.Index} WHERE ID={ID}"));
             }
             /// <summary>
-            /// 获取指定文章的消极备份的GUID
+            /// 获取指定文章的消极备份的UUID
             /// </summary>
             /// <param name="ID">目标文章ID</param>
             /// <returns></returns>
-            internal string GetNegativeGUID(int ID)
+            internal string GetNegativeUUID(int ID)
             {
                 return Convert.ToString(MySqlManager.GetKey(
                     string.Format
                     (
-                    "SELECT {1}.GUID FROM {0} JOIN {1} ON {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID WHERE {0}.ID={2}"
-                    , Tables.Index, Tables.Backup, ID
+                    "SELECT {1}.UUID FROM {0} JOIN {1} ON {0}.ID={1}.ID AND {0}.UUID<>{1}.UUID WHERE {0}.ID={2}"
+                    , Tables.Index, Tables.Stack, ID
                     )
                     ));
             }
@@ -1433,7 +1431,7 @@ namespace WaterLibrary.pilipala
             /// <remarks>
             /// 新建一个拷贝，并将index指向该拷贝
             /// </remarks>
-            /// <param name="Post">文章数据（其中的ID、GUID、CT、LCT、User由系统生成）</param>
+            /// <param name="Post">文章数据（其中的ID、UUID、CT、LCT、User由系统生成）</param>
             /// <returns>返回受影响的行数</returns>
             public bool Reg(Post Post)
             {
@@ -1442,17 +1440,17 @@ namespace WaterLibrary.pilipala
                     DateTime t = DateTime.Now;
 
                     string SQL = $"INSERT INTO {Tables.Index}" +
-                                " ( ID, GUID, CT, Mode, Type, User, UVCount, StarCount) VALUES" +
-                                " (?ID,?GUID,?CT,?Mode,?Type,?User,?UVCount,?StarCount);" +
-                                $"INSERT INTO {Tables.Backup}" +
-                                " ( ID, GUID, LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
-                                " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);";
+                                " ( ID, UUID, CT, Mode, Type, User, UVCount, StarCount) VALUES" +
+                                " (?ID,?UUID,?CT,?Mode,?Type,?User,?UVCount,?StarCount);" +
+                                $"INSERT INTO {Tables.Stack}" +
+                                " ( ID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES" +
+                                " (?ID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
 
 
                     MySqlParameter[] parameters =
                     {
-                    new("ID", GetMaxID() + 1 ),
-                    new("GUID", MathH.GenerateGUID("N") ),
+                    new("PostID", GetMaxPostID() + 1 ),
+                    new("UUID", MathH.GenerateUUID("N") ),
 
                     new("CT", t),
                     new("LCT", t),
@@ -1470,7 +1468,7 @@ namespace WaterLibrary.pilipala
                     new("Summary", Post.Summary ),
                     new("Content", Post.Content ),
 
-                    new("Archiv", Post.Archiv ),
+                    new("ArchiveID", Post.ArchiveID ),
                     new("Label", Post.Label ),
                     new("Cover", Post.Cover )
                 };
@@ -1510,7 +1508,7 @@ namespace WaterLibrary.pilipala
                     using MySqlCommand MySqlCommand = new MySqlCommand
                     {
                         CommandText =
-                    $"DELETE FROM {Tables.Index} WHERE ID={ID};DELETE FROM {Tables.Backup} WHERE ID={ID};",
+                    $"DELETE FROM {Tables.Index} WHERE ID={ID};DELETE FROM {Tables.Stack} WHERE ID={ID};",
 
                         Connection = conn,
 
@@ -1544,20 +1542,20 @@ namespace WaterLibrary.pilipala
                 return MySqlManager.DoInConnection(conn =>
                 {
                     string SQL =
-                    $"UPDATE {Tables.Index} SET GUID=?GUID, Mode=?Mode, Type=?Type, User=?User, UVCount=?UVCount, StarCount=?StarCount WHERE ID=?ID;" +
-                    $"INSERT INTO {Tables.Backup}" +
-                    " ( ID, GUID, LCT, Title, Summary, Content, Archiv, Label, Cover) VALUES" +
-                    " (?ID,?GUID,?LCT,?Title,?Summary,?Content,?Archiv,?Label,?Cover);";
+                    $"UPDATE {Tables.Index} SET UUID=?UUID, Mode=?Mode, Type=?Type, User=?User, UVCount=?UVCount, StarCount=?StarCount WHERE ID=?ID;" +
+                    $"INSERT INTO {Tables.Stack}" +
+                    " ( ID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES" +
+                    " (?ID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
 
                     MySqlParameter[] parameters =
                     {
-                    new("GUID", MathH.GenerateGUID("N") ),
+                    new("UUID", MathH.GenerateUUID("N") ),
                     new("LCT", DateTime.Now ),
 
                     new("User", Post.User),/* 指定用户账号 */
 
                     /* 可传参数 */
-                    new("ID", Post.ID),
+                    new("PostID", Post.PostID),
 
                     new("Mode", Post.Mode),
                     new("Type", Post.Type),
@@ -1569,7 +1567,7 @@ namespace WaterLibrary.pilipala
                     new("Summary", Post.Summary),
                     new("Content", Post.Content),
 
-                    new("Archiv", Post.Archiv),
+                    new("ArchiveID", Post.ArchiveID),
                     new("Label", Post.Label),
                     new("Cover", Post.Cover)
                 };
@@ -1590,7 +1588,7 @@ namespace WaterLibrary.pilipala
                     {
                         MySqlCommand.Transaction.Rollback();
                         return false;
-                        /* 由于GUID更新，影响行始终为2，若出现其他情况则一定为错误 */
+                        /* 由于UUID更新，影响行始终为2，若出现其他情况则一定为错误 */
                     }
                 });
             }
@@ -1601,21 +1599,21 @@ namespace WaterLibrary.pilipala
             /// <remarks>
             /// 删除指定拷贝，且该拷贝不能为当前index指向
             /// </remarks>
-            /// <param name="GUID">目标文章的GUID</param>
+            /// <param name="UUID">目标文章的UUID</param>
             /// <returns></returns>
-            public bool Delete(string GUID)
+            public bool Delete(string UUID)
             {
                 return MySqlManager.DoInConnection(conn =>
                 {
                     string SQL = string.Format
                     (
-                    "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID AND {1}.GUID = ?GUID"
-                    , Tables.Index, Tables.Backup
+                    "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.UUID<>{1}.UUID AND {1}.UUID = ?UUID"
+                    , Tables.Index, Tables.Stack
                     );
 
                     MySqlParameter[] parameters =
                     {
-                    new("GUID", GUID )
+                    new("UUID", UUID )
                 };
 
                     using MySqlCommand MySqlCommand = new MySqlCommand(SQL, conn);
@@ -1643,23 +1641,23 @@ namespace WaterLibrary.pilipala
             /// <remarks>
             /// 将现有index指向删除（顶出），然后将index指向设置为指定文章拷贝
             /// </remarks>
-            /// <param name="GUID">目标拷贝的GUID</param>
+            /// <param name="UUID">目标拷贝的UUID</param>
             /// <returns></returns>
-            public bool Apply(string GUID)
+            public bool Apply(string UUID)
             {
                 return MySqlManager.DoInConnection(conn =>
                 {
-                    /* 此处，即使SQL注入造成了ID错误，由于第二步参数化查询的作用，GUID也会造成错误无法成功攻击 */
-                    object ID = MySqlManager.GetKey($"SELECT ID FROM {Tables.Backup} WHERE GUID = '{GUID}'");
+                    /* 此处，即使SQL注入造成了ID错误，由于第二步参数化查询的作用，UUID也会造成错误无法成功攻击 */
+                    object ID = MySqlManager.GetKey($"SELECT ID FROM {Tables.Stack} WHERE UUID = '{UUID}'");
 
                     string SQL =
-                        $"DELETE FROM {Tables.Backup} WHERE GUID = (SELECT GUID FROM {Tables.Index} WHERE ID = ?ID);" +
-                        $"UPDATE {Tables.Index} SET GUID = ?GUID WHERE ID = ?ID;";
+                        $"DELETE FROM {Tables.Stack} WHERE UUID = (SELECT UUID FROM {Tables.Index} WHERE ID = ?ID);" +
+                        $"UPDATE {Tables.Index} SET UUID = ?UUID WHERE ID = ?ID;";
 
                     MySqlParameter[] parameters =
                     {
                     new("ID", ID),
-                    new("GUID", GUID)
+                    new("UUID", UUID)
                 };
 
                     using MySqlCommand MySqlCommand = new MySqlCommand(SQL, conn);
@@ -1697,9 +1695,9 @@ namespace WaterLibrary.pilipala
                     {
                         CommandText = string.Format
                      (
-                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.GUID={1}.GUID AND {0}.ID={2};" +
-                     "UPDATE {0} SET GUID = (SELECT GUID FROM {1} WHERE ID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE ID={2};"
-                     , Tables.Index, Tables.Backup, ID
+                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.UUID={1}.UUID AND {0}.ID={2};" +
+                     "UPDATE {0} SET UUID = (SELECT UUID FROM {1} WHERE ID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE ID={2};"
+                     , Tables.Index, Tables.Stack, ID
                      ),
 
                         Connection = conn,
@@ -1736,8 +1734,8 @@ namespace WaterLibrary.pilipala
                     {
                         CommandText = string.Format
                      (
-                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID AND {0}.ID={2}"
-                     , Tables.Index, Tables.Backup, ID
+                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.UUID<>{1}.UUID AND {0}.ID={2}"
+                     , Tables.Index, Tables.Stack, ID
                      ),
 
                         Connection = conn,
@@ -1813,87 +1811,87 @@ namespace WaterLibrary.pilipala
             /// 通用文章拷贝更新器
             /// </summary>
             /// <typeparam name="T">目标属性类型</typeparam>
-            /// <param name="ID">目标拷贝GUID</param>
+            /// <param name="ID">目标拷贝UUID</param>
             /// <param name="Value">新属性值</param>
             /// <returns></returns>
-            public bool UpdateBackupTable<T>(int ID, object Value) where T : IPostProp
+            public bool UpdateStackTable<T>(int ID, object Value) where T : IPostProp
             {
                 //初始化键定位
-                var MySqlKey = (Tables.Backup, "GUID", GetPositiveGUID(ID));
+                var MySqlKey = (Tables.Stack, "UUID", GetPositiveUUID(ID));
                 return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Value);
             }
 
             /// <summary>
-            /// 检测ID、GUID是否匹配，之后合并Post数据表
+            /// 检测ID、UUID是否匹配，之后合并Post数据表
             /// </summary>
             /// <parmm name="Index">索引表Post实例</parmm>
-            /// <parmm name="Backup">主表Post实例</parmm>
+            /// <parmm name="Stack">主表Post实例</parmm>
             /// <returns></returns>
-            public static Post Join(Post Index, Post Backup)
+            public static Post Join(Post Index, Post Stack)
             {
-                if (Index.ID == Backup.ID && Index.GUID == Backup.GUID)
+                if (Index.PostID == Stack.PostID && Index.UUID == Stack.UUID)
                 {
                     return new Post
                     {
-                        ID = Index.ID,
-                        GUID = Index.GUID,
+                        PostID = Index.PostID,
+                        UUID = Index.UUID,
 
                         Mode = Index.Mode,
                         Type = Index.Type,
 
-                        Title = Backup.Title,
-                        Summary = Backup.Summary,
-                        Content = Backup.Content,
+                        Title = Stack.Title,
+                        Summary = Stack.Summary,
+                        Content = Stack.Content,
 
                         User = Index.User,
-                        Archiv = Backup.Archiv,
-                        Label = Backup.Label,
+                        ArchiveID = Stack.ArchiveID,
+                        Label = Stack.Label,
 
                         CT = Index.CT,
-                        LCT = Backup.LCT,
+                        LCT = Stack.LCT,
 
                         UVCount = Index.UVCount,
                         StarCount = Index.StarCount,
 
-                        Cover = Backup.Cover
+                        Cover = Stack.Cover
                     };
                 }
                 else
                 {
-                    throw new Exception("GUID不匹配，该联合存在安全隐患");
+                    throw new Exception("UUID不匹配，该联合存在安全隐患");
                 }
             }
             /// <summary>
-            /// 强制合并Post数据表（风险性重载，不考虑ID、GUID是否匹配，调用不当易引发逻辑故障）
+            /// 强制合并Post数据表（风险性重载，不考虑ID、UUID是否匹配，调用不当易引发逻辑故障）
             /// </summary>
             /// <parmm name="Index">索引表Post实例</parmm>
-            /// <parmm name="Backup">主表Post实例</parmm>
-            /// <returns>始终返回以Index的ID、GUID为最终合并结果的Post实例</returns>
-            public static Post ForcedJoin(Post Index, Post Backup)
+            /// <parmm name="Stack">主表Post实例</parmm>
+            /// <returns>始终返回以Index的ID、UUID为最终合并结果的Post实例</returns>
+            public static Post ForcedJoin(Post Index, Post Stack)
             {
                 return new Post
                 {
-                    ID = Index.ID,
-                    GUID = Index.GUID,
+                    PostID = Index.PostID,
+                    UUID = Index.UUID,
 
                     Mode = Index.Mode,
                     Type = Index.Type,
 
-                    Title = Backup.Title,
-                    Summary = Backup.Summary,
-                    Content = Backup.Content,
+                    Title = Stack.Title,
+                    Summary = Stack.Summary,
+                    Content = Stack.Content,
 
                     User = Index.User,
-                    Archiv = Backup.Archiv,
-                    Label = Backup.Label,
+                    ArchiveID = Stack.ArchiveID,
+                    Label = Stack.Label,
 
                     CT = Index.CT,
-                    LCT = Backup.LCT,
+                    LCT = Stack.LCT,
 
                     UVCount = Index.UVCount,
                     StarCount = Index.StarCount,
 
-                    Cover = Backup.Cover
+                    Cover = Stack.Cover
                 };
             }
         }
@@ -1931,9 +1929,9 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 拷贝计数
             /// </summary>
-            public int BackupCount
+            public int StackCount
             {
-                get => GetBackupCount();
+                get => GetStackCount();
             }
 
             /// <summary>
@@ -1970,9 +1968,9 @@ namespace WaterLibrary.pilipala
                 object Count = MySqlManager.GetKey($"SELECT Count(*) FROM {Tables.Index} WHERE Mode REGEXP '{REGEXP}';");
                 return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
             }
-            private int GetBackupCount()
+            private int GetStackCount()
             {
-                object Count = MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.ID={1}.ID AND {0}.GUID<>{1}.GUID;", Tables.Index, Tables.Backup));
+                object Count = MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.ID={1}.ID AND {0}.UUID<>{1}.UUID;", Tables.Index, Tables.Stack));
                 return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
             }
         }
