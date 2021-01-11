@@ -82,7 +82,7 @@ namespace WaterLibrary.pilipala
 
         }
         /// <summary>
-        /// 备份表数据接口
+        /// 文章栈表数据接口
         /// </summary>
         public interface IStackTable
         {
@@ -122,28 +122,6 @@ namespace WaterLibrary.pilipala
             /// 封面
             /// </summary>
             string Cover { get; set; }
-        }
-        /// <summary>
-        /// 用户表数据接口
-        /// </summary>
-        public interface IUserTable
-        {
-            /// <summary>
-            /// 用户ID
-            /// </summary>
-            int ID { get; set; }
-            /// <summary>
-            /// UUID标识
-            /// </summary>
-            string UUID { get; set; }
-            /// <summary>
-            /// 用户名
-            /// </summary>
-            string Name { get; set; }
-            /// <summary>
-            /// 签名
-            /// </summary>
-            string Note { get; set; }
         }
 
         /// <summary>
@@ -863,14 +841,14 @@ namespace WaterLibrary.pilipala
             /// 生成读组件
             /// </summary>
             /// <param name="ReadMode">读取模式枚举</param>
-            /// <param name="WithStackMode">以备份管理模式启动(读取到的数据包含备份)</param>
+            /// <param name="WithRawMode">以原始数据读取模式初始化(读取到的数据包含隐性文章)</param>
             /// <returns></returns>
-            public Reader GenReader(Reader.ReadMode ReadMode, bool WithStackMode = false)
+            public Reader GenReader(Reader.ReadMode ReadMode, bool WithRawMode = false)
             {
                 return ReadMode switch
                 {
-                    Reader.ReadMode.CleanRead => new(CORE.ViewsSet.CleanViews, CORE.MySqlManager, WithStackMode),
-                    Reader.ReadMode.DirtyRead => new(CORE.ViewsSet.DirtyViews, CORE.MySqlManager, WithStackMode),
+                    Reader.ReadMode.CleanRead => new(CORE.ViewsSet.CleanViews, CORE.MySqlManager, WithRawMode),
+                    Reader.ReadMode.DirtyRead => new(CORE.ViewsSet.DirtyViews, CORE.MySqlManager, WithRawMode),
                     _ => throw new NotImplementedException(),
                 };
             }
@@ -1090,11 +1068,11 @@ namespace WaterLibrary.pilipala
             /// </summary>
             /// <param name="Views">数据库视图</param>
             /// <param name="MySqlManager">数据库管理器</param>
-            /// <param name="WithStackMode">以备份管理模式启动(读取到的数据包含备份)</param>
+            /// <param name="WithRawMode">以原始数据读取模式初始化(读取到的数据包含隐性文章)</param>
             /// <returns></returns>
-            internal Reader(PLViews Views, MySqlManager MySqlManager, bool WithStackMode)
+            internal Reader(PLViews Views, MySqlManager MySqlManager, bool WithRawMode)
             {
-                UnionView = WithStackMode switch
+                UnionView = WithRawMode switch
                 {
                     false => Views.PosUnion,
                     true => Views.NegUnion
@@ -1139,15 +1117,15 @@ namespace WaterLibrary.pilipala
             /// 取得指定文章属性
             /// </summary>
             /// <typeparam name="T">目标属性类型</typeparam>
-            /// <param name="ID">目标文章ID</param>
+            /// <param name="PostID">目标文章PostID</param>
             /// <returns></returns>
-            public object GetProperty<T>(int ID) where T : IPostProp
+            public object GetProperty<T>(int PostID) where T : IPostProp
             {
-                string SQL = $"SELECT {typeof(T).Name} FROM `{UnionView}` WHERE ID = ?ID";
+                string SQL = $"SELECT {typeof(T).Name} FROM `{UnionView}` WHERE PostID = ?PostID";
 
                 return MySqlManager.GetKey(SQL, new MySqlParameter[]
                 {
-                    new("ID", ID)
+                    new("PostID", PostID)
                 });
             }
 
@@ -1229,129 +1207,113 @@ namespace WaterLibrary.pilipala
             }
 
             /// <summary>
-            /// 取得具有比目标文章的指定属性具有更大的值的文章ID
+            /// 取得具有比目标文章的指定属性具有更大的值的文章PostID
             /// </summary>
             /// <typeparam name="Prop">指定属性</typeparam>
-            /// <param name="ID">目标文章的ID</param>
-            /// <returns>不存在符合要求的ID时，返回-1</returns>
-            public int Bigger<Prop>(int ID)
+            /// <param name="PostID">目标文章的PostID</param>
+            /// <returns>不存在符合要求的PostID时，返回-1</returns>
+            public int Bigger<Prop>(int PostID)
             {
-                string SQL;
-
-                if (typeof(Prop) == typeof(PostID))/* 对查询ID有优化 */
+                string SQL = (typeof(Prop) == typeof(PostID)) switch /* 对查询PostID有优化 */
                 {
-                    SQL = $"SELECT ID FROM `{UnionView}` WHERE ID=( SELECT min(ID) FROM `{UnionView}` WHERE ID > {ID})";
-                }
-                else
-                {
-                    SQL = string.Format
+                    true => $"SELECT PostID FROM `{UnionView}` WHERE PostID=( SELECT min(PostID) FROM `{UnionView}` WHERE PostID > {PostID})",
+                    false => string.Format
                     (
-                    $"SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE {1} > ( SELECT {1} FROM `{0}` WHERE ID = {2} ))"
-                    , UnionView, typeof(Prop).Name, ID
-                    );
-                }
-                object NextID = MySqlManager.GetKey(SQL);
+                    $"SELECT PostID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE {1} > ( SELECT {1} FROM `{0}` WHERE PostID = {2} ))"
+                    , UnionView, typeof(Prop).Name, PostID
+                    )
+                };
 
-                return NextID == null ? -1 : Convert.ToInt32(NextID);
+                object NextPostID = MySqlManager.GetKey(SQL);
+
+                return NextPostID == null ? -1 : Convert.ToInt32(NextPostID);
 
             }
             /// <summary>
-            /// 取得具有比目标文章的指定属性具有更大的值的文章ID
+            /// 取得具有比目标文章的指定属性具有更大的值的文章PostID
             /// </summary>
             /// <typeparam name="Prop">指定属性</typeparam>
-            /// <param name="ID">目标文章的ID</param>
+            /// <param name="PostID">目标文章的PostID</param>
             /// <param name="REGEXP">正则表达式</param>
             /// <param name="PostProp">用于被正则表达式筛选的属性</param>
-            /// <returns>不存在符合要求的ID时，返回-1</returns>
-            public int Bigger<Prop>(int ID, string REGEXP, PostPropEnum PostProp)
+            /// <returns>不存在符合要求的PostID时，返回-1</returns>
+            public int Bigger<Prop>(int PostID, string REGEXP, PostPropEnum PostProp)
             {
-                string SQL;
-                if (typeof(Prop) == typeof(PostID))
+                string SQL = (typeof(Prop) == typeof(PostID)) switch
                 {
-                    SQL = string.Format
+                    true => string.Format
                     (
-                    "SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE ID > {2} AND {3} REGEXP ?REGEXP )"
-                    , UnionView, typeof(Prop).Name, ID, PostProp
-                    );
-                }
-                else
-                {
-                    SQL = string.Format
+                    "SELECT PostID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE PostID > {2} AND {3} REGEXP ?REGEXP )"
+                    , UnionView, typeof(Prop).Name, PostID, PostProp
+                    ),
+                    false => string.Format
                     (
-                    "SELECT ID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE {1} > ( SELECT {1} FROM `{0}` WHERE ID = ?ID ) AND {2} REGEXP ?REGEXP )"
+                    "SELECT PostID FROM `{0}` WHERE {1}=( SELECT min({1}) FROM `{0}` WHERE {1} > ( SELECT {1} FROM `{0}` WHERE PostID = ?PostID ) AND {2} REGEXP ?REGEXP )"
                     , UnionView, typeof(Prop).Name, PostProp
-                    );
-                }
+                    )
+                };
 
-                object NextID = MySqlManager.GetKey(SQL, new MySqlParameter[]
+                object NextPostID = MySqlManager.GetKey(SQL, new MySqlParameter[]
                 {
-                    new("ID", ID),
+                    new("PostID", PostID),
                     new("REGEXP", REGEXP)
                 });
 
-                return NextID == null ? -1 : Convert.ToInt32(NextID);
+                return NextPostID == null ? -1 : Convert.ToInt32(NextPostID);
             }
             /// <summary>
-            /// 取得具有比目标文章的指定属性具有更小的值的文章ID
+            /// 取得具有比目标文章的指定属性具有更小的值的文章PostID
             /// </summary>
             /// <typeparam name="Prop">指定属性</typeparam>
-            /// <param name="ID">目标文章的ID</param>
-            /// <returns>不存在符合要求的ID时，返回-1</returns>
-            public int Smaller<Prop>(int ID)
+            /// <param name="PostID">目标文章的PostID</param>
+            /// <returns>不存在符合要求的PostID时，返回-1</returns>
+            public int Smaller<Prop>(int PostID)
             {
-                string SQL;
-
-                if (typeof(Prop) == typeof(PostID))/* 对查询ID有优化 */
+                string SQL = (typeof(Prop) == typeof(PostID)) switch /* 对查询PostID有优化 */
                 {
-                    SQL = $"SELECT ID FROM `{UnionView}` WHERE ID=( SELECT max(ID) FROM `{UnionView}` WHERE ID < {ID})";
-                }
-                else
-                {
-                    SQL = string.Format
+                    true => $"SELECT PostID FROM `{UnionView}` WHERE PostID=( SELECT max(PostID) FROM `{UnionView}` WHERE PostID < {PostID})",
+                    false => string.Format
                     (
-                    "SELECT ID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE {1} < ( SELECT {1} FROM `{0}` WHERE ID = {2} ))"
-                    , UnionView, typeof(Prop).Name, ID
-                    );
-                }
-                object PrevID = MySqlManager.GetKey(SQL);
+                    "SELECT PostID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE {1} < ( SELECT {1} FROM `{0}` WHERE PostID = {2} ))"
+                    , UnionView, typeof(Prop).Name, PostID
+                    )
+                };
 
-                return PrevID == null ? -1 : Convert.ToInt32(PrevID);
+                object PrevPostID = MySqlManager.GetKey(SQL);
+
+                return PrevPostID == null ? -1 : Convert.ToInt32(PrevPostID);
             }
             /// <summary>
-            /// 取得具有比目标文章的指定属性具有更小的值的文章ID
+            /// 取得具有比目标文章的指定属性具有更小的值的文章PostID
             /// </summary>
             /// <typeparam name="Prop">指定属性</typeparam>
-            /// <param name="ID">目标文章的ID</param>
+            /// <param name="PostID">目标文章的PostID</param>
             /// <param name="REGEXP">正则表达式</param>
             /// <param name="PostProp">用于被正则表达式筛选的属性</param>
-            /// <returns>不存在符合要求的ID时，返回-1</returns>
-            public int Smaller<Prop>(int ID, string REGEXP, PostPropEnum PostProp)
+            /// <returns>不存在符合要求的PostID时，返回-1</returns>
+            public int Smaller<Prop>(int PostID, string REGEXP, PostPropEnum PostProp)
             {
-                string SQL;
-                if (typeof(Prop) == typeof(PostID))
+                string SQL = (typeof(Prop) == typeof(PostID)) switch
                 {
-                    SQL = string.Format
+                    true => string.Format
                     (
-                    "SELECT ID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE ID < {2} AND {3} REGEXP ?REGEXP )"
-                    , UnionView, typeof(Prop).Name, ID, PostProp
-                    );
-                }
-                else
-                {
-                    SQL = string.Format
+                    "SELECT PostID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE PostID < {2} AND {3} REGEXP ?REGEXP )"
+                    , UnionView, typeof(Prop).Name, PostID, PostProp
+                    ),
+                    false => string.Format
                     (
-                    "SELECT ID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE {1} < ( SELECT {1} FROM `{0}` WHERE ID = ?ID ) AND {2} REGEXP ?REGEXP )"
+                    "SELECT PostID FROM `{0}` WHERE {1}=( SELECT max({1}) FROM `{0}` WHERE {1} < ( SELECT {1} FROM `{0}` WHERE PostID = ?PostID ) AND {2} REGEXP ?REGEXP )"
                     , UnionView, typeof(Prop).Name, PostProp
-                    );
-                }
+                    )
+                };
 
-                object PrevID = MySqlManager.GetKey(SQL, new MySqlParameter[]
+                object PrevPostID = MySqlManager.GetKey(SQL, new MySqlParameter[]
                 {
-                    new("ID", ID),
+                    new("PostID", PostID),
                     new("REGEXP", REGEXP)
                 });
 
-                return PrevID == null ? -1 : Convert.ToInt32(PrevID);
+                return PrevPostID == null ? -1 : Convert.ToInt32(PrevPostID);
             }
         }
         /// <summary>
@@ -1379,48 +1341,48 @@ namespace WaterLibrary.pilipala
             }
 
             /// <summary>
-            /// 得到最大文章ID（私有）
+            /// 得到最大文章PostID（私有）
             /// </summary>
             /// <returns></returns>
             internal int GetMaxPostID()
             {
-                string SQL = $"SELECT MAX(ID) FROM {Tables.Index}";
+                string SQL = $"SELECT MAX(PostID) FROM {Tables.Index}";
                 var value = MySqlManager.GetKey(SQL);
-                /* 若取不到最大ID(没有任何文章时)，返回12000作为初始ID */
+                /* 若取不到最大PostID(没有任何文章时)，返回12000作为初始PostID */
                 return Convert.ToInt32(value == DBNull.Value ? 12000 : value);
             }
             /// <summary>
-            /// 得到最小文章ID（私有）
+            /// 得到最小文章PostID（私有）
             /// </summary>
             /// <returns>错误则返回-1</returns>
             internal int GetMinPostID()
             {
-                string SQL = $"SELECT MIN(ID) FROM {Tables.Index}";
+                string SQL = $"SELECT MIN(PostID) FROM {Tables.Index}";
                 var value = MySqlManager.GetKey(SQL);
-                /* 若取不到最大ID(没有任何文章时)，返回12000作为初始ID */
+                /* 若取不到最大PostID(没有任何文章时)，返回12000作为初始PostID */
                 return Convert.ToInt32(value == DBNull.Value ? 12000 : value);
             }
             /// <summary>
             /// 获取指定文章的积极备份的UUID
             /// </summary>
-            /// <param name="ID">目标文章ID</param>
+            /// <param name="PostID">目标文章PostID</param>
             /// <returns></returns>
-            internal string GetPositiveUUID(int ID)
+            internal string GetPositiveUUID(int PostID)
             {
-                return Convert.ToString(MySqlManager.GetKey($"SELECT UUID FROM {Tables.Index} WHERE ID={ID}"));
+                return Convert.ToString(MySqlManager.GetKey($"SELECT UUID FROM {Tables.Index} WHERE PostID={PostID}"));
             }
             /// <summary>
             /// 获取指定文章的消极备份的UUID
             /// </summary>
-            /// <param name="ID">目标文章ID</param>
+            /// <param name="PostID">目标文章PostID</param>
             /// <returns></returns>
-            internal string GetNegativeUUID(int ID)
+            internal string GetNegativeUUID(int PostID)
             {
                 return Convert.ToString(MySqlManager.GetKey(
                     string.Format
                     (
-                    "SELECT {1}.UUID FROM {0} JOIN {1} ON {0}.ID={1}.ID AND {0}.UUID<>{1}.UUID WHERE {0}.ID={2}"
-                    , Tables.Index, Tables.Stack, ID
+                    "SELECT {1}.UUID FROM {0} JOIN {1} ON {0}.PostID={1}.PostID AND {0}.UUID<>{1}.UUID WHERE {0}.PostID={2}"
+                    , Tables.Index, Tables.Stack, PostID
                     )
                     ));
             }
@@ -1431,7 +1393,7 @@ namespace WaterLibrary.pilipala
             /// <remarks>
             /// 新建一个拷贝，并将index指向该拷贝
             /// </remarks>
-            /// <param name="Post">文章数据（其中的ID、UUID、CT、LCT、User由系统生成）</param>
+            /// <param name="Post">文章数据（其中的PostID、UUID、CT、LCT、User由系统生成）</param>
             /// <returns>返回受影响的行数</returns>
             public bool Reg(Post Post)
             {
@@ -1440,11 +1402,11 @@ namespace WaterLibrary.pilipala
                     DateTime t = DateTime.Now;
 
                     string SQL = $"INSERT INTO {Tables.Index}" +
-                                " ( ID, UUID, CT, Mode, Type, User, UVCount, StarCount) VALUES" +
-                                " (?ID,?UUID,?CT,?Mode,?Type,?User,?UVCount,?StarCount);" +
+                                " ( PostID, UUID, CT, Mode, Type, User, UVCount, StarCount) VALUES" +
+                                " (?PostID,?UUID,?CT,?Mode,?Type,?User,?UVCount,?StarCount);" +
                                 $"INSERT INTO {Tables.Stack}" +
-                                " ( ID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES" +
-                                " (?ID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
+                                " ( PostID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES" +
+                                " (?PostID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
 
 
                     MySqlParameter[] parameters =
@@ -1498,9 +1460,9 @@ namespace WaterLibrary.pilipala
             /// <remarks>
             /// 删除所有拷贝和index指向
             /// </remarks>
-            /// <param name="ID">目标文章ID</param>
+            /// <param name="PostID">目标文章PostID</param>
             /// <returns></returns>
-            public bool Dispose(int ID)
+            public bool Dispose(int PostID)
             {
                 return MySqlManager.DoInConnection(conn =>
                 {
@@ -1508,7 +1470,7 @@ namespace WaterLibrary.pilipala
                     using MySqlCommand MySqlCommand = new MySqlCommand
                     {
                         CommandText =
-                    $"DELETE FROM {Tables.Index} WHERE ID={ID};DELETE FROM {Tables.Stack} WHERE ID={ID};",
+                    $"DELETE FROM {Tables.Index} WHERE PostID={PostID};DELETE FROM {Tables.Stack} WHERE PostID={PostID};",
 
                         Connection = conn,
 
@@ -1542,10 +1504,10 @@ namespace WaterLibrary.pilipala
                 return MySqlManager.DoInConnection(conn =>
                 {
                     string SQL =
-                    $"UPDATE {Tables.Index} SET UUID=?UUID, Mode=?Mode, Type=?Type, User=?User, UVCount=?UVCount, StarCount=?StarCount WHERE ID=?ID;" +
+                    $"UPDATE {Tables.Index} SET UUID=?UUID, Mode=?Mode, Type=?Type, User=?User, UVCount=?UVCount, StarCount=?StarCount WHERE PostID=?PostID;" +
                     $"INSERT INTO {Tables.Stack}" +
-                    " ( ID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES" +
-                    " (?ID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
+                    " ( PostID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES" +
+                    " (?PostID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
 
                     MySqlParameter[] parameters =
                     {
@@ -1607,7 +1569,7 @@ namespace WaterLibrary.pilipala
                 {
                     string SQL = string.Format
                     (
-                    "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.UUID<>{1}.UUID AND {1}.UUID = ?UUID"
+                    "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.PostID={1}.PostID AND {0}.UUID<>{1}.UUID AND {1}.UUID = ?UUID"
                     , Tables.Index, Tables.Stack
                     );
 
@@ -1647,16 +1609,16 @@ namespace WaterLibrary.pilipala
             {
                 return MySqlManager.DoInConnection(conn =>
                 {
-                    /* 此处，即使SQL注入造成了ID错误，由于第二步参数化查询的作用，UUID也会造成错误无法成功攻击 */
-                    object ID = MySqlManager.GetKey($"SELECT ID FROM {Tables.Stack} WHERE UUID = '{UUID}'");
+                    /* 此处，即使SQL注入造成了PostID错误，由于第二步参数化查询的作用，UUID也会造成错误无法成功攻击 */
+                    object PostID = MySqlManager.GetKey($"SELECT PostID FROM {Tables.Stack} WHERE UUID = '{UUID}'");
 
                     string SQL =
-                        $"DELETE FROM {Tables.Stack} WHERE UUID = (SELECT UUID FROM {Tables.Index} WHERE ID = ?ID);" +
-                        $"UPDATE {Tables.Index} SET UUID = ?UUID WHERE ID = ?ID;";
+                        $"DELETE FROM {Tables.Stack} WHERE UUID = (SELECT UUID FROM {Tables.Index} WHERE PostID = ?PostID);" +
+                        $"UPDATE {Tables.Index} SET UUID = ?UUID WHERE PostID = ?PostID;";
 
                     MySqlParameter[] parameters =
                     {
-                    new("ID", ID),
+                    new("PostID", PostID),
                     new("UUID", UUID)
                 };
 
@@ -1685,9 +1647,9 @@ namespace WaterLibrary.pilipala
             /// <remarks>
             /// 将现有index指向删除（顶出），然后将index指向设置到另一个最近更新的拷贝
             /// </remarks>
-            /// <param name="ID">目标文章的ID</param>
+            /// <param name="PostID">目标文章的PostID</param>
             /// <returns></returns>
-            public bool Rollback(int ID)
+            public bool Rollback(int PostID)
             {
                 return MySqlManager.DoInConnection(conn =>
                 {
@@ -1695,9 +1657,9 @@ namespace WaterLibrary.pilipala
                     {
                         CommandText = string.Format
                      (
-                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.UUID={1}.UUID AND {0}.ID={2};" +
-                     "UPDATE {0} SET UUID = (SELECT UUID FROM {1} WHERE ID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE ID={2};"
-                     , Tables.Index, Tables.Stack, ID
+                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.UUID={1}.UUID AND {0}.PostID={2};" +
+                     "UPDATE {0} SET UUID = (SELECT UUID FROM {1} WHERE PostID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE PostID={2};"
+                     , Tables.Index, Tables.Stack, PostID
                      ),
 
                         Connection = conn,
@@ -1724,9 +1686,9 @@ namespace WaterLibrary.pilipala
             /// </summary>
             /// <remarks>删除非当前index指向的所有拷贝
             /// </remarks>
-            /// <param name="ID">目标文章的ID</param>
+            /// <param name="PostID">目标文章的PostID</param>
             /// <returns></returns>
-            public bool Release(int ID)
+            public bool Release(int PostID)
             {
                 return MySqlManager.DoInConnection(conn =>
                 {
@@ -1734,8 +1696,8 @@ namespace WaterLibrary.pilipala
                     {
                         CommandText = string.Format
                      (
-                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.ID={1}.ID AND {0}.UUID<>{1}.UUID AND {0}.ID={2}"
-                     , Tables.Index, Tables.Stack, ID
+                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.PostID={1}.PostID AND {0}.UUID<>{1}.UUID AND {0}.PostID={2}"
+                     , Tables.Index, Tables.Stack, PostID
                      ),
 
                         Connection = conn,
@@ -1761,12 +1723,12 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 设置文章类型
             /// </summary>
-            /// <param name="ID">文章索引</param>
+            /// <param name="PostID">文章索引</param>
             /// <param name="TypeState">目标类型</param>
             /// <returns></returns>
-            public bool UpdateType(int ID, Type.States TypeState)
+            public bool UpdateType(int PostID, Type.States TypeState)
             {
-                bool fun(string value) => MySqlManager.UpdateKey((Tables.Index, "ID", ID), "Type", value);
+                bool fun(string value) => MySqlManager.UpdateKey((Tables.Index, "PostID", PostID), "Type", value);
                 return TypeState switch
                 {
                     Type.States.Unset => fun(""),
@@ -1777,12 +1739,12 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 设置文章模式
             /// </summary>
-            /// <param name="ID">文章索引</param>
+            /// <param name="PostID">文章索引</param>
             /// <param name="ModeState">目标模式</param>
             /// <returns></returns>
-            public bool UpdateMode(int ID, Mode.States ModeState)
+            public bool UpdateMode(int PostID, Mode.States ModeState)
             {
-                bool fun(string value) => MySqlManager.UpdateKey((Tables.Index, "ID", ID), "Mode", value);
+                bool fun(string value) => MySqlManager.UpdateKey((Tables.Index, "PostID", PostID), "Mode", value);
 
                 return ModeState switch
                 {
@@ -1798,31 +1760,31 @@ namespace WaterLibrary.pilipala
             /// 通用文章指向更新器
             /// </summary>
             /// <typeparam name="T">目标属性类型</typeparam>
-            /// <param name="ID">目标文章ID</param>
+            /// <param name="PostID">目标文章PostID</param>
             /// <param name="Value">新属性值</param>
             /// <returns></returns>
-            public bool UpdateIndexTable<T>(int ID, object Value) where T : IPostProp
+            public bool UpdateIndexTable<T>(int PostID, object Value) where T : IPostProp
             {
                 //初始化键定位
-                var MySqlKey = (Tables.Index, "ID", ID);
+                var MySqlKey = (Tables.Index, "PostID", PostID);
                 return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Value);
             }
             /// <summary>
             /// 通用文章拷贝更新器
             /// </summary>
             /// <typeparam name="T">目标属性类型</typeparam>
-            /// <param name="ID">目标拷贝UUID</param>
+            /// <param name="PostID">目标文章PostID</param>
             /// <param name="Value">新属性值</param>
             /// <returns></returns>
-            public bool UpdateStackTable<T>(int ID, object Value) where T : IPostProp
+            public bool UpdateStackTable<T>(int PostID, object Value) where T : IPostProp
             {
                 //初始化键定位
-                var MySqlKey = (Tables.Stack, "UUID", GetPositiveUUID(ID));
+                var MySqlKey = (Tables.Stack, "UUID", GetPositiveUUID(PostID));
                 return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Value);
             }
 
             /// <summary>
-            /// 检测ID、UUID是否匹配，之后合并Post数据表
+            /// 检测PostID、UUID是否匹配，之后合并Post数据表
             /// </summary>
             /// <parmm name="Index">索引表Post实例</parmm>
             /// <parmm name="Stack">主表Post实例</parmm>
@@ -1862,11 +1824,11 @@ namespace WaterLibrary.pilipala
                 }
             }
             /// <summary>
-            /// 强制合并Post数据表（风险性重载，不考虑ID、UUID是否匹配，调用不当易引发逻辑故障）
+            /// 强制合并Post数据表（风险性重载，不考虑PostID、UUID是否匹配，调用不当易引发逻辑故障）
             /// </summary>
             /// <parmm name="Index">索引表Post实例</parmm>
             /// <parmm name="Stack">主表Post实例</parmm>
-            /// <returns>始终返回以Index的ID、UUID为最终合并结果的Post实例</returns>
+            /// <returns>始终返回以Index的PostID、UUID为最终合并结果的Post实例</returns>
             public static Post ForcedJoin(Post Index, Post Stack)
             {
                 return new Post
@@ -1970,7 +1932,7 @@ namespace WaterLibrary.pilipala
             }
             private int GetStackCount()
             {
-                object Count = MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.ID={1}.ID AND {0}.UUID<>{1}.UUID;", Tables.Index, Tables.Stack));
+                object Count = MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.PostID={1}.PostID AND {0}.UUID<>{1}.UUID;", Tables.Index, Tables.Stack));
                 return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
             }
         }

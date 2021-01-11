@@ -45,7 +45,7 @@ namespace WaterLibrary.pilipala.Components
         }
 
         /// <summary>
-        /// 得到最大评论ID（私有）
+        /// 得到最大评论CommentID（私有）
         /// </summary>
         /// <returns>不存在返回1</returns>
         private int GetMaxCommentID()
@@ -81,7 +81,7 @@ namespace WaterLibrary.pilipala.Components
         /// <summary>
         /// 得到目标文章的评论计数
         /// </summary>
-        /// <param name="PostID">目标文章ID</param>
+        /// <param name="PostID">目标文章PostID</param>
         /// <returns></returns>
         public int GetCommentCount(int PostID)
         {
@@ -93,7 +93,7 @@ namespace WaterLibrary.pilipala.Components
         /// 获得评论属性
         /// </summary>
         /// <typeparam name="T">属性类型</typeparam>
-        /// <param name="CommentID">目标评论ID</param>
+        /// <param name="CommentID">目标评论CommentID</param>
         /// <returns></returns>
         public string GetComment<T>(int CommentID) where T : ICommentProp
         {
@@ -103,14 +103,14 @@ namespace WaterLibrary.pilipala.Components
         }
 
         /// <summary>
-        /// 得到被评论文章的ID列表
+        /// 得到被评论文章的PostID列表
         /// </summary>
         /// <returns></returns>
         public List<int> GetCommentedPostID()
         {
             List<int> List = new();
 
-            string SQL = string.Format("SELECT ID FROM {0} JOIN {1} ON {0}.ID={1}.PostID GROUP BY {0}.ID", Tables.Index, Tables.Comment);
+            string SQL = string.Format("SELECT PostID FROM {0} JOIN {1} ON {0}.PostID={1}.PostID GROUP BY {0}.PostID", Tables.Index, Tables.Comment);
 
             foreach (DataRow Row in MySqlManager.GetTable(SQL).Rows)
             {
@@ -122,7 +122,7 @@ namespace WaterLibrary.pilipala.Components
         /// <summary>
         /// 获得目标文章的评论列表
         /// </summary>
-        /// <param name="PostID">目标文章ID</param>
+        /// <param name="PostID">目标文章PostID</param>
         /// <returns></returns>
         public CommentSet GetComments(int PostID)
         {
@@ -194,7 +194,7 @@ namespace WaterLibrary.pilipala.Components
         public bool AddComment(Comment Comment)
         {
             string SQL = $"INSERT INTO {Tables.Comment} " +
-                        "(CommentID , HEAD, PostID, Floor, User, Email, Content, WebSite, Time) VALUES " +
+                        "( CommentID, HEAD, PostID, Floor, User, Email, Content, WebSite, Time) VALUES " +
                         "(?CommentID,?HEAD,?PostID,?Floor,?User,?Email,?Content,?WebSite,?Time)";
 
             MySqlParameter[] parameters =
@@ -272,7 +272,7 @@ namespace WaterLibrary.pilipala.Entity
         }
 
         /// <summary>
-        /// 被评论的文章ID
+        /// 被评论的文章PostID
         /// </summary>
         public struct PostID : ICommentProp
         {
@@ -307,7 +307,7 @@ namespace WaterLibrary.pilipala.Entity
 
         }
         /// <summary>
-        /// 回复到的评论ID
+        /// 回复到的评论CommentID
         /// </summary>
         public struct HEAD : ICommentProp
         {
@@ -379,15 +379,15 @@ namespace WaterLibrary.pilipala.Entity
         }
 
         /// <summary>
-        /// 评论ID
+        /// 评论CommentID
         /// </summary>
         public int CommentID { get; set; }
         /// <summary>
-        /// 回复到的评论ID
+        /// 回复到的评论CommentID
         /// </summary>
         public int HEAD { get; set; }
         /// <summary>
-        /// 被评论的文章ID
+        /// 被评论的文章PostID
         /// </summary>
         public int PostID { get; set; }
         /// <summary>
