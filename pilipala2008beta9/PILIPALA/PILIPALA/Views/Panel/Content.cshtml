@@ -72,9 +72,9 @@
         <div class="StarCount cur" onclick="refre_StarCount(@ViewBag.ID)">@ViewBag.Post.StarCount</div>
         <div class="Time">@Formatter.CN_Week(ViewBag.Post.CT)</div>
 
-        @if (ViewBag.Post.Archiv != "")
+        @if (ViewBag.Post.ArchiveName != "")
         {/* 归档不为空时输出 */
-            <div class="Archiv">@ViewBag.Post.Archiv</div>
+            <div class="Archiv">@ViewBag.Post.ArchiveName</div>
         }
         @if (ViewBag.Post.Label != "")
         {/* 标签不为空时输出 */
