@@ -120,13 +120,13 @@ namespace PILIPALA.system
                     /* 评论列表 */
                     var CommentSet = CommentLake.GetComments(ID);
 
-                    string Title = Convert.ToString(Reader.GetProperty<Title>(ID));
+                    string Title = Convert.ToString(Reader.GetPostProp<Title>(ID));
 
                     var item = new Hashtable
                     {
                     { "ID", ID },
                     { "Title", Title },
-                    { "Content",Title == ""?Reader.GetProperty<Content>(ID):"" },
+                    { "Content",Title == ""?Reader.GetPostProp<Content>(ID):"" },
                     { "CommentCount",  CommentSet.Count},
                     { "MonthCommentCount", CommentSet.WithinMonthCount() },
                     { "WeekCommentCount", CommentSet.WithinWeekCount() },
@@ -169,7 +169,7 @@ namespace PILIPALA.system
                JsonConvert.SerializeObject(new Hashtable()
                {
                { "PostCount", Counter.TotalPostCount },
-               { "CopyCount",  Counter.BackupCount },
+               { "CopyCount",  Counter.StackCount },
                { "HiddenCount",  Counter.HiddenCount },
                { "OnDisplayCount",  Counter.OnDisplayCount },
                { "ArchivedCount",  Counter.ArchivedCount },
@@ -185,12 +185,12 @@ namespace PILIPALA.system
         {
             return Authentication
                 .Auth(Token, () =>
-                   Reader.GetPost<ID>("^")
+                   Reader.GetPost<PostID>("^")
                       .ForEach((item) =>
                       {
                           item.PropertyContainer = new()
                           {
-                              { "CommentCount", CommentLake.GetCommentCount(item.ID) },
+                              { "CommentCount", CommentLake.GetCommentCount(item.PostID) },
                           };
                       }).ToJSON());
         }
@@ -209,7 +209,7 @@ namespace PILIPALA.system
         public string Get_neg_posts_by_PostID(string Token, int PostID)
         {
             return Authentication.Auth(Token, () =>
-             BackUpReader.GetPost<ID>(PostID.ToString())
+             BackUpReader.GetPost<PostID>(PostID.ToString())
                  .ForEach((item) =>
                  {
                      item.PropertyContainer.Add("MD5", item.MD5());
@@ -233,7 +233,7 @@ namespace PILIPALA.system
                 Summary = PostModel.Summary,
                 Content = PostModel.Content,
 
-                Archiv = PostModel.Archiv,
+                ArchiveID = PostModel.ArchiveID,
                 Label = PostModel.Label,
                 Cover = PostModel.Cover
             }));
@@ -246,7 +246,7 @@ namespace PILIPALA.system
         {
             return Authentication.Auth(Token, () => Writer.Update(new Post
             {
-                ID = PostModel.PostID,
+                PostID = PostModel.PostID,
                 Mode = PostModel.Mode,
                 Type = PostModel.Type,
                 User = PostModel.User,
@@ -258,7 +258,7 @@ namespace PILIPALA.system
                 Summary = PostModel.Summary,
                 Content = PostModel.Content,
 
-                Archiv = PostModel.Archiv,
+                ArchiveID = PostModel.ArchiveID,
                 Label = PostModel.Label,
                 Cover = PostModel.Cover
             }));

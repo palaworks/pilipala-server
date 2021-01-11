@@ -44,11 +44,6 @@
             评论湖组件
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Components.CommentLake.Tables">
-            <summary>
-            表集
-            </summary>
-        </member>
         <member name="P:WaterLibrary.pilipala.Components.CommentLake.MySqlManager">
             <summary>
             MySql数据库管理器
@@ -59,7 +54,7 @@
             默认构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.CommentLake.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager)">
+        <member name="M:WaterLibrary.pilipala.Components.CommentLake.#ctor(System.String,System.String,WaterLibrary.MySQL.MySqlManager)">
             <summary>
             工厂构造
             </summary>
@@ -68,7 +63,7 @@
         </member>
         <member name="M:WaterLibrary.pilipala.Components.CommentLake.GetMaxCommentID">
             <summary>
-            得到最大评论ID（私有）
+            得到最大评论CommentID（私有）
             </summary>
             <returns>不存在返回1</returns>
         </member>
@@ -87,7 +82,7 @@
             <summary>
             得到目标文章的评论计数
             </summary>
-            <param name="PostID">目标文章ID</param>
+            <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.CommentLake.GetComment``1(System.Int32)">
@@ -95,12 +90,12 @@
             获得评论属性
             </summary>
             <typeparam name="T">属性类型</typeparam>
-            <param name="CommentID">目标评论ID</param>
+            <param name="CommentID">目标评论CommentID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.CommentLake.GetCommentedPostID">
             <summary>
-            得到被评论文章的ID列表
+            得到被评论文章的PostID列表
             </summary>
             <returns></returns>
         </member>
@@ -108,7 +103,7 @@
             <summary>
             获得目标文章的评论列表
             </summary>
-            <param name="PostID">目标文章ID</param>
+            <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.CommentLake.GetCommentReplies(System.Int32)">
@@ -155,7 +150,7 @@
             生成读组件
             </summary>
             <param name="ReadMode">读取模式枚举</param>
-            <param name="WithBackupMode">以备份管理模式启动(读取到的数据包含备份)</param>
+            <param name="WithRawMode">以原始数据读取模式初始化(读取到的数据包含隐性文章)</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.ComponentFactory.GenWriter">
@@ -319,28 +314,27 @@
             默认构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.#ctor(WaterLibrary.pilipala.Database.PLViews,WaterLibrary.MySQL.MySqlManager,System.Boolean)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.#ctor(System.String,WaterLibrary.MySQL.MySqlManager)">
             <summary>
             工厂构造
             </summary>
-            <param name="Views">数据库视图</param>
+            <param name="UnionView">联合视图</param>
             <param name="MySqlManager">数据库管理器</param>
-            <param name="WithBackupMode">以备份管理模式启动(读取到的数据包含备份)</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost(System.Int32)">
             <summary>
             获取指定文章数据
             </summary>
-            <param name="ID">目标文章ID</param>
+            <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.GetProperty``1(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPostProp``1(System.Int32)">
             <summary>
             取得指定文章属性
             </summary>
-            <typeparam name="T">目标属性类型</typeparam>
-            <param name="ID">目标文章ID</param>
+            <typeparam name="Prop">目标属性类型</typeparam>
+            <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost``1(System.String)">
@@ -349,7 +343,6 @@
             </summary>
             <typeparam name="T">正则表达式匹配的属性类型</typeparam>
             <param name="REGEXP">正则表达式</param>
-            <param name="IncludeNeg">是否包含消极文章(备份)</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost``1(System.String,WaterLibrary.pilipala.Entity.PostPropEnum[])">
@@ -359,44 +352,43 @@
             <typeparam name="T">正则表达式匹配的属性类型</typeparam>
             <param name="REGEXP">正则表达式</param>
             <param name="PostProps">所需属性类型</param>
-            <param name="IncludeNeg">是否包含消极文章(备份)</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.Bigger``1(System.Int32)">
             <summary>
-            取得具有比目标文章的指定属性具有更大的值的文章ID
+            取得具有比目标文章的指定属性具有更大的值的文章PostID
             </summary>
             <typeparam name="Prop">指定属性</typeparam>
-            <param name="ID">目标文章的ID</param>
-            <returns>不存在符合要求的ID时，返回-1</returns>
+            <param name="PostID">目标文章的PostID</param>
+            <returns>不存在符合要求的PostID时，返回-1</returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.Bigger``1(System.Int32,System.String,WaterLibrary.pilipala.Entity.PostPropEnum)">
             <summary>
-            取得具有比目标文章的指定属性具有更大的值的文章ID
+            取得具有比目标文章的指定属性具有更大的值的文章PostID
             </summary>
             <typeparam name="Prop">指定属性</typeparam>
-            <param name="ID">目标文章的ID</param>
+            <param name="PostID">目标文章的PostID</param>
             <param name="REGEXP">正则表达式</param>
             <param name="PostProp">用于被正则表达式筛选的属性</param>
-            <returns>不存在符合要求的ID时，返回-1</returns>
+            <returns>不存在符合要求的PostID时，返回-1</returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.Smaller``1(System.Int32)">
             <summary>
-            取得具有比目标文章的指定属性具有更小的值的文章ID
+            取得具有比目标文章的指定属性具有更小的值的文章PostID
             </summary>
             <typeparam name="Prop">指定属性</typeparam>
-            <param name="ID">目标文章的ID</param>
-            <returns>不存在符合要求的ID时，返回-1</returns>
+            <param name="PostID">目标文章的PostID</param>
+            <returns>不存在符合要求的PostID时，返回-1</returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.Smaller``1(System.Int32,System.String,WaterLibrary.pilipala.Entity.PostPropEnum)">
             <summary>
-            取得具有比目标文章的指定属性具有更小的值的文章ID
+            取得具有比目标文章的指定属性具有更小的值的文章PostID
             </summary>
             <typeparam name="Prop">指定属性</typeparam>
-            <param name="ID">目标文章的ID</param>
+            <param name="PostID">目标文章的PostID</param>
             <param name="REGEXP">正则表达式</param>
             <param name="PostProp">用于被正则表达式筛选的属性</param>
-            <returns>不存在符合要求的ID时，返回-1</returns>
+            <returns>不存在符合要求的PostID时，返回-1</returns>
         </member>
         <member name="T:WaterLibrary.pilipala.Components.Writer">
             <summary>
@@ -408,38 +400,39 @@
             默认构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.#ctor(System.String,System.String,WaterLibrary.MySQL.MySqlManager)">
             <summary>
             工厂构造
             </summary>
-            <param name="Tables">数据库表</param>
+            <param name="IndexTable">索引表</param>
+            <param name="StackTable">主表</param>
             <param name="MySqlManager">数据库管理器</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.GetMaxID">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.GetMaxPostID">
             <summary>
-            得到最大文章ID（私有）
+            得到最大文章PostID（私有）
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.GetMinID">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.GetMinPostID">
             <summary>
-            得到最小文章ID（私有）
+            得到最小文章PostID（私有）
             </summary>
             <returns>错误则返回-1</returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.GetPositiveGUID(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.GetPositiveUUID(System.Int32)">
             <summary>
-            获取指定文章的积极备份的GUID
+            获取指定文章的积极备份的UUID
             </summary>
-            <param name="ID">目标文章ID</param>
+            <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.GetNegativeGUID(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.GetNegativeUUID(System.Int32)">
             <summary>
-            获取指定文章的消极备份的GUID
+            获取指定文章的消极备份的UUID
             </summary>
-            <param name="ID">目标文章ID</param>
+            <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.Reg(WaterLibrary.pilipala.Entity.Post)">
@@ -449,7 +442,7 @@
             <remarks>
             新建一个拷贝，并将index指向该拷贝
             </remarks>
-            <param name="Post">文章数据（其中的ID、GUID、CT、LCT、User由系统生成）</param>
+            <param name="Post">文章数据（其中的PostID、UUID、CT、LCT、User由系统生成）</param>
             <returns>返回受影响的行数</returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.Dispose(System.Int32)">
@@ -459,7 +452,7 @@
             <remarks>
             删除所有拷贝和index指向
             </remarks>
-            <param name="ID">目标文章ID</param>
+            <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.Update(WaterLibrary.pilipala.Entity.Post)">
@@ -479,7 +472,7 @@
             <remarks>
             删除指定拷贝，且该拷贝不能为当前index指向
             </remarks>
-            <param name="GUID">目标文章的GUID</param>
+            <param name="UUID">目标文章的UUID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.Apply(System.String)">
@@ -489,7 +482,7 @@
             <remarks>
             将现有index指向删除（顶出），然后将index指向设置为指定文章拷贝
             </remarks>
-            <param name="GUID">目标拷贝的GUID</param>
+            <param name="UUID">目标拷贝的UUID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.Rollback(System.Int32)">
@@ -499,7 +492,7 @@
             <remarks>
             将现有index指向删除（顶出），然后将index指向设置到另一个最近更新的拷贝
             </remarks>
-            <param name="ID">目标文章的ID</param>
+            <param name="PostID">目标文章的PostID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.Release(System.Int32)">
@@ -508,14 +501,14 @@
             </summary>
             <remarks>删除非当前index指向的所有拷贝
             </remarks>
-            <param name="ID">目标文章的ID</param>
+            <param name="PostID">目标文章的PostID</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateType(System.Int32,WaterLibrary.pilipala.Entity.PostProp.Type.States)">
             <summary>
             设置文章类型
             </summary>
-            <param name="ID">文章索引</param>
+            <param name="PostID">文章索引</param>
             <param name="TypeState">目标类型</param>
             <returns></returns>
         </member>
@@ -523,7 +516,7 @@
             <summary>
             设置文章模式
             </summary>
-            <param name="ID">文章索引</param>
+            <param name="PostID">文章索引</param>
             <param name="ModeState">目标模式</param>
             <returns></returns>
         </member>
@@ -532,34 +525,34 @@
             通用文章指向更新器
             </summary>
             <typeparam name="T">目标属性类型</typeparam>
-            <param name="ID">目标文章ID</param>
+            <param name="PostID">目标文章PostID</param>
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateBackupTable``1(System.Int32,System.Object)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.UpdateStackTable``1(System.Int32,System.Object)">
             <summary>
             通用文章拷贝更新器
             </summary>
             <typeparam name="T">目标属性类型</typeparam>
-            <param name="ID">目标拷贝GUID</param>
+            <param name="PostID">目标文章PostID</param>
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.Join(WaterLibrary.pilipala.Entity.Post,WaterLibrary.pilipala.Entity.Post)">
             <summary>
-            检测ID、GUID是否匹配，之后合并Post数据表
+            检测PostID、UUID是否匹配，之后合并Post数据表
             </summary>
             <parmm name="Index">索引表Post实例</parmm>
-            <parmm name="Backup">主表Post实例</parmm>
+            <parmm name="Stack">主表Post实例</parmm>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Writer.ForcedJoin(WaterLibrary.pilipala.Entity.Post,WaterLibrary.pilipala.Entity.Post)">
             <summary>
-            强制合并Post数据表（风险性重载，不考虑ID、GUID是否匹配，调用不当易引发逻辑故障）
+            强制合并Post数据表（风险性重载，不考虑PostID、UUID是否匹配，调用不当易引发逻辑故障）
             </summary>
             <parmm name="Index">索引表Post实例</parmm>
-            <parmm name="Backup">主表Post实例</parmm>
-            <returns>始终返回以Index的ID、GUID为最终合并结果的Post实例</returns>
+            <parmm name="Stack">主表Post实例</parmm>
+            <returns>始终返回以Index的PostID、UUID为最终合并结果的Post实例</returns>
         </member>
         <member name="T:WaterLibrary.pilipala.Components.Counter">
             <summary>
@@ -571,11 +564,12 @@
             默认构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Counter.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager)">
+        <member name="M:WaterLibrary.pilipala.Components.Counter.#ctor(System.String,System.String,WaterLibrary.MySQL.MySqlManager)">
             <summary>
             工厂构造
             </summary>
-            <param name="Tables">数据库表</param>
+            <param name="IndexTable">索引表</param>
+            <param name="StackTable">主表</param>
             <param name="MySqlManager">数据库管理器</param>
             <returns></returns>
         </member>
@@ -584,7 +578,7 @@
             文章计数
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Components.Counter.BackupCount">
+        <member name="P:WaterLibrary.pilipala.Components.Counter.StackCount">
             <summary>
             拷贝计数
             </summary>
@@ -614,6 +608,27 @@
             归档管理组件
             </summary>
         </member>
+        <member name="M:WaterLibrary.pilipala.Components.Archive.#ctor">
+            <summary>
+            默认构造
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Archive.#ctor(System.String,WaterLibrary.MySQL.MySqlManager)">
+            <summary>
+            使用归档名构造
+            </summary>
+            <param name="ArchiveTable">归档表</param>
+            <param name="MySqlManager">数据库管理器</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Archive.Select``1(System.Func{``0})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ReaderTodo"></param>
+            <returns></returns>
+        </member>
         <member name="T:WaterLibrary.pilipala.Components.Plugin">
             <summary>
             插件管理组件
@@ -626,7 +641,7 @@
         </member>
         <member name="T:WaterLibrary.pilipala.Entity.CommentProp.PostID">
             <summary>
-            被评论的文章ID
+            被评论的文章PostID
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Entity.CommentProp.User">
@@ -651,7 +666,7 @@
         </member>
         <member name="T:WaterLibrary.pilipala.Entity.CommentProp.HEAD">
             <summary>
-            回复到的评论ID
+            回复到的评论CommentID
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Entity.CommentProp.Time">
@@ -689,17 +704,17 @@
         </member>
         <member name="P:WaterLibrary.pilipala.Entity.Comment.CommentID">
             <summary>
-            评论ID
+            评论CommentID
             </summary>
         </member>
         <member name="P:WaterLibrary.pilipala.Entity.Comment.HEAD">
             <summary>
-            回复到的评论ID
+            回复到的评论CommentID
             </summary>
         </member>
         <member name="P:WaterLibrary.pilipala.Entity.Comment.PostID">
             <summary>
-            被评论的文章ID
+            被评论的文章PostID
             </summary>
         </member>
         <member name="P:WaterLibrary.pilipala.Entity.Comment.Floor">
@@ -821,12 +836,12 @@
             <param name="Length">取用长度</param>
             <returns></returns>
         </member>
-        <member name="P:WaterLibrary.pilipala.Entity.Post.ID">
+        <member name="P:WaterLibrary.pilipala.Entity.Post.PostID">
             <summary>
             索引
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Entity.Post.GUID">
+        <member name="P:WaterLibrary.pilipala.Entity.Post.UUID">
             <summary>
             全局标识
             </summary>
@@ -884,9 +899,9 @@
             封面
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Entity.Post.Archiv">
+        <member name="P:WaterLibrary.pilipala.Entity.Post.ArchiveID">
             <summary>
-            归档
+            归档ID
             </summary>
         </member>
         <member name="P:WaterLibrary.pilipala.Entity.Post.Label">
@@ -1016,12 +1031,12 @@
             文章属性枚举
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.ID">
+        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.PostID">
             <summary>
             文章索引
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.GUID">
+        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.UUID">
             <summary>
             文章全局标识
             </summary>
@@ -1046,7 +1061,7 @@
             封面
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.Archiv">
+        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.ArchiveID">
             <summary>
             归档
             </summary>
@@ -1096,12 +1111,12 @@
             文章属性接口
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.ID">
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.PostID">
             <summary>
             文章索引
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.GUID">
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.UUID">
             <summary>
             文章全局标识
             </summary>
@@ -1126,9 +1141,9 @@
             封面
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Archiv">
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.ArchiveID">
             <summary>
-            归档
+            归档索引
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Entity.PostProp.Label">
@@ -1217,176 +1232,38 @@
             星星计数
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Database.IPLDatabase">
-            <summary>
-            啪啦数据库接口
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IPLDatabase.Tables">
-            <summary>
-            文本表
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IPLDatabase.ViewsSet">
-            <summary>
-            文本视图
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IPLDatabase.MySqlManager">
-            <summary>
-            数据库管理器实例
-            </summary>
-        </member>
-        <member name="T:WaterLibrary.pilipala.Database.IIndexTable">
-            <summary>
-            索引表数据接口
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.ID">
-            <summary>
-            索引
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.GUID">
-            <summary>
-            GUID标识
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.CT">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.Mode">
-            <summary>
-            模式
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.Type">
-            <summary>
-            类型
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.User">
-            <summary>
-            隶属用户
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.UVCount">
-            <summary>
-            浏览计数
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.StarCount">
-            <summary>
-            星星计数
-            </summary>
-        </member>
-        <member name="T:WaterLibrary.pilipala.Database.IBackupTable">
-            <summary>
-            备份表数据接口
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.ID">
-            <summary>
-            索引
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.GUID">
-            <summary>
-            GUID标识
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.LCT">
-            <summary>
-            最后修改时间
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Title">
-            <summary>
-            标题
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Summary">
-            <summary>
-            摘要
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Content">
-            <summary>
-            正文
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Archiv">
-            <summary>
-            归档
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Label">
-            <summary>
-            标签
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IBackupTable.Cover">
-            <summary>
-            封面
-            </summary>
-        </member>
-        <member name="T:WaterLibrary.pilipala.Database.IUserTable">
-            <summary>
-            用户表数据接口
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IUserTable.ID">
-            <summary>
-            用户ID
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IUserTable.GUID">
-            <summary>
-            GUID标识
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IUserTable.Name">
-            <summary>
-            用户名
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IUserTable.Note">
-            <summary>
-            签名
-            </summary>
-        </member>
         <member name="T:WaterLibrary.pilipala.Database.PLTables">
             <summary>
             数据库表集合
             用户表
             索引表
             主表
+            归档表
             评论表
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Database.PLTables.#ctor(System.String,System.String,System.String,System.String)">
+        <member name="M:WaterLibrary.pilipala.Database.PLTables.#ctor(System.String,System.String,System.String,System.String,System.String)">
             <summary>
             数据库表集合
             用户表
             索引表
             主表
+            归档表
             评论表
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Database.PLViews">
             <summary>
             数据库视图视图集合
-            积极联合视图（不包含备份）
-            消极联合视图（包含备份）
+            显性联合视图（不包含备份）
+            隐性联合视图（包含备份）
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.Database.PLViews.#ctor(System.String,System.String)">
             <summary>
             数据库视图视图集合
-            积极联合视图（不包含备份）
-            消极联合视图（包含备份）
+            显性联合视图（不包含备份）
+            隐性联合视图（包含备份）
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Database.PLDatabase">
@@ -1446,7 +1323,7 @@
         </member>
         <member name="P:WaterLibrary.pilipala.ICORE.UserAccount">
             <summary>
-            登录到内核的用户GUID
+            登录到内核的用户UUID
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.ICORE.Run(System.String,System.String)">
@@ -1497,7 +1374,7 @@
         </member>
         <member name="P:WaterLibrary.pilipala.CORE.UserAccount">
             <summary>
-            登录内核的用户GUID
+            登录内核的用户UUID
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.CORE.#ctor(WaterLibrary.pilipala.Database.PLDatabase)">
@@ -1752,9 +1629,9 @@
             <param name="num">待判断的数值</param>
             <returns>num为奇数返回true，num为偶数返回false</returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.GenerateGUID(System.String)">
+        <member name="M:WaterLibrary.Util.MathH.GenerateUUID(System.String)">
             <summary>
-            生成GUID
+            生成UUID
             </summary>
             <param name="format">生成格式，可选值有N、D、B、P、X</param>
             <returns></returns>

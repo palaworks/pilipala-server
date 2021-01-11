@@ -23,115 +23,14 @@ namespace WaterLibrary.pilipala
     namespace Database
     {
         /// <summary>
-        /// 啪啦数据库接口
-        /// </summary>
-        interface IPLDatabase
-        {
-            /// <summary>
-            /// 文本表
-            /// </summary>
-            PLTables Tables { get; }
-            /// <summary>
-            /// 文本视图
-            /// </summary>
-            (PLViews CleanViews, PLViews DirtyViews) ViewsSet { get; }
-            /// <summary>
-            /// 数据库管理器实例
-            /// </summary>
-            MySqlManager MySqlManager { get; }
-        }
-
-        /// <summary>
-        /// 索引表数据接口
-        /// </summary>
-        public interface IIndexTable
-        {
-
-            /// <summary>
-            /// 索引
-            /// </summary>
-            int PostID { get; set; }
-            /// <summary>
-            /// UUID标识
-            /// </summary>
-            string UUID { get; set; }
-            /// <summary>
-            /// 创建时间
-            /// </summary>
-            DateTime CT { get; set; }
-            /// <summary>
-            /// 模式
-            /// </summary>
-            string Mode { get; set; }
-            /// <summary>
-            /// 类型
-            /// </summary>
-            string Type { get; set; }
-            /// <summary>
-            /// 隶属用户
-            /// </summary>
-            string User { get; set; }
-            /// <summary>
-            /// 浏览计数
-            /// </summary>
-            int UVCount { get; set; }
-            /// <summary>
-            /// 星星计数
-            /// </summary>
-            int StarCount { get; set; }
-
-        }
-        /// <summary>
-        /// 文章栈表数据接口
-        /// </summary>
-        public interface IStackTable
-        {
-            /// <summary>
-            /// 索引
-            /// </summary>
-            int PostID { get; set; }
-            /// <summary>
-            /// UUID标识
-            /// </summary>
-            string UUID { get; set; }
-            /// <summary>
-            /// 最后修改时间
-            /// </summary>
-            DateTime LCT { get; set; }
-            /// <summary>
-            /// 标题
-            /// </summary>
-            string Title { get; set; }
-            /// <summary>
-            /// 摘要
-            /// </summary>
-            string Summary { get; set; }
-            /// <summary>
-            /// 正文
-            /// </summary>
-            string Content { get; set; }
-            /// <summary>
-            /// 归档ID
-            /// </summary>
-            int ArchiveID { get; set; }
-            /// <summary>
-            /// 标签
-            /// </summary>
-            string Label { get; set; }
-            /// <summary>
-            /// 封面
-            /// </summary>
-            string Cover { get; set; }
-        }
-
-        /// <summary>
         /// 数据库表集合
         /// 用户表
         /// 索引表
         /// 主表
+        /// 归档表
         /// 评论表
         /// </summary>
-        public record PLTables(string User, string Index, string Stack, string Comment);
+        public record PLTables(string User, string Index, string Stack, string Archive, string Comment);
         /// <summary>
         /// 数据库视图视图集合
         /// 显性联合视图（不包含备份）
@@ -142,7 +41,7 @@ namespace WaterLibrary.pilipala
         /// <summary>
         /// 啪啦数据库操作盒
         /// </summary>
-        public struct PLDatabase : IPLDatabase
+        public struct PLDatabase
         {
             /// <summary>
             /// 数据库名
@@ -273,11 +172,10 @@ namespace WaterLibrary.pilipala
         {
             string SQL = $"SELECT COUNT(*) FROM {Tables.User} WHERE Account = ?UserAccount AND PWD = ?UserPWD";
 
-            if (MySqlManager.GetKey(SQL, new MySqlParameter[]
-            {
-                new("UserAccount", UserAccount),
-                new("UserPWD", MathH.MD5(UserPWD))
-            })
+            if (MySqlManager.GetKey(
+                SQL,
+                new("UserAccount", UserAccount), new("UserPWD", MathH.MD5(UserPWD))
+                )
             .ToString() == "1")
             {
                 Components.User User = new Components.User(Tables, MySqlManager, UserAccount);
@@ -309,7 +207,7 @@ namespace WaterLibrary.pilipala
         /// <summary>
         /// 文章
         /// </summary>
-        public class Post : IIndexTable, IStackTable
+        public class Post
         {
             /// <summary>
             /// 索引器
@@ -454,6 +352,7 @@ namespace WaterLibrary.pilipala
             /// 归档ID
             /// </summary>
             public int ArchiveID { get; set; }
+
             /// <summary>
             /// 标签
             /// </summary>
@@ -847,8 +746,16 @@ namespace WaterLibrary.pilipala
             {
                 return ReadMode switch
                 {
-                    Reader.ReadMode.CleanRead => new(CORE.ViewsSet.CleanViews, CORE.MySqlManager, WithRawMode),
-                    Reader.ReadMode.DirtyRead => new(CORE.ViewsSet.DirtyViews, CORE.MySqlManager, WithRawMode),
+                    Reader.ReadMode.CleanRead => WithRawMode switch
+                    {
+                        false => new(CORE.ViewsSet.CleanViews.PosUnion, CORE.MySqlManager),
+                        true => new(CORE.ViewsSet.CleanViews.NegUnion, CORE.MySqlManager),
+                    },
+                    Reader.ReadMode.DirtyRead => WithRawMode switch
+                    {
+                        false => new(CORE.ViewsSet.DirtyViews.PosUnion, CORE.MySqlManager),
+                        true => new(CORE.ViewsSet.DirtyViews.NegUnion, CORE.MySqlManager),
+                    },
                     _ => throw new NotImplementedException(),
                 };
             }
@@ -856,17 +763,17 @@ namespace WaterLibrary.pilipala
             /// 生成写组件
             /// </summary>
             /// <returns></returns>
-            public Writer GenWriter() => new(CORE.Tables, CORE.MySqlManager);
+            public Writer GenWriter() => new(CORE.Tables.Index, CORE.Tables.Stack, CORE.MySqlManager);
             /// <summary>
             /// 生成计数组件
             /// </summary>
             /// <returns></returns>
-            public Counter GenCounter() => new(CORE.Tables, CORE.MySqlManager);
+            public Counter GenCounter() => new(CORE.Tables.Index, CORE.Tables.Stack, CORE.MySqlManager);
             /// <summary>
             /// 生成评论湖组件
             /// </summary>
             /// <returns></returns>
-            public CommentLake GenCommentLake() => new(CORE.Tables, CORE.MySqlManager);
+            public CommentLake GenCommentLake() => new(CORE.Tables.Index, CORE.Tables.Comment, CORE.MySqlManager);
         }
 
         /// <summary>
@@ -1066,17 +973,12 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 工厂构造
             /// </summary>
-            /// <param name="Views">数据库视图</param>
+            /// <param name="UnionView">联合视图</param>
             /// <param name="MySqlManager">数据库管理器</param>
-            /// <param name="WithRawMode">以原始数据读取模式初始化(读取到的数据包含隐性文章)</param>
             /// <returns></returns>
-            internal Reader(PLViews Views, MySqlManager MySqlManager, bool WithRawMode)
+            internal Reader(string UnionView, MySqlManager MySqlManager)
             {
-                UnionView = WithRawMode switch
-                {
-                    false => Views.PosUnion,
-                    true => Views.NegUnion
-                };
+                this.UnionView = UnionView;
                 this.MySqlManager = MySqlManager;
             }
 
@@ -1116,12 +1018,12 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 取得指定文章属性
             /// </summary>
-            /// <typeparam name="T">目标属性类型</typeparam>
+            /// <typeparam name="Prop">目标属性类型</typeparam>
             /// <param name="PostID">目标文章PostID</param>
             /// <returns></returns>
-            public object GetProperty<T>(int PostID) where T : IPostProp
+            public object GetPostProp<Prop>(int PostID) where Prop : IPostProp
             {
-                string SQL = $"SELECT {typeof(T).Name} FROM `{UnionView}` WHERE PostID = ?PostID";
+                string SQL = $"SELECT {typeof(Prop).Name} FROM `{UnionView}` WHERE PostID = ?PostID";
 
                 return MySqlManager.GetKey(SQL, new MySqlParameter[]
                 {
@@ -1321,7 +1223,8 @@ namespace WaterLibrary.pilipala
         /// </summary>
         public class Writer : IPLComponent<Writer>
         {
-            private PLTables Tables { get; init; }
+            private string IndexTable { get; init; }
+            private string StackTable { get; init; }
             private MySqlManager MySqlManager { get; init; }
 
             /// <summary>
@@ -1331,12 +1234,14 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 工厂构造
             /// </summary>
-            /// <param name="Tables">数据库表</param>
+            /// <param name="IndexTable">索引表</param>
+            /// <param name="StackTable">主表</param>
             /// <param name="MySqlManager">数据库管理器</param>
             /// <returns></returns>
-            internal Writer(PLTables Tables, MySqlManager MySqlManager)
+            internal Writer(string IndexTable, string StackTable, MySqlManager MySqlManager)
             {
-                this.Tables = Tables;
+                this.IndexTable = IndexTable;
+                this.StackTable = StackTable;
                 this.MySqlManager = MySqlManager;
             }
 
@@ -1346,7 +1251,7 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             internal int GetMaxPostID()
             {
-                string SQL = $"SELECT MAX(PostID) FROM {Tables.Index}";
+                string SQL = $"SELECT MAX(PostID) FROM {IndexTable}";
                 var value = MySqlManager.GetKey(SQL);
                 /* 若取不到最大PostID(没有任何文章时)，返回12000作为初始PostID */
                 return Convert.ToInt32(value == DBNull.Value ? 12000 : value);
@@ -1357,7 +1262,7 @@ namespace WaterLibrary.pilipala
             /// <returns>错误则返回-1</returns>
             internal int GetMinPostID()
             {
-                string SQL = $"SELECT MIN(PostID) FROM {Tables.Index}";
+                string SQL = $"SELECT MIN(PostID) FROM {IndexTable}";
                 var value = MySqlManager.GetKey(SQL);
                 /* 若取不到最大PostID(没有任何文章时)，返回12000作为初始PostID */
                 return Convert.ToInt32(value == DBNull.Value ? 12000 : value);
@@ -1369,7 +1274,7 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             internal string GetPositiveUUID(int PostID)
             {
-                return Convert.ToString(MySqlManager.GetKey($"SELECT UUID FROM {Tables.Index} WHERE PostID={PostID}"));
+                return Convert.ToString(MySqlManager.GetKey($"SELECT UUID FROM {IndexTable} WHERE PostID={PostID}"));
             }
             /// <summary>
             /// 获取指定文章的消极备份的UUID
@@ -1382,7 +1287,7 @@ namespace WaterLibrary.pilipala
                     string.Format
                     (
                     "SELECT {1}.UUID FROM {0} JOIN {1} ON {0}.PostID={1}.PostID AND {0}.UUID<>{1}.UUID WHERE {0}.PostID={2}"
-                    , Tables.Index, Tables.Stack, PostID
+                    , IndexTable, StackTable, PostID
                     )
                     ));
             }
@@ -1401,10 +1306,10 @@ namespace WaterLibrary.pilipala
                 {
                     DateTime t = DateTime.Now;
 
-                    string SQL = $"INSERT INTO {Tables.Index}" +
+                    string SQL = $"INSERT INTO {IndexTable}" +
                                 " ( PostID, UUID, CT, Mode, Type, User, UVCount, StarCount) VALUES" +
                                 " (?PostID,?UUID,?CT,?Mode,?Type,?User,?UVCount,?StarCount);" +
-                                $"INSERT INTO {Tables.Stack}" +
+                                $"INSERT INTO {StackTable}" +
                                 " ( PostID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES" +
                                 " (?PostID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
 
@@ -1470,7 +1375,7 @@ namespace WaterLibrary.pilipala
                     using MySqlCommand MySqlCommand = new MySqlCommand
                     {
                         CommandText =
-                    $"DELETE FROM {Tables.Index} WHERE PostID={PostID};DELETE FROM {Tables.Stack} WHERE PostID={PostID};",
+                    $"DELETE FROM {IndexTable} WHERE PostID={PostID};DELETE FROM {StackTable} WHERE PostID={PostID};",
 
                         Connection = conn,
 
@@ -1504,8 +1409,8 @@ namespace WaterLibrary.pilipala
                 return MySqlManager.DoInConnection(conn =>
                 {
                     string SQL =
-                    $"UPDATE {Tables.Index} SET UUID=?UUID, Mode=?Mode, Type=?Type, User=?User, UVCount=?UVCount, StarCount=?StarCount WHERE PostID=?PostID;" +
-                    $"INSERT INTO {Tables.Stack}" +
+                    $"UPDATE {IndexTable} SET UUID=?UUID, Mode=?Mode, Type=?Type, User=?User, UVCount=?UVCount, StarCount=?StarCount WHERE PostID=?PostID;" +
+                    $"INSERT INTO {StackTable}" +
                     " ( PostID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES" +
                     " (?PostID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
 
@@ -1570,7 +1475,7 @@ namespace WaterLibrary.pilipala
                     string SQL = string.Format
                     (
                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.PostID={1}.PostID AND {0}.UUID<>{1}.UUID AND {1}.UUID = ?UUID"
-                    , Tables.Index, Tables.Stack
+                    , IndexTable, StackTable
                     );
 
                     MySqlParameter[] parameters =
@@ -1610,11 +1515,11 @@ namespace WaterLibrary.pilipala
                 return MySqlManager.DoInConnection(conn =>
                 {
                     /* 此处，即使SQL注入造成了PostID错误，由于第二步参数化查询的作用，UUID也会造成错误无法成功攻击 */
-                    object PostID = MySqlManager.GetKey($"SELECT PostID FROM {Tables.Stack} WHERE UUID = '{UUID}'");
+                    object PostID = MySqlManager.GetKey($"SELECT PostID FROM {StackTable} WHERE UUID = '{UUID}'");
 
                     string SQL =
-                        $"DELETE FROM {Tables.Stack} WHERE UUID = (SELECT UUID FROM {Tables.Index} WHERE PostID = ?PostID);" +
-                        $"UPDATE {Tables.Index} SET UUID = ?UUID WHERE PostID = ?PostID;";
+                        $"DELETE FROM {StackTable} WHERE UUID = (SELECT UUID FROM {IndexTable} WHERE PostID = ?PostID);" +
+                        $"UPDATE {StackTable} SET UUID = ?UUID WHERE PostID = ?PostID;";
 
                     MySqlParameter[] parameters =
                     {
@@ -1659,7 +1564,7 @@ namespace WaterLibrary.pilipala
                      (
                      "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.UUID={1}.UUID AND {0}.PostID={2};" +
                      "UPDATE {0} SET UUID = (SELECT UUID FROM {1} WHERE PostID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE PostID={2};"
-                     , Tables.Index, Tables.Stack, PostID
+                     , IndexTable, StackTable, PostID
                      ),
 
                         Connection = conn,
@@ -1697,7 +1602,7 @@ namespace WaterLibrary.pilipala
                         CommandText = string.Format
                      (
                      "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.PostID={1}.PostID AND {0}.UUID<>{1}.UUID AND {0}.PostID={2}"
-                     , Tables.Index, Tables.Stack, PostID
+                     , IndexTable, StackTable, PostID
                      ),
 
                         Connection = conn,
@@ -1728,7 +1633,7 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public bool UpdateType(int PostID, Type.States TypeState)
             {
-                bool fun(string value) => MySqlManager.UpdateKey((Tables.Index, "PostID", PostID), "Type", value);
+                bool fun(string value) => MySqlManager.UpdateKey((IndexTable, "PostID", PostID), "Type", value);
                 return TypeState switch
                 {
                     Type.States.Unset => fun(""),
@@ -1744,7 +1649,7 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public bool UpdateMode(int PostID, Mode.States ModeState)
             {
-                bool fun(string value) => MySqlManager.UpdateKey((Tables.Index, "PostID", PostID), "Mode", value);
+                bool fun(string value) => MySqlManager.UpdateKey((IndexTable, "PostID", PostID), "Mode", value);
 
                 return ModeState switch
                 {
@@ -1766,7 +1671,7 @@ namespace WaterLibrary.pilipala
             public bool UpdateIndexTable<T>(int PostID, object Value) where T : IPostProp
             {
                 //初始化键定位
-                var MySqlKey = (Tables.Index, "PostID", PostID);
+                var MySqlKey = (IndexTable, "PostID", PostID);
                 return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Value);
             }
             /// <summary>
@@ -1779,7 +1684,7 @@ namespace WaterLibrary.pilipala
             public bool UpdateStackTable<T>(int PostID, object Value) where T : IPostProp
             {
                 //初始化键定位
-                var MySqlKey = (Tables.Stack, "UUID", GetPositiveUUID(PostID));
+                var MySqlKey = (StackTable, "UUID", GetPositiveUUID(PostID));
                 return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Value);
             }
 
@@ -1862,7 +1767,8 @@ namespace WaterLibrary.pilipala
         /// </summary>
         public class Counter : IPLComponent<Counter>
         {
-            private PLTables Tables { get; init; }
+            private string IndexTable { get; init; }
+            private string StackTable { get; init; }
             private MySqlManager MySqlManager { get; init; }
 
             /// <summary>
@@ -1872,12 +1778,14 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 工厂构造
             /// </summary>
-            /// <param name="Tables">数据库表</param>
+            /// <param name="IndexTable">索引表</param>
+            /// <param name="StackTable">主表</param>
             /// <param name="MySqlManager">数据库管理器</param>
             /// <returns></returns>
-            internal Counter(PLTables Tables, MySqlManager MySqlManager)
+            internal Counter(string IndexTable, string StackTable, MySqlManager MySqlManager)
             {
-                this.Tables = Tables;
+                this.IndexTable = IndexTable;
+                this.StackTable = StackTable;
                 this.MySqlManager = MySqlManager;
             }
 
@@ -1927,12 +1835,12 @@ namespace WaterLibrary.pilipala
 
             private int GetPostCountByMode(string REGEXP)
             {
-                object Count = MySqlManager.GetKey($"SELECT Count(*) FROM {Tables.Index} WHERE Mode REGEXP '{REGEXP}';");
+                object Count = MySqlManager.GetKey($"SELECT Count(*) FROM {IndexTable} WHERE Mode REGEXP '{REGEXP}';");
                 return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
             }
             private int GetStackCount()
             {
-                object Count = MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.PostID={1}.PostID AND {0}.UUID<>{1}.UUID;", Tables.Index, Tables.Stack));
+                object Count = MySqlManager.GetKey(string.Format("SELECT COUNT(*) FROM {0},{1} WHERE {0}.PostID={1}.PostID AND {0}.UUID<>{1}.UUID;", IndexTable, StackTable));
                 return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
             }
         }
@@ -1941,7 +1849,35 @@ namespace WaterLibrary.pilipala
         /// </summary>
         public class Archive
         {
+            private string ArchiveTable { get; set; }
+            private MySqlManager MySqlManager { get; init; }
 
+            /// <summary>
+            /// 默认构造
+            /// </summary>
+            private Archive() { }
+            /// <summary>
+            /// 使用归档名构造
+            /// </summary>
+            /// <param name="ArchiveTable">归档表</param>
+            /// <param name="MySqlManager">数据库管理器</param>
+            /// <returns></returns>
+            internal Archive(string ArchiveTable, MySqlManager MySqlManager)
+            {
+                this.ArchiveTable = ArchiveTable;
+                this.MySqlManager = MySqlManager;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="ReaderTodo"></param>
+            /// <returns></returns>
+            public T Select<T>(Func<T> ReaderTodo) where T : IEnumerable
+            {
+                return ReaderTodo();
+            }
         }
         /// <summary>
         /// 插件管理组件

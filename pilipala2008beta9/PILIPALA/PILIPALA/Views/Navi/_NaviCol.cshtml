@@ -23,7 +23,7 @@
     Counter = ComponentFactory.GenCounter();
     CommentLake = ComponentFactory.GenCommentLake();
 
-    PostSet PostSet = Reader.GetPost<Archiv>("页面|友情链接", new[] { PostPropEnum.ID, PostPropEnum.Title });
+    PostSet PostSet = Reader.GetPost<ArchiveID>("页面", new[] { PostPropEnum.PostID, PostPropEnum.Title });
 }
 
 
@@ -90,7 +90,7 @@
                 @{ int i = 1;}
                 @foreach (Post Post in PostSet)
                 {
-                    <text>{ index:@(i++) , ID:@Post.ID, Title:'@Html.Raw(Post.Title)' },</text>
+                    <text>{ index:@(i++) , ID:@Post.PostID, Title:'@Html.Raw(Post.Title)' },</text>
                 }
             ]
         },

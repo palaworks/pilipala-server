@@ -44,11 +44,6 @@
             评论湖组件
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.Components.CommentLake.Tables">
-            <summary>
-            表集
-            </summary>
-        </member>
         <member name="P:WaterLibrary.pilipala.Components.CommentLake.MySqlManager">
             <summary>
             MySql数据库管理器
@@ -59,7 +54,7 @@
             默认构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.CommentLake.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager)">
+        <member name="M:WaterLibrary.pilipala.Components.CommentLake.#ctor(System.String,System.String,WaterLibrary.MySQL.MySqlManager)">
             <summary>
             工厂构造
             </summary>
@@ -319,13 +314,12 @@
             默认构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.#ctor(WaterLibrary.pilipala.Database.PLViews,WaterLibrary.MySQL.MySqlManager,System.Boolean)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.#ctor(System.String,WaterLibrary.MySQL.MySqlManager)">
             <summary>
             工厂构造
             </summary>
-            <param name="Views">数据库视图</param>
+            <param name="UnionView">联合视图</param>
             <param name="MySqlManager">数据库管理器</param>
-            <param name="WithRawMode">以原始数据读取模式初始化(读取到的数据包含隐性文章)</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost(System.Int32)">
@@ -335,11 +329,11 @@
             <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.GetProperty``1(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPostProp``1(System.Int32)">
             <summary>
             取得指定文章属性
             </summary>
-            <typeparam name="T">目标属性类型</typeparam>
+            <typeparam name="Prop">目标属性类型</typeparam>
             <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
@@ -406,11 +400,12 @@
             默认构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager)">
+        <member name="M:WaterLibrary.pilipala.Components.Writer.#ctor(System.String,System.String,WaterLibrary.MySQL.MySqlManager)">
             <summary>
             工厂构造
             </summary>
-            <param name="Tables">数据库表</param>
+            <param name="IndexTable">索引表</param>
+            <param name="StackTable">主表</param>
             <param name="MySqlManager">数据库管理器</param>
             <returns></returns>
         </member>
@@ -569,11 +564,12 @@
             默认构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Counter.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager)">
+        <member name="M:WaterLibrary.pilipala.Components.Counter.#ctor(System.String,System.String,WaterLibrary.MySQL.MySqlManager)">
             <summary>
             工厂构造
             </summary>
-            <param name="Tables">数据库表</param>
+            <param name="IndexTable">索引表</param>
+            <param name="StackTable">主表</param>
             <param name="MySqlManager">数据库管理器</param>
             <returns></returns>
         </member>
@@ -611,6 +607,27 @@
             <summary>
             归档管理组件
             </summary>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Archive.#ctor">
+            <summary>
+            默认构造
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Archive.#ctor(System.String,WaterLibrary.MySQL.MySqlManager)">
+            <summary>
+            使用归档名构造
+            </summary>
+            <param name="ArchiveTable">归档表</param>
+            <param name="MySqlManager">数据库管理器</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Components.Archive.Select``1(System.Func{``0})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ReaderTodo"></param>
+            <returns></returns>
         </member>
         <member name="T:WaterLibrary.pilipala.Components.Plugin">
             <summary>
@@ -1215,136 +1232,23 @@
             星星计数
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Database.IPLDatabase">
-            <summary>
-            啪啦数据库接口
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IPLDatabase.Tables">
-            <summary>
-            文本表
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IPLDatabase.ViewsSet">
-            <summary>
-            文本视图
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IPLDatabase.MySqlManager">
-            <summary>
-            数据库管理器实例
-            </summary>
-        </member>
-        <member name="T:WaterLibrary.pilipala.Database.IIndexTable">
-            <summary>
-            索引表数据接口
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.PostID">
-            <summary>
-            索引
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.UUID">
-            <summary>
-            UUID标识
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.CT">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.Mode">
-            <summary>
-            模式
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.Type">
-            <summary>
-            类型
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.User">
-            <summary>
-            隶属用户
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.UVCount">
-            <summary>
-            浏览计数
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IIndexTable.StarCount">
-            <summary>
-            星星计数
-            </summary>
-        </member>
-        <member name="T:WaterLibrary.pilipala.Database.IStackTable">
-            <summary>
-            文章栈表数据接口
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IStackTable.PostID">
-            <summary>
-            索引
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IStackTable.UUID">
-            <summary>
-            UUID标识
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IStackTable.LCT">
-            <summary>
-            最后修改时间
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IStackTable.Title">
-            <summary>
-            标题
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IStackTable.Summary">
-            <summary>
-            摘要
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IStackTable.Content">
-            <summary>
-            正文
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IStackTable.ArchiveID">
-            <summary>
-            归档ID
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IStackTable.Label">
-            <summary>
-            标签
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.Database.IStackTable.Cover">
-            <summary>
-            封面
-            </summary>
-        </member>
         <member name="T:WaterLibrary.pilipala.Database.PLTables">
             <summary>
             数据库表集合
             用户表
             索引表
             主表
+            归档表
             评论表
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Database.PLTables.#ctor(System.String,System.String,System.String,System.String)">
+        <member name="M:WaterLibrary.pilipala.Database.PLTables.#ctor(System.String,System.String,System.String,System.String,System.String)">
             <summary>
             数据库表集合
             用户表
             索引表
             主表
+            归档表
             评论表
             </summary>
         </member>

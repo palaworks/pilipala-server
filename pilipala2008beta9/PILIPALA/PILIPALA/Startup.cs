@@ -64,6 +64,7 @@ namespace PILIPALA
                     DatabaseSection.GetSection("Tables:User").Value,
                     DatabaseSection.GetSection("Tables:Index").Value,
                     DatabaseSection.GetSection("Tables:Backup").Value,
+                    DatabaseSection.GetSection("Tables:Archive").Value,
                     DatabaseSection.GetSection("Tables:Comment").Value
                 ),
 
