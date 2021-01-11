@@ -538,22 +538,6 @@
             <param name="Value">新属性值</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.Join(WaterLibrary.pilipala.Entity.Post,WaterLibrary.pilipala.Entity.Post)">
-            <summary>
-            检测PostID、UUID是否匹配，之后合并Post数据表
-            </summary>
-            <parmm name="Index">索引表Post实例</parmm>
-            <parmm name="Stack">主表Post实例</parmm>
-            <returns></returns>
-        </member>
-        <member name="M:WaterLibrary.pilipala.Components.Writer.ForcedJoin(WaterLibrary.pilipala.Entity.Post,WaterLibrary.pilipala.Entity.Post)">
-            <summary>
-            强制合并Post数据表（风险性重载，不考虑PostID、UUID是否匹配，调用不当易引发逻辑故障）
-            </summary>
-            <parmm name="Index">索引表Post实例</parmm>
-            <parmm name="Stack">主表Post实例</parmm>
-            <returns>始终返回以Index的PostID、UUID为最终合并结果的Post实例</returns>
-        </member>
         <member name="T:WaterLibrary.pilipala.Components.Counter">
             <summary>
             计数管理组件
@@ -904,6 +888,11 @@
             归档ID
             </summary>
         </member>
+        <member name="P:WaterLibrary.pilipala.Entity.Post.ArchiveName">
+            <summary>
+            归档名
+            </summary>
+        </member>
         <member name="P:WaterLibrary.pilipala.Entity.Post.Label">
             <summary>
             标签
@@ -1063,7 +1052,12 @@
         </member>
         <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.ArchiveID">
             <summary>
-            归档
+            归档ID
+            </summary>
+        </member>
+        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.ArchiveName">
+            <summary>
+            归档名
             </summary>
         </member>
         <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.Label">
@@ -1143,7 +1137,12 @@
         </member>
         <member name="T:WaterLibrary.pilipala.Entity.PostProp.ArchiveID">
             <summary>
-            归档索引
+            归档ID
+            </summary>
+        </member>
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp.ArchiveName">
+            <summary>
+            归档名
             </summary>
         </member>
         <member name="T:WaterLibrary.pilipala.Entity.PostProp.Label">

@@ -1,0 +1,10 @@
+{
+  "Navi": "页面",
+  "Navi1": {
+    "DefaultArchive": [ "页面" ]
+  },
+  "Pannel": {
+    "ToppedArchive": [ "置顶" ],
+    "DefaultArchive": [ "生活", "技术" ]
+  }
+}

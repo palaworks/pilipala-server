@@ -250,6 +250,7 @@ namespace WaterLibrary.pilipala
                 Cover = "";
 
                 ArchiveID = -1;
+                ArchiveName = "";
                 Label = "";
 
                 Mode = "";
@@ -352,6 +353,10 @@ namespace WaterLibrary.pilipala
             /// 归档ID
             /// </summary>
             public int ArchiveID { get; set; }
+            /// <summary>
+            /// 归档名
+            /// </summary>
+            public string ArchiveName { get; set; }
 
             /// <summary>
             /// 标签
@@ -511,9 +516,13 @@ namespace WaterLibrary.pilipala
             /// </summary>
             Cover,
             /// <summary>
-            /// 归档
+            /// 归档ID
             /// </summary>
             ArchiveID,
+            /// <summary>
+            /// 归档名
+            /// </summary>
+            ArchiveName,
             /// <summary>
             /// 标签
             /// </summary>
@@ -603,9 +612,16 @@ namespace WaterLibrary.pilipala
             }
 
             /// <summary>
-            /// 归档索引
+            /// 归档ID
             /// </summary>
             public struct ArchiveID : IPostProp
+            {
+
+            }
+            /// <summary>
+            /// 归档名
+            /// </summary>
+            public struct ArchiveName : IPostProp
             {
 
             }
@@ -1004,6 +1020,7 @@ namespace WaterLibrary.pilipala
                     Content = Convert.ToString(Row["Content"]),
 
                     ArchiveID = Convert.ToInt32(Row["ArchiveID"]),
+                    ArchiveName = Convert.ToString(Row["ArchiveName"]),
                     Label = Convert.ToString(Row["Label"]),
                     Cover = Convert.ToString(Row["Cover"]),
 
@@ -1060,6 +1077,7 @@ namespace WaterLibrary.pilipala
                         Content = Convert.ToString(Row["Content"]),
 
                         ArchiveID = Convert.ToInt32(Row["ArchiveID"]),
+                        ArchiveName = Convert.ToString(Row["ArchiveName"]),
                         Label = Convert.ToString(Row["Label"]),
                         Cover = Convert.ToString(Row["Cover"]),
 
@@ -1686,80 +1704,6 @@ namespace WaterLibrary.pilipala
                 //初始化键定位
                 var MySqlKey = (StackTable, "UUID", GetPositiveUUID(PostID));
                 return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Value);
-            }
-
-            /// <summary>
-            /// 检测PostID、UUID是否匹配，之后合并Post数据表
-            /// </summary>
-            /// <parmm name="Index">索引表Post实例</parmm>
-            /// <parmm name="Stack">主表Post实例</parmm>
-            /// <returns></returns>
-            public static Post Join(Post Index, Post Stack)
-            {
-                if (Index.PostID == Stack.PostID && Index.UUID == Stack.UUID)
-                {
-                    return new Post
-                    {
-                        PostID = Index.PostID,
-                        UUID = Index.UUID,
-
-                        Mode = Index.Mode,
-                        Type = Index.Type,
-
-                        Title = Stack.Title,
-                        Summary = Stack.Summary,
-                        Content = Stack.Content,
-
-                        User = Index.User,
-                        ArchiveID = Stack.ArchiveID,
-                        Label = Stack.Label,
-
-                        CT = Index.CT,
-                        LCT = Stack.LCT,
-
-                        UVCount = Index.UVCount,
-                        StarCount = Index.StarCount,
-
-                        Cover = Stack.Cover
-                    };
-                }
-                else
-                {
-                    throw new Exception("UUID不匹配，该联合存在安全隐患");
-                }
-            }
-            /// <summary>
-            /// 强制合并Post数据表（风险性重载，不考虑PostID、UUID是否匹配，调用不当易引发逻辑故障）
-            /// </summary>
-            /// <parmm name="Index">索引表Post实例</parmm>
-            /// <parmm name="Stack">主表Post实例</parmm>
-            /// <returns>始终返回以Index的PostID、UUID为最终合并结果的Post实例</returns>
-            public static Post ForcedJoin(Post Index, Post Stack)
-            {
-                return new Post
-                {
-                    PostID = Index.PostID,
-                    UUID = Index.UUID,
-
-                    Mode = Index.Mode,
-                    Type = Index.Type,
-
-                    Title = Stack.Title,
-                    Summary = Stack.Summary,
-                    Content = Stack.Content,
-
-                    User = Index.User,
-                    ArchiveID = Stack.ArchiveID,
-                    Label = Stack.Label,
-
-                    CT = Index.CT,
-                    LCT = Stack.LCT,
-
-                    UVCount = Index.UVCount,
-                    StarCount = Index.StarCount,
-
-                    Cover = Stack.Cover
-                };
             }
         }
         /// <summary>
