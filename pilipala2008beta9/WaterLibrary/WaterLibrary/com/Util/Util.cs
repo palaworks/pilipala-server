@@ -1089,7 +1089,7 @@ namespace WaterLibrary.Util
         public static string ListToString(dynamic List, string PropertyName, char Delimiter)
         {
             string Result = "";
-            PropertyInfo info = List[0].GetType().GetProperty(PropertyName);
+            PropertyInfo info = List[0].GetType().GetPostProperty(PropertyName);
             foreach (dynamic temp in List)
             {
                 Result += info.GetValue(temp) + Delimiter;

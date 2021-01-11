@@ -21,10 +21,8 @@ namespace WaterLibrary.pilipala.Components
     /// </summary>
     public class CommentLake : IPLComponent<CommentLake>
     {
-        /// <summary>
-        /// 表集
-        /// </summary>
-        private PLTables Tables { get; init; }
+        private string IndexTable { get; init; }
+        private string CommentTable { get; init; }
         /// <summary>
         /// MySql数据库管理器
         /// </summary>
@@ -39,9 +37,9 @@ namespace WaterLibrary.pilipala.Components
         /// </summary>
         /// <param name="Tables">数据库表</param>
         /// <param name="MySqlManager">数据库管理器</param>
-        internal CommentLake(PLTables Tables, MySqlManager MySqlManager)
+        internal CommentLake(string IndexTable, string CommentTable, MySqlManager MySqlManager)
         {
-            (this.Tables, this.MySqlManager) = (Tables, MySqlManager);
+            (this.IndexTable, this.CommentTable, this.MySqlManager) = (IndexTable, CommentTable, MySqlManager);
         }
 
         /// <summary>
@@ -50,7 +48,7 @@ namespace WaterLibrary.pilipala.Components
         /// <returns>不存在返回1</returns>
         private int GetMaxCommentID()
         {
-            string SQL = $"SELECT max(CommentID) FROM {Tables.Comment}";
+            string SQL = $"SELECT max(CommentID) FROM {CommentTable}";
 
             object MaxCommentID = MySqlManager.GetKey(SQL);
             return MaxCommentID == DBNull.Value ? 1 : Convert.ToInt32(MaxCommentID);
@@ -61,7 +59,7 @@ namespace WaterLibrary.pilipala.Components
         /// <returns>不存在返回1</returns>
         private int GetMaxFloor(int PostID)
         {
-            string SQL = $"SELECT max(Floor) FROM {Tables.Comment} WHERE PostID = {PostID}";
+            string SQL = $"SELECT max(Floor) FROM {CommentTable} WHERE PostID = {PostID}";
 
             object MaxFloor = MySqlManager.GetKey(SQL);
             return MaxFloor == DBNull.Value ? 1 : Convert.ToInt32(MaxFloor);
@@ -74,7 +72,7 @@ namespace WaterLibrary.pilipala.Components
         {
             get
             {
-                object Count = MySqlManager.GetKey($"SELECT COUNT(*) FROM {Tables.Comment}");
+                object Count = MySqlManager.GetKey($"SELECT COUNT(*) FROM {CommentTable}");
                 return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
             }
         }
@@ -85,7 +83,7 @@ namespace WaterLibrary.pilipala.Components
         /// <returns></returns>
         public int GetCommentCount(int PostID)
         {
-            object Count = MySqlManager.GetKey($"SELECT COUNT(*) FROM {Tables.Comment} WHERE PostID = {PostID}");
+            object Count = MySqlManager.GetKey($"SELECT COUNT(*) FROM {CommentTable} WHERE PostID = {PostID}");
             return Count == DBNull.Value ? 0 : Convert.ToInt32(Count);
         }
 
@@ -98,7 +96,7 @@ namespace WaterLibrary.pilipala.Components
         public string GetComment<T>(int CommentID) where T : ICommentProp
         {
             /* int类型传入，SQL注入无效 */
-            string SQL = $"SELECT {typeof(T).Name} FROM {Tables.Comment} WHERE CommentID = {CommentID}";
+            string SQL = $"SELECT {typeof(T).Name} FROM {CommentTable} WHERE CommentID = {CommentID}";
             return MySqlManager.GetKey(SQL).ToString();
         }
 
@@ -110,7 +108,7 @@ namespace WaterLibrary.pilipala.Components
         {
             List<int> List = new();
 
-            string SQL = string.Format("SELECT PostID FROM {0} JOIN {1} ON {0}.PostID={1}.PostID GROUP BY {0}.PostID", Tables.Index, Tables.Comment);
+            string SQL = string.Format("SELECT PostID FROM {0} JOIN {1} ON {0}.PostID={1}.PostID GROUP BY {0}.PostID", IndexTable, CommentTable);
 
             foreach (DataRow Row in MySqlManager.GetTable(SQL).Rows)
             {
@@ -129,7 +127,7 @@ namespace WaterLibrary.pilipala.Components
             CommentSet CommentSet = new();
 
             /* 按楼层排序 */
-            string SQL = $"SELECT * FROM {Tables.Comment} WHERE PostID = ?PostID ORDER BY Floor";
+            string SQL = $"SELECT * FROM {CommentTable} WHERE PostID = ?PostID ORDER BY Floor";
 
             DataTable result = MySqlManager.GetTable(SQL, new MySqlParameter[]
             {
@@ -164,7 +162,7 @@ namespace WaterLibrary.pilipala.Components
             CommentSet CommentSet = new();
 
             DataTable result =
-                MySqlManager.GetTable($"SELECT * FROM {Tables.Comment} WHERE HEAD={CommentID} ORDER BY Floor");
+                MySqlManager.GetTable($"SELECT * FROM {CommentTable} WHERE HEAD={CommentID} ORDER BY Floor");
 
             foreach (DataRow Row in result.Rows)
             {
@@ -193,7 +191,7 @@ namespace WaterLibrary.pilipala.Components
         /// <returns></returns>
         public bool AddComment(Comment Comment)
         {
-            string SQL = $"INSERT INTO {Tables.Comment} " +
+            string SQL = $"INSERT INTO {CommentTable} " +
                         "( CommentID, HEAD, PostID, Floor, User, Email, Content, WebSite, Time) VALUES " +
                         "(?CommentID,?HEAD,?PostID,?Floor,?User,?Email,?Content,?WebSite,?Time)";
 
@@ -238,7 +236,7 @@ namespace WaterLibrary.pilipala.Components
         {
             using MySqlCommand MySqlCommand = new MySqlCommand
             {
-                CommandText = $"DELETE FROM {Tables.Comment} WHERE CommentID = {CommentID}",
+                CommandText = $"DELETE FROM {CommentTable} WHERE CommentID = {CommentID}",
                 Connection = MySqlManager.Connection,
 
                 /* 开始事务 */

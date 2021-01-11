@@ -37,17 +37,17 @@ namespace PILIPALA.Controllers
         {
 
             PostSet PostSet置顶 = new PostSet();
-            foreach (Post el in Reader.GetPost<Archiv>("置顶"))
+            foreach (Post el in Reader.GetPost<ArchiveID>("置顶"))
             {
-                el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.ID));
+                el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 PostSet置顶.Add(el);
             }
             ViewBag.置顶文章 = PostSet置顶;
 
             PostSet PostSet其他 = new PostSet();
-            foreach (Post el in Reader.GetPost<Archiv>("技术|生活"))
+            foreach (Post el in Reader.GetPost<ArchiveID>("技术|生活"))
             {
-                el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.ID));
+                el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 PostSet其他.Add(el);
             }
             ViewBag.其他文章 = PostSet其他;
@@ -74,11 +74,11 @@ namespace PILIPALA.Controllers
 
             ViewBag.CommentList = CommentLake.GetComments(ID);//评论数据
 
-            ViewBag.PrevID = Reader.Smaller<ID>(ID, "生活|技术", PostPropEnum.Archiv);
-            ViewBag.PrevTitle = Reader.GetProperty<Title>(ViewBag.PrevID);
+            ViewBag.PrevID = Reader.Smaller<PostID>(ID, "生活|技术", PostPropEnum.ArchiveID);
+            ViewBag.PrevTitle = Reader.GetPostProp<Title>(ViewBag.PrevID);
 
-            ViewBag.NextID = Reader.Bigger<ID>(ID, "生活|技术", PostPropEnum.Archiv);
-            ViewBag.NextTitle = Reader.GetProperty<Title>(ViewBag.NextID);
+            ViewBag.NextID = Reader.Bigger<PostID>(ID, "生活|技术", PostPropEnum.ArchiveID);
+            ViewBag.NextTitle = Reader.GetPostProp<Title>(ViewBag.NextID);
 
 
 

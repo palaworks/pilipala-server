@@ -23,7 +23,7 @@ namespace PILIPALA.Models.UserModel
         public string Summary { get; set; }
         public string Content { get; set; }
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        public string Archiv { get; set; }
+        public int ArchiveID { get; set; }
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Label { get; set; }
         [DisplayFormat(ConvertEmptyStringToNull = false)]
