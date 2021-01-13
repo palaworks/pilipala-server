@@ -3,7 +3,7 @@
 @using WaterLibrary.pilipala.Entity;
 @using WaterLibrary.pilipala.Entity.PostProp;
 @using WaterLibrary.pilipala.Components;
-@using Newtonsoft.Json;
+@using WaterLibrary.Util;
 @using Newtonsoft.Json.Linq;
 
 @inject ICORE CORE
@@ -26,11 +26,9 @@
     CommentLake = ComponentFactory.GenCommentLake();
 
 
-    JsonTextReader reader = new JsonTextReader(System.IO.File.OpenText(@"H:\博客项目\pilipala2008beta9\PILIPALA\PILIPALA\field_config.json"));
-
-    JObject o = (JObject)JToken.ReadFrom(reader);
-    var k = o["Navi"].ToString();
-    PostSet PostSet = Reader.GetPost<ArchiveName>(o["Navi"].ToString(), PostPropEnum.PostID, PostPropEnum.Title);
+    var archive = PILIPALA.system.ThemeReader.GetConfigJson("wwwroot/field_config.json")["Navi"]["DefaultArchive"].ToList();
+    var REGEXP = ConvertH.ListToString(archive, '|');
+    PostSet PostSet = Reader.GetPost<ArchiveName>(REGEXP, PostPropEnum.PostID, PostPropEnum.Title);
 }
 
 

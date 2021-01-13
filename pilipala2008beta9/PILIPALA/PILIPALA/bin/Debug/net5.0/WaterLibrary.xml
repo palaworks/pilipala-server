@@ -341,7 +341,7 @@
             <summary>
             获取文章数据
             </summary>
-            <typeparam name="T">正则表达式匹配的属性类型</typeparam>
+            <typeparam name="Prop">正则表达式匹配的属性类型</typeparam>
             <param name="REGEXP">正则表达式</param>
             <returns></returns>
         </member>
@@ -349,7 +349,7 @@
             <summary>
             获取文章数据
             </summary>
-            <typeparam name="T">正则表达式匹配的属性类型</typeparam>
+            <typeparam name="Prop">正则表达式匹配的属性类型</typeparam>
             <param name="REGEXP">正则表达式</param>
             <param name="PostProps">所需属性类型</param>
             <returns></returns>

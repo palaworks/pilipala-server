@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json.Linq;
+using WaterLibrary.Util;
 using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity;
 using WaterLibrary.pilipala.Entity.PostProp;
@@ -35,9 +37,14 @@ namespace PILIPALA.Controllers
 
         public ActionResult List(bool ajax)
         {
+            string fun(string s)
+            {
+                var archive = system.ThemeReader.GetConfigJson("wwwroot/field_config.json")["Pannel"][s].ToList();
+                return ConvertH.ListToString(archive, '|');
+            }
 
             PostSet PostSet置顶 = new PostSet();
-            foreach (Post el in Reader.GetPost<ArchiveID>("4"))
+            foreach (Post el in Reader.GetPost<ArchiveName>(fun("ToppedArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 PostSet置顶.Add(el);
@@ -45,7 +52,7 @@ namespace PILIPALA.Controllers
             ViewBag.置顶文章 = PostSet置顶;
 
             PostSet PostSet其他 = new PostSet();
-            foreach (Post el in Reader.GetPost<ArchiveID>("1|2"))
+            foreach (Post el in Reader.GetPost<ArchiveName>(fun("DefaultArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 PostSet其他.Add(el);
@@ -66,6 +73,12 @@ namespace PILIPALA.Controllers
         }
         public ActionResult Content(int ID, bool ajax)
         {
+            string fun(string s)
+            {
+                var archive = system.ThemeReader.GetConfigJson("wwwroot/field_config.json")["Pannel"][s].ToList();
+                return ConvertH.ListToString(archive, '|');
+            }
+
             ViewBag.ID = ID;//请求ID
 
             ViewBag.Post = Reader.GetPost(ID);//文章数据
@@ -74,10 +87,10 @@ namespace PILIPALA.Controllers
 
             ViewBag.CommentList = CommentLake.GetComments(ID);//评论数据
 
-            ViewBag.PrevID = Reader.Smaller<PostID>(ID, "1|2", PostPropEnum.ArchiveID);
+            ViewBag.PrevID = Reader.Smaller<PostID>(ID, fun("DefaultArchive"), PostPropEnum.ArchiveName);
             ViewBag.PrevTitle = Reader.GetPostProp<Title>(ViewBag.PrevID);
 
-            ViewBag.NextID = Reader.Bigger<PostID>(ID, "1|2", PostPropEnum.ArchiveID);
+            ViewBag.NextID = Reader.Bigger<PostID>(ID, fun("DefaultArchive"), PostPropEnum.ArchiveName);
             ViewBag.NextTitle = Reader.GetPostProp<Title>(ViewBag.NextID);
 
 
