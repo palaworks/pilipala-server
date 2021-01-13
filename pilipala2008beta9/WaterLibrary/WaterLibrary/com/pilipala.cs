@@ -1051,12 +1051,12 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 获取文章数据
             /// </summary>
-            /// <typeparam name="T">正则表达式匹配的属性类型</typeparam>
+            /// <typeparam name="Prop">正则表达式匹配的属性类型</typeparam>
             /// <param name="REGEXP">正则表达式</param>
             /// <returns></returns>
-            public PostSet GetPost<T>(string REGEXP) where T : IPostProp
+            public PostSet GetPost<Prop>(string REGEXP) where Prop : IPostProp
             {
-                string SQL = $"SELECT * FROM `{UnionView}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC";
+                string SQL = $"SELECT * FROM `{UnionView}` WHERE {typeof(Prop).Name} REGEXP ?REGEXP ORDER BY CT DESC";
 
                 PostSet PostSet = new PostSet();
 
@@ -1096,15 +1096,15 @@ namespace WaterLibrary.pilipala
             /// <summary>
             /// 获取文章数据
             /// </summary>
-            /// <typeparam name="T">正则表达式匹配的属性类型</typeparam>
+            /// <typeparam name="Prop">正则表达式匹配的属性类型</typeparam>
             /// <param name="REGEXP">正则表达式</param>
             /// <param name="PostProps">所需属性类型</param>
             /// <returns></returns>
-            public PostSet GetPost<T>(string REGEXP, params PostPropEnum[] PostProps) where T : IPostProp
+            public PostSet GetPost<Prop>(string REGEXP, params PostPropEnum[] PostProps) where Prop : IPostProp
             {
                 /* 键名字符串格式化 */
                 string KeysStr = ConvertH.ListToString(PostProps, ',');
-                string SQL = $"SELECT {KeysStr} FROM `{UnionView}` WHERE {typeof(T).Name} REGEXP ?REGEXP ORDER BY CT DESC";
+                string SQL = $"SELECT {KeysStr} FROM `{UnionView}` WHERE {typeof(Prop).Name} REGEXP ?REGEXP ORDER BY CT DESC";
 
                 PostSet PostSet = new PostSet();
 
