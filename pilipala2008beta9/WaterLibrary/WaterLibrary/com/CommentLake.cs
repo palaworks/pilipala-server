@@ -35,7 +35,8 @@ namespace WaterLibrary.pilipala.Components
         /// <summary>
         /// 工厂构造
         /// </summary>
-        /// <param name="Tables">数据库表</param>
+        /// <param name="IndexTable">索引表</param>
+        /// <param name="CommentTable">评论表</param>
         /// <param name="MySqlManager">数据库管理器</param>
         internal CommentLake(string IndexTable, string CommentTable, MySqlManager MySqlManager)
         {

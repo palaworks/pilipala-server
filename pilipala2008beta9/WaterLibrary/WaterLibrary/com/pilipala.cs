@@ -1777,6 +1777,32 @@ namespace WaterLibrary.pilipala
                 get => GetPostCountByMode("^scheduled$");
             }
 
+            /// <summary>
+            /// 某属性下的文章计数器
+            /// </summary>
+            /// <remarks>此方法采用依次i轮询Index表和Stack表（暂未考虑Archive表），检索方法有待优化</remarks>
+            /// <typeparam name="Prop">目标属性</typeparam>
+            /// <param name="Value">属性值</param>
+            /// <returns>计数为0、未检索到、异常等情况均返回0</returns>
+            public int CountOf<Prop>(object Value) where Prop : IPostProp
+            {
+                string SQL1 = $"SELECT COUNT(*) FROM {IndexTable} WHERE {typeof(Prop).Name} = ?Value";
+                var result1 = MySqlManager.GetKey(SQL1, new MySqlParameter[] { new("PostID", Value) });
+                if (result1 != null)
+                {
+                    return Convert.ToInt32(result1);
+                }
+
+                string SQL2 = $"SELECT COUNT(*) FROM {StackTable} WHERE {typeof(Prop).Name} = ?Value";
+                var result2 = MySqlManager.GetKey(SQL2, new MySqlParameter[] { new("PostID", Value) });
+                if (result2 != null)
+                {
+                    return Convert.ToInt32(result2);
+                }
+
+                return 0;
+            }
+
             private int GetPostCountByMode(string REGEXP)
             {
                 object Count = MySqlManager.GetKey($"SELECT Count(*) FROM {IndexTable} WHERE Mode REGEXP '{REGEXP}';");
@@ -1821,6 +1847,15 @@ namespace WaterLibrary.pilipala
             public T Select<T>(Func<T> ReaderTodo) where T : IEnumerable
             {
                 return ReaderTodo();
+            }
+
+            public bool AddArchive(string ArchiveName)
+            {
+                return false;
+            }
+            public bool RemoveArchive(string ArchiveName)
+            {
+                return false;
             }
         }
         /// <summary>
