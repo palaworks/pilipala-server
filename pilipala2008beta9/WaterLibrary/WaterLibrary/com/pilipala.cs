@@ -1270,9 +1270,9 @@ namespace WaterLibrary.pilipala
             internal int GetMaxPostID()
             {
                 string SQL = $"SELECT MAX(PostID) FROM {IndexTable}";
-                var value = MySqlManager.GetKey(SQL);
+                var result = MySqlManager.GetKey(SQL);
                 /* 若取不到最大PostID(没有任何文章时)，返回12000作为初始PostID */
-                return Convert.ToInt32(value == DBNull.Value ? 12000 : value);
+                return Convert.ToInt32(result == DBNull.Value ? 12000 : result);
             }
             /// <summary>
             /// 得到最小文章PostID（私有）
@@ -1281,9 +1281,9 @@ namespace WaterLibrary.pilipala
             internal int GetMinPostID()
             {
                 string SQL = $"SELECT MIN(PostID) FROM {IndexTable}";
-                var value = MySqlManager.GetKey(SQL);
+                var result = MySqlManager.GetKey(SQL);
                 /* 若取不到最大PostID(没有任何文章时)，返回12000作为初始PostID */
-                return Convert.ToInt32(value == DBNull.Value ? 12000 : value);
+                return Convert.ToInt32(result == DBNull.Value ? 12000 : result);
             }
             /// <summary>
             /// 获取指定文章的积极备份的UUID
@@ -1324,13 +1324,13 @@ namespace WaterLibrary.pilipala
                 {
                     DateTime t = DateTime.Now;
 
-                    string SQL = $"INSERT INTO {IndexTable}" +
-                                " ( PostID, UUID, CT, Mode, Type, User, UVCount, StarCount) VALUES" +
-                                " (?PostID,?UUID,?CT,?Mode,?Type,?User,?UVCount,?StarCount);" +
-                                $"INSERT INTO {StackTable}" +
-                                " ( PostID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES" +
-                                " (?PostID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
-
+                    string SQL =
+                    $@"INSERT INTO {IndexTable}
+                       ( PostID, UUID, CT, Mode, Type, User, UVCount, StarCount) VALUES
+                       (?PostID,?UUID,?CT,?Mode,?Type,?User,?UVCount,?StarCount);
+                       INSERT INTO {StackTable}
+                       ( PostID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES
+                       (?PostID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
 
                     MySqlParameter[] parameters =
                     {
@@ -1427,10 +1427,10 @@ namespace WaterLibrary.pilipala
                 return MySqlManager.DoInConnection(conn =>
                 {
                     string SQL =
-                    $"UPDATE {IndexTable} SET UUID=?UUID, Mode=?Mode, Type=?Type, User=?User, UVCount=?UVCount, StarCount=?StarCount WHERE PostID=?PostID;" +
-                    $"INSERT INTO {StackTable}" +
-                    " ( PostID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES" +
-                    " (?PostID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
+                    $@"UPDATE {IndexTable} SET UUID=?UUID, Mode=?Mode, Type=?Type, User=?User, UVCount=?UVCount, StarCount=?StarCount WHERE PostID=?PostID;
+                       INSERT INTO {StackTable}
+                       ( PostID, UUID, LCT, Title, Summary, Content, ArchiveID, Label, Cover) VALUES
+                       (?PostID,?UUID,?LCT,?Title,?Summary,?Content,?ArchiveID,?Label,?Cover);";
 
                     MySqlParameter[] parameters =
                     {
@@ -1536,8 +1536,8 @@ namespace WaterLibrary.pilipala
                     object PostID = MySqlManager.GetKey($"SELECT PostID FROM {StackTable} WHERE UUID = '{UUID}'");
 
                     string SQL =
-                        $"DELETE FROM {StackTable} WHERE UUID = (SELECT UUID FROM {IndexTable} WHERE PostID = ?PostID);" +
-                        $"UPDATE {StackTable} SET UUID = ?UUID WHERE PostID = ?PostID;";
+                    $@"DELETE FROM {StackTable} WHERE UUID = (SELECT UUID FROM {IndexTable} WHERE PostID = ?PostID);
+                       UPDATE {StackTable} SET UUID = ?UUID WHERE PostID = ?PostID;";
 
                     MySqlParameter[] parameters =
                     {
@@ -1580,8 +1580,8 @@ namespace WaterLibrary.pilipala
                     {
                         CommandText = string.Format
                      (
-                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.UUID={1}.UUID AND {0}.PostID={2};" +
-                     "UPDATE {0} SET UUID = (SELECT UUID FROM {1} WHERE PostID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE PostID={2};"
+                     @"DELETE {1} FROM {0} INNER JOIN {1} ON {0}.UUID={1}.UUID AND {0}.PostID={2};
+                       UPDATE {0} SET UUID = (SELECT UUID FROM {1} WHERE PostID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE PostID={2};"
                      , IndexTable, StackTable, PostID
                      ),
 

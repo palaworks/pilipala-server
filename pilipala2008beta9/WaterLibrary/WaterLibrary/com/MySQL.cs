@@ -53,11 +53,11 @@ namespace WaterLibrary.MySQL
         {
             ConnectionPool = new();
             ConnectionString =
-                $";DataSource={MySqlConnMsg.DataSource}" +
-                $";Port={MySqlConnMsg.Port }" +
-                $";UserID={MySqlConnMsg.User}" +
-                $";Password={MySqlConnMsg.PWD}" +
-                $";UseAffectedRows=TRUE;";/* UPDATE语句返回受影响的行数而不是符合查询条件的行数 */
+            $@";DataSource={MySqlConnMsg.DataSource}
+               ;Port={MySqlConnMsg.Port }
+               ;UserID={MySqlConnMsg.User}
+               ;Password={MySqlConnMsg.PWD}
+               ;UseAffectedRows=TRUE;";/* UPDATE语句返回受影响的行数而不是符合查询条件的行数 */
         }
         /// <summary>
         /// 带有目标数据库的连接信息构造
@@ -67,13 +67,13 @@ namespace WaterLibrary.MySQL
         public MySqlManager(MySqlConnMsg MySqlConnMsg, string Database)
         {
             ConnectionPool = new();
-            ConnectionString =
-                $";DataSource={MySqlConnMsg.DataSource}" +
-                $";DataBase={Database}" +/* USING目标数据库 */
-                $";Port={MySqlConnMsg.Port }" +
-                $";UserID={MySqlConnMsg.User}" +
-                $";Password={MySqlConnMsg.PWD}" +
-                $";UseAffectedRows=TRUE;";
+            ConnectionString = /* USING目标数据库 */
+            $@";DataSource={MySqlConnMsg.DataSource}
+               ;DataBase={Database}
+               ;Port={MySqlConnMsg.Port }
+               ;UserID={MySqlConnMsg.User}
+               ;Password={MySqlConnMsg.PWD}
+               ;UseAffectedRows=TRUE;";
         }
 
         /// <summary>
