@@ -1601,6 +1601,11 @@
             数学管理器
             </summary>
         </member>
+        <member name="M:WaterLibrary.Util.MathH.#ctor">
+            <summary>
+            私有构造
+            </summary>
+        </member>
         <member name="T:WaterLibrary.Util.MathH.ORDER">
             <summary>
             顺序表示枚举
@@ -1715,7 +1720,6 @@
         <member name="T:WaterLibrary.Util.MathH.RSA">
             <summary>
             RSA操作类
-            GitHub: https://github.com/xiangyuecn/RSA-csharp
             </summary>
         </member>
         <member name="M:WaterLibrary.Util.MathH.RSA.ToPEM(System.Boolean)">
@@ -1787,7 +1791,6 @@
         <member name="T:WaterLibrary.Util.MathH.RSA_PEM">
             <summary>
             RSA PEM格式密钥对的解析和导出
-            GitHub: https://github.com/xiangyuecn/RSA-csharp
             </summary>
         </member>
         <member name="F:WaterLibrary.Util.MathH.RSA_PEM.Key_Modulus">
@@ -1915,6 +1918,11 @@
         <member name="T:WaterLibrary.Util.ConvertH">
             <summary>
             转换管理器
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.Util.ConvertH.#ctor">
+            <summary>
+            私有构造
             </summary>
         </member>
         <member name="M:WaterLibrary.Util.ConvertH.StringToList(System.String,System.Char)">
