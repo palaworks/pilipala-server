@@ -18,8 +18,13 @@ namespace WaterLibrary.Util
     /// <summary>
     /// 数学管理器
     /// </summary>
-    public static class MathH
+    public class MathH
     {
+        /// <summary>
+        /// 私有构造
+        /// </summary>
+        private MathH() { }
+
         /// <summary>
         /// 顺序表示枚举
         /// </summary>
@@ -251,7 +256,6 @@ namespace WaterLibrary.Util
 
         /// <summary>
         /// RSA操作类
-        /// GitHub: https://github.com/xiangyuecn/RSA-csharp
         /// </summary>
         private class RSA
         {
@@ -425,7 +429,6 @@ namespace WaterLibrary.Util
         }
         /// <summary>
         /// RSA PEM格式密钥对的解析和导出
-        /// GitHub: https://github.com/xiangyuecn/RSA-csharp
         /// </summary>
         private class RSA_PEM
         {
@@ -1047,8 +1050,13 @@ namespace WaterLibrary.Util
     /// <summary>
     /// 转换管理器
     /// </summary>
-    public static class ConvertH
+    public class ConvertH
     {
+        /// <summary>
+        /// 私有构造
+        /// </summary>
+        private ConvertH() { }
+
         /// <summary>
         /// 将字符串按照分隔符字符切割
         /// </summary>
