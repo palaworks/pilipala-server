@@ -1586,7 +1586,7 @@
             密码
             </summary>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlConnMsg.#ctor(System.String,System.String,System.String,System.String)">
+        <member name="M:WaterLibrary.MySQL.MySqlConnMsg.#ctor(System.String,System.Int32,System.String,System.String)">
             <summary>
             MySql数据库连接信息
             数据源
