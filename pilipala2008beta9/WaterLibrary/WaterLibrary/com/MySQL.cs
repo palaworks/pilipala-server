@@ -369,5 +369,5 @@ namespace WaterLibrary.MySQL
     /// 用户名
     /// 密码
     /// </summary>
-    public record MySqlConnMsg(string DataSource, string Port, string User, string PWD);
+    public record MySqlConnMsg(string DataSource, int Port, string User, string PWD);
 }
