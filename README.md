@@ -43,4 +43,4 @@ message为`~~`的push表示为常规更新，如代码结构优化、注释优�
 开发文档正在努力编写中。  
 目前可用：  
 
-[快速入门](https://markdown.com.cn)
+[快速入门](https://github.com/Thaumy/pilipala/blob/master/QuickStart.md)
