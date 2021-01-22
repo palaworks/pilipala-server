@@ -12,6 +12,9 @@
     <PackageReleaseNotes>WaterLibrary 1.17 (preview)</PackageReleaseNotes>
     <AssemblyVersion>1.1.7.0</AssemblyVersion>
     <FileVersion>1.1.7.0</FileVersion>
+    <PackageProjectUrl>https://github.com/Thaumy/WaterLibrary</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Thaumy/WaterLibrary</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
