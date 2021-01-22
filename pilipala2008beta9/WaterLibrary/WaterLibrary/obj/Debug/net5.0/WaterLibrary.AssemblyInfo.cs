@@ -20,6 +20,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyProductAttribute("WaterLibrary")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WaterLibrary")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.1.7.0")]
+[assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/Thaumy/WaterLibrary")]
 
 // 由 MSBuild WriteCodeFragment 类生成。
 

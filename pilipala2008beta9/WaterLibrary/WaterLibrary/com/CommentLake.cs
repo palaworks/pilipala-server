@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 using System.Data;
 using System.Linq;
@@ -12,7 +11,6 @@ using MySql.Data.MySqlClient;
 using WaterLibrary.MySQL;
 using WaterLibrary.pilipala.Entity;
 using WaterLibrary.pilipala.Entity.CommentProp;
-using WaterLibrary.pilipala.Database;
 
 namespace WaterLibrary.pilipala.Components
 {
