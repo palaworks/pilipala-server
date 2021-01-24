@@ -22,6 +22,7 @@ namespace WaterLibrary.MySQL
         {
             get
             {
+                //此处应考虑循环使用连接池
                 if (ConnectionPool.Count > 32)/* 在连接数超出时检查无用连接并进行清理 */
                 {
                     for (int i = ConnectionPool.Count - 1; i >= 0; i--)
