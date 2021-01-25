@@ -208,20 +208,20 @@ namespace WaterLibrary.pilipala
         public class Post
         {
             /// <summary>
-            /// 索引器
+            /// 属性索引器
             /// </summary>
-            /// <param name="Key">索引名</param>
+            /// <param name="Prop">属性</param>
             /// <returns></returns>
-            public object this[string Key]
+            public object this[string Prop]
             {
                 /* 通过反射获取属性 */
-                get => GetType().GetProperty(Key).GetValue(this);
+                get => GetType().GetProperty(Prop).GetValue(this);
                 set
                 {
                     /* 通过反射设置属性 */
                     System.Type ThisType = GetType();
-                    System.Type KeyType = ThisType.GetProperty(Key).GetValue(this).GetType();
-                    ThisType.GetProperty(Key).SetValue(this, Convert.ChangeType(value, KeyType));
+                    System.Type KeyType = ThisType.GetProperty(Prop).GetValue(this).GetType();
+                    ThisType.GetProperty(Prop).SetValue(this, Convert.ChangeType(value, KeyType));
                 }
             }
             /// <summary>
@@ -407,10 +407,33 @@ namespace WaterLibrary.pilipala
         /// </summary>
         public class PostSet : IEnumerable
         {
+            /// <summary>
+            /// 文章索引器
+            /// </summary>
+            /// <param name="UUID">文章UUID</param>
+            /// <returns>索引无果返回null</returns>
+            public Post this[string UUID]
+            {
+                /* 通过反射获取属性 */
+                get
+                {
+                    foreach (Post el in PostList)
+                    {
+                        if (el.UUID == UUID)
+                            return el;
+                    }
+                    return null;
+                }
+            }
+            /// <summary>
+            /// 迭代器
+            /// </summary>
+            /// <returns></returns>
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return PostList.GetEnumerator();
             }
+
             private readonly List<Post> PostList = new List<Post>();
             /// <summary>
             /// 将当前对象序列化到JSON

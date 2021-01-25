@@ -801,9 +801,9 @@
         </member>
         <member name="P:WaterLibrary.pilipala.Entity.Post.Item(System.String)">
             <summary>
-            索引器
+            属性索引器
             </summary>
-            <param name="Key">索引名</param>
+            <param name="Prop">属性</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Entity.Post.ToJSON">
@@ -958,6 +958,19 @@
             <summary>
             文章数据集
             </summary>
+        </member>
+        <member name="P:WaterLibrary.pilipala.Entity.PostSet.Item(System.String)">
+            <summary>
+            文章索引器
+            </summary>
+            <param name="UUID">文章UUID</param>
+            <returns>索引无果返回null</returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Entity.PostSet.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            迭代器
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Entity.PostSet.ToJSON">
             <summary>
@@ -1564,7 +1577,7 @@
             <param name="MySqlKey">操作定位器</param>
             <param name="Key">要更改的键</param>
             <param name="NewValue">新键值</param>
-            <returns></returns>
+            <returns>是否操作成功</returns>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.UpdateKey(System.String,System.String,System.Object,System.Object)">
             <summary>
@@ -1574,7 +1587,7 @@
             <param name="Key">键名</param>
             <param name="OldValue">旧值</param>
             <param name="NewValue">新值</param>
-            <returns></returns>
+            <returns>是否操作成功</returns>
         </member>
         <member name="T:WaterLibrary.MySQL.MySqlConnMsg">
             <summary>
