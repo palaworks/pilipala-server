@@ -58,7 +58,8 @@
             <summary>
             工厂构造
             </summary>
-            <param name="Tables">数据库表</param>
+            <param name="IndexTable">索引表</param>
+            <param name="CommentTable">评论表</param>
             <param name="MySqlManager">数据库管理器</param>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.CommentLake.GetMaxCommentID">
@@ -587,6 +588,15 @@
             计划中文章计数
             </summary>
         </member>
+        <member name="M:WaterLibrary.pilipala.Components.Counter.CountOf``1(System.Object)">
+            <summary>
+            某属性下的文章计数器
+            </summary>
+            <remarks>此方法采用依次i轮询Index表和Stack表（暂未考虑Archive表），检索方法有待优化</remarks>
+            <typeparam name="Prop">目标属性</typeparam>
+            <param name="Value">属性值</param>
+            <returns>计数为0、未检索到、异常等情况均返回0</returns>
+        </member>
         <member name="T:WaterLibrary.pilipala.Components.Archive">
             <summary>
             归档管理组件
@@ -791,9 +801,9 @@
         </member>
         <member name="P:WaterLibrary.pilipala.Entity.Post.Item(System.String)">
             <summary>
-            索引器
+            属性索引器
             </summary>
-            <param name="Key">索引名</param>
+            <param name="Prop">属性</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Entity.Post.ToJSON">
@@ -948,6 +958,19 @@
             <summary>
             文章数据集
             </summary>
+        </member>
+        <member name="P:WaterLibrary.pilipala.Entity.PostSet.Item(System.String)">
+            <summary>
+            文章索引器
+            </summary>
+            <param name="UUID">文章UUID</param>
+            <returns>索引无果返回null</returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Entity.PostSet.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            迭代器
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Entity.PostSet.ToJSON">
             <summary>
@@ -1554,7 +1577,7 @@
             <param name="MySqlKey">操作定位器</param>
             <param name="Key">要更改的键</param>
             <param name="NewValue">新键值</param>
-            <returns></returns>
+            <returns>是否操作成功</returns>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.UpdateKey(System.String,System.String,System.Object,System.Object)">
             <summary>
@@ -1564,7 +1587,7 @@
             <param name="Key">键名</param>
             <param name="OldValue">旧值</param>
             <param name="NewValue">新值</param>
-            <returns></returns>
+            <returns>是否操作成功</returns>
         </member>
         <member name="T:WaterLibrary.MySQL.MySqlConnMsg">
             <summary>
@@ -1576,7 +1599,7 @@
             密码
             </summary>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlConnMsg.#ctor(System.String,System.String,System.String,System.String)">
+        <member name="M:WaterLibrary.MySQL.MySqlConnMsg.#ctor(System.String,System.Int32,System.String,System.String)">
             <summary>
             MySql数据库连接信息
             数据源
@@ -1589,6 +1612,11 @@
         <member name="T:WaterLibrary.Util.MathH">
             <summary>
             数学管理器
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.Util.MathH.#ctor">
+            <summary>
+            私有构造
             </summary>
         </member>
         <member name="T:WaterLibrary.Util.MathH.ORDER">
@@ -1705,7 +1733,6 @@
         <member name="T:WaterLibrary.Util.MathH.RSA">
             <summary>
             RSA操作类
-            GitHub: https://github.com/xiangyuecn/RSA-csharp
             </summary>
         </member>
         <member name="M:WaterLibrary.Util.MathH.RSA.ToPEM(System.Boolean)">
@@ -1777,7 +1804,6 @@
         <member name="T:WaterLibrary.Util.MathH.RSA_PEM">
             <summary>
             RSA PEM格式密钥对的解析和导出
-            GitHub: https://github.com/xiangyuecn/RSA-csharp
             </summary>
         </member>
         <member name="F:WaterLibrary.Util.MathH.RSA_PEM.Key_Modulus">
@@ -1905,6 +1931,11 @@
         <member name="T:WaterLibrary.Util.ConvertH">
             <summary>
             转换管理器
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.Util.ConvertH.#ctor">
+            <summary>
+            私有构造
             </summary>
         </member>
         <member name="M:WaterLibrary.Util.ConvertH.StringToList(System.String,System.Char)">

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 using System.Collections;
 
-namespace PILIPALA.system
+namespace PILIPALA.system.Util
 {
-    public class Formatter
+    public static class Formatter
     {
         /// <summary>
         /// 转到中文时间概要（今天、昨天、上个月...）

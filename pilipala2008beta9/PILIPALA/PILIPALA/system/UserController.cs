@@ -14,10 +14,8 @@ using WaterLibrary.Util;
 using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity.PostProp;
 using WaterLibrary.pilipala.Entity;
-using WaterLibrary.pilipala.Components;
-using WaterLibrary.MySQL;
 
-using PILIPALA.Models.UserModel;
+using PILIPALA.Models.Form;
 
 namespace PILIPALA.system
 {
@@ -35,7 +33,7 @@ namespace PILIPALA.system
 
         private readonly ICORE CORE;
 
-        public UserController(ICORE CORE, Models.User User)
+        public UserController(ICORE CORE, Models.UserModel User)
         {
             this.CORE = CORE;
 
