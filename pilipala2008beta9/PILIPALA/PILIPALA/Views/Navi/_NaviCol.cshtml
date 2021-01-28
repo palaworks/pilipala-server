@@ -1,12 +1,12 @@
-﻿
+﻿@using PILIPALA.system.Theme
 @using WaterLibrary.pilipala;
 @using WaterLibrary.pilipala.Entity;
 @using WaterLibrary.pilipala.Entity.PostProp;
 @using WaterLibrary.pilipala.Components;
 @using WaterLibrary.Util;
-@using Newtonsoft.Json.Linq;
 
 @inject ICORE CORE
+@inject ThemeHandler ThemeHandler
 
 @{
     Reader Reader;
@@ -26,7 +26,7 @@
     CommentLake = ComponentFactory.GenCommentLake();
 
 
-    var archive = PILIPALA.system.ThemeReader.GetConfigJson("wwwroot/field_config.json")["Navi"]["DefaultArchive"].ToList();
+    var archive = ThemeHandler.Config["Navi"]["DefaultArchive"].ToList();
     var REGEXP = ConvertH.ListToString(archive, '|');
     PostSet PostSet = Reader.GetPost<ArchiveName>(REGEXP, PostPropEnum.PostID, PostPropEnum.Title);
 }

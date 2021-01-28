@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Newtonsoft.Json.Linq;
+using PILIPALA.system.Theme;
 using WaterLibrary.Util;
 using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity;
@@ -15,14 +15,14 @@ namespace PILIPALA.Controllers
 {
     public class PanelController : Controller
     {
-        public Reader Reader;
-        public Writer Writer;
-        public Counter Counter;
-        public CommentLake CommentLake;
-
+        private readonly Reader Reader;
+        private readonly Writer Writer;
+        private readonly Counter Counter;
+        private readonly CommentLake CommentLake;
+        private readonly ThemeHandler ThemeHandler;
         private readonly ComponentFactory ComponentFactory = new();
 
-        public PanelController(ICORE CORE)
+        public PanelController(ICORE CORE, ThemeHandler ThemeHandler)
         {
             CORE.CoreReady += ComponentFactory.Ready;
 
@@ -33,13 +33,14 @@ namespace PILIPALA.Controllers
             Writer = ComponentFactory.GenWriter();
             Counter = ComponentFactory.GenCounter();
             CommentLake = ComponentFactory.GenCommentLake();
+            this.ThemeHandler = ThemeHandler;
         }
 
         public ActionResult List(bool ajax)
         {
             string fun(string s)
             {
-                var archive = system.ThemeReader.GetConfigJson("wwwroot/field_config.json")["Pannel"][s].ToList();
+                var archive = ThemeHandler.Config["Pannel"][s].ToList();
                 return ConvertH.ListToString(archive, '|');
             }
 
@@ -75,7 +76,7 @@ namespace PILIPALA.Controllers
         {
             string fun(string s)
             {
-                var archive = system.ThemeReader.GetConfigJson("wwwroot/field_config.json")["Pannel"][s].ToList();
+                var archive = ThemeHandler.Config["Pannel"][s].ToList();
                 return ConvertH.ListToString(archive, '|');
             }
 
