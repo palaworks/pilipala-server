@@ -135,14 +135,15 @@ namespace WaterLibrary.MySQL
         {
             return DoInConnection(conn =>
             {
-                using DataTable table = new DataTable();
-                using (MySqlCommand MySqlCommand = new MySqlCommand(SQL, conn))
+                return DoInCommand(conn, cmd =>
                 {
-                    MySqlCommand.Parameters.AddRange(parameters);//添加参数
-                    new MySqlDataAdapter(MySqlCommand).Fill(table);
-                }
+                    using DataTable table = new DataTable();
+                    cmd.CommandText = SQL;
+                    cmd.Parameters.AddRange(parameters);/* 添加参数 */
 
-                return table;
+                    new MySqlDataAdapter(cmd).Fill(table);
+                    return table;
+                });
             });
         }
 
@@ -155,8 +156,12 @@ namespace WaterLibrary.MySQL
         {
             return DoInConnection(conn =>
             {
-                /* 如果结果集为空，该方法返回null */
-                return new MySqlCommand(SQL, conn).ExecuteScalar(); ;
+                return DoInCommand(conn, cmd =>
+                {
+                    cmd.CommandText = SQL;
+                    /* 如果结果集为空，该方法返回null */
+                    return cmd.ExecuteScalar(); ;
+                });
             });
         }
         /// <summary>
@@ -169,11 +174,14 @@ namespace WaterLibrary.MySQL
         {
             return DoInConnection(conn =>
             {
-                using MySqlCommand MySqlCommand = new MySqlCommand(SQL, conn);
-                MySqlCommand.Parameters.AddRange(parameters);
+                return DoInCommand(conn, cmd =>
+                {
+                    cmd.CommandText = SQL;
+                    cmd.Parameters.AddRange(parameters);
 
-                /* 如果结果集为空，该方法返回null */
-                return MySqlCommand.ExecuteScalar(); ;
+                    /* 如果结果集为空，该方法返回null */
+                    return cmd.ExecuteScalar(); ;
+                });
             });
         }
         /// <summary>
@@ -186,9 +194,12 @@ namespace WaterLibrary.MySQL
         {
             return DoInConnection(conn =>
             {
-                string SQL = $"SELECT {KeyName} FROM {MySqlKey.Table} WHERE {MySqlKey.Name}='{MySqlKey.Val}';";
-                /* 如果结果集为空，该方法返回null */
-                return new MySqlCommand(SQL, conn).ExecuteScalar(); ;
+                return DoInCommand(conn, cmd =>
+                {
+                    cmd.CommandText = $"SELECT {KeyName} FROM {MySqlKey.Table} WHERE {MySqlKey.Name}='{MySqlKey.Val}';";
+                    /* 如果结果集为空，该方法返回null */
+                    return cmd.ExecuteScalar();
+                });
             });
         }
 
@@ -327,25 +338,24 @@ namespace WaterLibrary.MySQL
         {
             return DoInConnection(conn =>
             {
-                using MySqlCommand MySqlCommand = new()
+                return DoInCommand(conn, cmd =>
                 {
-                    CommandText = $"UPDATE {MySqlKey.Table} SET {Key}=?NewValue WHERE {MySqlKey.Name}=?Val",
-                    Connection = conn,
-                    Transaction = Connection.BeginTransaction()
-                };
-                MySqlCommand.Parameters.AddWithValue("NewValue", NewValue);
-                MySqlCommand.Parameters.AddWithValue("Val", MySqlKey.Val);
+                    cmd.CommandText = $"UPDATE {MySqlKey.Table} SET {Key}=?NewValue WHERE {MySqlKey.Name}=?Val";
+                    cmd.Parameters.AddWithValue("NewValue", NewValue);
+                    cmd.Parameters.AddWithValue("Val", MySqlKey.Val);
 
-                if (MySqlCommand.ExecuteNonQuery() == 1)
-                {
-                    MySqlCommand.Transaction.Commit();
-                    return true;
-                }
-                else
-                {
-                    MySqlCommand.Transaction.Rollback();
-                    return false;
-                }
+                    cmd.Transaction = conn.BeginTransaction();
+                    if (cmd.ExecuteNonQuery() == 1)
+                    {
+                        cmd.Transaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        cmd.Transaction.Rollback();
+                        return false;
+                    }
+                });
             });
         }
         /// <summary>
@@ -361,25 +371,24 @@ namespace WaterLibrary.MySQL
         {
             return DoInConnection(conn =>
             {
-                using MySqlCommand MySqlCommand = new()
+                return DoInCommand(conn, cmd =>
                 {
-                    CommandText = $"UPDATE {Table} SET {Key}=?NewValue WHERE {Key}=?OldValue",
-                    Connection = conn,
-                    Transaction = Connection.BeginTransaction()
-                };
-                MySqlCommand.Parameters.AddWithValue("NewValue", NewValue);
-                MySqlCommand.Parameters.AddWithValue("OldValue", OldValue);
+                    cmd.CommandText = $"UPDATE {Table} SET {Key}=?NewValue WHERE {Key}=?OldValue";
+                    cmd.Parameters.AddWithValue("NewValue", NewValue);
+                    cmd.Parameters.AddWithValue("OldValue", OldValue);
 
-                if (MySqlCommand.ExecuteNonQuery() == 1)
-                {
-                    MySqlCommand.Transaction.Commit();
-                    return true;
-                }
-                else
-                {
-                    MySqlCommand.Transaction.Rollback();
-                    return false;
-                }
+                    cmd.Transaction = Connection.BeginTransaction();
+                    if (cmd.ExecuteNonQuery() == 1)
+                    {
+                        cmd.Transaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        cmd.Transaction.Rollback();
+                        return false;
+                    }
+                });
             });
         }
         /// <summary>
@@ -393,35 +402,33 @@ namespace WaterLibrary.MySQL
         {
             return DoInConnection(conn =>
             {
-                using MySqlCommand MySqlCommand = new()
+                return DoInCommand(conn, cmd =>
                 {
-                    Connection = conn,
-                    Transaction = Connection.BeginTransaction()
-                };
+                    string part1 = "";/* VALUES语句前半部分 */
+                    string part2 = "";/* VALUES语句后半部分 */
+                    foreach (var el in Pairs)
+                    {
+                        part1 += $"`{el.Key}`,";
+                        part2 += $"?{el.Key} ,";
 
-                string part1 = "";/* VALUES语句前半部分 */
-                string part2 = "";/* VALUES语句后半部分 */
-                foreach (var el in Pairs)
-                {
-                    part1 += $"`{el.Key}`,";
-                    part2 += $"?{el.Key} ,";
+                        cmd.Parameters.AddWithValue(el.Key, el.Value);/* 参数添加 */
+                    }
+                    part1 = part1[0..^1];/* 末尾逗号去除 */
+                    part2 = part2[0..^1];
+                    cmd.CommandText = $"INSERT INTO {Table} ({part1})VALUES({part2})";
 
-                    MySqlCommand.Parameters.AddWithValue(el.Key, el.Value);/* 参数添加 */
-                }
-                part1 = part1[0..^1];/* 末尾逗号去除 */
-                part2 = part2[0..^1];
-                MySqlCommand.CommandText = $"INSERT INTO {Table} ({part1})VALUES({part2})";
-
-                if (MySqlCommand.ExecuteNonQuery() == 1)
-                {
-                    MySqlCommand.Transaction.Commit();
-                    return true;
-                }
-                else
-                {
-                    MySqlCommand.Transaction.Rollback();
-                    return false;
-                }
+                    cmd.Transaction = conn.BeginTransaction();
+                    if (cmd.ExecuteNonQuery() == 1)
+                    {
+                        cmd.Transaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        cmd.Transaction.Rollback();
+                        return false;
+                    }
+                });
             });
         }
 
