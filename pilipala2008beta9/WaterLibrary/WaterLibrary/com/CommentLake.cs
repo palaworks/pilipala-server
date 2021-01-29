@@ -208,23 +208,27 @@ namespace WaterLibrary.pilipala.Components
                 new("Time", DateTime.Now),
             };
 
-            using MySqlCommand MySqlCommand = new(SQL, MySqlManager.Connection);
-            MySqlCommand.Parameters.AddRange(parameters);
-
-            /* 开始事务 */
-            MySqlCommand.Transaction = MySqlManager.Connection.BeginTransaction();
-
-            if (MySqlCommand.ExecuteNonQuery() == 1)
+            return MySqlManager.DoInConnection(conn =>
             {
-                /* 指向表和拷贝表分别添加1行数据 */
-                MySqlCommand.Transaction.Commit();
-                return true;
-            }
-            else
-            {
-                MySqlCommand.Transaction.Rollback();
-                return false;
-            }
+                return MySqlManager.DoInCommand(conn, cmd =>
+                {
+                    cmd.CommandText = SQL;
+                    cmd.Parameters.AddRange(parameters);
+
+                    cmd.Transaction = MySqlManager.Connection.BeginTransaction();
+                    if (cmd.ExecuteNonQuery() == 1)
+                    {
+                        /* 指向表和拷贝表分别添加1行数据 */
+                        cmd.Transaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        cmd.Transaction.Rollback();
+                        return false;
+                    }
+                });
+            });
         }
         /// <summary>
         /// 删除评论(相关回复不会被删除)
@@ -233,26 +237,26 @@ namespace WaterLibrary.pilipala.Components
         /// <returns></returns>
         public bool DeleteComment(int CommentID)
         {
-            using MySqlCommand MySqlCommand = new MySqlCommand
+            return MySqlManager.DoInConnection(conn =>
             {
-                CommandText = $"DELETE FROM {CommentTable} WHERE CommentID = {CommentID}",
-                Connection = MySqlManager.Connection,
+                return MySqlManager.DoInCommand(conn, cmd =>
+                {
+                    cmd.CommandText = $"DELETE FROM {CommentTable} WHERE CommentID = {CommentID}";
 
-                /* 开始事务 */
-                Transaction = MySqlManager.Connection.BeginTransaction()
-            };
-
-            if (MySqlCommand.ExecuteNonQuery() == 1)
-            {
-                /* 删除1条评论，操作行为1 */
-                MySqlCommand.Transaction.Commit();
-                return true;
-            }
-            else
-            {
-                MySqlCommand.Transaction.Rollback();
-                return false;
-            }
+                    cmd.Transaction = MySqlManager.Connection.BeginTransaction();
+                    if (cmd.ExecuteNonQuery() == 1)
+                    {
+                        /* 删除1条评论，操作行为1 */
+                        cmd.Transaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        cmd.Transaction.Rollback();
+                        return false;
+                    }
+                });
+            });
         }
     }
 }

@@ -1558,28 +1558,26 @@ namespace WaterLibrary.pilipala
                        UPDATE {StackTable} SET UUID = ?UUID WHERE PostID = ?PostID;";
 
                     MySqlParameter[] parameters =
-                    {
-                    new("PostID", PostID),
-                    new("UUID", UUID)
-                };
+                    { new("PostID", PostID), new("UUID", UUID) };
 
-                    using MySqlCommand MySqlCommand = new MySqlCommand(SQL, conn);
-                    MySqlCommand.Parameters.AddRange(parameters);
-
-                    /* 开始事务 */
-                    MySqlCommand.Transaction = conn.BeginTransaction();
-
-                    if (MySqlCommand.ExecuteNonQuery() == 2)
+                    return MySqlManager.DoInCommand(conn, cmd =>
                     {
-                        /* 指向表修改1行数据，拷贝表删除一行数据 */
-                        MySqlCommand.Transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        MySqlCommand.Transaction.Rollback();
-                        return false;
-                    }
+                        cmd.CommandText = SQL;
+                        cmd.Parameters.AddRange(parameters);
+
+                        cmd.Transaction = conn.BeginTransaction();
+                        if (cmd.ExecuteNonQuery() == 2)
+                        {
+                            /* 指向表修改1行数据，拷贝表删除一行数据 */
+                            cmd.Transaction.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            cmd.Transaction.Rollback();
+                            return false;
+                        }
+                    });
                 });
             }
             /// <summary>
@@ -1594,32 +1592,28 @@ namespace WaterLibrary.pilipala
             {
                 return MySqlManager.DoInConnection(conn =>
                 {
-                    using MySqlCommand MySqlCommand = new MySqlCommand
+                    return MySqlManager.DoInCommand(conn, cmd =>
                     {
-                        CommandText = string.Format
-                     (
-                     @"DELETE {1} FROM {0} INNER JOIN {1} ON {0}.UUID={1}.UUID AND {0}.PostID={2};
-                       UPDATE {0} SET UUID = (SELECT UUID FROM {1} WHERE PostID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE PostID={2};"
-                     , IndexTable, StackTable, PostID
-                     ),
+                        cmd.CommandText = string.Format
+                        (
+                        @"DELETE {1} FROM {0} INNER JOIN {1} ON {0}.UUID={1}.UUID AND {0}.PostID={2};
+                        UPDATE {0} SET UUID = (SELECT UUID FROM {1} WHERE PostID={2} ORDER BY LCT DESC LIMIT 0,1) WHERE PostID={2};"
+                        , IndexTable, StackTable, PostID
+                        );
 
-                        Connection = conn,
-
-                        /* 开始事务 */
-                        Transaction = conn.BeginTransaction()
-                    };
-
-                    if (MySqlCommand.ExecuteNonQuery() == 2)
-                    {
-                        /* 指向表修改1行数据，拷贝表删除1行数据 */
-                        MySqlCommand.Transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        MySqlCommand.Transaction.Rollback();
-                        return false;
-                    }
+                        cmd.Transaction = conn.BeginTransaction();
+                        if (cmd.ExecuteNonQuery() == 2)
+                        {
+                            /* 指向表修改1行数据，拷贝表删除1行数据 */
+                            cmd.Transaction.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            cmd.Transaction.Rollback();
+                            return false;
+                        }
+                    });
                 });
             }
             /// <summary>
@@ -1633,31 +1627,27 @@ namespace WaterLibrary.pilipala
             {
                 return MySqlManager.DoInConnection(conn =>
                 {
-                    using MySqlCommand MySqlCommand = new MySqlCommand
+                    return MySqlManager.DoInCommand(conn, cmd =>
                     {
-                        CommandText = string.Format
-                     (
-                     "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.PostID={1}.PostID AND {0}.UUID<>{1}.UUID AND {0}.PostID={2}"
-                     , IndexTable, StackTable, PostID
-                     ),
+                        cmd.CommandText = string.Format
+                        (
+                        "DELETE {1} FROM {0} INNER JOIN {1} ON {0}.PostID={1}.PostID AND {0}.UUID<>{1}.UUID AND {0}.PostID={2}"
+                        , IndexTable, StackTable, PostID
+                        );
 
-                        Connection = conn,
-
-                        /* 开始事务 */
-                        Transaction = conn.BeginTransaction()
-                    };
-
-                    if (MySqlCommand.ExecuteNonQuery() >= 0)
-                    {
-                        /* 删除拷贝表的所有冗余，不存在冗余时影响行数为0 */
-                        MySqlCommand.Transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        MySqlCommand.Transaction.Rollback();
-                        return false;
-                    }
+                        cmd.Transaction = conn.BeginTransaction();
+                        if (cmd.ExecuteNonQuery() >= 0)
+                        {
+                            /* 删除拷贝表的所有冗余，不存在冗余时影响行数为0 */
+                            cmd.Transaction.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            cmd.Transaction.Rollback();
+                            return false;
+                        }
+                    });
                 });
             }
 
