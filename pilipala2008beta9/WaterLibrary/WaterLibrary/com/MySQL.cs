@@ -78,8 +78,9 @@ namespace WaterLibrary.MySQL
         }
 
         /// <summary>
-        /// 一次性连接使用器
+        /// 连接托管器
         /// </summary>
+        /// <remarks>此托管器提供了一个打开的数据库连接，当委托完成时，连接会自动销毁。</remarks>
         /// <typeparam name="T">返回值类型</typeparam>
         /// <param name="todo">委托</param>
         /// <returns></returns>
@@ -88,6 +89,24 @@ namespace WaterLibrary.MySQL
             MySqlConnection conn = Connection;
             T result = todo(conn);
             conn.Close();
+            return result;
+        }
+        /// <summary>
+        /// 命令托管器
+        /// </summary>
+        /// <remarks>此托管器提供了一个数据库命令，当委托完成时，命令会自动销毁。</remarks>
+        /// <typeparam name="T">返回值类型</typeparam>
+        /// <param name="Connection">承载命令的数据库连接</param>
+        /// <param name="todo">委托</param>
+        /// <returns></returns>
+        public T DoInCommand<T>(MySqlConnection Connection, Func<MySqlCommand, T> todo)
+        {
+            MySqlCommand Command = new()
+            {
+                Connection = Connection
+            };
+            T result = todo(Command);
+            Command.Dispose();
             return result;
         }
 
@@ -295,14 +314,16 @@ namespace WaterLibrary.MySQL
             return List;
         }
 
+
         /// <summary>
-        /// 更新单个键值
+        /// 更新操作
         /// </summary>
+        /// <remarks>此方法仅允许更新一条记录，若发生多条记录的更新，事务将被回滚。</remarks>
         /// <param name="MySqlKey">操作定位器</param>
         /// <param name="Key">要更改的键</param>
         /// <param name="NewValue">新键值</param>
         /// <returns>是否操作成功</returns>
-        public bool UpdateKey((string Table, string Name, object Val) MySqlKey, string Key, object NewValue)
+        public bool ExecuteUpdate((string Table, string Name, object Val) MySqlKey, string Key, object NewValue)
         {
             return DoInConnection(conn =>
             {
@@ -328,14 +349,15 @@ namespace WaterLibrary.MySQL
             });
         }
         /// <summary>
-        /// 更新单个键值
+        /// 更新操作
         /// </summary>
+        /// <remarks>此方法仅允许更新一条记录，若发生多条记录的更新，事务将被回滚。</remarks>
         /// <param name="Table">目标表</param>
         /// <param name="Key">键名</param>
         /// <param name="OldValue">旧值</param>
         /// <param name="NewValue">新值</param>
         /// <returns>是否操作成功</returns>
-        public bool UpdateKey(string Table, string Key, object OldValue, object NewValue)
+        public bool ExecuteUpdate(string Table, string Key, object OldValue, object NewValue)
         {
             return DoInConnection(conn =>
             {
@@ -360,44 +382,69 @@ namespace WaterLibrary.MySQL
                 }
             });
         }
-
         /// <summary>
-        /// 执行SQL语句
+        /// 插入操作
         /// </summary>
-        /// <param name="SQL">SQL语句</param>
-        /// <returns>返回受影响的行数</returns>
-        public int Execute(string SQL)
+        /// <remarks>此方法仅允许更新一条记录，若发生多条记录的更新，事务将被回滚。</remarks>
+        /// <param name="Table">目标表</param>
+        /// <param name="Pairs">键值对</param>
+        /// <returns>返回插入的成功与否</returns>
+        public bool ExecuteInsert(string Table, params (string Key, object Value)[] Pairs)
         {
             return DoInConnection(conn =>
             {
-                using MySqlCommand command = new()
+                using MySqlCommand MySqlCommand = new()
                 {
-                    CommandText = SQL,
                     Connection = conn,
+                    Transaction = Connection.BeginTransaction()
                 };
-                return command.ExecuteNonQuery();
+
+                string part1 = "";/* VALUES语句前半部分 */
+                string part2 = "";/* VALUES语句后半部分 */
+                foreach (var el in Pairs)
+                {
+                    part1 += $"`{el.Key}`,";
+                    part2 += $"?{el.Key} ,";
+
+                    MySqlCommand.Parameters.AddWithValue(el.Key, el.Value);/* 参数添加 */
+                }
+                part1 = part1[0..^1];/* 末尾逗号去除 */
+                part2 = part2[0..^1];
+                MySqlCommand.CommandText = $"INSERT INTO {Table} ({part1})VALUES({part2})";
+
+                if (MySqlCommand.ExecuteNonQuery() == 1)
+                {
+                    MySqlCommand.Transaction.Commit();
+                    return true;
+                }
+                else
+                {
+                    MySqlCommand.Transaction.Rollback();
+                    return false;
+                }
             });
         }
+
+
         /// <summary>
-        /// 在一个事务内执行SQL语句
+        /// 执行任意SQL语句
         /// </summary>
+        /// <remarks>此方法中的所有SQL语句将在同一个事务内进行，SQL语句中任何一部分的执行失败都将导致整个事务被回滚。</remarks>
         /// <param name="SQL">SQL语句</param>
         /// <returns>返回受影响的行数</returns>
-        public int ExecuteInTransaction(string SQL)
+        public int ExecuteAny(string SQL)
         {
             return DoInConnection(conn =>
             {
-                using MySqlCommand command = new()
+                return DoInCommand(conn, cmd =>
                 {
-                    CommandText = SQL,
-                    Connection = conn,
-                    Transaction = Connection.BeginTransaction()/*启动事务*/
-                };
+                    cmd.CommandText = SQL;
+                    cmd.Transaction = conn.BeginTransaction();/*启动事务*/
+                    int AffectedRows = cmd.ExecuteNonQuery();
+                    cmd.Transaction.Commit();/*提交事务*/
 
-                int AffectedRows = command.ExecuteNonQuery();
-                command.Transaction.Commit();/*提交事务*/
-
-                return AffectedRows;
+                    return AffectedRows;
+                });
             });
         }
     }

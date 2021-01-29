@@ -1450,9 +1450,20 @@
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.DoInConnection``1(System.Func{MySql.Data.MySqlClient.MySqlConnection,``0})">
             <summary>
-            一次性连接使用器
+            连接托管器
             </summary>
+            <remarks>此托管器提供了一个打开的数据库连接，当委托完成时，连接会自动销毁。</remarks>
             <typeparam name="T">返回值类型</typeparam>
+            <param name="todo">委托</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.MySQL.MySqlManager.DoInCommand``1(MySql.Data.MySqlClient.MySqlConnection,System.Func{MySql.Data.MySqlClient.MySqlCommand,``0})">
+            <summary>
+            命令托管器
+            </summary>
+            <remarks>此托管器提供了一个数据库命令，当委托完成时，命令会自动销毁。</remarks>
+            <typeparam name="T">返回值类型</typeparam>
+            <param name="Connection">承载命令的数据库连接</param>
             <param name="todo">委托</param>
             <returns></returns>
         </member>
@@ -1571,36 +1582,41 @@
             <param name="Key">目标列键名</param>
             <returns>返回非泛型List{object}实例</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.UpdateKey(System.ValueTuple{System.String,System.String,System.Object},System.String,System.Object)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager.ExecuteUpdate(System.ValueTuple{System.String,System.String,System.Object},System.String,System.Object)">
             <summary>
-            更新单个键值
+            更新操作
             </summary>
+            <remarks>此方法仅允许更新一条记录，若发生多条记录的更新，事务将被回滚。</remarks>
             <param name="MySqlKey">操作定位器</param>
             <param name="Key">要更改的键</param>
             <param name="NewValue">新键值</param>
             <returns>是否操作成功</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.UpdateKey(System.String,System.String,System.Object,System.Object)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager.ExecuteUpdate(System.String,System.String,System.Object,System.Object)">
             <summary>
-            更新单个键值
+            更新操作
             </summary>
+            <remarks>此方法仅允许更新一条记录，若发生多条记录的更新，事务将被回滚。</remarks>
             <param name="Table">目标表</param>
             <param name="Key">键名</param>
             <param name="OldValue">旧值</param>
             <param name="NewValue">新值</param>
             <returns>是否操作成功</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.Execute(System.String)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager.ExecuteInsert(System.String,System.ValueTuple{System.String,System.Object}[])">
             <summary>
-            执行SQL语句
+            插入操作
             </summary>
-            <param name="SQL">SQL语句</param>
-            <returns>返回受影响的行数</returns>
+            <remarks>此方法仅允许更新一条记录，若发生多条记录的更新，事务将被回滚。</remarks>
+            <param name="Table">目标表</param>
+            <param name="Pairs">键值对</param>
+            <returns>返回插入的成功与否</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.MySqlManager.ExecuteInTransaction(System.String)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager.ExecuteAny(System.String)">
             <summary>
-            在一个事务内执行SQL语句
+            执行任意SQL语句
             </summary>
+            <remarks>此方法中的所有SQL语句将在同一个事务内进行，SQL语句中任何一部分的执行失败都将导致整个事务被回滚。</remarks>
             <param name="SQL">SQL语句</param>
             <returns>返回受影响的行数</returns>
         </member>
