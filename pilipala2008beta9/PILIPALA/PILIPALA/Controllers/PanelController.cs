@@ -38,14 +38,15 @@ namespace PILIPALA.Controllers
 
         public ActionResult List(bool ajax)
         {
-            string fun(string s)
+            string REGEXP(string s)
             {
+                /* 读取主题配置文件并取得要在本页展示的文章归档 */
                 var archive = ThemeHandler.Config["Pannel"][s].ToList();
                 return ConvertH.ListToString(archive, '|');
             }
 
             PostSet PostSet置顶 = new PostSet();
-            foreach (Post el in Reader.GetPost<ArchiveName>(fun("ToppedArchive")))
+            foreach (Post el in Reader.GetPost<ArchiveName>(REGEXP("ToppedArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 PostSet置顶.Add(el);
@@ -53,7 +54,7 @@ namespace PILIPALA.Controllers
             ViewBag.置顶文章 = PostSet置顶;
 
             PostSet PostSet其他 = new PostSet();
-            foreach (Post el in Reader.GetPost<ArchiveName>(fun("DefaultArchive")))
+            foreach (Post el in Reader.GetPost<ArchiveName>(REGEXP("DefaultArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 PostSet其他.Add(el);
@@ -74,8 +75,9 @@ namespace PILIPALA.Controllers
         }
         public ActionResult Content(int ID, bool ajax)
         {
-            string fun(string s)
+            string REGEXP(string s = "DefaultArchive")
             {
+                /* 读取主题配置文件并取得要在本页展示的文章归档 */
                 var archive = ThemeHandler.Config["Pannel"][s].ToList();
                 return ConvertH.ListToString(archive, '|');
             }
@@ -88,10 +90,10 @@ namespace PILIPALA.Controllers
 
             ViewBag.CommentList = CommentLake.GetComments(ID);//评论数据
 
-            ViewBag.PrevID = Reader.Smaller<PostID>(ID, fun("DefaultArchive"), PostPropEnum.ArchiveName);
+            ViewBag.PrevID = Reader.Smaller<PostID>(ID, REGEXP(), PostPropEnum.ArchiveName);
             ViewBag.PrevTitle = Reader.GetPostProp<Title>(ViewBag.PrevID);
 
-            ViewBag.NextID = Reader.Bigger<PostID>(ID, fun("DefaultArchive"), PostPropEnum.ArchiveName);
+            ViewBag.NextID = Reader.Bigger<PostID>(ID, REGEXP(), PostPropEnum.ArchiveName);
             ViewBag.NextTitle = Reader.GetPostProp<Title>(ViewBag.NextID);
 
 

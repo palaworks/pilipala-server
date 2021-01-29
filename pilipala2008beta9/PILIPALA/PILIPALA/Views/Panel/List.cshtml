@@ -33,10 +33,7 @@
     else if (Post.Type == "note")
     {
         <div class="Card M bSha bRds">
-            <div class="contain cur bRds" onclick="up();
-
-
-                 (@Post.PostID)">
+            <div class="contain cur bRds" onclick="up();showPost(@Post.PostID)">
                 <!-- 前置样式 -->
                 @Html.Raw(Post.Cover)
 
