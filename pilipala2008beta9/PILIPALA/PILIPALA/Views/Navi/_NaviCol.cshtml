@@ -17,7 +17,7 @@
 
     CORE.CoreReady += ComponentFactory.Ready;
 
-    /* 启动内核 */
+    @*启动内核*@
     CORE.Run();
 
     Reader = ComponentFactory.GenReader(Reader.ReadMode.CleanRead);
@@ -25,7 +25,7 @@
     Counter = ComponentFactory.GenCounter();
     CommentLake = ComponentFactory.GenCommentLake();
 
-
+    @*读取主题配置文件并取得要在本页展示的文章归档*@
     var archive = ThemeHandler.Config["Navi"]["DefaultArchive"].ToList();
     var REGEXP = ConvertH.ListToString(archive, '|');
     PostSet PostSet = Reader.GetPost<ArchiveName>(REGEXP, PostPropEnum.PostID, PostPropEnum.Title);

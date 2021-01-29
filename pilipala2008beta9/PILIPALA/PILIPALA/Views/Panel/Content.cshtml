@@ -22,7 +22,7 @@
             <div class="Summary">@ViewBag.Post.Summary</div>
         }
 
-        <!-- 状态信息输出 -->
+        @*状态信息输出*@
         @if (ViewBag.Post.Mode == "scheduled")
         {
             <div class="SchedulTip bSha"><div class="con">计划中的项目。此文章将会于近期更新</div></div>
@@ -32,14 +32,14 @@
             <div class="ArchivTip bSha"><div class="con">此文章已归档。这意味着其内容将不受维护，但仍具有一定的参考价值。</div></div>
         }
 
-        
+
         <div class="ReadTimeTip bSha">
             <div class="con"></div>
         </div>
 
         <div class="Content markdown-body">@Html.Raw(ViewBag.Post.HtmlContent())</div>
 
-        <!-- 上下文章按钮 -->
+        @*上下文章按钮*@
         <div>
             @if (ViewBag.NextID != -1)
             {
@@ -53,10 +53,10 @@
     </div>
 
     <script>
-        /*代码高亮启用*/
+        @*代码高亮启用*@
         hljs.initHighlighting.called = false;
         hljs.initHighlighting();
-        /*在.Tip内输出字数统计*/
+        @*在.Tip内输出字数统计*@
         putWordCount();
     </script>
 
@@ -74,11 +74,13 @@
         <div class="Time">@Formatter.CN_Week(ViewBag.Post.CT)</div>
 
         @if (ViewBag.Post.ArchiveName != "")
-        {/* 归档不为空时输出 */
+        {
+            @*归档不为空时输出*@
             <div class="Archiv">@ViewBag.Post.ArchiveName</div>
         }
         @if (ViewBag.Post.Label != "")
-        {/* 标签不为空时输出 */
+        {
+            @*标签不为空时输出*@
             foreach (string el in ViewBag.Post.LabelList())
             {
                 <div class="Label">@el</div>
@@ -87,7 +89,7 @@
     </div>
 </div>
 
-<!-- CommentLake模块，测试性功能 -->
+@*CommentLake模块，测试性功能*@
 <div>
     @if (ViewBag.CommentList.Count == 0)
     {
@@ -109,7 +111,7 @@
                     }
                     else
                     {
-                        /* 存在回复 */
+                        @*存在回复*@
                         foreach (Comment temp in ViewBag.CommentList)
                         {
                             if (temp.CommentID == Comment.HEAD)
