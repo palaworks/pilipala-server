@@ -869,7 +869,7 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public bool SetPrivateKey(string PrivateKey)
             {
-                return MySqlManager.UpdateKey
+                return MySqlManager.ExecuteUpdate
                     ((Tables.User, "Account", User.Account), "PrivateKey", PrivateKey);
             }
             /// <summary>
@@ -886,7 +886,7 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public bool UpdateTokenTime()
             {
-                return MySqlManager.UpdateKey
+                return MySqlManager.ExecuteUpdate
                     ((Tables.User, "Account", User.Account), "TokenTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             }
         }
@@ -976,7 +976,7 @@ namespace WaterLibrary.pilipala
             }
             private bool Set(string Key, string Value)
             {
-                return MySqlManager.UpdateKey((Tables.User, "Account", Account), Key, Value);
+                return MySqlManager.ExecuteUpdate((Tables.User, "Account", Account), Key, Value);
             }
         }
         /// <summary>
@@ -1672,7 +1672,7 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public bool UpdateType(int PostID, Type.States TypeState)
             {
-                bool fun(string value) => MySqlManager.UpdateKey((IndexTable, "PostID", PostID), "Type", value);
+                bool fun(string value) => MySqlManager.ExecuteUpdate((IndexTable, "PostID", PostID), "Type", value);
                 return TypeState switch
                 {
                     Type.States.Unset => fun(""),
@@ -1688,7 +1688,7 @@ namespace WaterLibrary.pilipala
             /// <returns></returns>
             public bool UpdateMode(int PostID, Mode.States ModeState)
             {
-                bool fun(string value) => MySqlManager.UpdateKey((IndexTable, "PostID", PostID), "Mode", value);
+                bool fun(string value) => MySqlManager.ExecuteUpdate((IndexTable, "PostID", PostID), "Mode", value);
 
                 return ModeState switch
                 {
@@ -1711,7 +1711,7 @@ namespace WaterLibrary.pilipala
             {
                 //初始化键定位
                 var MySqlKey = (IndexTable, "PostID", PostID);
-                return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Value);
+                return MySqlManager.ExecuteUpdate(MySqlKey, typeof(T).Name, Value);
             }
             /// <summary>
             /// 通用文章拷贝更新器
@@ -1724,7 +1724,7 @@ namespace WaterLibrary.pilipala
             {
                 //初始化键定位
                 var MySqlKey = (StackTable, "UUID", GetPositiveUUID(PostID));
-                return MySqlManager.UpdateKey(MySqlKey, typeof(T).Name, Value);
+                return MySqlManager.ExecuteUpdate(MySqlKey, typeof(T).Name, Value);
             }
         }
         /// <summary>
