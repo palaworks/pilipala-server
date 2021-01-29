@@ -18,6 +18,7 @@ namespace WaterLibrary.MySQL
         /// <summary>
         /// 数据库连接访问器
         /// </summary>
+        /// <remarks>若连接为一次性使用，请使用DoInConnection。从此属性获取的连接对象需手动销毁。</remarks>
         public MySqlConnection Connection
         {
             get
@@ -357,6 +358,46 @@ namespace WaterLibrary.MySQL
                     MySqlCommand.Transaction.Rollback();
                     return false;
                 }
+            });
+        }
+
+        /// <summary>
+        /// 执行SQL语句
+        /// </summary>
+        /// <param name="SQL">SQL语句</param>
+        /// <returns>返回受影响的行数</returns>
+        public int Execute(string SQL)
+        {
+            return DoInConnection(conn =>
+            {
+                using MySqlCommand command = new()
+                {
+                    CommandText = SQL,
+                    Connection = conn,
+                };
+                return command.ExecuteNonQuery();
+            });
+        }
+        /// <summary>
+        /// 在一个事务内执行SQL语句
+        /// </summary>
+        /// <param name="SQL">SQL语句</param>
+        /// <returns>返回受影响的行数</returns>
+        public int ExecuteInTransaction(string SQL)
+        {
+            return DoInConnection(conn =>
+            {
+                using MySqlCommand command = new()
+                {
+                    CommandText = SQL,
+                    Connection = conn,
+                    Transaction = Connection.BeginTransaction()/*启动事务*/
+                };
+
+                int AffectedRows = command.ExecuteNonQuery();
+                command.Transaction.Commit();/*提交事务*/
+
+                return AffectedRows;
             });
         }
     }

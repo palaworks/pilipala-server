@@ -1428,6 +1428,7 @@
             <summary>
             数据库连接访问器
             </summary>
+            <remarks>若连接为一次性使用，请使用DoInConnection。从此属性获取的连接对象需手动销毁。</remarks>
         </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.#ctor">
             <summary>
@@ -1588,6 +1589,20 @@
             <param name="OldValue">旧值</param>
             <param name="NewValue">新值</param>
             <returns>是否操作成功</returns>
+        </member>
+        <member name="M:WaterLibrary.MySQL.MySqlManager.Execute(System.String)">
+            <summary>
+            执行SQL语句
+            </summary>
+            <param name="SQL">SQL语句</param>
+            <returns>返回受影响的行数</returns>
+        </member>
+        <member name="M:WaterLibrary.MySQL.MySqlManager.ExecuteInTransaction(System.String)">
+            <summary>
+            在一个事务内执行SQL语句
+            </summary>
+            <param name="SQL">SQL语句</param>
+            <returns>返回受影响的行数</returns>
         </member>
         <member name="T:WaterLibrary.MySQL.MySqlConnMsg">
             <summary>
