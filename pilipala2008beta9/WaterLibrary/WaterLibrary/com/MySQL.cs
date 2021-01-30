@@ -422,12 +422,12 @@ namespace WaterLibrary.MySQL
                 {
                     string part1 = "";/* VALUES语句前半部分 */
                     string part2 = "";/* VALUES语句后半部分 */
-                    foreach (var el in Pairs)
+                    foreach (var (Key, Value) in Pairs)
                     {
-                        part1 += $"`{el.Key}`,";
-                        part2 += $"?{el.Key} ,";
+                        part1 += $"`{Key}`,";
+                        part2 += $"?{Key} ,";
 
-                        cmd.Parameters.AddWithValue(el.Key, el.Value);/* 参数添加 */
+                        cmd.Parameters.AddWithValue(Key, Value);/* 参数添加 */
                     }
                     part1 = part1[0..^1];/* 末尾逗号去除 */
                     part2 = part2[0..^1];
