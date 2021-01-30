@@ -13,7 +13,7 @@ using Newtonsoft.Json.Converters;
 using Markdig;
 
 
-namespace WaterLibrary.Util
+namespace WaterLibrary.Utils
 {
     /// <summary>
     /// 数学管理器

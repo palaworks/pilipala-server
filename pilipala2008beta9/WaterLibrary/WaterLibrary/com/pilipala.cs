@@ -9,7 +9,7 @@ using Newtonsoft.Json.Converters;
 using MySql.Data.MySqlClient;
 
 using WaterLibrary.MySQL;
-using WaterLibrary.Util;
+using WaterLibrary.Utils;
 using WaterLibrary.pilipala.Database;
 using WaterLibrary.pilipala.Entity;
 using WaterLibrary.pilipala.Entity.PostProp;

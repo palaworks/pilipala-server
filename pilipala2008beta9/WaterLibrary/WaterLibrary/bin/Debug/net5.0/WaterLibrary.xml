@@ -1650,39 +1650,39 @@
             密码
             </summary>
         </member>
-        <member name="T:WaterLibrary.Util.MathH">
+        <member name="T:WaterLibrary.Utils.MathH">
             <summary>
             数学管理器
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.#ctor">
+        <member name="M:WaterLibrary.Utils.MathH.#ctor">
             <summary>
             私有构造
             </summary>
         </member>
-        <member name="T:WaterLibrary.Util.MathH.ORDER">
+        <member name="T:WaterLibrary.Utils.MathH.ORDER">
             <summary>
             顺序表示枚举
             </summary>
         </member>
-        <member name="P:WaterLibrary.Util.MathH.ORDER.ASC">
+        <member name="P:WaterLibrary.Utils.MathH.ORDER.ASC">
             <summary>
             升序(0123)
             </summary>
         </member>
-        <member name="P:WaterLibrary.Util.MathH.ORDER.DESC">
+        <member name="P:WaterLibrary.Utils.MathH.ORDER.DESC">
             <summary>
             降序(3210)
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.Exch``1(``0@,``0@)">
+        <member name="M:WaterLibrary.Utils.MathH.Exch``1(``0@,``0@)">
             <summary>
             交换值的方法，引用类型
             </summary>
             <param name="i"></param>
             <param name="j"></param>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.Less``1(``0,``0)">
+        <member name="M:WaterLibrary.Utils.MathH.Less``1(``0,``0)">
             <summary>
             判断小于的方法
             </summary>
@@ -1690,21 +1690,21 @@
             <param name="j"></param>
             <returns>若i小于j返回true</returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.IsOdd(System.Int32)">
+        <member name="M:WaterLibrary.Utils.MathH.IsOdd(System.Int32)">
             <summary>
             判断奇数的方法
             </summary>
             <param name="num">待判断的数值</param>
             <returns>num为奇数返回true，num为偶数返回false</returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.GenerateUUID(System.String)">
+        <member name="M:WaterLibrary.Utils.MathH.GenerateUUID(System.String)">
             <summary>
             生成UUID
             </summary>
             <param name="format">生成格式，可选值有N、D、B、P、X</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.BinarySearch(System.Int32,System.Int32[])">
+        <member name="M:WaterLibrary.Utils.MathH.BinarySearch(System.Int32,System.Int32[])">
             <summary>
             二分法检索(重载一),适用于整型检索
             </summary>
@@ -1712,7 +1712,7 @@
             <param name="array">数组,顺序由小到大</param>
             <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.BinarySearch(System.Double,System.Double[])">
+        <member name="M:WaterLibrary.Utils.MathH.BinarySearch(System.Double,System.Double[])">
             <summary>
             二分法检索(重载二),适用于双精度浮点检索
             </summary>
@@ -1720,21 +1720,21 @@
             <param name="array">数组，顺序由小到大</param>
             <returns>若数组存在被检索值,则返回值在数组中的位置,若不存在则返回-1</returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.ShellSort``1(``0[])">
+        <member name="M:WaterLibrary.Utils.MathH.ShellSort``1(``0[])">
             <summary>
             希尔排序
             </summary>
             <param name="array">待排序的整数组</param>
             <returns>返回排序完成的数组</returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.GenRSAKeyPair(System.Int32)">
+        <member name="M:WaterLibrary.Utils.MathH.GenRSAKeyPair(System.Int32)">
             <summary>
             生成RSA密钥对
             </summary>
             <param name="keySize">密钥位数</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSAEncrypt(System.String,System.String)">
+        <member name="M:WaterLibrary.Utils.MathH.RSAEncrypt(System.String,System.String)">
             <summary>
             RSA加密
             </summary>
@@ -1742,7 +1742,7 @@
             <param name="PlainText">明文</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSADecrypt(System.String,System.String)">
+        <member name="M:WaterLibrary.Utils.MathH.RSADecrypt(System.String,System.String)">
             <summary>
             RSA解密
             </summary>
@@ -1750,83 +1750,83 @@
             <param name="CipherText">密文</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.MD5(System.Object)">
+        <member name="M:WaterLibrary.Utils.MathH.MD5(System.Object)">
             <summary>
             将对象加密到MD5
             </summary>
             <param name="obj">待处理对象</param>
             <returns>返回处理后得到的字符串</returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.SHA1(System.Object)">
+        <member name="M:WaterLibrary.Utils.MathH.SHA1(System.Object)">
             <summary>
             将对象加密到SHA1
             </summary>
             <param name="obj">待处理对象</param>
             <returns>返回处理后得到的字符串</returns>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.SHA256(System.Object)">
+        <member name="M:WaterLibrary.Utils.MathH.SHA256(System.Object)">
             <summary>
             将对象加密到SHA256
             </summary>
             <param name="obj">待处理对象</param>
             <returns>返回处理后得到的字符串</returns>
         </member>
-        <member name="T:WaterLibrary.Util.MathH.RSA">
+        <member name="T:WaterLibrary.Utils.MathH.RSA">
             <summary>
             RSA操作类
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA.ToPEM(System.Boolean)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA.ToPEM(System.Boolean)">
             <summary>
             将密钥对导出成PEM对象，如果convertToPublic含私钥的RSA将只返回公钥，仅含公钥的RSA不受影响
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA.Encode(System.String)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA.Encode(System.String)">
             <summary>
             加密字符串（utf-8），出错抛异常
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA.Encode(System.Byte[])">
+        <member name="M:WaterLibrary.Utils.MathH.RSA.Encode(System.Byte[])">
             <summary>
             加密数据，出错抛异常
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA.DecodeOrNull(System.String)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA.DecodeOrNull(System.String)">
             <summary>
             解密字符串（utf-8），解密异常返回null
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA.DecodeOrNull(System.Byte[])">
+        <member name="M:WaterLibrary.Utils.MathH.RSA.DecodeOrNull(System.Byte[])">
             <summary>
             解密数据，解密异常返回null
             </summary>
         </member>
-        <member name="P:WaterLibrary.Util.MathH.RSA.RSAObject">
+        <member name="P:WaterLibrary.Utils.MathH.RSA.RSAObject">
             <summary>
             最底层的RSACryptoServiceProvider对象
             </summary>
         </member>
-        <member name="P:WaterLibrary.Util.MathH.RSA.KeySize">
+        <member name="P:WaterLibrary.Utils.MathH.RSA.KeySize">
             <summary>
             密钥位数
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA.#ctor(System.Int32)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA.#ctor(System.Int32)">
             <summary>
             用指定密钥大小创建一个新的RSA，出错抛异常
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA.#ctor(System.String)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA.#ctor(System.String)">
             <summary>
             通过一个pem文件创建RSA，pem为公钥或私钥，出错抛异常
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA.#ctor(WaterLibrary.Util.MathH.RSA_PEM)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA.#ctor(WaterLibrary.Utils.MathH.RSA_PEM)">
             <summary>
             通过一个pem对象创建RSA，pem为公钥或私钥，出错抛异常
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA.#ctor(System.Byte[],System.Byte[],System.Byte[])">
+        <member name="M:WaterLibrary.Utils.MathH.RSA.#ctor(System.Byte[],System.Byte[],System.Byte[])">
             <summary>
             本方法会先生成RSA_PEM再创建RSA：通过公钥指数和私钥指数构造一个PEM，会反推计算出P、Q但和原始生成密钥的P、Q极小可能相同
             注意：所有参数首字节如果是0，必须先去掉
@@ -1836,69 +1836,69 @@
             <param name="exponent">必须提供公钥指数</param>
             <param name="dOrNull">私钥指数可以不提供，导出的PEM就只包含公钥</param>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])">
+        <member name="M:WaterLibrary.Utils.MathH.RSA.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])">
             <summary>
             本方法会先生成RSA_PEM再创建RSA：通过全量的PEM字段数据构造一个PEM，除了模数modulus和公钥指数exponent必须提供外，其他私钥指数信息要么全部提供，要么全部不提供（导出的PEM就只包含公钥）
             注意：所有参数首字节如果是0，必须先去掉
             </summary>
         </member>
-        <member name="T:WaterLibrary.Util.MathH.RSA_PEM">
+        <member name="T:WaterLibrary.Utils.MathH.RSA_PEM">
             <summary>
             RSA PEM格式密钥对的解析和导出
             </summary>
         </member>
-        <member name="F:WaterLibrary.Util.MathH.RSA_PEM.Key_Modulus">
+        <member name="F:WaterLibrary.Utils.MathH.RSA_PEM.Key_Modulus">
             <summary>
             modulus 模数n，公钥、私钥都有
             </summary>
         </member>
-        <member name="F:WaterLibrary.Util.MathH.RSA_PEM.Key_Exponent">
+        <member name="F:WaterLibrary.Utils.MathH.RSA_PEM.Key_Exponent">
             <summary>
             publicExponent 公钥指数e，公钥、私钥都有
             </summary>
         </member>
-        <member name="F:WaterLibrary.Util.MathH.RSA_PEM.Key_D">
+        <member name="F:WaterLibrary.Utils.MathH.RSA_PEM.Key_D">
             <summary>
             privateExponent 私钥指数d，只有私钥的时候才有
             </summary>
         </member>
-        <member name="F:WaterLibrary.Util.MathH.RSA_PEM.Val_P">
+        <member name="F:WaterLibrary.Utils.MathH.RSA_PEM.Val_P">
             <summary>
             prime1
             </summary>
         </member>
-        <member name="F:WaterLibrary.Util.MathH.RSA_PEM.Val_Q">
+        <member name="F:WaterLibrary.Utils.MathH.RSA_PEM.Val_Q">
             <summary>
             prime2
             </summary>
         </member>
-        <member name="F:WaterLibrary.Util.MathH.RSA_PEM.Val_DP">
+        <member name="F:WaterLibrary.Utils.MathH.RSA_PEM.Val_DP">
             <summary>
             exponent1
             </summary>
         </member>
-        <member name="F:WaterLibrary.Util.MathH.RSA_PEM.Val_DQ">
+        <member name="F:WaterLibrary.Utils.MathH.RSA_PEM.Val_DQ">
             <summary>
             exponent2
             </summary>
         </member>
-        <member name="F:WaterLibrary.Util.MathH.RSA_PEM.Val_InverseQ">
+        <member name="F:WaterLibrary.Utils.MathH.RSA_PEM.Val_InverseQ">
             <summary>
             coefficient
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.#ctor(System.Security.Cryptography.RSA,System.Boolean)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.#ctor(System.Security.Cryptography.RSA,System.Boolean)">
             <summary>
             通过RSA中的公钥和私钥构造一个PEM，如果convertToPublic含私钥的RSA将只读取公钥，仅含公钥的RSA不受影响
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])">
             <summary>
             通过全量的PEM字段数据构造一个PEM，除了模数modulus和公钥指数exponent必须提供外，其他私钥指数信息要么全部提供，要么全部不提供（导出的PEM就只包含公钥）
             注意：所有参数首字节如果是0，必须先去掉
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.#ctor(System.Byte[],System.Byte[],System.Byte[])">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.#ctor(System.Byte[],System.Byte[],System.Byte[])">
             <summary>
             通过公钥指数和私钥指数构造一个PEM，会反推计算出P、Q但和原始生成密钥的P、Q极小可能相同
             注意：所有参数首字节如果是0，必须先去掉
@@ -1908,45 +1908,45 @@
             <param name="exponent">必须提供公钥指数</param>
             <param name="dOrNull">私钥指数可以不提供，导出的PEM就只包含公钥</param>
         </member>
-        <member name="P:WaterLibrary.Util.MathH.RSA_PEM.KeySize">
+        <member name="P:WaterLibrary.Utils.MathH.RSA_PEM.KeySize">
             <summary>
             密钥位数
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.GetRSA">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.GetRSA">
             <summary>
             将PEM中的公钥私钥转成RSA对象，如果未提供私钥，RSA中就只包含公钥
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.BigX(System.Byte[])">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.BigX(System.Byte[])">
             <summary>
             转成正整数，如果是负数，需要加前导0转成正整数
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.BigB(System.Numerics.BigInteger)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.BigB(System.Numerics.BigInteger)">
             <summary>
             BigInt导出byte整数首字节>0x7F的会加0前导，保证正整数，因此需要去掉0
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.BigL(System.Byte[],System.Int32)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.BigL(System.Byte[],System.Int32)">
             <summary>
             某些密钥参数可能会少一位（32个byte只有31个，目测是密钥生成器的问题，只在c#生成的密钥中发现这种参数，java中生成的密钥没有这种现象），直接修正一下就行；这个问题与BigB有本质区别，不能动BigB
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.FindFactor(System.Numerics.BigInteger,System.Numerics.BigInteger,System.Numerics.BigInteger)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.FindFactor(System.Numerics.BigInteger,System.Numerics.BigInteger,System.Numerics.BigInteger)">
             <summary>
             由n e d 反推 P Q 
             资料： https://stackoverflow.com/questions/43136036/how-to-get-a-rsaprivatecrtkey-from-a-rsaprivatekey
             https://v2ex.com/t/661736
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.FromPEM(System.String)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.FromPEM(System.String)">
             <summary>
             用PEM格式密钥对创建RSA，支持PKCS#1、PKCS#8格式的PEM
             出错将会抛出异常
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.ToPEM_PKCS1(System.Boolean)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.ToPEM_PKCS1(System.Boolean)">
             <summary>
             将RSA中的密钥对转换成PEM PKCS#1格式
             。convertToPublic：等于true时含私钥的RSA将只返回公钥，仅含公钥的RSA不受影响
@@ -1954,14 +1954,14 @@
             。似乎导出PKCS#1公钥用的比较少，PKCS#8的公钥用的多些，私钥#1#8都差不多
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.ToPEM_PKCS8(System.Boolean)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.ToPEM_PKCS8(System.Boolean)">
             <summary>
             将RSA中的密钥对转换成PEM PKCS#8格式
             。convertToPublic：等于true时含私钥的RSA将只返回公钥，仅含公钥的RSA不受影响
             。公钥如：-----BEGIN PUBLIC KEY-----，私钥如：-----BEGIN PRIVATE KEY-----
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.MathH.RSA_PEM.ToPEM(System.Boolean,System.Boolean,System.Boolean)">
+        <member name="M:WaterLibrary.Utils.MathH.RSA_PEM.ToPEM(System.Boolean,System.Boolean,System.Boolean)">
             <summary>
             将RSA中的密钥对转换成PEM格式
             。convertToPublic：等于true时含私钥的RSA将只返回公钥，仅含公钥的RSA不受影响
@@ -1969,17 +1969,17 @@
             。publicUsePKCS8：公钥的返回格式，等于true时返回PKCS#8格式（-----BEGIN PUBLIC KEY-----），否则返回PKCS#1格式（-----BEGIN RSA PUBLIC KEY-----），返回私钥时此参数无效；一般用的多的是true PKCS#8格式公钥，PKCS#1格式似乎比较少见公钥
             </summary>
         </member>
-        <member name="T:WaterLibrary.Util.ConvertH">
+        <member name="T:WaterLibrary.Utils.ConvertH">
             <summary>
             转换管理器
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.ConvertH.#ctor">
+        <member name="M:WaterLibrary.Utils.ConvertH.#ctor">
             <summary>
             私有构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.ConvertH.StringToList(System.String,System.Char)">
+        <member name="M:WaterLibrary.Utils.ConvertH.StringToList(System.String,System.Char)">
             <summary>
             将字符串按照分隔符字符切割
             </summary>
@@ -1987,7 +1987,7 @@
             <param name="Delimiter">分隔符</param>
             <returns>返回切割结果集</returns>
         </member>
-        <member name="M:WaterLibrary.Util.ConvertH.ListToString(System.Object,System.Char)">
+        <member name="M:WaterLibrary.Utils.ConvertH.ListToString(System.Object,System.Char)">
             <summary>
             将可迭代对象的元素值按照分隔符合并为一个字符串
             </summary>
@@ -1995,7 +1995,7 @@
             <param name="Delimiter">分隔符</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.Util.ConvertH.ListToString(System.Object,System.String,System.Char)">
+        <member name="M:WaterLibrary.Utils.ConvertH.ListToString(System.Object,System.String,System.Char)">
             <summary>
             将可迭代对象的元素值按照分隔符合并为一个字符串
             </summary>
@@ -2004,43 +2004,43 @@
             <param name="Delimiter">分隔符</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.Util.ConvertH.HtmlFilter(System.String)">
+        <member name="M:WaterLibrary.Utils.ConvertH.HtmlFilter(System.String)">
             <summary>
             Html过滤器
             </summary>
             <param name="HtmlText">Html文本</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.Util.ConvertH.MarkdownToHtml(System.String)">
+        <member name="M:WaterLibrary.Utils.ConvertH.MarkdownToHtml(System.String)">
             <summary>
             Markdown转Html
             </summary>
             <param name="MarkdownText">Markdown文本</param>
             <returns></returns>
         </member>
-        <member name="T:WaterLibrary.Util.KeyPair">
+        <member name="T:WaterLibrary.Utils.KeyPair">
             <summary>
             RSA密钥对
             </summary>
         </member>
-        <member name="M:WaterLibrary.Util.KeyPair.#ctor(System.Nullable{System.Int32})">
+        <member name="M:WaterLibrary.Utils.KeyPair.#ctor(System.Nullable{System.Int32})">
             <summary>
             初始化密钥对
             </summary>
             <param name="keySize">初始化填充的密钥位数，默认不填充</param>
         </member>
-        <member name="M:WaterLibrary.Util.KeyPair.ToJSON">
+        <member name="M:WaterLibrary.Utils.KeyPair.ToJSON">
             <summary>
             将当前对象序列化到JSON
             </summary>
             <returns></returns>
         </member>
-        <member name="P:WaterLibrary.Util.KeyPair.PublicKey">
+        <member name="P:WaterLibrary.Utils.KeyPair.PublicKey">
             <summary>
             公钥
             </summary>
         </member>
-        <member name="P:WaterLibrary.Util.KeyPair.PrivateKey">
+        <member name="P:WaterLibrary.Utils.KeyPair.PrivateKey">
             <summary>
             私钥
             </summary>
