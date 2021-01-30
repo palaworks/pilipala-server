@@ -215,18 +215,20 @@ namespace WaterLibrary.pilipala.Components
                     cmd.CommandText = SQL;
                     cmd.Parameters.AddRange(parameters);
 
-                    cmd.Transaction = MySqlManager.Connection.BeginTransaction();
-                    if (cmd.ExecuteNonQuery() == 1)
+                    return MySqlManager.DoInTransaction(conn, tx =>
                     {
-                        /* 指向表和拷贝表分别添加1行数据 */
-                        cmd.Transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        cmd.Transaction.Rollback();
-                        return false;
-                    }
+                        if (cmd.ExecuteNonQuery() == 1)
+                        {
+                            /* 指向表和拷贝表分别添加1行数据 */
+                            tx.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            tx.Rollback();
+                            return false;
+                        }
+                    });
                 });
             });
         }
@@ -243,18 +245,20 @@ namespace WaterLibrary.pilipala.Components
                 {
                     cmd.CommandText = $"DELETE FROM {CommentTable} WHERE CommentID = {CommentID}";
 
-                    cmd.Transaction = MySqlManager.Connection.BeginTransaction();
-                    if (cmd.ExecuteNonQuery() == 1)
+                    return MySqlManager.DoInTransaction(conn, tx =>
                     {
-                        /* 删除1条评论，操作行为1 */
-                        cmd.Transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        cmd.Transaction.Rollback();
-                        return false;
-                    }
+                        if (cmd.ExecuteNonQuery() == 1)
+                        {
+                            /* 删除1条评论，操作行为1 */
+                            tx.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            tx.Rollback();
+                            return false;
+                        }
+                    });
                 });
             });
         }

@@ -101,12 +101,24 @@ namespace WaterLibrary.MySQL
         /// <returns></returns>
         public T DoInCommand<T>(MySqlConnection Connection, Func<MySqlCommand, T> todo)
         {
-            MySqlCommand Command = new()
-            {
-                Connection = Connection
-            };
+            MySqlCommand Command = Connection.CreateCommand();
             T result = todo(Command);
             Command.Dispose();
+            return result;
+        }
+        /// <summary>
+        /// 事务托管器
+        /// </summary>
+        /// <remarks>此托管器提供了一个已经启动的事务，当委托完成时，事务会自动销毁。事务的提交等操作需在委托中完成。</remarks>
+        /// <typeparam name="T">返回值类型</typeparam>
+        /// <param name="Connection">承载事务的数据库连接</param>
+        /// <param name="todo">委托</param>
+        /// <returns></returns>
+        public T DoInTransaction<T>(MySqlConnection Connection, Func<MySqlTransaction, T> todo)
+        {
+            MySqlTransaction Transaction = Connection.BeginTransaction();
+            T result = todo(Transaction);
+            Transaction.Dispose();
             return result;
         }
 
@@ -344,17 +356,19 @@ namespace WaterLibrary.MySQL
                     cmd.Parameters.AddWithValue("NewValue", NewValue);
                     cmd.Parameters.AddWithValue("Val", MySqlKey.Val);
 
-                    cmd.Transaction = conn.BeginTransaction();
-                    if (cmd.ExecuteNonQuery() == 1)
+                    return DoInTransaction(conn, tx =>
                     {
-                        cmd.Transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        cmd.Transaction.Rollback();
-                        return false;
-                    }
+                        if (cmd.ExecuteNonQuery() == 1)
+                        {
+                            tx.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            tx.Rollback();
+                            return false;
+                        }
+                    });
                 });
             });
         }
@@ -377,17 +391,19 @@ namespace WaterLibrary.MySQL
                     cmd.Parameters.AddWithValue("NewValue", NewValue);
                     cmd.Parameters.AddWithValue("OldValue", OldValue);
 
-                    cmd.Transaction = Connection.BeginTransaction();
-                    if (cmd.ExecuteNonQuery() == 1)
+                    return DoInTransaction(conn, tx =>
                     {
-                        cmd.Transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        cmd.Transaction.Rollback();
-                        return false;
-                    }
+                        if (cmd.ExecuteNonQuery() == 1)
+                        {
+                            tx.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            tx.Rollback();
+                            return false;
+                        }
+                    });
                 });
             });
         }
@@ -417,17 +433,19 @@ namespace WaterLibrary.MySQL
                     part2 = part2[0..^1];
                     cmd.CommandText = $"INSERT INTO {Table} ({part1})VALUES({part2})";
 
-                    cmd.Transaction = conn.BeginTransaction();
-                    if (cmd.ExecuteNonQuery() == 1)
+                    return DoInTransaction(conn, tx =>
                     {
-                        cmd.Transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        cmd.Transaction.Rollback();
-                        return false;
-                    }
+                        if (cmd.ExecuteNonQuery() == 1)
+                        {
+                            tx.Commit();
+                            return true;
+                        }
+                        else
+                        {
+                            tx.Rollback();
+                            return false;
+                        }
+                    });
                 });
             });
         }
@@ -446,11 +464,14 @@ namespace WaterLibrary.MySQL
                 return DoInCommand(conn, cmd =>
                 {
                     cmd.CommandText = SQL;
-                    cmd.Transaction = conn.BeginTransaction();/*启动事务*/
-                    int AffectedRows = cmd.ExecuteNonQuery();
-                    cmd.Transaction.Commit();/*提交事务*/
 
-                    return AffectedRows;
+                    return DoInTransaction(conn, tx =>
+                    {
+                        int AffectedRows = cmd.ExecuteNonQuery();
+                        tx.Commit();/*提交事务*/
+
+                        return AffectedRows;
+                    });
                 });
             });
         }

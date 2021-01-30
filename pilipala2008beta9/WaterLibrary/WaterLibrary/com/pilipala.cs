@@ -1384,20 +1384,20 @@ namespace WaterLibrary.pilipala
                         cmd.CommandText = SQL;
                         cmd.Parameters.AddRange(parameters);
 
-                        /* 开始事务 */
-                        cmd.Transaction = conn.BeginTransaction();
-
-                        if (cmd.ExecuteNonQuery() == 2)
+                        return MySqlManager.DoInTransaction(conn, tx =>
                         {
-                            /* 指向表和拷贝表分别添加1行数据 */
-                            cmd.Transaction.Commit();
-                            return true;
-                        }
-                        else
-                        {
-                            cmd.Transaction.Rollback();
-                            return false;
-                        }
+                            if (cmd.ExecuteNonQuery() == 2)
+                            {
+                                /* 指向表和拷贝表分别添加1行数据 */
+                                tx.Commit();
+                                return true;
+                            }
+                            else
+                            {
+                                tx.Rollback();
+                                return false;
+                            }
+                        });
                     });
                 });
             }
@@ -1418,18 +1418,20 @@ namespace WaterLibrary.pilipala
                         /* int参数无法用于参数化攻击 */
                         cmd.CommandText = $"DELETE FROM {IndexTable} WHERE PostID={PostID};DELETE FROM {StackTable} WHERE PostID={PostID};";
 
-                        cmd.Transaction = conn.BeginTransaction();
-                        if (cmd.ExecuteNonQuery() >= 2)
+                        return MySqlManager.DoInTransaction(conn, tx =>
                         {
-                            /* 指向表只删除1行数据，拷贝表至少删除1行数据 */
-                            cmd.Transaction.Commit();
-                            return true;
-                        }
-                        else
-                        {
-                            cmd.Transaction.Rollback();
-                            return false;
-                        }
+                            if (cmd.ExecuteNonQuery() >= 2)
+                            {
+                                /* 指向表只删除1行数据，拷贝表至少删除1行数据 */
+                                tx.Commit();
+                                return true;
+                            }
+                            else
+                            {
+                                tx.Rollback();
+                                return false;
+                            }
+                        });
                     });
                 });
             }
@@ -1481,19 +1483,21 @@ namespace WaterLibrary.pilipala
                         cmd.CommandText = SQL;
                         cmd.Parameters.AddRange(parameters);
 
-                        cmd.Transaction = conn.BeginTransaction();
-                        if (cmd.ExecuteNonQuery() == 2)
+                        return MySqlManager.DoInTransaction(conn, tx =>
                         {
-                            /* 指向表修改1行数据，拷贝表添加1行数据 */
-                            cmd.Transaction.Commit();
-                            return true;
-                        }
-                        else
-                        {
-                            cmd.Transaction.Rollback();
-                            return false;
-                            /* 由于UUID更新，影响行始终为2，若出现其他情况则一定为错误 */
-                        }
+                            if (cmd.ExecuteNonQuery() == 2)
+                            {
+                                /* 指向表修改1行数据，拷贝表添加1行数据 */
+                                tx.Commit();
+                                return true;
+                            }
+                            else
+                            {
+                                tx.Rollback();
+                                return false;
+                                /* 由于UUID更新，影响行始终为2，若出现其他情况则一定为错误 */
+                            }
+                        });
                     });
                 });
             }
@@ -1523,18 +1527,20 @@ namespace WaterLibrary.pilipala
                         cmd.CommandText = SQL;
                         cmd.Parameters.AddRange(parameters);
 
-                        cmd.Transaction = conn.BeginTransaction();
-                        if (cmd.ExecuteNonQuery() == 1)
+                        return MySqlManager.DoInTransaction(conn, tx =>
                         {
-                            /* 拷贝表删除一行数据 */
-                            cmd.Transaction.Commit();
-                            return true;
-                        }
-                        else
-                        {
-                            cmd.Transaction.Rollback();
-                            return false;
-                        }
+                            if (cmd.ExecuteNonQuery() == 1)
+                            {
+                                /* 拷贝表删除一行数据 */
+                                tx.Commit();
+                                return true;
+                            }
+                            else
+                            {
+                                tx.Rollback();
+                                return false;
+                            }
+                        });
                     });
                 });
             }
@@ -1565,18 +1571,20 @@ namespace WaterLibrary.pilipala
                         cmd.CommandText = SQL;
                         cmd.Parameters.AddRange(parameters);
 
-                        cmd.Transaction = conn.BeginTransaction();
-                        if (cmd.ExecuteNonQuery() == 2)
+                        return MySqlManager.DoInTransaction(conn, tx =>
                         {
-                            /* 指向表修改1行数据，拷贝表删除一行数据 */
-                            cmd.Transaction.Commit();
-                            return true;
-                        }
-                        else
-                        {
-                            cmd.Transaction.Rollback();
-                            return false;
-                        }
+                            if (cmd.ExecuteNonQuery() == 2)
+                            {
+                                /* 指向表修改1行数据，拷贝表删除一行数据 */
+                                tx.Commit();
+                                return true;
+                            }
+                            else
+                            {
+                                tx.Rollback();
+                                return false;
+                            }
+                        });
                     });
                 });
             }
@@ -1601,18 +1609,20 @@ namespace WaterLibrary.pilipala
                         , IndexTable, StackTable, PostID
                         );
 
-                        cmd.Transaction = conn.BeginTransaction();
-                        if (cmd.ExecuteNonQuery() == 2)
+                        return MySqlManager.DoInTransaction(conn, tx =>
                         {
-                            /* 指向表修改1行数据，拷贝表删除1行数据 */
-                            cmd.Transaction.Commit();
-                            return true;
-                        }
-                        else
-                        {
-                            cmd.Transaction.Rollback();
-                            return false;
-                        }
+                            if (cmd.ExecuteNonQuery() == 2)
+                            {
+                                /* 指向表修改1行数据，拷贝表删除1行数据 */
+                                tx.Commit();
+                                return true;
+                            }
+                            else
+                            {
+                                tx.Rollback();
+                                return false;
+                            }
+                        });
                     });
                 });
             }
@@ -1635,18 +1645,20 @@ namespace WaterLibrary.pilipala
                         , IndexTable, StackTable, PostID
                         );
 
-                        cmd.Transaction = conn.BeginTransaction();
-                        if (cmd.ExecuteNonQuery() >= 0)
+                        return MySqlManager.DoInTransaction(conn, tx =>
                         {
-                            /* 删除拷贝表的所有冗余，不存在冗余时影响行数为0 */
-                            cmd.Transaction.Commit();
-                            return true;
-                        }
-                        else
-                        {
-                            cmd.Transaction.Rollback();
-                            return false;
-                        }
+                            if (cmd.ExecuteNonQuery() >= 0)
+                            {
+                                /* 删除拷贝表的所有冗余，不存在冗余时影响行数为0 */
+                                tx.Commit();
+                                return true;
+                            }
+                            else
+                            {
+                                tx.Rollback();
+                                return false;
+                            }
+                        });
                     });
                 });
             }

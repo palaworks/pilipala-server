@@ -1467,6 +1467,16 @@
             <param name="todo">委托</param>
             <returns></returns>
         </member>
+        <member name="M:WaterLibrary.MySQL.MySqlManager.DoInTransaction``1(MySql.Data.MySqlClient.MySqlConnection,System.Func{MySql.Data.MySqlClient.MySqlTransaction,``0})">
+            <summary>
+            事务托管器
+            </summary>
+            <remarks>此托管器提供了一个已经启动的事务，当委托完成时，事务会自动销毁。事务的提交等操作需在委托中完成。</remarks>
+            <typeparam name="T">返回值类型</typeparam>
+            <param name="Connection">承载事务的数据库连接</param>
+            <param name="todo">委托</param>
+            <returns></returns>
+        </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.GetTable(System.String)">
             <summary>
             获取单张数据表
