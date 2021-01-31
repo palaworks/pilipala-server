@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <Reference Include="WaterLibrary">
-      <HintPath>..\..\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll</HintPath>
+      <HintPath>..\..\..\..\WaterLibrary\1.1.7 - (preview)\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
 

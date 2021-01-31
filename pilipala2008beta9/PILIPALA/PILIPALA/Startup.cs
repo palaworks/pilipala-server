@@ -61,7 +61,7 @@ namespace PILIPALA
                 PWD = UserSection.GetSection("PWD").Value
             });
             //主题管理器注入
-            services.AddTransient(x => new ThemeHandler(new ThemeModel()
+            services.AddTransient(x => new ThemeHandler(new ThemeConfigModel()
             {
                 Path = ThemeSection.GetSection("Path").Value,
             }));
