@@ -12,7 +12,7 @@ namespace PILIPALA.Models
         public string Account { get; set; }
         public string PWD { get; set; }
     }
-    public class ThemeModel
+    public class ThemeConfigModel
     {
         public string Path { get; set; }
     }
@@ -47,7 +47,7 @@ namespace PILIPALA.Models
             public string Summary { get; set; }
             public string Content { get; set; }
             [DisplayFormat(ConvertEmptyStringToNull = false)]
-            public int ArchiveID { get; set; }
+            public string ArchiveName { get; set; }
             [DisplayFormat(ConvertEmptyStringToNull = false)]
             public string Label { get; set; }
             [DisplayFormat(ConvertEmptyStringToNull = false)]

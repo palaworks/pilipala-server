@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using System.Collections;
 
-namespace PILIPALA.system.Util
+namespace PILIPALA.system.Utils
 {
     public static class Formatter
     {

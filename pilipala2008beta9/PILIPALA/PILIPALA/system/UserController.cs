@@ -10,7 +10,7 @@ using Newtonsoft.Json.Converters;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 
-using WaterLibrary.Util;
+using WaterLibrary.Utils;
 using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity.PostProp;
 using WaterLibrary.pilipala.Entity;
@@ -231,7 +231,7 @@ namespace PILIPALA.system
                 Summary = PostModel.Summary,
                 Content = PostModel.Content,
 
-                ArchiveID = PostModel.ArchiveID,
+                ArchiveName = PostModel.ArchiveName,
                 Label = PostModel.Label,
                 Cover = PostModel.Cover
             }));
@@ -256,7 +256,7 @@ namespace PILIPALA.system
                 Summary = PostModel.Summary,
                 Content = PostModel.Content,
 
-                ArchiveID = PostModel.ArchiveID,
+                ArchiveName = PostModel.ArchiveName,
                 Label = PostModel.Label,
                 Cover = PostModel.Cover
             }));

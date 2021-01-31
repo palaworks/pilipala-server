@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "H:\\博客项目\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj": {}
+    "H:\\pilipala\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj": {}
   },
   "projects": {
-    "H:\\博客项目\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj": {
+    "H:\\pilipala\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\博客项目\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj",
+        "projectUniqueName": "H:\\pilipala\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj",
         "projectName": "PILIPALA",
-        "projectPath": "H:\\博客项目\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj",
+        "projectPath": "H:\\pilipala\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj",
         "packagesPath": "C:\\Users\\Thaumy\\.nuget\\packages\\",
-        "outputPath": "H:\\博客项目\\pilipala2008beta9\\PILIPALA\\PILIPALA\\obj\\",
+        "outputPath": "H:\\pilipala\\pilipala2008beta9\\PILIPALA\\PILIPALA\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Thaumy\\AppData\\Roaming\\NuGet\\NuGet.Config",

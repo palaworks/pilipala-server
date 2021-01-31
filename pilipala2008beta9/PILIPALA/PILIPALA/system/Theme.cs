@@ -15,9 +15,9 @@ namespace PILIPALA.system.Theme
         /// 标准构造
         /// </summary>
         /// <param name="ThemeModel">主题模型，存有主题配置信息</param>
-        public ThemeHandler(ThemeModel ThemeModel)
+        public ThemeHandler(ThemeConfigModel ThemeConfigModel)
         {
-            Path = ThemeModel.Path;
+            Path = ThemeConfigModel.Path;
         }
         /// <summary>
         /// 配置信息
