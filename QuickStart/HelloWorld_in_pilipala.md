@@ -77,3 +77,8 @@ Windows环境：运行`PILIPALA.exe`
 
 pilipala为操作文章提供了丰富的WebAPI交换接口，允许以安全可靠的方式架设后台。  
 其中，jiligulu是pilipala的样本后台，它通过调用pilipala的一系列交互接口与主机进行通信。
+
+### 叽里咕噜配置文件的设置
+
+叽里咕噜的配置文件为`?.json`，它涵盖了目标pilipala站点的一些公开信息，并以此为基础展开和主机的通信。  
+叽里咕噜是基于Electron的跨平台应用，无需任何环境配置即可运行。
