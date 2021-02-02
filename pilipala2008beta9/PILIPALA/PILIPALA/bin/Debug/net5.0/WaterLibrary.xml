@@ -1459,6 +1459,13 @@
             </summary>
             <remarks>若连接为一次性使用，请使用DoInConnection。从此属性获取的连接对象需手动销毁。</remarks>
         </member>
+        <member name="M:WaterLibrary.MySQL.MySqlManager.CleanConnectionPool">
+            <summary>
+            清理连接池
+            </summary>
+            <remarks>由于连接池具有内部复用机制，经常清理连接池可能会造成不良后果。</remarks>
+            <remarks>此方法仅仅会尝试清理连接池，并不是所有连接都会被强制关闭</remarks>
+        </member>
         <member name="M:WaterLibrary.MySQL.MySqlManager.#ctor">
             <summary>
             默认构造
