@@ -23,7 +23,7 @@ message为`~~`的push表示为常规更新，如代码结构优化、注释优�
 - [x] 浏览统计
 - [x] MVCC（性能上线取决于服务器硬件效能）
 - [x] 插件开发（标准尚未统一）
-- [x] 跨平台运行（Windows10、macOS、Linux）
+- [x] 跨平台运行（Windows10、macOS、Linux的任何x86/x64/ARM32/ARM64系统）
 - [ ] 客制化路由
 - [x] 归档管理
 - [x] HTTPS
@@ -38,6 +38,11 @@ message为`~~`的push表示为常规更新，如代码结构优化、注释优�
 最新的版本为pilipala BETA9预览版，包含了更友好的WL调用支持和诸多组件更新。此版本的开发主题将围绕插件系统、高度客制化主题和深度性能优化展开。
 
 受到其他进程的影响，本项目已置于第二开发梯队，原则上不会刻意提供非常积极的功能性更新。
+
+###
+
+pilipala现提供嵌入式版本，包含了针对低功耗系统的性能优化（ARM32/ARM64）：
+[pilipalaPi](https://github.com/Thaumy/pilipalaPi)
 
 ## 文档
 
