@@ -1,0 +1,96 @@
+/* 屏幕宽度 [ 1001 , + ) */
+@media (min-width: 1001px) {
+    #CardCol {
+        width: 76%;
+        max-width: 1100px;
+    }
+
+    #CardCol .Card>.contain>.Title {
+        padding-top: 12px;
+    }
+}
+
+/* 屏幕宽度 ( - , 1000 ] */
+@media (max-width: 1000px) {
+    #CardCol {
+        width: 100%;
+    }
+
+    #CardCol .Card>.contain>.Title {
+        padding-top: 10px;
+    }
+}
+
+#CardCol {
+    padding-bottom: 100vh;
+}
+
+#CardCol>.Col {
+    width: 100%;
+    transition: all 1s ease;
+}
+
+#CardCol .Card {
+    width: 100%;
+
+    overflow: hidden;
+    /* 颜色模式 */
+    background: rgba(40, 40, 40, 1.00);
+}
+
+#CardCol .Card>.contain {
+    overflow: hidden;
+    width: 100%;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+#CardCol .Card>.contain>.Title {
+    font-size: 24px;
+    line-height: 24px;
+
+    padding-left: 12px;
+    padding-bottom: 8px;
+}
+
+#CardCol .Card>.contain>img {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    margin-bottom: -5px;
+}
+
+#CardCol .Card>.contain>.Summary {
+    font-size: 15px;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    padding-left: 18px;
+    padding-right: 18px;
+
+    margin-bottom: 8px;
+}
+
+#CardCol .Card>.contain>.Content {
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+
+    font-size: 15px;
+    line-height: 22px;
+    letter-spacing: 1px;
+    word-break: break-word;
+}
+
+#CardCol .Card>.contain>.NoteContent {
+    padding-top: 8px;
+    padding-bottom: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 28px;
+    word-break: break-word;
+}
