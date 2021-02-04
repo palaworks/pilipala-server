@@ -1,0 +1,127 @@
+﻿@using PILIPALA.system.Theme
+@using WaterLibrary.pilipala;
+@using WaterLibrary.pilipala.Entity;
+@using WaterLibrary.pilipala.Entity.PostProp;
+@using WaterLibrary.pilipala.Components;
+@using WaterLibrary.Utils;
+
+@inject ICORE CORE
+@inject ThemeHandler ThemeHandler
+
+@{
+    Reader Reader;
+    Writer Writer;
+    Counter Counter;
+    CommentLake CommentLake;
+    ComponentFactory ComponentFactory = new ComponentFactory();
+
+    CORE.CoreReady += ComponentFactory.Ready;
+
+    @*启动内核*@
+    CORE.Run();
+
+    Reader = ComponentFactory.GenReader(Reader.ReadMode.CleanRead);
+    Writer = ComponentFactory.GenWriter();
+    Counter = ComponentFactory.GenCounter();
+    CommentLake = ComponentFactory.GenCommentLake();
+
+    @*读取主题配置文件并取得要在本页展示的文章归档*@
+    var archive = ThemeHandler.Config["Navi"]["DefaultArchive"].ToList();
+    var REGEXP = ConvertH.ListToString(archive, '|');
+    PostSet PostSet = Reader.GetPost<ArchiveName>(REGEXP, PostPropEnum.PostID, PostPropEnum.Title);
+}
+
+
+<div class="box bSha bRds-t">
+    <div class="AvaBox">
+        <div class="Ava-outline" v-bind:style="style" v-on:click="click" id="Ava-outline">
+            <img class="Ava bSha cur" src="http://q1.qlogo.cn/g?b=qq&nk=1951327599&s=640">
+        </div>
+    </div>
+
+    <div class="Name">THAUMY的小站</div>
+    <div class="Note"><span id="note"></span></div>
+</div>
+
+<div class="List" id="pcNavList">
+    <div class="barBox">
+        <transition name="fade">
+            <div class="bar" v-if="barSeen" v-bind:style="style"></div>
+        </transition>
+    </div>
+    <div class="box">
+        <pc-card v-for="a in List" v-bind:item="a" v-bind:key="a.index"></pc-card>
+    </div>
+</div>
+
+<div class="Co-outline" v-bind:style="style" v-on:click="click" id="Co-outline">
+    <div class="Co cur">
+        THAUMY的博客©2016-2020保留所有权利<br>
+        基于pilipala构建<br>
+        Field Theme Designed By Thaumy<br>
+    </div>
+</div>
+
+<!-- vue导航组件 -->
+<script>
+    Vue.component("pc-card", {
+        props: ["item"],
+        template: '<div class="Card cur bRds" v-on:click="pc_card_click(item.ID)" :key="item.index"><div class="contain">{{item.Title}}</div></div>',
+        methods: {
+            pc_card_click: function (ID) {
+                up();
+                showPost(ID);
+                pcNavList.pc_card_line_move(ID);
+
+                AvaOutline.style = {
+                    'border-color': 'rgba(0,0,0,0)'
+                }
+                CoOutline.style = {
+                    'border-color': 'rgba(0,0,0,0)'
+                }
+            }
+        }
+    })
+    var pcNavList = new Vue({
+        el: '#pcNavList',
+        data: {
+            barSeen: true,
+            style: {
+                top: '0vh'
+            },
+            List:
+            [
+                { index: 0, ID: -1, Title: '首页' },
+                @{ int i = 1;}
+                @foreach (Post Post in PostSet)
+                {
+                    <text>{ index:@(i++) , ID:@Post.PostID, Title:'@Html.Raw(Post.Title)' },</text>
+                }
+            ]
+        },
+        methods: {
+            pc_card_line_move: function (ID) {
+                var lock = 0;
+                this.List.forEach((element) => {
+                    if (element.ID == ID) {
+                        this.barSeen = true;
+                        this.style = {
+                            top: element.index * 6 + 'vh',
+                        }
+                        lock = 1;
+                    }
+                });
+                if (lock == 0) {
+                    this.barSeen = false;
+                }
+            }
+        }
+    })
+    var SiderList = new Vue({
+        el: '#SiderList',
+        data: {
+            List: pcNavList.List
+        }
+    })
+</script>
+
