@@ -1,7 +1,7 @@
 .AtBox {
     /* 颜色模式 */
     color: rgba(110, 110, 110, 1.00);
-    background: url("http://thblog-img.test.upcdn.net/ui_img/gezi.jpg");
+    background: url("../../../img/block.jpg");
 }
 
 .CoBox>.AtBox {

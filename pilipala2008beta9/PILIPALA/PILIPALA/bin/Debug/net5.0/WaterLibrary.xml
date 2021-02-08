@@ -1963,7 +1963,7 @@
         </member>
         <member name="T:WaterLibrary.Utils.MathH.RSA_PEM">
             <summary>
-            RSA PEM格式密钥对的解析和导出
+            RSA_PEM格式密钥对的解析和导出
             </summary>
         </member>
         <member name="F:WaterLibrary.Utils.MathH.RSA_PEM.Key_Modulus">

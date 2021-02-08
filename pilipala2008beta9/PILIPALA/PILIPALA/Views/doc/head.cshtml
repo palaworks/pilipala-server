@@ -6,8 +6,9 @@
 <link rel="icon" href="~/ui/img/console.png" sizes="192x192">
 <title>Thaumy的博客|又一个码农的家</title>
 
-<link rel="stylesheet" href="~/ui/css/global.css">
 
+
+<link rel="stylesheet" href="~/ui/css/global.css">
 <!-- 自动切换主题颜色 -->
 @if (DateTime.Now.Hour >= 21 || DateTime.Now.Hour <= 7)
 {
@@ -17,6 +18,12 @@ else
 {
     <link rel="stylesheet" href="~/ui/css/white.css">
 }
+
+<!-- vuetify -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+<link rel="stylesheet" href="@Html.Raw("https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css")">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css">
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -38,11 +45,6 @@ else
 <div style="display:none">
     <script src="https://s19.cnzz.com/z_stat.php?id=1262285427&web_id=1262285427"></script>
 </div>
-
-<!-- vuetify -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
-<link rel="stylesheet" href="@Html.Raw("https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css")">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css">
 
 <!-- 版权绘 -->
 <script>
