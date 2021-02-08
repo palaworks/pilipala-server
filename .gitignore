@@ -7,7 +7,7 @@
 *.so
 
 # Packages #
-*.7z
+#*.7z
 *.dmg
 *.gz
 *.iso
@@ -18,8 +18,6 @@
 
 # Logs and databases #
 *.log
-*.sql
-*.sqlite
 
 # OS generated files #
 .DS_Store
@@ -38,6 +36,7 @@ node_modules
 # Editor directories and files
 .idea
 .vscode
+.vs
 
 # local env files
 .env.local
