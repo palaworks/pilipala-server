@@ -336,65 +336,66 @@
             <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPostProp``1(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPostProp(System.Int32,WaterLibrary.pilipala.Entity.PostPropEnum)">
             <summary>
             取得指定文章属性
             </summary>
-            <typeparam name="Prop">目标属性类型</typeparam>
             <param name="PostID">目标文章PostID</param>
+            <param name="Prop">目标属性类型</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost``1(System.String)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost(WaterLibrary.pilipala.Entity.PostPropEnum,System.String)">
             <summary>
             获取文章数据
             </summary>
-            <typeparam name="Prop">正则表达式匹配的属性类型</typeparam>
+            <param name="Prop">正则表达式匹配的属性类型</param>
             <param name="REGEXP">正则表达式</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost``1(System.String,WaterLibrary.pilipala.Entity.PostPropEnum[])">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.GetPost(WaterLibrary.pilipala.Entity.PostPropEnum,System.String,WaterLibrary.pilipala.Entity.PostPropEnum[])">
             <summary>
             获取文章数据
             </summary>
-            <typeparam name="Prop">正则表达式匹配的属性类型</typeparam>
+            <param name="Prop">正则表达式匹配的属性类型</param>
             <param name="REGEXP">正则表达式</param>
             <param name="PostProps">所需属性类型</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.Bigger``1(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.Bigger(System.Int32,WaterLibrary.pilipala.Entity.PostPropEnum)">
             <summary>
             取得具有比目标文章的指定属性具有更大的值的文章PostID
             </summary>
-            <typeparam name="Prop">指定属性</typeparam>
             <param name="PostID">目标文章的PostID</param>
+            <param name="Prop">指定属性</param>
             <returns>不存在符合要求的PostID时，返回-1</returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.Bigger``1(System.Int32,System.String,WaterLibrary.pilipala.Entity.PostPropEnum)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.Bigger(System.Int32,WaterLibrary.pilipala.Entity.PostPropEnum,System.String,WaterLibrary.pilipala.Entity.PostPropEnum)">
             <summary>
             取得具有比目标文章的指定属性具有更大的值的文章PostID
             </summary>
-            <typeparam name="Prop">指定属性</typeparam>
+            <remarks>此方法能根据指定正则表达式对某属性进行筛选</remarks>
             <param name="PostID">目标文章的PostID</param>
+            <param name="Prop">指定属性</param>
             <param name="REGEXP">正则表达式</param>
-            <param name="PostProp">用于被正则表达式筛选的属性</param>
+            <param name="FilterProp">被正则表达式筛选的属性</param>
             <returns>不存在符合要求的PostID时，返回-1</returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.Smaller``1(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.Smaller(System.Int32,WaterLibrary.pilipala.Entity.PostPropEnum)">
             <summary>
             取得具有比目标文章的指定属性具有更小的值的文章PostID
             </summary>
-            <typeparam name="Prop">指定属性</typeparam>
             <param name="PostID">目标文章的PostID</param>
+            <param name="Prop">指定属性</param>
             <returns>不存在符合要求的PostID时，返回-1</returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Components.Reader.Smaller``1(System.Int32,System.String,WaterLibrary.pilipala.Entity.PostPropEnum)">
+        <member name="M:WaterLibrary.pilipala.Components.Reader.Smaller(System.Int32,WaterLibrary.pilipala.Entity.PostPropEnum,System.String,WaterLibrary.pilipala.Entity.PostPropEnum)">
             <summary>
             取得具有比目标文章的指定属性具有更小的值的文章PostID
             </summary>
-            <typeparam name="Prop">指定属性</typeparam>
             <param name="PostID">目标文章的PostID</param>
+            <param name="Prop">指定属性</param>
             <param name="REGEXP">正则表达式</param>
-            <param name="PostProp">用于被正则表达式筛选的属性</param>
+            <param name="FilterProp">用于被正则表达式筛选的属性</param>
             <returns>不存在符合要求的PostID时，返回-1</returns>
         </member>
         <member name="T:WaterLibrary.pilipala.Components.Writer">
@@ -575,15 +576,6 @@
             <summary>
             计划中文章计数
             </summary>
-        </member>
-        <member name="M:WaterLibrary.pilipala.Components.Counter.CountOf``1(System.Object)">
-            <summary>
-            某属性下的文章计数器
-            </summary>
-            <remarks>此方法采用依次轮询Meta表和Stack表（暂未考虑Archive表），检索方法有待优化</remarks>
-            <typeparam name="Prop">目标属性</typeparam>
-            <param name="Value">属性值</param>
-            <returns>计数为0、未检索到、异常等情况均返回0</returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Components.Counter.SetStarCount(System.Int32,System.Int32)">
             <summary>
@@ -898,7 +890,7 @@
         </member>
         <member name="P:WaterLibrary.pilipala.Entity.Post.Content">
             <summary>
-            内容
+            Content字段原始内容
             </summary>
         </member>
         <member name="M:WaterLibrary.pilipala.Entity.Post.HtmlContent">
