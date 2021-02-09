@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json.Linq;
-using PILIPALA.Models;
 
-namespace PILIPALA.system.Theme
+
+namespace PILIPALA.Theme
 {
+    using PILIPALA.Models;
+
     public class ThemeHandler
     {
         private string Path { get; set; }
