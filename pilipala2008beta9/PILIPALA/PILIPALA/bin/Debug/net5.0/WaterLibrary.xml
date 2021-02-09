@@ -58,7 +58,7 @@
             <summary>
             工厂构造
             </summary>
-            <param name="IndexTable">索引表</param>
+            <param name="MetaTable">元数据表</param>
             <param name="CommentTable">评论表</param>
             <param name="MySqlManager">数据库管理器</param>
         </member>
@@ -411,7 +411,7 @@
             <summary>
             工厂构造
             </summary>
-            <param name="IndexTable">索引表</param>
+            <param name="MetaTable">元数据表</param>
             <param name="StackTable">主表</param>
             <param name="MySqlManager">数据库管理器</param>
             <returns></returns>
@@ -541,7 +541,7 @@
             <summary>
             工厂构造
             </summary>
-            <param name="IndexTable">索引表</param>
+            <param name="MetaTable">元数据表</param>
             <param name="StackTable">主表</param>
             <param name="MySqlManager">数据库管理器</param>
             <returns></returns>
@@ -580,7 +580,7 @@
             <summary>
             某属性下的文章计数器
             </summary>
-            <remarks>此方法采用依次i轮询Index表和Stack表（暂未考虑Archive表），检索方法有待优化</remarks>
+            <remarks>此方法采用依次轮询Meta表和Stack表（暂未考虑Archive表），检索方法有待优化</remarks>
             <typeparam name="Prop">目标属性</typeparam>
             <param name="Value">属性值</param>
             <returns>计数为0、未检索到、异常等情况均返回0</returns>
@@ -1287,7 +1287,7 @@
             <summary>
             数据库表集合
             用户表
-            索引表
+            元数据表
             主表
             归档表
             评论表
@@ -1297,7 +1297,7 @@
             <summary>
             数据库表集合
             用户表
-            索引表
+            元数据表
             主表
             归档表
             评论表
