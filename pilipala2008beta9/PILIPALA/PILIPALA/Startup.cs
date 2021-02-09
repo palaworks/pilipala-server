@@ -71,8 +71,8 @@ namespace PILIPALA
                 Tables = new
                 (
                     DB_Meta.GetSection("Tables:User").Value,
-                    DB_Meta.GetSection("Tables:Index").Value,
-                    DB_Meta.GetSection("Tables:Backup").Value,
+                    DB_Meta.GetSection("Tables:Meta").Value,
+                    DB_Meta.GetSection("Tables:Stack").Value,
                     DB_Meta.GetSection("Tables:Archive").Value,
                     DB_Meta.GetSection("Tables:Comment").Value
                 ),
