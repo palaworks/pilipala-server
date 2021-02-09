@@ -12,17 +12,16 @@ using Microsoft.AspNetCore.Http;
 
 using WaterLibrary.Utils;
 using WaterLibrary.pilipala;
-using WaterLibrary.pilipala.Entity.PostProp;
 using WaterLibrary.pilipala.Entity;
+using WaterLibrary.pilipala.Component;
 
-using PILIPALA.Models.Form;
 
-namespace PILIPALA.system
+namespace PILIPALA.API
 {
-    using WaterLibrary.pilipala.Components;
+    using PILIPALA.Models.Form; 
 
     [EnableCors("DefaultPolicy")]
-    public class UserController : Controller
+    public class Dashboard : Controller
     {
         private Authentication Authentication;
         private readonly Reader Reader, BackUpReader;
@@ -33,7 +32,7 @@ namespace PILIPALA.system
 
         private readonly ICORE CORE;
 
-        public UserController(ICORE CORE, Models.UserModel User)
+        public Dashboard(ICORE CORE, Models.UserModel User)
         {
             this.CORE = CORE;
 

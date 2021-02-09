@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include=".pilipala\.api\Guest.cs" />
+    <Compile Include=".pilipala\Theme.cs" />
+    <Compile Include=".pilipala\.api\Dashboard.cs" />
+    <Compile Include=".pilipala\Utils.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Markdig" Version="0.22.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
@@ -24,6 +31,10 @@
     <Reference Include="WaterLibrary">
       <HintPath>..\..\..\..\WaterLibrary\1.1.7 - (preview)\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include=".pilipala\.plugin\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

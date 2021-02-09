@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using PILIPALA.system.Theme;
 using WaterLibrary.Utils;
 using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity;
-using WaterLibrary.pilipala.Entity.PostProp;
-using WaterLibrary.pilipala.Components;
+using WaterLibrary.pilipala.Component;
+
 
 namespace PILIPALA.Controllers
 {
+    using PILIPALA.Theme;
+
     public class PanelController : Controller
     {
         private readonly Reader Reader;

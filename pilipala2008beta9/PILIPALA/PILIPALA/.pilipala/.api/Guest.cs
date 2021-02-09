@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Cors;
 
 using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity;
-using WaterLibrary.pilipala.Entity.PostProp;
-using WaterLibrary.pilipala.Components;
+using WaterLibrary.pilipala.Component;
 
-using PILIPALA.Models.Form;
 
-namespace PILIPALA.system
+namespace PILIPALA.API
 {
-    public class GuestController : Controller
+    using PILIPALA.Models.Form;
+
+    public class Guest : Controller
     {
         public Reader Reader;
         public Writer Writer;
@@ -24,7 +24,7 @@ namespace PILIPALA.system
 
         private readonly ComponentFactory ComponentFactory = new();
 
-        public GuestController(ICORE CORE)
+        public Guest(ICORE CORE)
         {
             CORE.CoreReady += ComponentFactory.Ready;
 

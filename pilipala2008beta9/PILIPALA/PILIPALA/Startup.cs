@@ -9,15 +9,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using PILIPALA.Models;
-using WaterLibrary.pilipala.Components;
 using WaterLibrary.pilipala;
 using WaterLibrary.MySQL;
 using WaterLibrary.pilipala.Database;
-using PILIPALA.system.Theme;
+using PILIPALA.Theme;
+
 
 namespace PILIPALA
 {
+    using PILIPALA.Models;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -121,24 +122,31 @@ namespace PILIPALA
             app.UseCors();
             app.UseSession();
 
-            /* 用户API */
-            app.UseEndpoints(endpoints =>
+
+            app.UseEndpoints(endpoints =>/* 用户API（为兼容保留，已过时） */
             {
                 endpoints.MapControllerRoute(
-                    name: "UserAPI",
+                    name: "API.User",
                     pattern: "user/{action}",
-                    defaults: new { controller = "User" });
+                    defaults: new { controller = "Dashboard" });
             });
-            /* 访客API */
-            app.UseEndpoints(endpoints =>
+
+            app.UseEndpoints(endpoints =>/* 访客API */
             {
                 endpoints.MapControllerRoute(
-                    name: "GuestAPI",
+                    name: "API.Guest",
                     pattern: "guest/{action}",
                     defaults: new { controller = "Guest" });
             });
-            /* Pannel路由 */
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>/* 访客API */
+            {
+                endpoints.MapControllerRoute(
+                    name: "API.Dashboard",
+                    pattern: "dashboard/{action}",
+                    defaults: new { controller = "Dashboard" });
+            });
+
+            app.UseEndpoints(endpoints =>/* Pannel路由 */
             {
                 endpoints.MapControllerRoute(
                     name: "List",
