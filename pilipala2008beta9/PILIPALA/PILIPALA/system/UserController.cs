@@ -118,13 +118,13 @@ namespace PILIPALA.system
                     /* 评论列表 */
                     var CommentSet = CommentLake.GetComments(ID);
 
-                    string Title = Convert.ToString(Reader.GetPostProp<Title>(ID));
+                    string Title = Convert.ToString(Reader.GetPostProp(ID, PostPropEnum.Title));
 
                     var item = new Hashtable
                     {
                     { "ID", ID },
                     { "Title", Title },
-                    { "Content",Title == ""?Reader.GetPostProp<Content>(ID):"" },
+                    { "Content",Title == ""?Reader.GetPostProp(ID,PostPropEnum.Content):"" },
                     { "CommentCount",  CommentSet.Count},
                     { "MonthCommentCount", CommentSet.WithinMonthCount() },
                     { "WeekCommentCount", CommentSet.WithinWeekCount() },
@@ -183,7 +183,7 @@ namespace PILIPALA.system
         {
             return Authentication
                 .Auth(Token, () =>
-                   Reader.GetPost<PostID>("^")
+                   Reader.GetPost(PostPropEnum.PostID, "^")
                       .ForEach((item) =>
                       {
                           item.PropertyContainer = new()
@@ -207,7 +207,7 @@ namespace PILIPALA.system
         public string Get_neg_posts_by_PostID(string Token, int PostID)
         {
             return Authentication.Auth(Token, () =>
-             BackUpReader.GetPost<PostID>(PostID.ToString())
+             BackUpReader.GetPost(PostPropEnum.PostID, PostID.ToString())
                  .ForEach((item) =>
                  {
                      item.PropertyContainer.Add("MD5", item.MD5());

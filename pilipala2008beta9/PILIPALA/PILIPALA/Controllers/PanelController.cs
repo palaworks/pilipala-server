@@ -46,7 +46,7 @@ namespace PILIPALA.Controllers
             }
 
             PostSet PostSet置顶 = new PostSet();
-            foreach (Post el in Reader.GetPost<ArchiveName>(REGEXP("ToppedArchive")))
+            foreach (Post el in Reader.GetPost(PostPropEnum.ArchiveName, REGEXP("ToppedArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 PostSet置顶.Add(el);
@@ -54,7 +54,7 @@ namespace PILIPALA.Controllers
             ViewBag.置顶文章 = PostSet置顶;
 
             PostSet PostSet其他 = new PostSet();
-            foreach (Post el in Reader.GetPost<ArchiveName>(REGEXP("DefaultArchive")))
+            foreach (Post el in Reader.GetPost(PostPropEnum.ArchiveName, REGEXP("DefaultArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 PostSet其他.Add(el);
@@ -90,11 +90,11 @@ namespace PILIPALA.Controllers
 
             ViewBag.CommentList = CommentLake.GetComments(ID);//评论数据
 
-            ViewBag.PrevID = Reader.Smaller<PostID>(ID, REGEXP(), PostPropEnum.ArchiveName);
-            ViewBag.PrevTitle = Reader.GetPostProp<Title>(ViewBag.PrevID);
+            ViewBag.PrevID = Reader.Smaller(ID, PostPropEnum.PostID, REGEXP(), PostPropEnum.ArchiveName);
+            ViewBag.PrevTitle = Reader.GetPostProp(ViewBag.PrevID, PostPropEnum.Title);
 
-            ViewBag.NextID = Reader.Bigger<PostID>(ID, REGEXP(), PostPropEnum.ArchiveName);
-            ViewBag.NextTitle = Reader.GetPostProp<Title>(ViewBag.NextID);
+            ViewBag.NextID = Reader.Bigger(ID, PostPropEnum.PostID, REGEXP(), PostPropEnum.ArchiveName);
+            ViewBag.NextTitle = Reader.GetPostProp(ViewBag.NextID, PostPropEnum.Title);
 
 
 
