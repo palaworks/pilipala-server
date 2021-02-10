@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Compile Include=".pilipala\.api\Guest.cs" />
+    <Compile Include=".pilipala\.event\Event.cs" />
     <Compile Include=".pilipala\Theme.cs" />
     <Compile Include=".pilipala\.api\Dashboard.cs" />
     <Compile Include=".pilipala\Utils.cs" />
