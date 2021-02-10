@@ -86,12 +86,12 @@
             <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.CommentLake.GetComment``1(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Component.CommentLake.GetComment(System.Int32,WaterLibrary.pilipala.Entity.CommentProp)">
             <summary>
             获得评论属性
             </summary>
-            <typeparam name="T">属性类型</typeparam>
             <param name="CommentID">目标评论CommentID</param>
+            <param name="Prop">属性类型</param>
             <returns></returns>
         </member>
         <member name="M:WaterLibrary.pilipala.Component.CommentLake.GetCommentedPostID">
@@ -336,7 +336,7 @@
             <param name="PostID">目标文章PostID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Reader.GetPostProp(System.Int32,WaterLibrary.pilipala.Entity.PostPropEnum)">
+        <member name="M:WaterLibrary.pilipala.Component.Reader.GetPostProp(System.Int32,WaterLibrary.pilipala.Entity.PostProp)">
             <summary>
             取得指定文章属性
             </summary>
@@ -344,7 +344,7 @@
             <param name="Prop">目标属性类型</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Reader.GetPost(WaterLibrary.pilipala.Entity.PostPropEnum,System.String)">
+        <member name="M:WaterLibrary.pilipala.Component.Reader.GetPost(WaterLibrary.pilipala.Entity.PostProp,System.String)">
             <summary>
             获取文章数据
             </summary>
@@ -352,7 +352,7 @@
             <param name="REGEXP">正则表达式</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Reader.GetPost(WaterLibrary.pilipala.Entity.PostPropEnum,System.String,WaterLibrary.pilipala.Entity.PostPropEnum[])">
+        <member name="M:WaterLibrary.pilipala.Component.Reader.GetPost(WaterLibrary.pilipala.Entity.PostProp,System.String,WaterLibrary.pilipala.Entity.PostProp[])">
             <summary>
             获取文章数据
             </summary>
@@ -361,7 +361,7 @@
             <param name="PostProps">所需属性类型</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Reader.Bigger(System.Int32,WaterLibrary.pilipala.Entity.PostPropEnum)">
+        <member name="M:WaterLibrary.pilipala.Component.Reader.Bigger(System.Int32,WaterLibrary.pilipala.Entity.PostProp)">
             <summary>
             取得具有比目标文章的指定属性具有更大的值的文章PostID
             </summary>
@@ -369,7 +369,7 @@
             <param name="Prop">指定属性</param>
             <returns>不存在符合要求的PostID时，返回-1</returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Reader.Bigger(System.Int32,WaterLibrary.pilipala.Entity.PostPropEnum,System.String,WaterLibrary.pilipala.Entity.PostPropEnum)">
+        <member name="M:WaterLibrary.pilipala.Component.Reader.Bigger(System.Int32,WaterLibrary.pilipala.Entity.PostProp,System.String,WaterLibrary.pilipala.Entity.PostProp)">
             <summary>
             取得具有比目标文章的指定属性具有更大的值的文章PostID
             </summary>
@@ -380,7 +380,7 @@
             <param name="FilterProp">被正则表达式筛选的属性</param>
             <returns>不存在符合要求的PostID时，返回-1</returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Reader.Smaller(System.Int32,WaterLibrary.pilipala.Entity.PostPropEnum)">
+        <member name="M:WaterLibrary.pilipala.Component.Reader.Smaller(System.Int32,WaterLibrary.pilipala.Entity.PostProp)">
             <summary>
             取得具有比目标文章的指定属性具有更小的值的文章PostID
             </summary>
@@ -388,7 +388,7 @@
             <param name="Prop">指定属性</param>
             <returns>不存在符合要求的PostID时，返回-1</returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Reader.Smaller(System.Int32,WaterLibrary.pilipala.Entity.PostPropEnum,System.String,WaterLibrary.pilipala.Entity.PostPropEnum)">
+        <member name="M:WaterLibrary.pilipala.Component.Reader.Smaller(System.Int32,WaterLibrary.pilipala.Entity.PostProp,System.String,WaterLibrary.pilipala.Entity.PostProp)">
             <summary>
             取得具有比目标文章的指定属性具有更小的值的文章PostID
             </summary>
@@ -512,7 +512,53 @@
             <param name="PostID">目标文章的PostID</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Writer.UpdateType(System.Int32,WaterLibrary.pilipala.Entity.PostProp.Type.States)">
+        <member name="T:WaterLibrary.pilipala.Component.Writer.ModeStates">
+            <summary>
+            状态枚举
+            </summary>
+        </member>
+        <member name="F:WaterLibrary.pilipala.Component.Writer.ModeStates.Unset">
+            <summary>
+            未设置
+            </summary>
+            <remarks>默认的文章模式，不带有任何模式特性</remarks>
+        </member>
+        <member name="F:WaterLibrary.pilipala.Component.Writer.ModeStates.Hidden">
+            <summary>
+            隐藏
+            </summary>
+            <remarks>文章被隐藏，此状态下的文章不会被展示</remarks>
+        </member>
+        <member name="F:WaterLibrary.pilipala.Component.Writer.ModeStates.Scheduled">
+            <summary>
+            计划
+            </summary>
+            <remarks>表示文章处于计划状态</remarks>
+        </member>
+        <member name="F:WaterLibrary.pilipala.Component.Writer.ModeStates.Archived">
+            <summary>
+            归档
+            </summary>
+            <remarks>表示文章处于归档状态</remarks>
+        </member>
+        <member name="T:WaterLibrary.pilipala.Component.Writer.TypeStates">
+            <summary>
+            状态枚举
+            </summary>
+        </member>
+        <member name="F:WaterLibrary.pilipala.Component.Writer.TypeStates.Unset">
+            <summary>
+            未设置
+            </summary>
+            <remarks>默认的文章类型，不带有任何类型特性</remarks>
+        </member>
+        <member name="F:WaterLibrary.pilipala.Component.Writer.TypeStates.Note">
+            <summary>
+            便签
+            </summary>
+            <remarks>表示文章以便签形式展示</remarks>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Component.Writer.UpdateType(System.Int32,WaterLibrary.pilipala.Component.Writer.TypeStates)">
             <summary>
             设置文章类型
             </summary>
@@ -520,7 +566,7 @@
             <param name="TypeState">目标类型</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Writer.UpdateMode(System.Int32,WaterLibrary.pilipala.Entity.PostProp.Mode.States)">
+        <member name="M:WaterLibrary.pilipala.Component.Writer.UpdateMode(System.Int32,WaterLibrary.pilipala.Component.Writer.ModeStates)">
             <summary>
             设置文章模式
             </summary>
@@ -659,47 +705,47 @@
             插件管理组件
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.CommentProp.ICommentProp">
+        <member name="T:WaterLibrary.pilipala.Entity.CommentProp">
             <summary>
-            表键值接口
+            评论属性枚举
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.CommentProp.PostID">
+        <member name="F:WaterLibrary.pilipala.Entity.CommentProp.PostID">
             <summary>
             被评论的文章PostID
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.CommentProp.User">
+        <member name="F:WaterLibrary.pilipala.Entity.CommentProp.User">
             <summary>
             评论用户
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.CommentProp.Email">
+        <member name="F:WaterLibrary.pilipala.Entity.CommentProp.Email">
             <summary>
             用户邮箱
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.CommentProp.Content">
+        <member name="F:WaterLibrary.pilipala.Entity.CommentProp.Content">
             <summary>
             评论内容
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.CommentProp.WebSite">
+        <member name="F:WaterLibrary.pilipala.Entity.CommentProp.WebSite">
             <summary>
             用户站点
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.CommentProp.HEAD">
+        <member name="F:WaterLibrary.pilipala.Entity.CommentProp.HEAD">
             <summary>
             回复到的评论CommentID
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.CommentProp.Time">
+        <member name="F:WaterLibrary.pilipala.Entity.CommentProp.Time">
             <summary>
             评论创建时间
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.CommentProp.Floor">
+        <member name="F:WaterLibrary.pilipala.Entity.CommentProp.Floor">
             <summary>
             所在楼层
             </summary>
@@ -1064,141 +1110,85 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostPropEnum">
+        <member name="T:WaterLibrary.pilipala.Entity.PostProp">
             <summary>
             文章属性枚举
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.PostID">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.PostID">
             <summary>
             文章索引
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.UUID">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.UUID">
             <summary>
             文章全局标识
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.Title">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Title">
             <summary>
             文章标题
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.Summary">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Summary">
             <summary>
             文章摘要
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.Content">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Content">
             <summary>
             文章内容
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.Cover">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Cover">
             <summary>
             封面
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.ArchiveName">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.ArchiveName">
             <summary>
             归档名
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.Label">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Label">
             <summary>
             标签
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.Mode">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Mode">
             <summary>
             模式
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.Type">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Type">
             <summary>
             类型
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.User">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.User">
             <summary>
             作者
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.CT">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.CT">
             <summary>
             创建时间
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.LCT">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.LCT">
             <summary>
             最后修改时间
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.UVCount">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.UVCount">
             <summary>
             浏览计数
             </summary>
         </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostPropEnum.StarCount">
+        <member name="F:WaterLibrary.pilipala.Entity.PostProp.StarCount">
             <summary>
             星星计数
             </summary>
-        </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Mode">
-            <summary>
-            模式
-            </summary>
-        </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Mode.States">
-            <summary>
-            状态枚举
-            </summary>
-        </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Mode.States.Unset">
-            <summary>
-            未设置
-            </summary>
-            <remarks>默认的文章模式，不带有任何模式特性</remarks>
-        </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Mode.States.Hidden">
-            <summary>
-            隐藏
-            </summary>
-            <remarks>文章被隐藏，此状态下的文章不会被展示</remarks>
-        </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Mode.States.Scheduled">
-            <summary>
-            计划
-            </summary>
-            <remarks>表示文章处于计划状态</remarks>
-        </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Mode.States.Archived">
-            <summary>
-            归档
-            </summary>
-            <remarks>表示文章处于归档状态</remarks>
-        </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Type">
-            <summary>
-            类型
-            </summary>
-        </member>
-        <member name="T:WaterLibrary.pilipala.Entity.PostProp.Type.States">
-            <summary>
-            状态枚举
-            </summary>
-        </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Type.States.Unset">
-            <summary>
-            未设置
-            </summary>
-            <remarks>默认的文章类型，不带有任何类型特性</remarks>
-        </member>
-        <member name="F:WaterLibrary.pilipala.Entity.PostProp.Type.States.Note">
-            <summary>
-            便签
-            </summary>
-            <remarks>表示文章以便签形式展示</remarks>
         </member>
         <member name="T:WaterLibrary.pilipala.Database.PLTables">
             <summary>

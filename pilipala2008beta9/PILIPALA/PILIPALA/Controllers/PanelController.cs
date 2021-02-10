@@ -47,7 +47,7 @@ namespace PILIPALA.Controllers
             }
 
             PostSet PostSet置顶 = new PostSet();
-            foreach (Post el in Reader.GetPost(PostPropEnum.ArchiveName, REGEXP("ToppedArchive")))
+            foreach (Post el in Reader.GetPost(PostProp.ArchiveName, REGEXP("ToppedArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 PostSet置顶.Add(el);
@@ -55,7 +55,7 @@ namespace PILIPALA.Controllers
             ViewBag.置顶文章 = PostSet置顶;
 
             PostSet PostSet其他 = new PostSet();
-            foreach (Post el in Reader.GetPost(PostPropEnum.ArchiveName, REGEXP("DefaultArchive")))
+            foreach (Post el in Reader.GetPost(PostProp.ArchiveName, REGEXP("DefaultArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 PostSet其他.Add(el);
@@ -72,7 +72,6 @@ namespace PILIPALA.Controllers
                 ViewBag.Layout = null;
                 return View();
             }
-
         }
         public ActionResult Content(int ID, bool ajax)
         {
@@ -91,11 +90,11 @@ namespace PILIPALA.Controllers
 
             ViewBag.CommentList = CommentLake.GetComments(ID);//评论数据
 
-            ViewBag.PrevID = Reader.Smaller(ID, PostPropEnum.PostID, REGEXP(), PostPropEnum.ArchiveName);
-            ViewBag.PrevTitle = Reader.GetPostProp(ViewBag.PrevID, PostPropEnum.Title);
+            ViewBag.PrevID = Reader.Smaller(ID, PostProp.PostID, REGEXP(), PostProp.ArchiveName);
+            ViewBag.PrevTitle = Reader.GetPostProp(ViewBag.PrevID, PostProp.Title);
 
-            ViewBag.NextID = Reader.Bigger(ID, PostPropEnum.PostID, REGEXP(), PostPropEnum.ArchiveName);
-            ViewBag.NextTitle = Reader.GetPostProp(ViewBag.NextID, PostPropEnum.Title);
+            ViewBag.NextID = Reader.Bigger(ID, PostProp.PostID, REGEXP(), PostProp.ArchiveName);
+            ViewBag.NextTitle = Reader.GetPostProp(ViewBag.NextID, PostProp.Title);
 
 
 

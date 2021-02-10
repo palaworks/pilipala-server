@@ -44,7 +44,7 @@ namespace PILIPALA.API
         [HttpPost]
         public int Decrease_StarCount_by_PostID(int PostID)
         {
-            int StarCount = Convert.ToInt32(Reader.GetPostProp(PostID, PostPropEnum.StarCount));
+            int StarCount = Convert.ToInt32(Reader.GetPostProp(PostID, PostProp.StarCount));
 
             Counter.SetStarCount(PostID, StarCount - 1);
 
@@ -57,7 +57,7 @@ namespace PILIPALA.API
         [HttpPost]
         public int Increase_StarCount_by_PostID(int PostID)
         {
-            int StarCount = Convert.ToInt32(Reader.GetPostProp(PostID, PostPropEnum.StarCount));
+            int StarCount = Convert.ToInt32(Reader.GetPostProp(PostID, PostProp.StarCount));
 
             Counter.SetStarCount(PostID, StarCount + 1);
 
@@ -73,7 +73,7 @@ namespace PILIPALA.API
         public int Increase_UVCount_by_PostID(int PostID)
         {
 
-            int UVCount = Convert.ToInt32(Reader.GetPostProp(PostID, PostPropEnum.UVCount));
+            int UVCount = Convert.ToInt32(Reader.GetPostProp(PostID, PostProp.UVCount));
 
             Counter.SetUVCount(PostID, UVCount + 1);
 

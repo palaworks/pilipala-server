@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Thaumy\\Desktop\\LightningLink\\LightningLink\\LightningLink.csproj",
+      "projectUniqueName": "C:\\Users\\Thaumy\\Desktop\\GitHub\\pilipala\\pilipala2008beta9\\LightningLink\\LightningLink\\LightningLink.csproj",
       "projectName": "LightningLink",
-      "projectPath": "C:\\Users\\Thaumy\\Desktop\\LightningLink\\LightningLink\\LightningLink.csproj",
+      "projectPath": "C:\\Users\\Thaumy\\Desktop\\GitHub\\pilipala\\pilipala2008beta9\\LightningLink\\LightningLink\\LightningLink.csproj",
       "packagesPath": "C:\\Users\\Thaumy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Thaumy\\Desktop\\LightningLink\\LightningLink\\obj\\",
+      "outputPath": "C:\\Users\\Thaumy\\Desktop\\GitHub\\pilipala\\pilipala2008beta9\\LightningLink\\LightningLink\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Thaumy\\AppData\\Roaming\\NuGet\\NuGet.Config",

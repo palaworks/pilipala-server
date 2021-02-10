@@ -27,7 +27,7 @@
     @*读取主题配置文件并取得要在本页展示的文章归档*@
     var archive = ThemeHandler.Config["Navi"]["DefaultArchive"].ToList();
     var REGEXP = ConvertH.ListToString(archive, '|');
-    PostSet PostSet = Reader.GetPost(PostPropEnum.ArchiveName, REGEXP, PostPropEnum.PostID, PostPropEnum.Title);
+    PostSet PostSet = Reader.GetPost(PostProp.ArchiveName, REGEXP, PostProp.PostID, PostProp.Title);
 }
 
 
