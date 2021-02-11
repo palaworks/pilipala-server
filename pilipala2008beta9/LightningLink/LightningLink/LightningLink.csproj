@@ -1,7 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="WaterLibrary">
+      <HintPath>H:\WaterLibrary\1.1.7 - (preview)\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>
