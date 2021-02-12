@@ -28,14 +28,10 @@ namespace PILIPALA.API
         private readonly Writer Writer;
         private readonly Counter Counter;
         private readonly CommentLake CommentLake;
-        private new readonly User User;
-
-        private readonly ICORE CORE;
+        private new User User;
 
         public Dashboard(ICORE CORE, Models.UserModel UserModel)
         {
-            this.CORE = CORE;
-
             if ((DateTime.Now - Convert.ToDateTime(CORE.MySqlManager.GetKey($"SELECT TokenTime FROM {CORE.Tables.User} WHERE GroupType = 'user'"))).TotalMinutes <= 120)
             {
                 User = ComponentFactory.Instance.GenUser(UserModel.PWD);
