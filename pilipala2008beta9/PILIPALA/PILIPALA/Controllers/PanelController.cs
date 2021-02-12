@@ -21,19 +21,13 @@ namespace PILIPALA.Controllers
         private readonly Counter Counter;
         private readonly CommentLake CommentLake;
         private readonly ThemeHandler ThemeHandler;
-        private readonly ComponentFactory ComponentFactory = new();
 
-        public PanelController(ICORE CORE, ThemeHandler ThemeHandler)
+        public PanelController(ThemeHandler ThemeHandler)
         {
-            CORE.CoreReady += ComponentFactory.Ready;
-
-            /* 启动内核 */
-            CORE.Run();
-
-            Reader = ComponentFactory.GenReader(Reader.ReadMode.CleanRead);
-            Writer = ComponentFactory.GenWriter();
-            Counter = ComponentFactory.GenCounter();
-            CommentLake = ComponentFactory.GenCommentLake();
+            Reader = ComponentFactory.Instance.GenReader(Reader.ReadMode.CleanRead);
+            Writer = ComponentFactory.Instance.GenWriter();
+            Counter = ComponentFactory.Instance.GenCounter();
+            CommentLake = ComponentFactory.Instance.GenCommentLake();
             this.ThemeHandler = ThemeHandler;
         }
 
