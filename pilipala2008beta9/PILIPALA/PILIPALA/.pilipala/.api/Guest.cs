@@ -22,19 +22,12 @@ namespace PILIPALA.API
         public Counter Counter;
         public CommentLake CommentLake;
 
-        private readonly ComponentFactory ComponentFactory = new();
-
         public Guest(ICORE CORE)
         {
-            CORE.CoreReady += ComponentFactory.Ready;
-
-            /* 启动内核 */
-            CORE.Run();
-
-            Reader = ComponentFactory.GenReader(Reader.ReadMode.DirtyRead, true);
-            Writer = ComponentFactory.GenWriter();
-            Counter = ComponentFactory.GenCounter();
-            CommentLake = ComponentFactory.GenCommentLake();
+            Reader = ComponentFactory.Instance.GenReader(Reader.ReadMode.DirtyRead, true);
+            Writer = ComponentFactory.Instance.GenWriter();
+            Counter = ComponentFactory.Instance.GenCounter();
+            CommentLake = ComponentFactory.Instance.GenCommentLake();
         }
 
         /// <summary>

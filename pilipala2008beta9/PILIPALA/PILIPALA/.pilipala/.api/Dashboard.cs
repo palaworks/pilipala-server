@@ -32,24 +32,19 @@ namespace PILIPALA.API
 
         private readonly ICORE CORE;
 
-        public Dashboard(ICORE CORE, Models.UserModel User)
+        public Dashboard(ICORE CORE, Models.UserModel UserModel)
         {
             this.CORE = CORE;
 
             if ((DateTime.Now - Convert.ToDateTime(CORE.MySqlManager.GetKey($"SELECT TokenTime FROM {CORE.Tables.User} WHERE GroupType = 'user'"))).TotalMinutes <= 120)
             {
-                ComponentFactory ComponentFactory = new();
-
-                CORE.CoreReady += ComponentFactory.Ready;
-
-                this.User = CORE.Run(User.Account, User.PWD);
-
-                Authentication = ComponentFactory.GenAuthentication();
-                Reader = ComponentFactory.GenReader(Reader.ReadMode.DirtyRead);
-                BackUpReader = ComponentFactory.GenReader(Reader.ReadMode.DirtyRead, true);
-                Writer = ComponentFactory.GenWriter();
-                Counter = ComponentFactory.GenCounter();
-                CommentLake = ComponentFactory.GenCommentLake();
+                User = ComponentFactory.Instance.GenUser(UserModel.PWD);
+                Authentication = ComponentFactory.Instance.GenAuthentication();
+                Reader = ComponentFactory.Instance.GenReader(Reader.ReadMode.DirtyRead);
+                BackUpReader = ComponentFactory.Instance.GenReader(Reader.ReadMode.DirtyRead, true);
+                Writer = ComponentFactory.Instance.GenWriter();
+                Counter = ComponentFactory.Instance.GenCounter();
+                CommentLake = ComponentFactory.Instance.GenCommentLake();
             }
         }
 
@@ -62,11 +57,8 @@ namespace PILIPALA.API
         /// <returns></returns>
         public string Login(string UserAccount, string UserPWD)
         {
-            ComponentFactory ComponentFactory = new();
-            CORE.CoreReady += ComponentFactory.Ready;
-            CORE.Run(UserAccount, UserPWD);
-
-            Authentication = ComponentFactory.GenAuthentication();
+            User = ComponentFactory.Instance.GenUser(UserPWD);
+            Authentication = ComponentFactory.Instance.GenAuthentication();
             KeyPair KeyPair = new KeyPair(2048);
             Authentication.SetPrivateKey(KeyPair.PrivateKey);
             Authentication.UpdateTokenTime();
