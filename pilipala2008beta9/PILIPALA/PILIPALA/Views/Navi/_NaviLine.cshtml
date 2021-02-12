@@ -1,15 +1,8 @@
 ﻿@using WaterLibrary.pilipala;
 @using WaterLibrary.pilipala.Component;
 
-@inject ICORE CORE
-
 @{
-    ComponentFactory ComponentFactory = new ComponentFactory();
-
-    CORE.CoreReady += ComponentFactory.Ready;
-    /* 启动内核 */
-    CORE.Run();
-    CommentLake CommentLake = ComponentFactory.GenCommentLake();
+    CommentLake CommentLake = ComponentFactory.Instance.GenCommentLake();
 }
 
 <div id="NavLine" class="L M bSha">

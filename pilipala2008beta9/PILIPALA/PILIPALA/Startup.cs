@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 using WaterLibrary.pilipala;
 using WaterLibrary.MySQL;
 using WaterLibrary.pilipala.Database;
-using PILIPALA.Theme;
-
+using WaterLibrary.pilipala.Component;
 
 namespace PILIPALA
 {
+    using PILIPALA.Theme;
     using PILIPALA.Models;
 
     public class Startup
@@ -91,7 +91,10 @@ namespace PILIPALA
                 ),
                 MySqlManager = MySqlManager
             };
-            services.AddTransient<ICORE>(x => new CORE(PLDatabase));
+            var CORE = new CORE(PLDatabase);
+            ComponentFactory.INIT(CORE);//工厂单例初始化
+
+            services.AddTransient<ICORE>(x => CORE);//不安全：核心引用依赖注入
 
             services.AddCors(options =>
             {
