@@ -30,7 +30,7 @@ namespace PILIPALA.API
         private readonly CommentLake CommentLake;
         private new User User;
 
-        public Dashboard(ICORE CORE, Models.UserModel UserModel)
+        public Dashboard(Models.UserModel UserModel)
         {
             if ((DateTime.Now - Convert.ToDateTime(CORE.MySqlManager.GetKey($"SELECT TokenTime FROM {CORE.Tables.User} WHERE GroupType = 'user'"))).TotalMinutes <= 120)
             {

@@ -22,7 +22,7 @@ namespace PILIPALA.API
         public Counter Counter;
         public CommentLake CommentLake;
 
-        public Guest(ICORE CORE)
+        public Guest()
         {
             Reader = ComponentFactory.Instance.GenReader(Reader.ReadMode.DirtyRead, true);
             Writer = ComponentFactory.Instance.GenWriter();

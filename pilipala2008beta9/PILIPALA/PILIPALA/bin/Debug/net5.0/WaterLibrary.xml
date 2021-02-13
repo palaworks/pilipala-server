@@ -148,18 +148,10 @@
             工厂实例
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.INIT(WaterLibrary.pilipala.ICORE)">
+        <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.#ctor">
             <summary>
-            初始化工厂
+            单例构造
             </summary>
-            <param name="CORE">内核对象</param>
-            <param name="User">用户对象</param>
-        </member>
-        <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.#ctor(WaterLibrary.pilipala.ICORE)">
-            <summary>
-            单例模式
-            </summary>
-            <param name="CORE">内核引用</param>
         </member>
         <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.GenUser(System.String)">
             <summary>
@@ -1281,31 +1273,6 @@
             噼里啪啦配件接口
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.ICORE">
-            <summary>
-            噼里啪啦内核接口
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.ICORE.Tables">
-            <summary>
-            内核表访问器
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.ICORE.ViewsSet">
-            <summary>
-            内核视图访问器
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.ICORE.MySqlManager">
-            <summary>
-            内核MySql数据库控制器
-            </summary>
-        </member>
-        <member name="P:WaterLibrary.pilipala.ICORE.UserAccount">
-            <summary>
-            登录到内核的用户UUID
-            </summary>
-        </member>
         <member name="T:WaterLibrary.pilipala.CORE">
             <summary>
             pilipala内核
@@ -1328,8 +1295,14 @@
         </member>
         <member name="P:WaterLibrary.pilipala.CORE.UserAccount">
             <summary>
-            登录内核的用户UUID
+            登录内核的用户账号
             </summary>
+        </member>
+        <member name="M:WaterLibrary.pilipala.CORE.INIT(WaterLibrary.pilipala.Database.PLDatabase)">
+            <summary>
+            初始化内核
+            </summary>
+            <param name="PLDatabase">噼里啪啦数据库操作盒</param>
         </member>
         <member name="M:WaterLibrary.pilipala.CORE.#ctor(WaterLibrary.pilipala.Database.PLDatabase)">
             <summary>
