@@ -91,10 +91,7 @@ namespace PILIPALA
                 ),
                 MySqlManager = MySqlManager
             };
-            var CORE = new CORE(PLDatabase);
-            ComponentFactory.INIT(CORE);//工厂单例初始化
-
-            services.AddTransient<ICORE>(x => CORE);//不安全：核心引用依赖注入
+            CORE.INIT(PLDatabase);//内核单例初始化
 
             services.AddCors(options =>
             {
