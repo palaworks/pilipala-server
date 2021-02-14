@@ -12,12 +12,13 @@ using System.Threading.Tasks;
 using WaterLibrary.pilipala;
 using WaterLibrary.MySQL;
 using WaterLibrary.pilipala.Database;
-using WaterLibrary.pilipala.Component;
+
 
 namespace PILIPALA
 {
     using PILIPALA.Theme;
     using PILIPALA.Models;
+    using PILIPALA.Event;
 
     public class Startup
     {
@@ -91,7 +92,10 @@ namespace PILIPALA
                 ),
                 MySqlManager = MySqlManager
             };
+
+            Event.Event.CoreReadyBeforeEventHandler();
             CORE.INIT(PLDatabase);//内核单例初始化
+            Event.Event.CoreReadyAfterEventHandler();
 
             services.AddCors(options =>
             {
