@@ -24,10 +24,10 @@ namespace PILIPALA.Controllers
 
         public PanelController(ThemeHandler ThemeHandler)
         {
-            Reader = ComponentFactory.Instance.GenReader(Reader.ReadMode.CleanRead);
-            Writer = ComponentFactory.Instance.GenWriter();
-            Counter = ComponentFactory.Instance.GenCounter();
-            CommentLake = ComponentFactory.Instance.GenCommentLake();
+            Reader = ComponentFactory.GenReader(Reader.ReadMode.CleanRead);
+            Writer = ComponentFactory.GenWriter();
+            Counter = ComponentFactory.GenCounter();
+            CommentLake = ComponentFactory.GenCommentLake();
             this.ThemeHandler = ThemeHandler;
         }
 

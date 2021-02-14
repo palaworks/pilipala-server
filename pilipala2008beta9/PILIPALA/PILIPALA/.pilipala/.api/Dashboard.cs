@@ -34,13 +34,13 @@ namespace PILIPALA.API
         {
             if ((DateTime.Now - Convert.ToDateTime(CORE.MySqlManager.GetKey($"SELECT TokenTime FROM {CORE.Tables.User} WHERE GroupType = 'user'"))).TotalMinutes <= 120)
             {
-                User = ComponentFactory.Instance.GenUser(UserModel.PWD);
-                Authentication = ComponentFactory.Instance.GenAuthentication();
-                Reader = ComponentFactory.Instance.GenReader(Reader.ReadMode.DirtyRead);
-                BackUpReader = ComponentFactory.Instance.GenReader(Reader.ReadMode.DirtyRead, true);
-                Writer = ComponentFactory.Instance.GenWriter();
-                Counter = ComponentFactory.Instance.GenCounter();
-                CommentLake = ComponentFactory.Instance.GenCommentLake();
+                User = ComponentFactory.GenUser(UserModel.PWD);
+                Authentication = ComponentFactory.GenAuthentication();
+                Reader = ComponentFactory.GenReader(Reader.ReadMode.DirtyRead);
+                BackUpReader = ComponentFactory.GenReader(Reader.ReadMode.DirtyRead, true);
+                Writer = ComponentFactory.GenWriter();
+                Counter = ComponentFactory.GenCounter();
+                CommentLake = ComponentFactory.GenCommentLake();
             }
         }
 
@@ -53,8 +53,8 @@ namespace PILIPALA.API
         /// <returns></returns>
         public string Login(string UserAccount, string UserPWD)
         {
-            User = ComponentFactory.Instance.GenUser(UserPWD);
-            Authentication = ComponentFactory.Instance.GenAuthentication();
+            User = ComponentFactory.GenUser(UserPWD);
+            Authentication = ComponentFactory.GenAuthentication();
             KeyPair KeyPair = new KeyPair(2048);
             Authentication.SetPrivateKey(KeyPair.PrivateKey);
             Authentication.UpdateTokenTime();

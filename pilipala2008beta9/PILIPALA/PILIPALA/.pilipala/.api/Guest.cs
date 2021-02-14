@@ -24,10 +24,10 @@ namespace PILIPALA.API
 
         public Guest()
         {
-            Reader = ComponentFactory.Instance.GenReader(Reader.ReadMode.DirtyRead, true);
-            Writer = ComponentFactory.Instance.GenWriter();
-            Counter = ComponentFactory.Instance.GenCounter();
-            CommentLake = ComponentFactory.Instance.GenCommentLake();
+            Reader = ComponentFactory.GenReader(Reader.ReadMode.DirtyRead, true);
+            Writer = ComponentFactory.GenWriter();
+            Counter = ComponentFactory.GenCounter();
+            CommentLake = ComponentFactory.GenCommentLake();
         }
 
         /// <summary>
