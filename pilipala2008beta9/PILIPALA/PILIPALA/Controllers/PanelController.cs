@@ -16,18 +16,21 @@ namespace PILIPALA.Controllers
 
     public class PanelController : Controller
     {
-        private readonly Reader Reader;
-        private readonly Writer Writer;
-        private readonly Counter Counter;
-        private readonly CommentLake CommentLake;
-        private readonly ThemeHandler ThemeHandler;
+        private Reader Reader;
+        private Writer Writer;
+        private Counter Counter;
+        private CommentLake CommentLake;
+        private ThemeHandler ThemeHandler;
 
         public PanelController(ThemeHandler ThemeHandler)
         {
-            Reader = ComponentFactory.GenReader(Reader.ReadMode.CleanRead);
-            Writer = ComponentFactory.GenWriter();
-            Counter = ComponentFactory.GenCounter();
-            CommentLake = ComponentFactory.GenCommentLake();
+            Event.Event.CoreReadyAfter += () =>
+            {
+                Reader = ComponentFactory.GenReader(Reader.ReadMode.CleanRead);
+                Writer = ComponentFactory.GenWriter();
+                Counter = ComponentFactory.GenCounter();
+                CommentLake = ComponentFactory.GenCommentLake();
+            };
             this.ThemeHandler = ThemeHandler;
         }
 
