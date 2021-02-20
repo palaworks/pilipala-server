@@ -96,7 +96,7 @@ namespace PILIPALA.API
         [HttpPost]
         public string CommentLakeCaptcha(CommentModel CommentModel)
         {
-            CommentLake.AddComment(new Comment()
+            CommentLake.NewComment(new Comment()
             {
                 PostID = CommentModel.PostID,
                 User = CommentModel.User,
