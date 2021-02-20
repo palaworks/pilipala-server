@@ -140,7 +140,7 @@ namespace PILIPALA.API
         public bool Delete_comment_by_CommentID(string Token, int CommentID)
         {
             return Authentication.Auth(Token, () =>
-                  CommentLake.DeleteComment(CommentID));
+                  CommentLake.DelComment(CommentID));
         }
 
 
