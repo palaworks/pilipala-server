@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Data;
 
+using Newtonsoft.Json.Linq;
 using WaterLibrary.MySQL;
 
 
@@ -9,35 +11,16 @@ namespace WaterLibrary.pilipala.Component
 {
     public class LightningLink
     {
-        private string LinkTable { get; init; }
-        private MySqlManager MySqlManager { get; init; }
-        private Dictionary<string, string> LinkCache { get; set; }
-        private void RefreshCache()
-        {
-            LinkCache.Clear();
-            //重建缓存
-            foreach (DataRow Row in MySqlManager.GetTable($"SELECT * FROM {LinkTable}").Rows)
-            {
-                string LinkName = "<{" + Row["LinkName"].ToString() + "}>";
-                LinkCache.Add(LinkName, Row["LinkText"].ToString());
-            }
-        }
-
-        /// <summary>
-        /// 私有构造
-        /// </summary>
-        private LightningLink() { }
+        private readonly Dictionary<string, string> cache = new();
+        private readonly string path = "";
         /// <summary>
         /// 工厂构造
         /// </summary>
         /// <param name="Table"></param>
         /// <param name="MySqlManager"></param>
-        internal LightningLink(string LinkTable, MySqlManager MySqlManager)
+        internal LightningLink()
         {
-            this.LinkTable = LinkTable;
-            this.MySqlManager = MySqlManager;
 
-            RefreshCache();
         }
 
         /// <summary>
@@ -47,9 +30,11 @@ namespace WaterLibrary.pilipala.Component
         /// <param name="Text">文本，即被标记替换的内容</param>
         public void NewLink(string LinkName, string LinkText)
         {
-            LinkName = "<{" + LinkName + "}>";
-            MySqlManager.ExecuteInsert(LinkTable, new("LinkName", LinkName), new("LinkText", LinkText));
-            LinkCache.Add(LinkName, LinkText);
+            ReadJson(path, out JObject jObject);
+            jObject[LinkName] = LinkText;
+            WriteJson(path, jObject);
+
+            cache[LinkName] = LinkText;
         }
         /// <summary>
         /// 删除链接
@@ -57,9 +42,11 @@ namespace WaterLibrary.pilipala.Component
         /// <param name="LinkName">标记</param>
         public void DelLink(string LinkName)
         {
-            LinkName = "<{" + LinkName + "}>";
-            MySqlManager.ExecuteDelete(LinkTable, ("LinkName", LinkName));
-            LinkCache.Remove(LinkName);
+            ReadJson(path, out JObject jObject);
+            jObject.Remove(LinkName);
+            WriteJson(path, jObject);
+
+            cache.Remove(LinkName);
         }
 
         /// <summary>
@@ -69,11 +56,32 @@ namespace WaterLibrary.pilipala.Component
         /// <returns></returns>
         public string ApplyLink(string Text)
         {
-            foreach (var el in LinkCache)
+            foreach (var el in cache)
             {
-                Text = Text.Replace(el.Key, el.Value);
+                Text = Text.Replace("<{" + el.Key + "}>", el.Value);
             }
             return Text;
+        }
+
+        /// <summary>
+        /// 读JSON
+        /// </summary>
+        /// <param name="path">绝对位置</param>
+        /// <param name="jObject"></param>
+        private static void ReadJson(string path, out JObject jObject)
+        {
+            string jsonString = File.ReadAllText(path, System.Text.Encoding.UTF8);
+            jObject = JObject.Parse(jsonString);
+        }
+        /// <summary>
+        /// 写JSON
+        /// </summary>
+        /// <param name="path">绝对位置</param>
+        /// <param name="jObject"></param>
+        private static void WriteJson(string path, JObject jObject)
+        {
+            string jsonString = Convert.ToString(jObject);
+            File.WriteAllText(path, jsonString, System.Text.Encoding.UTF8);
         }
     }
 
@@ -86,6 +94,6 @@ namespace WaterLibrary.pilipala.Component
         /// 生成评论湖组件
         /// </summary>
         /// <returns></returns>
-        public static LightningLink GenLightningLink(this ComponentFactory src) => new(CORE.TableCache["plugin__lightning_link"], CORE.MySqlManager);
+        public static LightningLink GenLightningLink(this ComponentFactory src) => new();
     }
 }

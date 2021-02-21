@@ -114,14 +114,14 @@
             <param name="CommentID"></param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.CommentLake.AddComment(WaterLibrary.pilipala.Entity.Comment)">
+        <member name="M:WaterLibrary.pilipala.Component.CommentLake.NewComment(WaterLibrary.pilipala.Entity.Comment)">
             <summary>
             添加评论(CommentID和Time由系统生成，无需传入)
             </summary>
             <param name="Comment">评论内容</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.CommentLake.DeleteComment(System.Int32)">
+        <member name="M:WaterLibrary.pilipala.Component.CommentLake.DelComment(System.Int32)">
             <summary>
             删除评论(相关回复不会被删除)
             </summary>
