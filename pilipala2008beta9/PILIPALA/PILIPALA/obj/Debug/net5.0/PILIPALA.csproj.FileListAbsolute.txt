@@ -315,3 +315,6 @@ H:\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Debug\net5.0\PILIPALA.dll
 H:\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Debug\net5.0\ref\PILIPALA.dll
 H:\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Debug\net5.0\PILIPALA.pdb
 H:\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Debug\net5.0\PILIPALA.genruntimeconfig.cache
+H:\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\bin\Debug\net5.0\LightningLink.dll
+H:\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\bin\Debug\net5.0\LightningLink.pdb
+H:\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\bin\Debug\net5.0\LightningLink.json

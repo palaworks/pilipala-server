@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Compile Include=".pilipala\.api\Guest.cs" />
+    <Compile Include=".pilipala\.api\System.cs" />
     <Compile Include=".pilipala\.event\Event.cs" />
     <Compile Include=".pilipala\Theme.cs" />
     <Compile Include=".pilipala\.api\Dashboard.cs" />
@@ -29,6 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="LightningLink">
+      <HintPath>C:\Users\Thaumy\Desktop\GitHub\pilipala\pilipala2008beta9\LightningLink\LightningLink\bin\Debug\net5.0\LightningLink.dll</HintPath>
+    </Reference>
     <Reference Include="WaterLibrary">
       <HintPath>..\..\..\..\WaterLibrary\1.1.7 - (preview)\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll</HintPath>
     </Reference>
