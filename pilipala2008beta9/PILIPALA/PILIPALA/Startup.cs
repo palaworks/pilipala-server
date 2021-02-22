@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using WaterLibrary.pilipala;
 using WaterLibrary.MySQL;
 using WaterLibrary.pilipala.Database;
-
+using WaterLibrary.pilipala.Component;
 
 namespace PILIPALA
 {
@@ -96,6 +96,8 @@ namespace PILIPALA
             Event.Event.CoreReadyBeforeEventHandler();
             CORE.INIT(PLDatabase);//内核单例初始化
             Event.Event.CoreReadyAfterEventHandler();
+            //组件工厂注入
+            services.AddTransient(x => new ComponentFactory());
 
             services.AddCors(options =>
             {
