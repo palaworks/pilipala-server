@@ -93,9 +93,8 @@ namespace PILIPALA
                 MySqlManager = MySqlManager
             };
 
-            Event.Event.CoreReadyBeforeEventHandler();
+
             CORE.INIT(PLDatabase);//内核单例初始化
-            Event.Event.CoreReadyAfterEventHandler();
             //组件工厂注入
             services.AddTransient(x => new ComponentFactory());
 

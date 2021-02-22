@@ -4,15 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using WaterLibrary.Utils;
-using WaterLibrary.pilipala;
-using WaterLibrary.pilipala.Entity;
-using WaterLibrary.pilipala.Component;
-
 
 namespace PILIPALA.Controllers
 {
     using PILIPALA.Theme;
+    using WaterLibrary.Utils;
+    using WaterLibrary.pilipala.Entity;
+    using WaterLibrary.pilipala.Component;
 
     public class PanelController : Controller
     {
@@ -21,6 +19,7 @@ namespace PILIPALA.Controllers
         private Counter Counter;
         private CommentLake CommentLake;
         private ThemeHandler ThemeHandler;
+        private LightningLink LightningLink;
 
         public PanelController(ComponentFactory compoFty, ThemeHandler ThemeHandler)
         {
@@ -28,6 +27,7 @@ namespace PILIPALA.Controllers
             Writer = compoFty.GenWriter();
             Counter = compoFty.GenCounter();
             CommentLake = compoFty.GenCommentLake();
+            LightningLink = compoFty.GenLightningLink();
 
             this.ThemeHandler = ThemeHandler;
         }
@@ -45,14 +45,17 @@ namespace PILIPALA.Controllers
             foreach (Post el in Reader.GetPost(PostProp.ArchiveName, REGEXP("ToppedArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
+                el.Cover = LightningLink.ApplyLink(el.Cover);
                 PostSet置顶.Add(el);
             }
+
             ViewBag.置顶文章 = PostSet置顶;
 
             PostSet PostSet其他 = new PostSet();
             foreach (Post el in Reader.GetPost(PostProp.ArchiveName, REGEXP("DefaultArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
+                el.Cover = LightningLink.ApplyLink(el.Cover);
                 PostSet其他.Add(el);
             }
             ViewBag.其他文章 = PostSet其他;
@@ -79,7 +82,11 @@ namespace PILIPALA.Controllers
 
             ViewBag.ID = ID;//请求ID
 
-            ViewBag.Post = Reader.GetPost(ID);//文章数据
+            var Post = Reader.GetPost(ID);//闪链应用
+            Post.Cover = LightningLink.ApplyLink(Post.Cover);
+            Post.Content = LightningLink.ApplyLink(Post.Content);
+
+            ViewBag.Post = Post; //文章数据
             ViewBag.Post.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(ID));//添加评论计数，可优化
 
 
