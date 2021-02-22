@@ -21,7 +21,27 @@ namespace WaterLibrary.pilipala.Component
         /// <param name="MySqlManager"></param>
         internal LightningLink()
         {
+            string jsonString;
+            try
+            {
+                jsonString = File.ReadAllText(path, System.Text.Encoding.UTF8);
+            }
+            catch//找不到配置文件则创建
+            {
+                FileStream fileStream = new(path, FileMode.Create, FileAccess.Write);
+                StreamWriter streamWriter = new StreamWriter(fileStream);
+                streamWriter.WriteLine("{}");
+                streamWriter.Close();
+                fileStream.Close();
 
+                jsonString = File.ReadAllText(path, System.Text.Encoding.UTF8);
+            }
+
+            var jObject = JObject.Parse(jsonString);
+            foreach (var el in jObject)
+            {
+                cache[el.Key] = jObject[el.Key].ToString();
+            }//初始化缓存
         }
 
         /// <summary>
