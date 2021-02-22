@@ -133,13 +133,13 @@
             组件工厂
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.GenUser(System.String)">
+        <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.GenUser(System.String,System.String)">
             <summary>
             生成用户组件
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.GenAuthentication">
+        <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.GenAuthentication(WaterLibrary.pilipala.Component.User)">
             <summary>
             生成权限管理组件
             </summary>
@@ -1288,11 +1288,6 @@
             插件表名键值对
             </summary>
         </member>
-        <member name="P:WaterLibrary.pilipala.CORE.UserAccount">
-            <summary>
-            登录内核的用户账号
-            </summary>
-        </member>
         <member name="M:WaterLibrary.pilipala.CORE.INIT(WaterLibrary.pilipala.Database.PLDatabase)">
             <summary>
             初始化内核
@@ -1540,12 +1535,12 @@
             <param name="Pair">键值对，满足此条件的行将被删除</param>
             <returns></returns>
         </member>
-        <member name="T:WaterLibrary.MySQL.Extension">
+        <member name="T:WaterLibrary.MySQL.MySqlManager_Extension">
             <summary>
             扩展方法
             </summary>
         </member>
-        <member name="M:WaterLibrary.MySQL.Extension.ExecuteAny(MySql.Data.MySqlClient.MySqlCommand,System.String)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager_Extension.ExecuteAny(MySql.Data.MySqlClient.MySqlCommand,System.String)">
             <summary>
             执行任意SQL语句
             </summary>
@@ -1554,7 +1549,7 @@
             <param name="SQL">SQL语句</param>
             <returns>返回受影响的行数</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.Extension.ExecuteAny(MySql.Data.MySqlClient.MySqlCommand,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+        <member name="M:WaterLibrary.MySQL.MySqlManager_Extension.ExecuteAny(MySql.Data.MySqlClient.MySqlCommand,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
             <summary>
             执行任意SQL语句
             </summary>
@@ -1564,7 +1559,7 @@
             <param name="parameters">查询参数列表</param>
             <returns>返回受影响的行数</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.Extension.ExecuteUpdate(MySql.Data.MySqlClient.MySqlCommand,System.String,System.ValueTuple{System.String,System.Object},System.ValueTuple{System.String,System.Object})">
+        <member name="M:WaterLibrary.MySQL.MySqlManager_Extension.ExecuteUpdate(MySql.Data.MySqlClient.MySqlCommand,System.String,System.ValueTuple{System.String,System.Object},System.ValueTuple{System.String,System.Object})">
             <summary>
             更新操作
             </summary>
@@ -1575,7 +1570,7 @@
             <param name="WHERE">定位键值对</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.Extension.ExecuteUpdate(MySql.Data.MySqlClient.MySqlCommand,System.String,System.ValueTuple{System.String,System.Object},System.Object)">
+        <member name="M:WaterLibrary.MySQL.MySqlManager_Extension.ExecuteUpdate(MySql.Data.MySqlClient.MySqlCommand,System.String,System.ValueTuple{System.String,System.Object},System.Object)">
             <summary>
             更新操作
             </summary>
@@ -1586,7 +1581,7 @@
             <param name="OldValue">被更新键的旧值</param>
             <returns>是否操作成功</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.Extension.ExecuteInsert(MySql.Data.MySqlClient.MySqlCommand,System.String,System.ValueTuple{System.String,System.Object}[])">
+        <member name="M:WaterLibrary.MySQL.MySqlManager_Extension.ExecuteInsert(MySql.Data.MySqlClient.MySqlCommand,System.String,System.ValueTuple{System.String,System.Object}[])">
             <summary>
             插入操作
             </summary>
@@ -1596,7 +1591,7 @@
             <param name="Pairs">键值对</param>
             <returns>返回插入的成功与否</returns>
         </member>
-        <member name="M:WaterLibrary.MySQL.Extension.ExecuteDelete(MySql.Data.MySqlClient.MySqlCommand,System.String,System.ValueTuple{System.String,System.Object})">
+        <member name="M:WaterLibrary.MySQL.MySqlManager_Extension.ExecuteDelete(MySql.Data.MySqlClient.MySqlCommand,System.String,System.ValueTuple{System.String,System.Object})">
             <summary>
             删除操作
             </summary>
