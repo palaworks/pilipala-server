@@ -133,11 +133,6 @@
             组件工厂
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.#ctor">
-            <summary>
-            私有构造
-            </summary>
-        </member>
         <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.GenUser(System.String)">
             <summary>
             生成用户组件

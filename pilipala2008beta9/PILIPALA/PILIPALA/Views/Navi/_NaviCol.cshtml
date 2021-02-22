@@ -4,6 +4,7 @@
 @using WaterLibrary.pilipala.Component;
 @using WaterLibrary.Utils;
 
+@inject ComponentFactory compoFty
 @inject ThemeHandler ThemeHandler
 
 @{
@@ -13,10 +14,10 @@
     CommentLake CommentLake;
 
     @*启动内核*@
-    Reader = ComponentFactory.GenReader(Reader.ReadMode.CleanRead);
-    Writer = ComponentFactory.GenWriter();
-    Counter = ComponentFactory.GenCounter();
-    CommentLake = ComponentFactory.GenCommentLake();
+    Reader = compoFty.GenReader(Reader.ReadMode.CleanRead);
+    Writer = compoFty.GenWriter();
+    Counter = compoFty.GenCounter();
+    CommentLake = compoFty.GenCommentLake();
 
     @*读取主题配置文件并取得要在本页展示的文章归档*@
     var archive = ThemeHandler.Config["Navi"]["DefaultArchive"].ToList();

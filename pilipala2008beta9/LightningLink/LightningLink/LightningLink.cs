@@ -12,7 +12,8 @@ namespace WaterLibrary.pilipala.Component
     public class LightningLink
     {
         private readonly Dictionary<string, string> cache = new();
-        private readonly string path = "";
+        private readonly string path = "./LightningLink.json";
+
         /// <summary>
         /// 工厂构造
         /// </summary>
@@ -22,6 +23,12 @@ namespace WaterLibrary.pilipala.Component
         {
 
         }
+
+        /// <summary>
+        /// 生成闪链组件
+        /// </summary>
+        /// <returns></returns>
+        public static LightningLink GenLightningLink() => new();
 
         /// <summary>
         /// 新建链接
@@ -85,13 +92,10 @@ namespace WaterLibrary.pilipala.Component
         }
     }
 
-    /// <summary>
-    /// 扩展方法
-    /// </summary>
-    public static class ComponentExtensions
+    public static class LightningLink_Extension
     {
         /// <summary>
-        /// 生成评论湖组件
+        /// 生成闪链组件
         /// </summary>
         /// <returns></returns>
         public static LightningLink GenLightningLink(this ComponentFactory src) => new();

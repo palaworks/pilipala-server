@@ -22,15 +22,13 @@ namespace PILIPALA.Controllers
         private CommentLake CommentLake;
         private ThemeHandler ThemeHandler;
 
-        public PanelController(ThemeHandler ThemeHandler)
+        public PanelController(ComponentFactory compoFty, ThemeHandler ThemeHandler)
         {
-            Event.Event.CoreReadyAfter += () =>
-            {
-                Reader = ComponentFactory.GenReader(Reader.ReadMode.CleanRead);
-                Writer = ComponentFactory.GenWriter();
-                Counter = ComponentFactory.GenCounter();
-                CommentLake = ComponentFactory.GenCommentLake();
-            };
+            Reader = compoFty.GenReader(Reader.ReadMode.CleanRead);
+            Writer = compoFty.GenWriter();
+            Counter = compoFty.GenCounter();
+            CommentLake = compoFty.GenCommentLake();
+
             this.ThemeHandler = ThemeHandler;
         }
 

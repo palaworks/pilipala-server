@@ -22,12 +22,12 @@ namespace PILIPALA.API
         public Counter Counter;
         public CommentLake CommentLake;
 
-        public Guest()
+        public Guest(ComponentFactory compoFty)
         {
-            Reader = ComponentFactory.GenReader(Reader.ReadMode.DirtyRead, true);
-            Writer = ComponentFactory.GenWriter();
-            Counter = ComponentFactory.GenCounter();
-            CommentLake = ComponentFactory.GenCommentLake();
+            Reader = compoFty.GenReader(Reader.ReadMode.DirtyRead, true);
+            Writer = compoFty.GenWriter();
+            Counter = compoFty.GenCounter();
+            CommentLake = compoFty.GenCommentLake();
         }
 
         /// <summary>

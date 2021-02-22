@@ -1,8 +1,10 @@
 ﻿@using WaterLibrary.pilipala;
 @using WaterLibrary.pilipala.Component;
 
+@inject ComponentFactory compoFty
+
 @{
-    CommentLake CommentLake = ComponentFactory.GenCommentLake();
+    CommentLake CommentLake = compoFty.GenCommentLake();
 }
 
 <div id="NavLine" class="L M bSha">
