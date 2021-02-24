@@ -40,7 +40,6 @@ html {
 /* 屏幕宽度 ( - , 600 ] */
 @media screen and (max-width: 600px) {
     body>#contain {
-        padding: 7px;
         padding-top: 57px;
     }
 }
