@@ -6999,11 +6999,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\pilipala\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj",
+      "projectUniqueName": "H:\\GitHub\\pilipala\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj",
       "projectName": "PILIPALA",
-      "projectPath": "H:\\pilipala\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj",
+      "projectPath": "H:\\GitHub\\pilipala\\pilipala2008beta9\\PILIPALA\\PILIPALA\\PILIPALA.csproj",
       "packagesPath": "C:\\Users\\Thaumy\\.nuget\\packages\\",
-      "outputPath": "H:\\pilipala\\pilipala2008beta9\\PILIPALA\\PILIPALA\\obj\\",
+      "outputPath": "H:\\GitHub\\pilipala\\pilipala2008beta9\\PILIPALA\\PILIPALA\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Thaumy\\AppData\\Roaming\\NuGet\\NuGet.Config",
