@@ -46,6 +46,7 @@ namespace PILIPALA.Controllers
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 el.Cover = LightningLink.ApplyLink(el.Cover);
+                el.Content = LightningLink.ApplyLink(el.Content);
                 PostSet置顶.Add(el);
             }
 
@@ -56,6 +57,7 @@ namespace PILIPALA.Controllers
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 el.Cover = LightningLink.ApplyLink(el.Cover);
+                el.Content = LightningLink.ApplyLink(el.Content);
                 PostSet其他.Add(el);
             }
             ViewBag.其他文章 = PostSet其他;
