@@ -34,10 +34,8 @@ H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\el.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\font.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\more\mrks.css
-H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\more\vs2015.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\more\wrds.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\transition.css
-H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\white.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\white.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\white\Box\AtBox.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\white\Box\CardCol.css

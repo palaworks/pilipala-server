@@ -1,6 +1,7 @@
+
 /* 函数防抖（请求触发后，在指定时间内无额外触发才允许被触发） */
 function debounce(fn, delay) {
-    var timeout = null;
+    let timeout = null;
     return function (e) {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
@@ -10,12 +11,12 @@ function debounce(fn, delay) {
 }
 
 /* 函数节流（触发一次，在指定时间后才能二次触发） */
-var throttle = function (fn, delay) {
-    var prev = Date.now();
+const throttle = function (fn, delay) {
+    let prev = Date.now();
     return function () {
-        var context = this;
-        var args = arguments;
-        var now = Date.now();
+        const context = this;
+        const args = arguments;
+        const now = Date.now();
         if (now - prev >= delay) {
             fn.apply(context, args);
             prev = Date.now();

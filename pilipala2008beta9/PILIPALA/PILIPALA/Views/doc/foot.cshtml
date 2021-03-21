@@ -1,6 +1,6 @@
 ﻿<!-- vue -->
 <script>
-    var AvaOutline = new Vue({
+    const AvaOutline = new Vue({
         el: '#Ava-outline',
         data: {
             style: {
@@ -27,7 +27,7 @@
             }
         }
     })
-    var CoOutline = new Vue({
+    const CoOutline = new Vue({
         el: '#Co-outline',
         data: {
             style: {
@@ -61,7 +61,7 @@
 <script>
     /* 滑到底部查看壁纸 */
     $(window).scroll(throttle(function () {
-        var opacity = document.getElementById('column_bottom').getBoundingClientRect().top / 320;
+        let opacity = document.getElementById('column_bottom').getBoundingClientRect().top / 320;
         document.getElementById('fixed').style.opacity = opacity;
         document.getElementById('NavCol').style.opacity = opacity;
         document.getElementById('CardCol').style.opacity = opacity;
@@ -78,8 +78,8 @@
 </script>
 <script>
     /* 向上滚动NavLine展开 */
-    p = 0;
-    t = 0;
+    let p = 0;
+    let t = 0;
     $(window).scroll(debounce(function () {
         /* 触发宽度 */
         if ($(window).width() <= 1000) {
@@ -144,7 +144,7 @@
     };
     /* 窗口加载完成时刷新导航蓝条样式 */
     window.onload = function () {
-        var path = window.location.pathname.substr(1);
+        let path = window.location.pathname.substr(1);
 
         pcNavList.pc_card_line_move(path == '' ? -1 : path);
         AvaOutline.AvaOutline_change_color(path == '' ? -1 : path);

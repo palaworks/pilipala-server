@@ -2,7 +2,7 @@
 var showPost = throttle(function (ID, push = true) {
 
     $('#CardCol>.Col').attr('style', 'opacity:0.3;');
-    var clock = new Date();
+    const clock = new Date();
     axios({
         method: "post",
         url: "/@/" + ID,
@@ -19,7 +19,7 @@ var showPost = throttle(function (ID, push = true) {
 
             refre_UVCount(ID);/* 刷新UVCount计数 */
 
-            var span = new Date() - clock;
+            const span = new Date() - clock;
             if (span < 1000) {
                 setTimeout(function () { $('#CardCol>.Col').attr('style', 'opacity:1;'); }, 200 - span);
             } else {
@@ -41,17 +41,17 @@ function starOpacity100() {
 
 /*将字数估计的提示输出至.Tip*/
 function putWordCount() {
-    count = wordCount($("#CardCol>.Col>.Card>.contain>.Content").text());
-    time = Math.ceil(count / 400);
+    let count = wordCount($("#CardCol>.Col>.Card>.contain>.Content").text());
+    let time = Math.ceil(count / 400);
     /*空格为全角*/
     $(".ReadTimeTip>.con").text("约 " + count + " 字，阅读成本 " + time + " 分钟");
 }
 
 /*字数估计函数*/
 function wordCount(data) {
-    var pattern = /[a-zA-Z0-9_\u0392-\u03c9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\uac00-\ud7af]+/g;
-    var m = data.match(pattern);
-    var count = 0;
+    const pattern = /[a-zA-Z0-9_\u0392-\u03c9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\uac00-\ud7af]+/g;
+    const m = data.match(pattern);
+    let count = 0;
     if (m == null) { return count; }
     for (var i = 0; i < m.length; i++) {
         if (m[i].charCodeAt(0) >= 0x4E00) {
@@ -84,7 +84,7 @@ function Captcha(PostID, HEAD, Content, User, Email, WebSite) {
 }
 
 /* 刷新StarCount计数 */
-var refre_StarCount = throttle(function (ID) {
+const refre_StarCount = throttle(function (ID) {
 
     if ($.cookie('isStar' + ID) == 'true') {
         /* 如果cookie显示目前文本已经点赞 */
@@ -120,7 +120,7 @@ var refre_StarCount = throttle(function (ID) {
 }, 200);
 
 /* 刷新UVCount计数 */
-var refre_UVCount = throttle(function (ID) {
+const refre_UVCount = throttle(function (ID) {
 
     if ($.cookie('isSaw' + ID) == 'true') {/* 如果cookie显示目前文本已经浏览不做处理 */ }
     else {
