@@ -53,8 +53,7 @@
 
     <script>
         @*代码高亮启用*@
-        hljs.initHighlighting.called = false;
-        hljs.initHighlighting();
+        hljs.highlightAll();
         @*在.Tip内输出字数统计*@
         putWordCount();
     </script>
@@ -169,7 +168,7 @@
 
 <!-- 评论组件 -->
 <script>
-    var CommentBox = new Vue({
+    const CommentBox = new Vue({
         el: '#CommentBox',
         vuetify: new Vuetify(),
         data: {
@@ -207,7 +206,7 @@
     })
 
     /* 鼠标移入移出回复按钮事件 */
-    var FloorText_temp;
+    let FloorText_temp;
     function CommentBox_ReplyBtn_Over() {
         FloorText_temp = CommentBox.FloorText;
         CommentBox.FloorText = "取消";
@@ -264,7 +263,7 @@
         if (value == "") {
             return false;
         } else {
-            var reg = /^([A-Za-z0-9_\-\.])+\@@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            const reg = /^([A-Za-z0-9_\-\.])+\@@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
             if (!reg.test(value)) {
                 return false;
             } else {
@@ -276,7 +275,7 @@
         if (value == "") {
             return true;
         } else {
-            var reg0 = /^(http|https|ftp)\:\/\/([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}(\/)?$/;
+            const reg0 = /^(http|https|ftp)\:\/\/([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}(\/)?$/;
             if (!reg0.test(value)) {
                 return false;
             } else {
@@ -288,18 +287,18 @@
 
 <!-- 评论Captcha -->
 <script>
-        function Commit() {
-            if (CommentBox.check() == true)
-            {
-                Captcha(@ViewBag.ID, CommentBox.HEAD, CommentBox.Content, CommentBox.Name, CommentBox.Email, CommentBox.WebSite);
-            }
+    function Commit() {
+        if (CommentBox.check() == true)
+        {
+            Captcha(@ViewBag.ID, CommentBox.HEAD, CommentBox.Content, CommentBox.Name, CommentBox.Email, CommentBox.WebSite);
         }
+    }
 </script>
 
 <script>
-        if ($.cookie('isStar' + @ViewBag.ID) == 'true') {/* 如果cookie显示目前文本已点赞 */
-            starOpacity100();/* 透明度1 */
-        } else {
-            starOpacity050();/* 透明度0.5 */
-        }
+    if ($.cookie('isStar' + @ViewBag.ID) == 'true') {/* 如果cookie显示目前文本已点赞 */
+        starOpacity100();/* 透明度1 */
+    } else {
+        starOpacity050();/* 透明度0.5 */
+    }
 </script>
