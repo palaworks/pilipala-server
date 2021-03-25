@@ -168,7 +168,7 @@
 
 <!-- 评论组件 -->
 <script>
-    const CommentBox = new Vue({
+    var CommentBox = new Vue({
         el: '#CommentBox',
         vuetify: new Vuetify(),
         data: {
@@ -206,7 +206,7 @@
     })
 
     /* 鼠标移入移出回复按钮事件 */
-    let FloorText_temp;
+    var FloorText_temp;
     function CommentBox_ReplyBtn_Over() {
         FloorText_temp = CommentBox.FloorText;
         CommentBox.FloorText = "取消";
@@ -302,3 +302,6 @@
         starOpacity050();/* 透明度0.5 */
     }
 </script>
+
+<!-- Markdown数学公式支持(使用MathJax) -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
