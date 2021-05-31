@@ -17,19 +17,28 @@ namespace PILIPALA.Controllers
         private Reader Reader;
         private Writer Writer;
         private Counter Counter;
+        private Pluginer Pluginer;
         private CommentLake CommentLake;
         private ThemeHandler ThemeHandler;
-        private LightningLink LightningLink;
+
+        string LightningLinkUUID;
 
         public PanelController(ComponentFactory compoFty, ThemeHandler ThemeHandler)
         {
             Reader = compoFty.GenReader(Reader.ReadMode.CleanRead);
             Writer = compoFty.GenWriter();
             Counter = compoFty.GenCounter();
+            Pluginer = compoFty.GenPluginer();
             CommentLake = compoFty.GenCommentLake();
-            LightningLink = compoFty.GenLightningLink();
 
             this.ThemeHandler = ThemeHandler;
+
+            //load ll plugin
+            string pluginRoot = "./.pilipala/.plugin";
+            LightningLinkUUID = Pluginer.LoadPlugin(
+                pluginRoot + "/LightningLink/LightningLink.dll",
+                "piliplugin.LightningLink",
+                new[] { pluginRoot + "/LightningLink/LightningLink.json" });
         }
 
         public ActionResult List(bool ajax)
@@ -45,8 +54,8 @@ namespace PILIPALA.Controllers
             foreach (Post el in Reader.GetPost(PostProp.ArchiveName, REGEXP("ToppedArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
-                el.Cover = LightningLink.ApplyLink(el.Cover);
-                el.Content = LightningLink.ApplyLink(el.Content);
+                el.Cover = ContentProcessPipeline(el.Cover);//ll plugin
+                el.Content = ContentProcessPipeline(el.Content);//ll plugin 
                 PostSet置顶.Add(el);
             }
 
@@ -56,8 +65,8 @@ namespace PILIPALA.Controllers
             foreach (Post el in Reader.GetPost(PostProp.ArchiveName, REGEXP("DefaultArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
-                el.Cover = LightningLink.ApplyLink(el.Cover);
-                el.Content = LightningLink.ApplyLink(el.Content);
+                el.Cover = ContentProcessPipeline(el.Cover);//ll plugin
+                el.Content = ContentProcessPipeline(el.Content);//ll plugin 
                 PostSet其他.Add(el);
             }
             ViewBag.其他文章 = PostSet其他;
@@ -84,9 +93,10 @@ namespace PILIPALA.Controllers
 
             ViewBag.ID = ID;//请求ID
 
-            var Post = Reader.GetPost(ID);//闪链应用
-            Post.Cover = LightningLink.ApplyLink(Post.Cover);
-            Post.Content = LightningLink.ApplyLink(Post.Content);
+            var Post = Reader.GetPost(ID);
+
+            Post.Cover = ContentProcessPipeline(Post.Cover);//ll plugin
+            Post.Content = ContentProcessPipeline(Post.Content);//ll plugin 
 
             ViewBag.Post = Post; //文章数据
             ViewBag.Post.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(ID));//添加评论计数，可优化
@@ -113,6 +123,13 @@ namespace PILIPALA.Controllers
                 return View();
             }
 
+        }
+
+        //内容处理管道，用于暂时接替WL管道功能
+        private string ContentProcessPipeline(string content)
+        {
+            content = (string)Pluginer.Invoke(LightningLinkUUID, "ApplyLink", new object[] { content });//ll plugin
+            return content;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace PILIPALA.API
     public class Dashboard : Controller
     {
         private ComponentFactory compoFty;
-        private Authentication Authentication;
+        private Auth Auth;
         private readonly Reader Reader, BackUpReader;
         private readonly Writer Writer;
         private readonly Counter Counter;
@@ -36,7 +36,7 @@ namespace PILIPALA.API
             if ((DateTime.Now - Convert.ToDateTime(CORE.MySqlManager.GetKey($"SELECT TokenTime FROM {CORE.Tables.User} WHERE GroupType = 'user'"))).TotalMinutes <= 120)
             {
                 User = compoFty.GenUser(UserModel.Account, UserModel.PWD);
-                Authentication = compoFty.GenAuthentication(User);
+                Auth = compoFty.GenAuthentication(User);
                 Reader = compoFty.GenReader(Reader.ReadMode.DirtyRead);
                 BackUpReader = compoFty.GenReader(Reader.ReadMode.DirtyRead, true);
                 Writer = compoFty.GenWriter();
@@ -56,10 +56,10 @@ namespace PILIPALA.API
         public string Login(string UserAccount, string UserPWD)
         {
             User = compoFty.GenUser(UserAccount, UserPWD);
-            Authentication = compoFty.GenAuthentication(User);
+            Auth = compoFty.GenAuthentication(User);
             KeyPair KeyPair = new KeyPair(2048);
-            Authentication.SetPrivateKey(KeyPair.PrivateKey);
-            Authentication.UpdateTokenTime();
+            Auth.SetPrivateKey(KeyPair.PrivateKey);
+            Auth.UpdateTokenTime();
 
             return KeyPair.PublicKey;
         }
@@ -70,7 +70,7 @@ namespace PILIPALA.API
         /// <returns></returns>
         public string Get_user_data(string Token)
         {
-            return Authentication.Auth(Token, () =>
+            return Auth.CheckAuth(Token, () =>
             {
                 return User.ToJSON();
             });
@@ -81,14 +81,14 @@ namespace PILIPALA.API
         /// <returns>返回内核版本</returns>
         public string Get_system_info(string Token)
         {
-            return Authentication.Auth(Token, () =>
+            return Auth.CheckAuth(Token, () =>
             {
                 return JsonConvert.SerializeObject(new Hashtable()
                 {
                     { "pilipala_version", "BETA8"  },
                     { "core_version",  WaterLibrary.Assembly.Version},
                     { "auth",  "启用"},
-                    { "auth_end_time",  Authentication.GetTokenTime().AddHours(2).ToString() },
+                    { "auth_end_time",  Auth.GetTokenTime().AddHours(2).ToString() },
                 });
             });
         }
@@ -99,7 +99,7 @@ namespace PILIPALA.API
         /// </summary>
         public string Get_commented_posts(string Token)
         {
-            return Authentication.Auth(Token, () =>
+            return Auth.CheckAuth(Token, () =>
             {
                 var data = new List<Hashtable>();
                 foreach (int ID in CommentLake.GetCommentedPostID())
@@ -131,7 +131,7 @@ namespace PILIPALA.API
         /// </summary>
         public string Get_comments_by_PostID(string Token, int PostID)
         {
-            return Authentication.Auth(Token, () =>
+            return Auth.CheckAuth(Token, () =>
                  CommentLake.GetComments(PostID).ToJSON());
         }
 
@@ -141,7 +141,7 @@ namespace PILIPALA.API
         /// <param name="CommentID"></param>
         public bool Delete_comment_by_CommentID(string Token, int CommentID)
         {
-            return Authentication.Auth(Token, () =>
+            return Auth.CheckAuth(Token, () =>
                   CommentLake.DelComment(CommentID));
         }
 
@@ -152,7 +152,7 @@ namespace PILIPALA.API
         /// </summary>
         public string Get_counts(string Token)
         {
-            return Authentication.Auth(Token, () =>
+            return Auth.CheckAuth(Token, () =>
                JsonConvert.SerializeObject(new Hashtable()
                {
                { "PostCount", Counter.TotalPostCount },
@@ -170,8 +170,8 @@ namespace PILIPALA.API
         /// </summary>
         public string Get_posts(string Token)
         {
-            return Authentication
-                .Auth(Token, () =>
+            return Auth
+                .CheckAuth(Token, () =>
                    Reader.GetPost(PostProp.PostID, "^")
                       .ForEach((item) =>
                       {
@@ -188,14 +188,14 @@ namespace PILIPALA.API
         /// <param name="ID"></param>
         public string Get_post_by_PostID(string Token, int PostID)
         {
-            return Authentication.Auth(Token, () => Reader.GetPost(PostID).ToJSON());
+            return Auth.CheckAuth(Token, () => Reader.GetPost(PostID).ToJSON());
         }
         /// <summary>
         /// 取得备份列表
         /// </summary>
         public string Get_neg_posts_by_PostID(string Token, int PostID)
         {
-            return Authentication.Auth(Token, () =>
+            return Auth.CheckAuth(Token, () =>
              BackUpReader.GetPost(PostProp.PostID, PostID.ToString())
                  .ForEach((item) =>
                  {
@@ -207,7 +207,7 @@ namespace PILIPALA.API
         /* 写文章管理 */
         public bool Reg_post(string Token, PostModel PostModel)
         {
-            return Authentication.Auth(Token, () => Writer.Reg(new Post
+            return Auth.CheckAuth(Token, () => Writer.Reg(new Post
             {
                 Mode = PostModel.Mode,
                 Type = PostModel.Type,
@@ -227,11 +227,11 @@ namespace PILIPALA.API
         }
         public bool Dispose_post_by_PostID(string Token, int PostID)
         {
-            return Authentication.Auth(Token, () => Writer.Dispose(PostID));
+            return Auth.CheckAuth(Token, () => Writer.Dispose(PostID));
         }
         public bool Update_post_by_PostID(string Token, PostModel PostModel)
         {
-            return Authentication.Auth(Token, () => Writer.Update(new Post
+            return Auth.CheckAuth(Token, () => Writer.Update(new Post
             {
                 PostID = PostModel.PostID,
                 Mode = PostModel.Mode,
@@ -254,19 +254,19 @@ namespace PILIPALA.API
 
         public bool Delete_post_by_GUID(string Token, string GUID)
         {
-            return Authentication.Auth(Token, () => Writer.Delete(GUID));
+            return Auth.CheckAuth(Token, () => Writer.Delete(GUID));
         }
         public bool Apply_post_by_GUID(string Token, string GUID)
         {
-            return Authentication.Auth(Token, () => Writer.Apply(GUID));
+            return Auth.CheckAuth(Token, () => Writer.Apply(GUID));
         }
         public bool Rollback_post_by_PostID(string Token, int PostID)
         {
-            return Authentication.Auth(Token, () => Writer.Rollback(PostID));
+            return Auth.CheckAuth(Token, () => Writer.Rollback(PostID));
         }
         public bool Release_post_by_PostID(string Token, int PostID)
         {
-            return Authentication.Auth(Token, () => Writer.Release(PostID));
+            return Auth.CheckAuth(Token, () => Writer.Release(PostID));
         }
     }
 }
