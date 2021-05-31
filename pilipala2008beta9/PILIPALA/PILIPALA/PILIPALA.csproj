@@ -13,6 +13,7 @@
     <Compile Include=".pilipala\.api\Guest.cs" />
     <Compile Include=".pilipala\.api\System.cs" />
     <Compile Include=".pilipala\.event\Event.cs" />
+    <Compile Include=".pilipala\.plugin\Plugin.cs" />
     <Compile Include=".pilipala\Theme.cs" />
     <Compile Include=".pilipala\.api\Dashboard.cs" />
     <Compile Include=".pilipala\Utils.cs" />
@@ -30,16 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="LightningLink">
-      <HintPath>..\..\..\..\pilipaplugins\LightningLink\LightningLink\bin\Debug\net5.0\LightningLink.dll</HintPath>
-    </Reference>
     <Reference Include="WaterLibrary">
       <HintPath>..\..\..\..\WaterLibrary\1.1.7 - (preview)\WaterLibrary\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include=".pilipala\.plugin\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
