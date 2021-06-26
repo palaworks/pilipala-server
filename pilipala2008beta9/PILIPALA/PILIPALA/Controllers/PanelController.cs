@@ -4,41 +4,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using WaterLibrary.Utils;
+using WaterLibrary.pilipala.Entity;
+using WaterLibrary.pilipala.Component;
 
 namespace PILIPALA.Controllers
 {
     using PILIPALA.Theme;
-    using WaterLibrary.Utils;
-    using WaterLibrary.pilipala.Entity;
-    using WaterLibrary.pilipala.Component;
+    using PILIPALA.pilipala.plugin;
 
     public class PanelController : Controller
     {
         private Reader Reader;
         private Writer Writer;
         private Counter Counter;
-        private Pluginer Pluginer;
         private CommentLake CommentLake;
         private ThemeHandler ThemeHandler;
 
-        string LightningLinkUUID;
+        PluginInstance LightningLink;
 
-        public PanelController(ComponentFactory compoFty, ThemeHandler ThemeHandler)
+        public PanelController(ComponentFactory compoFty, ThemeHandler ThemeHandler, PluginManager pluginManager)
         {
             Reader = compoFty.GenReader(Reader.ReadMode.CleanRead);
             Writer = compoFty.GenWriter();
             Counter = compoFty.GenCounter();
-            Pluginer = compoFty.GenPluginer();
             CommentLake = compoFty.GenCommentLake();
 
             this.ThemeHandler = ThemeHandler;
-
-            //load ll plugin
-            string pluginRoot = "./.pilipala/.plugin";
-            LightningLinkUUID = Pluginer.LoadPlugin(
-                pluginRoot + "/LightningLink/LightningLink.dll",
-                "piliplugin.LightningLink",
-                new[] { pluginRoot + "/LightningLink/LightningLink.json" });
+            LightningLink = pluginManager.PluginInstancePool["piliplugin.LightningLink"];
         }
 
         public ActionResult List(bool ajax)
@@ -50,7 +43,7 @@ namespace PILIPALA.Controllers
                 return ConvertH.ListToString(archive, '|');
             }
 
-            PostSet PostSet置顶 = new PostSet();
+            var PostSet置顶 = new PostSet();
             foreach (Post el in Reader.GetPost(PostProp.ArchiveName, REGEXP("ToppedArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
@@ -61,7 +54,7 @@ namespace PILIPALA.Controllers
 
             ViewBag.置顶文章 = PostSet置顶;
 
-            PostSet PostSet其他 = new PostSet();
+            var PostSet其他 = new PostSet();
             foreach (Post el in Reader.GetPost(PostProp.ArchiveName, REGEXP("DefaultArchive")))
             {
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
@@ -128,7 +121,7 @@ namespace PILIPALA.Controllers
         //内容处理管道，用于暂时接替WL管道功能
         private string ContentProcessPipeline(string content)
         {
-            content = (string)Pluginer.Invoke(LightningLinkUUID, "ApplyLink", new object[] { content });//ll plugin
+            content = (string)LightningLink.Invoke("ApplyLink", new object[] { content });//ll plugin
             return content;
         }
     }
