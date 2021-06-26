@@ -1,0 +1,8 @@
+{
+    "plugins": {
+        "piliplugin.LightningLink": {
+            "path": "/LightningLink/LightningLink.dll",
+            "json": "/LightningLink/LightningLink.json"
+        }
+    }
+}

@@ -717,6 +717,30 @@
             <param name="pluginList">预加载插件信息列表</param>
             <returns></returns>
         </member>
+        <member name="M:WaterLibrary.pilipala.Component.Pluginer.LoadPlugin(System.String,System.String,System.Object[])">
+            <summary>
+            加载插件
+            </summary>
+            <param name="path">插件dll所在目录</param>
+            <param name="pluginName">插件名(格式如namesapace.pluginName)</param>
+            <param name="args">构造参数表</param>
+            <returns>返回插件UUID</returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Component.Pluginer.UnloadPlugin(System.String)">
+            <summary>
+            卸载插件
+            </summary>
+            <param name="pluginUUID">插件UUID</param>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Component.Pluginer.Invoke(System.String,System.String,System.Object[])">
+            <summary>
+            执行插件方法
+            </summary>
+            <param name="pluginUUID">插件UUID</param>
+            <param name="methodName">方法名</param>
+            <param name="args">方法参数表</param>
+            <returns></returns>
+        </member>
         <member name="T:WaterLibrary.pilipala.Entity.CommentProp">
             <summary>
             评论属性枚举

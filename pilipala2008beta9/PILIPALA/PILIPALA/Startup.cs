@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace PILIPALA
     using PILIPALA.Theme;
     using PILIPALA.Models;
     using PILIPALA.Event;
+    using PILIPALA.pilipala.plugin;
 
     public class Startup
     {
@@ -95,9 +97,14 @@ namespace PILIPALA
 
 
             CORE.INIT(PLDatabase);//内核单例初始化
-            //组件工厂注入
-            services.AddTransient(x => new ComponentFactory());
 
+            var fac = new ComponentFactory();
+
+            //插件管理器注入
+            services.AddTransient(x => new PluginManager(fac));
+            //组件工厂注入
+            services.AddTransient(x => fac);
+            
             services.AddCors(options =>
             {
                 options.AddPolicy("DefaultPolicy",
