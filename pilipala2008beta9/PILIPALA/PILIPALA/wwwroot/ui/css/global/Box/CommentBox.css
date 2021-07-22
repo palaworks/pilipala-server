@@ -166,7 +166,7 @@
 .CommentBox>.Content>.ReplyFloor {
     grid-row-start: 3;
 
-    color: black;
+    color: white;
     font-size: 12px;
     font-weight: 600;
     line-height: 18px;

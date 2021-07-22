@@ -9,13 +9,13 @@
 
 <div id="NavLine" class="L M bSha">
     <div class="contain cur bRds" onclick="up();showPost(12387, '我');">
-        <img class="Avatar bSha" src="http://q1.qlogo.cn/g?b=qq&nk=1951327599&s=640">
+        <img class="Avatar bSha" src="~/ui/img/pp512.png">
         <div class="Name">THAUMY的小站</div>
     </div>
     <div class="SiderBtn R cur" onclick="ListToggle()"></div>
 </div>
 
-<div id="SiderList" class="bSha">
+<div id="SiderList" class="bE-black">
     <m-card v-for="d in List" v-bind:item="d" v-bind:key="d.index"></m-card>
 
     <div class="Co cur" onclick="up();showPost(12388, '关于博客');ListToggle()">

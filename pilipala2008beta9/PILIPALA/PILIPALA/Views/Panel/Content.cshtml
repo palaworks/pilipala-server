@@ -7,7 +7,7 @@
 @using PILIPALA.Utils;
 @using WaterLibrary.pilipala.Entity;
 
-<div class="Card M bSha bRds">
+<div class="Card M bE-black bRds">
     <div class="contain bRds">
 
         @Html.Raw(ViewBag.Post.Cover)
@@ -24,11 +24,11 @@
         @*状态信息输出*@
         @if (ViewBag.Post.Mode == "scheduled")
         {
-            <div class="SchedulTip bSha"><div class="con">计划中的项目。此文章将会于近期更新</div></div>
+            <div class="SchedulTip bSha"><div class="con">计划中的项目：此文章将会于近期更新。</div></div>
         }
         @if (ViewBag.Post.Mode == "archived")
         {
-            <div class="ArchivTip bSha"><div class="con">此文章已归档。这意味着其内容将不受维护，但仍具有一定的参考价值。</div></div>
+            <div class="ArchivTip bSha"><div class="con">此文章已归档：不受维护但仍具参考价值的内容。</div></div>
         }
 
 
@@ -60,7 +60,7 @@
 
 </div>
 
-<div class="CoBox M bSha">
+<div class="CoBox M bE-white">
     <span class="text_auth L">由 @ViewBag.Post.User 最后编辑于 @(Convert.ToString(ViewBag.Post.LCT.Year).Substring(2, 2) + "-" + ViewBag.Post.LCT.Month + "-" + ViewBag.Post.LCT.Day)</span>
     <span title="MD5签名 : @ViewBag.Post.MD5()" class="text_mId R">@ViewBag.Post.MD5(7)</span>
 
@@ -91,15 +91,13 @@
 <div>
     @if (ViewBag.CommentList.Count == 0)
     {
-        <div class="ShadowBox M">
-            <div class="CommentTip bSha">
-                <div class="con">评论尚无，快来吃个螃蟹！</div>
-            </div>
+        <div class="CommentTip bE-white">
+            <div class="con">评论尚无，快来吃个螃蟹！</div>
         </div>
     }
     else
     {
-        <div class="CommentList M bSha bRds">
+        <div class="CommentList M bE-white bRds">
             @foreach (Comment Comment in ViewBag.CommentList)
             {
                 <div class="Box bSha" onmouseover="CommentList_Over(this)" onmouseleave="CommentList_Leave(this)">
@@ -134,7 +132,7 @@
     }
 
 
-    <div id="CommentBox" class="CommentBox M bRds bSha">
+    <div id="CommentBox" class="CommentBox M bRds bE-white">
         <div class="Content">
             <div class="Logo"></div>
             <div class="ReplyLogo" v-show="HEAD"></div>

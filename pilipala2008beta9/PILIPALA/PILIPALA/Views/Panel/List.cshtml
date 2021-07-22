@@ -12,7 +12,7 @@
 {
     if (Post.Type == "")
     {
-        <div class="Card M bSha bRds">
+        <div class="Card M bE-black bRds">
 
             <div onclick="up();showPost(@Post.PostID)" class="contain cur">
                 <!-- 前置样式 -->
@@ -32,7 +32,7 @@
     }
     else if (Post.Type == "note")
     {
-        <div class="Card M bSha bRds">
+        <div class="Card M bE-black bRds">
             <div onclick="up();showPost(@Post.PostID)" class="contain cur bRds">
                 <!-- 前置样式 -->
                 @Html.Raw(Post.Cover)
@@ -52,7 +52,7 @@
 {
     if (Post.Type == "")
     {
-        <div class="Card M bSha bRds">
+        <div class="Card M bE-black bRds">
 
             <div onclick="up();showPost(@Post.PostID)" class="contain cur">
                 <!-- 前置样式 -->
@@ -71,7 +71,7 @@
     }
     else if (Post.Type == "note")
     {
-        <div class="Card M bSha bRds">
+        <div class="Card M bE-black bRds">
             <div class="contain cur bRds" onclick="up();showPost(@Post.PostID)">
                 <!-- 前置样式 -->
                 @Html.Raw(Post.Cover)

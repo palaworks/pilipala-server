@@ -1,7 +1,8 @@
 .CommentList {
     width: 100%;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.4);
+    
+    backdrop-filter: saturate(180%) blur(20px);
 }
 
 .CommentList>.Box {
@@ -34,7 +35,7 @@
 .CommentList .ReplyFloor {
     float: right;
 
-    color: rgb(0, 0, 0);
+    color: white;
     font-size: 12px;
     font-weight: 600;
     line-height: 18px;

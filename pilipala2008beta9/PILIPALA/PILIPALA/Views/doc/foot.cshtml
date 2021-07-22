@@ -62,10 +62,12 @@
     /* 滑到底部查看壁纸 */
     $(window).scroll(throttle(function () {
         let opacity = document.getElementById('column_bottom').getBoundingClientRect().top / 320;
-        document.getElementById('fixed').style.opacity = opacity;
-        document.getElementById('NavCol').style.opacity = opacity;
-        document.getElementById('CardCol').style.opacity = opacity;
-        document.getElementById('IllustCo').style.opacity = opacity * -4;
+        if (opacity < 2) {
+            document.getElementById('fixed').style.opacity = opacity;
+            document.getElementById('NavCol').style.opacity = opacity;
+            document.getElementById('CardCol').style.opacity = opacity;
+            document.getElementById('IllustCo').style.opacity = opacity * -4;
+        }
     }, 10))
     /* 返顶按钮淡入淡出 */
     $(window).scroll(throttle(function () {
