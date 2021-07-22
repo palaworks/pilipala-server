@@ -1,3 +1,8 @@
+.CommentList {
+    /* 颜色模式 */
+    background: rgba(255, 255, 255, 0.3);
+}
+
 .CommentList>.Box {
     /* 颜色模式 */
     background: rgba(246, 246, 246, 1.00);

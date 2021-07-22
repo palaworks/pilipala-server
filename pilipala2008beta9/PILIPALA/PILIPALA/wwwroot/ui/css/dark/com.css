@@ -6,3 +6,17 @@
 @import "./Box/NavCol.css";
 
 @import "./markdown-dark.css";
+
+.bE-black{
+    border: rgb(158 158 158 / 65%);
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.bE-white{
+    border: rgb(158 158 158 / 65%);
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+}
