@@ -38,6 +38,10 @@ node_modules
 .vscode
 .vs
 
+# VisualStudio
+bin
+obj
+
 # local env files
 .env.local
 .env.*.local
@@ -45,5 +49,4 @@ node_modules
 # project
 
 Mailssage.json
-bin
-obj
+!WaterLibrary.dll
