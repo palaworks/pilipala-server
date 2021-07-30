@@ -165,6 +165,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.GenPluginer">
+            <summary>
+            生成插件组件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:WaterLibrary.pilipala.Component.ComponentFactory.GenArchiver">
             <summary>
             生成归档管理组件
@@ -177,17 +183,17 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:WaterLibrary.pilipala.Component.Authentication">
+        <member name="T:WaterLibrary.pilipala.Component.Auth">
             <summary>
             权限管理组件
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Authentication.#ctor">
+        <member name="M:WaterLibrary.pilipala.Component.Auth.#ctor">
             <summary>
             默认构造
             </summary>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Authentication.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager,WaterLibrary.pilipala.Component.User)">
+        <member name="M:WaterLibrary.pilipala.Component.Auth.#ctor(WaterLibrary.pilipala.Database.PLTables,WaterLibrary.MySQL.MySqlManager,WaterLibrary.pilipala.Component.User)">
             <summary>
             工厂构造
             </summary>
@@ -195,7 +201,7 @@
             <param name="MySqlManager">数据库管理器</param>
             <param name="User">用户对象</param>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Authentication.Auth``1(System.String,System.Func{``0})">
+        <member name="M:WaterLibrary.pilipala.Component.Auth.CheckAuth``1(System.String,System.Func{``0})">
             <summary>
             权限验证
             </summary>
@@ -203,25 +209,25 @@
             <param name="todo">行为委托</param>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Authentication.GetPrivateKey">
+        <member name="M:WaterLibrary.pilipala.Component.Auth.GetPrivateKey">
             <summary>
             取得私钥
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Authentication.SetPrivateKey(System.String)">
+        <member name="M:WaterLibrary.pilipala.Component.Auth.SetPrivateKey(System.String)">
             <summary>
             设置私钥
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Authentication.GetTokenTime">
+        <member name="M:WaterLibrary.pilipala.Component.Auth.GetTokenTime">
             <summary>
             取得最后Token获取时间
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WaterLibrary.pilipala.Component.Authentication.UpdateTokenTime">
+        <member name="M:WaterLibrary.pilipala.Component.Auth.UpdateTokenTime">
             <summary>
             设置最后Token获取时间为当前时间
             </summary>
@@ -704,10 +710,36 @@
             插件管理组件
             </summary>
         </member>
-        <member name="T:WaterLibrary.pilipala.Component.ComponentExtensions">
+        <member name="M:WaterLibrary.pilipala.Component.Pluginer.#ctor">
             <summary>
-            组件拓展
+            工厂构造
             </summary>
+            <param name="pluginList">预加载插件信息列表</param>
+            <returns></returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Component.Pluginer.LoadPlugin(System.String,System.String,System.Object[])">
+            <summary>
+            加载插件
+            </summary>
+            <param name="path">插件dll所在目录</param>
+            <param name="pluginName">插件名(格式如namesapace.pluginName)</param>
+            <param name="args">构造参数表</param>
+            <returns>返回插件UUID</returns>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Component.Pluginer.UnloadPlugin(System.String)">
+            <summary>
+            卸载插件
+            </summary>
+            <param name="pluginUUID">插件UUID</param>
+        </member>
+        <member name="M:WaterLibrary.pilipala.Component.Pluginer.Invoke(System.String,System.String,System.Object[])">
+            <summary>
+            执行插件方法
+            </summary>
+            <param name="pluginUUID">插件UUID</param>
+            <param name="methodName">方法名</param>
+            <param name="args">方法参数表</param>
+            <returns></returns>
         </member>
         <member name="T:WaterLibrary.pilipala.Entity.CommentProp">
             <summary>
@@ -1667,6 +1699,18 @@
             </summary>
             <param name="num">待判断的数值</param>
             <returns>num为奇数返回true，num为偶数返回false</returns>
+        </member>
+        <member name="T:WaterLibrary.Utils.MathH.UUIDFormat">
+            <summary>
+            UUID类型枚举
+            </summary>
+        </member>
+        <member name="M:WaterLibrary.Utils.MathH.GenerateUUID(WaterLibrary.Utils.MathH.UUIDFormat)">
+            <summary>
+            生成UUID
+            </summary>
+            <param name="format">生成格式，可选值有N、D、B、P、X</param>
+            <returns></returns>
         </member>
         <member name="M:WaterLibrary.Utils.MathH.GenerateUUID(System.String)">
             <summary>

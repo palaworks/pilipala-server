@@ -19,7 +19,6 @@ H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\Box\CommentList.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\Box\NavCol.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\Box\NavLine.css
-H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\Box\ShadowBox.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\Box\SiderList.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\Box\TipBox.css
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\css\global\Btn\SiderBtn.css
@@ -53,6 +52,9 @@ H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\img\field-icon\field-icon.woff
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\img\p200.jpg
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\img\p256.png
+H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\img\pp1080.png
+H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\img\pp256.png
+H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\img\pp512.png
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\js\global.js
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\js\more\note.js
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\wwwroot\ui\js\more\snow.min.js
@@ -82,9 +84,7 @@ H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\System.Security.Cryptography.ProtectedData.dll
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\System.Xml.XPath.XmlDocument.dll
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\LightningLink.dll
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\WaterLibrary.dll
-H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\LightningLink.pdb
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\WaterLibrary.pdb
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\WaterLibrary.xml
 H:\GitHub\pilipala\pilipala2008beta9\PILIPALA\PILIPALA\obj\Release\net5.0\PubTmp\Out\PILIPALA.Views.dll

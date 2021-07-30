@@ -45,3 +45,5 @@ node_modules
 # project
 
 Mailssage.json
+bin
+obj
