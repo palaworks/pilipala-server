@@ -9,20 +9,18 @@
 
 @{
     Reader Reader;
-    Writer Writer;
     Counter Counter;
     CommentLake CommentLake;
 
     @*启动内核*@
     Reader = compoFty.GenReader(Reader.ReadMode.CleanRead);
-    Writer = compoFty.GenWriter();
     Counter = compoFty.GenCounter();
     CommentLake = compoFty.GenCommentLake();
 
     @*读取主题配置文件并取得要在本页展示的文章归档*@
     var archive = ThemeHandler.Config["Navi"]["DefaultArchive"].ToList();
     var REGEXP = ConvertH.ListToString(archive, '|');
-    PostSet PostSet = Reader.GetPost(PostProp.ArchiveName, REGEXP, PostProp.PostID, PostProp.Title);
+    var PostStackSet = Reader.GetPostStacks(PostProp.ArchiveName, REGEXP);
 }
 
 
@@ -87,9 +85,10 @@
             [
                 { index: 0, ID: -1, Title: '首页' },
                 @{ int i = 1;}
-                @foreach (Post Post in PostSet)
+                @foreach (PostStack item in PostStackSet)
                 {
-                    <text>{ index:@(i++) , ID:@Post.PostID, Title:'@Html.Raw(Post.Title)' },</text>
+                    var Post = item.Peek;
+                    <text>{ index:@(i++) , ID:@Post.ID, Title:'@Html.Raw(Post.Title)' },</text>
                 }
             ]
         },
