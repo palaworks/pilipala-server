@@ -1,12 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Cors;
-
-using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Entity;
 using WaterLibrary.pilipala.Component;
 
@@ -99,7 +92,7 @@ namespace PILIPALA.API
         [HttpPost]
         public string CommentLakeCaptcha(CommentModel CommentModel)
         {
-            CommentLake.NewComment(new Comment()
+            CommentLake.NewComment(new CommentRecord()
             {
                 PostID = CommentModel.PostID,
                 User = CommentModel.User,

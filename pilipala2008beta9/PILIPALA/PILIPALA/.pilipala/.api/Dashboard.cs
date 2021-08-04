@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 using System.Collections;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 
 using WaterLibrary.Utils;
 using WaterLibrary.pilipala;
@@ -24,7 +21,7 @@ namespace PILIPALA.API
     [EnableCors("DefaultPolicy")]
     public class Dashboard : Controller
     {
-        private ComponentFactory compoFac;
+        private readonly ComponentFactory fac;
         private Auth Auth;
         private readonly Reader Reader, BackUpReader;
         private readonly Counter Counter;
@@ -33,7 +30,7 @@ namespace PILIPALA.API
 
         public Dashboard(ComponentFactory fac, Models.UserModel UserModel)
         {
-            if ((DateTime.Now - Convert.ToDateTime(CORE.MySqlManager.GetKey($"SELECT TokenTime FROM {CORE.Tables.User} WHERE GroupType = 'user'"))).TotalMinutes <= 120)
+            if ((DateTime.Now - Convert.ToDateTime(PiliPala.MySqlManager.GetKey($"SELECT TokenTime FROM {PiliPala.Tables.User} WHERE GroupType = 'user'"))).TotalMinutes <= 120)
             {
                 User = fac.GenUser(UserModel.Account, UserModel.PWD);
                 Auth = fac.GenAuthentication(User);
@@ -42,7 +39,7 @@ namespace PILIPALA.API
                 Counter = fac.GenCounter();
                 CommentLake = fac.GenCommentLake();
             }
-            this.compoFac = fac;
+            this.fac = fac;
         }
 
 
@@ -54,8 +51,8 @@ namespace PILIPALA.API
         /// <returns></returns>
         public string Login(string UserAccount, string UserPWD)
         {
-            User = compoFac.GenUser(UserAccount, UserPWD);
-            Auth = compoFac.GenAuthentication(User);
+            User = fac.GenUser(UserAccount, UserPWD);
+            Auth = fac.GenAuthentication(User);
             KeyPair KeyPair = new KeyPair(2048);
             Auth.SetPrivateKey(KeyPair.PrivateKey);
             Auth.UpdateTokenTime();
@@ -131,7 +128,7 @@ namespace PILIPALA.API
         public string Get_comments_by_PostID(string Token, int PostID)
         {
             return Auth.CheckAuth(Token, () =>
-                 CommentLake.GetComments(PostID).ToJSON());
+                 ((IJsonSerializable)CommentLake.GetComments(PostID)).ToJson());
         }
 
         /// <summary>
@@ -184,7 +181,7 @@ namespace PILIPALA.API
         /// <param name="ID"></param>
         public string Get_post_by_PostID(string Token, int PostID)
         {
-            return Auth.CheckAuth(Token, () => new PostStack((uint)PostID).Peek.ToJSON());
+            return Auth.CheckAuth(Token, () => ((IJsonSerializable)new PostStack((uint)PostID).Peek).ToJson());
         }
         /// <summary>
         /// 取得备份列表
@@ -264,10 +261,10 @@ namespace PILIPALA.API
         {
             return Auth.CheckAuth(Token, () => new PostStack(ID).Delete(GUID));
         }
-        public bool Apply_post_by_GUID(string Token, uint ID, string GUID)
+        /*public bool Apply_post_by_GUID(string Token, uint ID, string GUID)
         {
             return Auth.CheckAuth(Token, () => new PostStack(ID).RePeek(GUID));
-        }
+        }*/
         public bool Rollback_post_by_PostID(string Token, uint ID)
         {
             return Auth.CheckAuth(Token, () => { new PostStack(ID).Pop(); return true;/*TODO，返回值逻辑*/ });

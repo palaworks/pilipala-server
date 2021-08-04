@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+
+using Microsoft.AspNetCore.Mvc;
 
 using WaterLibrary.Utils;
 using WaterLibrary.pilipala.Entity;
 using WaterLibrary.pilipala.Component;
+
 
 namespace PILIPALA.Controllers
 {
@@ -95,7 +94,7 @@ namespace PILIPALA.Controllers
             ViewBag.Post.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(ID));//添加评论计数，可优化
 
 
-            ViewBag.CommentList = CommentLake.GetComments(ID);//评论数据
+            ViewBag.CommentRecordSet = CommentLake.GetComments(ID);//评论数据
 
             ViewBag.PrevID = new PostStack((uint)ID).LT(PostProp.PostID, REGEXP(), PostProp.ArchiveName)?.Peek.ID;
             ViewBag.PrevTitle = ViewBag.PrevID == null ? "" : new PostStack(ViewBag.PrevID).Peek.Title;

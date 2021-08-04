@@ -90,7 +90,8 @@
 
 @*CommentLake模块，测试性功能*@
 <div>
-    @if (ViewBag.CommentList.Count == 0)
+    @{ CommentRecordSet CommentRecordSet = ViewBag.CommentRecordSet;}
+    @if (CommentRecordSet.Count == 0)
     {
         <div class="CommentTip bE-white">
             <div class="con">评论尚无，快来吃个螃蟹！</div>
@@ -99,22 +100,22 @@
     else
     {
         <div class="CommentList M bE-white bRds">
-            @foreach (Comment Comment in ViewBag.CommentList)
+            @foreach (CommentRecord CommentRecord in CommentRecordSet)
             {
                 <div class="Box bSha" onmouseover="CommentList_Over(this)" onmouseleave="CommentList_Leave(this)">
-                    @if (Comment.HEAD == 0)
+                    @if (CommentRecord.HEAD == 0)
                     {
-                        <div class="Name">@Comment.User</div>
+                        <div class="Name">@CommentRecord.User</div>
                     }
                     else
                     {
                         @*存在回复*@
-                        foreach (Comment temp in ViewBag.CommentList)
+                        foreach (CommentRecord temp in CommentRecordSet)
                         {
-                            if (temp.CommentID == Comment.HEAD)
+                            if (temp.CommentID == CommentRecord.HEAD)
                             {
                                 <div class="Name">
-                                    @(Comment.User)(回复)
+                                    @(CommentRecord.User)(回复)
                                     <span class="ReplyLogo"></span>
                                     <span class="ReplyFloor">@(temp.Floor)F</span>@temp.User
                                 </div>
@@ -123,10 +124,10 @@
                         }
                     }
 
-                    <div class="Floor cur bSha" data-f="@Comment.Floor" data-id="@Comment.CommentID" onclick="CommentBox.doReply(this)">@Comment.Floor</div>
-                    <div class="Email">@Comment.Email</div>
-                    <div class="Time">@(Convert.ToString(Comment.Time.Year).Substring(2, 2) + "-" + Comment.Time.Month + "-" + Comment.Time.Day) | @(Comment.Time.Hour + ":" + Comment.Time.Minute)</div>
-                    <div class="Content">@Comment.Content</div>
+                    <div class="Floor cur bSha" data-f="@CommentRecord.Floor" data-id="@CommentRecord.CommentID" onclick="CommentBox.doReply(this)">@CommentRecord.Floor</div>
+                    <div class="Email">@CommentRecord.Email</div>
+                    <div class="Time">@(Convert.ToString(CommentRecord.Time.Year).Substring(2, 2) + "-" + CommentRecord.Time.Month + "-" + CommentRecord.Time.Day) | @(CommentRecord.Time.Hour + ":" + CommentRecord.Time.Minute)</div>
+                    <div class="Content">@CommentRecord.Content</div>
                 </div>
             }
         </div>

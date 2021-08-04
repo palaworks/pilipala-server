@@ -1,0 +1,35 @@
+Database: 
+
+  Connection: 
+    usr: root
+    pwd: 65a1561425f744e2b541303f628963f8
+    dataSource: localhost
+    port: 3306
+    schema: pilipala_benchmark
+    poolSize: 32
+
+  Tables: 
+    user: pl_user
+    meta: pl_meta
+    stack: pl_stack
+    archive: pl_archive
+    comment: comment_lake
+
+  ViewsSet: 
+    CleanViews: 
+      posUnion: pos>union
+      negUnion: neg>union
+    DirtyViews: 
+      posUnion: pos>dirty>union
+      negUnion: neg>dirty>union
+        
+Auth:
+  usr: 1951327599
+  pwd: thaumy12384
+  
+Theme: 
+  path: wwwroot/field_config.json
+  
+Resources: 
+  path: http://cdn.thaumy.cn/
+  
