@@ -53,7 +53,8 @@ namespace PILIPALA.Controllers
             ViewBag.置顶文章 = PostSet置顶;
 
             var PostSet其他 = new PostStackSet();
-            foreach (PostStack item in Reader.GetPostStacks(PostProp.ArchiveName, REGEXP("DefaultArchive")))
+            var temop = Reader.GetPostStacks(PostProp.ArchiveName, REGEXP("DefaultArchive"));
+            foreach (PostStack item in temop)
             {
                 var el = item.Peek;
                 el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount((int)el.ID));

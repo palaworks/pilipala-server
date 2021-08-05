@@ -50,28 +50,28 @@ namespace PILIPALA
                     defaults: new { controller = "Dashboard" });
             });
 
-            app.UseEndpoints(endpoints =>/* Pannel路由 */
+            app.UseEndpoints(endpoints =>/* 非ajax文章列表 */
             {
                 endpoints.MapControllerRoute(
                     name: "List",
                     pattern: "",
                     defaults: new { controller = "Panel", action = "List", ajax = false });
             });
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>/* 非ajax文章内容 */
             {
                 endpoints.MapControllerRoute(
                     name: "Content",
                     pattern: "{ID}",
                     defaults: new { controller = "Panel", action = "Content", ajax = false });
             });
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>/* ajax文章列表 */
             {
                 endpoints.MapControllerRoute(
                     name: "@List",
                     pattern: "@/-1",
                     defaults: new { controller = "Panel", action = "List", ajax = true });
             });
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>/* ajax文章内容 */
             {
                 endpoints.MapControllerRoute(
                     name: "@Content",
