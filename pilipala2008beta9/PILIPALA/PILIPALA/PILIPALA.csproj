@@ -19,6 +19,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include=".pilipala\.plugin\config.json" />
+    <Content Include=".pilipala\.plugin\LightningLink\LightningLink.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".pilipala\.plugin\LightningLink\LightningLink.dll" />
+    <None Include=".pilipala\config.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Markdig" Version="0.25.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="5.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />

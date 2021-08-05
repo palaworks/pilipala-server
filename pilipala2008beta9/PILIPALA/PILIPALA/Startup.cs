@@ -54,7 +54,7 @@ namespace PILIPALA
                 Path = ThemeSection.GetSection("Path").Value,
             }));
 
-            PiliPala.INIT(File.ReadAllText(@".pilipala\config.yml", System.Text.Encoding.UTF8));//内核单例初始化
+            PiliPala.INIT(File.ReadAllText(@".pilipala/config.yml", System.Text.Encoding.UTF8));//内核单例初始化
 
             var fac = new ComponentFactory();
 
