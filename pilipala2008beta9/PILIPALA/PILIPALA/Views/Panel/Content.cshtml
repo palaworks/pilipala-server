@@ -41,13 +41,15 @@
 
         @*上下文章按钮*@
         <div>
-            @if (ViewBag.NextID != null)
+            @{ PostStack NextPost = ViewBag.NextPost;}
+            @{ PostStack PrevPost = ViewBag.PrevPost;}
+            @if (NextPost != null)
             {
-                <div class="nxtBtn L bRds cur" onclick="up();showPost(@ViewBag.NextID)">@(ViewBag.NextTitle)</div>
+                <div class="nxtBtn L bRds cur" onclick="up();showPost(@NextPost.ID)">@NextPost.Peek.Title</div>
             }
-            @if (ViewBag.PrevID != null)
+            @if (PrevPost != null)
             {
-                <div class="pvsBtn R bRds cur" onclick="up();showPost(@ViewBag.PrevID)">@(ViewBag.PrevTitle)</div>
+                <div class="pvsBtn R bRds cur" onclick="up();showPost(@PrevPost.ID)">@PrevPost.Peek.Title</div>
             }
         </div>
     </div>
