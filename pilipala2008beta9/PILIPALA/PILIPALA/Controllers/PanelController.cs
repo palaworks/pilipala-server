@@ -97,12 +97,20 @@ namespace PILIPALA.Controllers
 
             ViewBag.CommentRecordSet = CommentLake.GetComments(ID);//评论数据
 
-            ViewBag.PrevID = new PostStack((uint)ID).LT(PostProp.PostID, REGEXP(), PostProp.ArchiveName)?.Peek.ID;
-            ViewBag.PrevTitle = ViewBag.PrevID == null ? "" : new PostStack(ViewBag.PrevID).Peek.Title;
 
-            ViewBag.NextID = new PostStack((uint)ID).GT(PostProp.PostID, REGEXP(), PostProp.ArchiveName)?.Peek.ID;
-            ViewBag.NextTitle = ViewBag.NextID == null ? "" : new PostStack(ViewBag.NextID).Peek.Title;
+            var PrevPost = new PostStack((uint)ID);
+            do
+            {
+                PrevPost--;
+            } while (PrevPost != null && PrevPost.Peek.Mode == PostRecord.ModeState.hidden);
+            ViewBag.PrevPost = PrevPost;
 
+            var NextPost = new PostStack((uint)ID);
+            do
+            {
+                NextPost++;
+            } while (NextPost != null && NextPost.Peek.Mode == PostRecord.ModeState.hidden);
+            ViewBag.NextPost = NextPost;
 
 
             if (ajax == false)
