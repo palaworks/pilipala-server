@@ -1,21 +1,20 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "List";
     Layout = ViewBag.Layout;
 }
 
-@using WaterLibrary.pilipala.Entity;
 @using PILIPALA.Utils;
-
+@using WaterLibrary.pilipala.Entity;
 
 <!-- 置顶文章输出 -->
-@foreach (PostStack item in ViewBag.置顶文章)
+@foreach (Post Post in ViewBag.置顶文章)
 {
-    var Post = item.Peek;
-    if (Post.Type == PostRecord.TypeState.unset)
+    if (Post.Type == "")
     {
         <div class="Card M bE-black bRds">
 
-            <div onclick="up();showPost(@Post.ID)" class="contain cur">
+            <div onclick="up();showPost(@Post.PostID)" class="contain cur">
                 <!-- 前置样式 -->
                 @Html.Raw(Post.Cover)
                 <div class="Title">@Post.Title</div>
@@ -31,10 +30,10 @@
 
         </div>
     }
-    else if (Post.Type == PostRecord.TypeState.note)
+    else if (Post.Type == "note")
     {
         <div class="Card M bE-black bRds">
-            <div onclick="up();showPost(@Post.ID)" class="contain cur bRds">
+            <div onclick="up();showPost(@Post.PostID)" class="contain cur bRds">
                 <!-- 前置样式 -->
                 @Html.Raw(Post.Cover)
 
@@ -49,14 +48,13 @@
 
 
 <!-- 其他文章输出 -->
-@foreach (PostStack item in ViewBag.其他文章)
+@foreach (Post Post in ViewBag.其他文章)
 {
-    var Post = item.Peek;
-    if (Post.Type == PostRecord.TypeState.unset)
+    if (Post.Type == "")
     {
         <div class="Card M bE-black bRds">
 
-            <div onclick="up();showPost(@Post.ID)" class="contain cur">
+            <div onclick="up();showPost(@Post.PostID)" class="contain cur">
                 <!-- 前置样式 -->
                 @Html.Raw(Post.Cover)
                 <div class="Title">@Post.Title</div>
@@ -71,10 +69,10 @@
 
         </div>
     }
-    else if (Post.Type == PostRecord.TypeState.note)
+    else if (Post.Type == "note")
     {
         <div class="Card M bE-black bRds">
-            <div class="contain cur bRds" onclick="up();showPost(@Post.ID)">
+            <div class="contain cur bRds" onclick="up();showPost(@Post.PostID)">
                 <!-- 前置样式 -->
                 @Html.Raw(Post.Cover)
                 <div class="NoteContent bRds markdown-body">

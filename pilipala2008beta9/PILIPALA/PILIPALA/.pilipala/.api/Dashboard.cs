@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 using System.Collections;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 
 using WaterLibrary.Utils;
 using WaterLibrary.pilipala;
@@ -16,30 +19,31 @@ using WaterLibrary.pilipala.Component;
 namespace PILIPALA.API
 {
     using PILIPALA.Models.Form;
-    using static WaterLibrary.pilipala.Entity.PostRecord;
 
     [EnableCors("DefaultPolicy")]
     public class Dashboard : Controller
     {
-        private readonly ComponentFactory fac;
+        private ComponentFactory compoFty;
         private Auth Auth;
         private readonly Reader Reader, BackUpReader;
+        private readonly Writer Writer;
         private readonly Counter Counter;
         private readonly CommentLake CommentLake;
         private new User User;
 
-        public Dashboard(ComponentFactory fac, Models.UserModel UserModel)
+        public Dashboard(ComponentFactory compoFty, Models.UserModel UserModel)
         {
-            if ((DateTime.Now - Convert.ToDateTime(PiliPala.MySqlManager.GetKey($"SELECT TokenTime FROM {PiliPala.Tables.User} WHERE GroupType = 'user'"))).TotalMinutes <= 120)
+            if ((DateTime.Now - Convert.ToDateTime(CORE.MySqlManager.GetKey($"SELECT TokenTime FROM {CORE.Tables.User} WHERE GroupType = 'user'"))).TotalMinutes <= 120)
             {
-                User = fac.GenUser(UserModel.Account, UserModel.PWD);
-                Auth = fac.GenAuthentication(User);
-                Reader = fac.GenReader(Reader.ReadMode.DirtyRead);
-                BackUpReader = fac.GenReader(Reader.ReadMode.DirtyRead, true);
-                Counter = fac.GenCounter();
-                CommentLake = fac.GenCommentLake();
+                User = compoFty.GenUser(UserModel.Account, UserModel.PWD);
+                Auth = compoFty.GenAuthentication(User);
+                Reader = compoFty.GenReader(Reader.ReadMode.DirtyRead);
+                BackUpReader = compoFty.GenReader(Reader.ReadMode.DirtyRead, true);
+                Writer = compoFty.GenWriter();
+                Counter = compoFty.GenCounter();
+                CommentLake = compoFty.GenCommentLake();
             }
-            this.fac = fac;
+            this.compoFty = compoFty;
         }
 
 
@@ -51,8 +55,8 @@ namespace PILIPALA.API
         /// <returns></returns>
         public string Login(string UserAccount, string UserPWD)
         {
-            User = fac.GenUser(UserAccount, UserPWD);
-            Auth = fac.GenAuthentication(User);
+            User = compoFty.GenUser(UserAccount, UserPWD);
+            Auth = compoFty.GenAuthentication(User);
             KeyPair KeyPair = new KeyPair(2048);
             Auth.SetPrivateKey(KeyPair.PrivateKey);
             Auth.UpdateTokenTime();
@@ -128,7 +132,7 @@ namespace PILIPALA.API
         public string Get_comments_by_PostID(string Token, int PostID)
         {
             return Auth.CheckAuth(Token, () =>
-                 ((IJsonSerializable)CommentLake.GetComments(PostID)).ToJson());
+                 CommentLake.GetComments(PostID).ToJSON());
         }
 
         /// <summary>
@@ -168,10 +172,13 @@ namespace PILIPALA.API
         {
             return Auth
                 .CheckAuth(Token, () =>
-                   Reader.GetPostStacks(PostProp.PostID, "^")
-                      .Map((item) =>
+                   Reader.GetPost(PostProp.PostID, "^")
+                      .ForEach((item) =>
                       {
-                          item.Peek.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount((int)item.Peek.ID));
+                          item.PropertyContainer = new()
+                          {
+                              { "CommentCount", CommentLake.GetCommentCount(item.PostID) },
+                          };
                       }).ToJSON());
         }
 
@@ -181,7 +188,7 @@ namespace PILIPALA.API
         /// <param name="ID"></param>
         public string Get_post_by_PostID(string Token, int PostID)
         {
-            return Auth.CheckAuth(Token, () => ((IJsonSerializable)new PostStack((uint)PostID).Peek).ToJson());
+            return Auth.CheckAuth(Token, () => Reader.GetPost(PostID).ToJSON());
         }
         /// <summary>
         /// 取得备份列表
@@ -189,10 +196,10 @@ namespace PILIPALA.API
         public string Get_neg_posts_by_PostID(string Token, int PostID)
         {
             return Auth.CheckAuth(Token, () =>
-             BackUpReader.GetPostStacks(PostProp.PostID, PostID.ToString())
-                 .Map((item) =>
+             BackUpReader.GetPost(PostProp.PostID, PostID.ToString())
+                 .ForEach((item) =>
                  {
-                     item.Peek.PropertyContainer.Add("MD5", item.Peek.MD5());
+                     item.PropertyContainer.Add("MD5", item.MD5());
                  }
                  ).ToJSON());
         }
@@ -200,78 +207,66 @@ namespace PILIPALA.API
         /* 写文章管理 */
         public bool Reg_post(string Token, PostModel PostModel)
         {
-            return Auth.CheckAuth(Token, () =>
+            return Auth.CheckAuth(Token, () => Writer.Reg(new Post
             {
-                var ps = new PostStack();
-                var pk = ps.Peek;
+                Mode = PostModel.Mode,
+                Type = PostModel.Type,
+                User = PostModel.User,
 
-                pk.Mode = (ModeState)Enum.Parse(typeof(ModeState), PostModel.Mode);
-                pk.Type = (TypeState)Enum.Parse(typeof(TypeState), PostModel.Type);
-                pk.User = PostModel.User;
+                UVCount = PostModel.UVCount,
+                StarCount = PostModel.StarCount,
 
-                pk.UVCount = (uint)PostModel.UVCount;
-                pk.StarCount = (uint)PostModel.StarCount;
+                Title = PostModel.Title,
+                Summary = PostModel.Summary,
+                Content = PostModel.Content,
 
-                pk.Title = PostModel.Title;
-                pk.Summary = PostModel.Summary;
-                pk.Content = PostModel.Content;
-
-                //pk.ArchiveName = PostModel.ArchiveName,
-                pk.Label = PostModel.Label;
-                pk.Cover = PostModel.Cover;
-
-                return true;//
-            });
+                ArchiveName = PostModel.ArchiveName,
+                Label = PostModel.Label,
+                Cover = PostModel.Cover
+            }));
         }
-        public bool Dispose_post_by_PostID(string Token, uint PostID)
+        public bool Dispose_post_by_PostID(string Token, int PostID)
         {
-            return Auth.CheckAuth(Token, () => new PostStack(PostID).Dispose());
+            return Auth.CheckAuth(Token, () => Writer.Dispose(PostID));
         }
         public bool Update_post_by_PostID(string Token, PostModel PostModel)
         {
-            return Auth.CheckAuth(Token, () =>
+            return Auth.CheckAuth(Token, () => Writer.Update(new Post
             {
-                var postStack = new PostStack((uint)PostModel.PostID);
-                var item = new PostRecord((uint)postStack.ID)
-                {
-                    Mode = (ModeState)Enum.Parse(typeof(ModeState), PostModel.Mode),
-                    Type = (TypeState)Enum.Parse(typeof(TypeState), PostModel.Type),
-                    User = PostModel.User,
+                PostID = PostModel.PostID,
+                Mode = PostModel.Mode,
+                Type = PostModel.Type,
+                User = PostModel.User,
 
-                    UVCount = (uint)PostModel.UVCount,
-                    StarCount = (uint)PostModel.StarCount,
+                UVCount = PostModel.UVCount,
+                StarCount = PostModel.StarCount,
 
-                    Title = PostModel.Title,
-                    Summary = PostModel.Summary,
-                    Content = PostModel.Content,
+                Title = PostModel.Title,
+                Summary = PostModel.Summary,
+                Content = PostModel.Content,
 
-                    //item.ArchiveName = PostModel.ArchiveName;//TODO
-                    Label = PostModel.Label,
-                    Cover = PostModel.Cover
-                };
-
-                postStack.Push(item);//其实应返回成功/失败的Bool值
-                return true;//TODO，此处原来有失败情况
-            }
-            );
+                ArchiveName = PostModel.ArchiveName,
+                Label = PostModel.Label,
+                Cover = PostModel.Cover
+            }));
         }
 
 
-        public bool Delete_post_by_GUID(string Token, uint ID, string GUID)
+        public bool Delete_post_by_GUID(string Token, string GUID)
         {
-            return Auth.CheckAuth(Token, () => new PostStack(ID).Delete(GUID));
+            return Auth.CheckAuth(Token, () => Writer.Delete(GUID));
         }
-        /*public bool Apply_post_by_GUID(string Token, uint ID, string GUID)
+        public bool Apply_post_by_GUID(string Token, string GUID)
         {
-            return Auth.CheckAuth(Token, () => new PostStack(ID).RePeek(GUID));
-        }*/
-        public bool Rollback_post_by_PostID(string Token, uint ID)
-        {
-            return Auth.CheckAuth(Token, () => { new PostStack(ID).Pop(); return true;/*TODO，返回值逻辑*/ });
+            return Auth.CheckAuth(Token, () => Writer.Apply(GUID));
         }
-        public bool Release_post_by_PostID(string Token, uint ID, int PostID)
+        public bool Rollback_post_by_PostID(string Token, int PostID)
         {
-            return Auth.CheckAuth(Token, () => new PostStack(ID).Clean());
+            return Auth.CheckAuth(Token, () => Writer.Rollback(PostID));
+        }
+        public bool Release_post_by_PostID(string Token, int PostID)
+        {
+            return Auth.CheckAuth(Token, () => Writer.Release(PostID));
         }
     }
 }

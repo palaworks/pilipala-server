@@ -1,27 +1,28 @@
-﻿@using WaterLibrary.Utils;
+﻿@using PILIPALA.Theme
+@using WaterLibrary.pilipala;
 @using WaterLibrary.pilipala.Entity;
 @using WaterLibrary.pilipala.Component;
-
-@using PILIPALA.Theme
-
+@using WaterLibrary.Utils;
 
 @inject ComponentFactory compoFty
 @inject ThemeHandler ThemeHandler
 
 @{
     Reader Reader;
+    Writer Writer;
     Counter Counter;
     CommentLake CommentLake;
 
     @*启动内核*@
     Reader = compoFty.GenReader(Reader.ReadMode.CleanRead);
+    Writer = compoFty.GenWriter();
     Counter = compoFty.GenCounter();
     CommentLake = compoFty.GenCommentLake();
 
     @*读取主题配置文件并取得要在本页展示的文章归档*@
     var archive = ThemeHandler.Config["Navi"]["DefaultArchive"].ToList();
     var REGEXP = ConvertH.ListToString(archive, '|');
-    var PostStackSet = Reader.GetPostStacks(PostProp.ArchiveName, REGEXP);
+    PostSet PostSet = Reader.GetPost(PostProp.ArchiveName, REGEXP, PostProp.PostID, PostProp.Title);
 }
 
 
@@ -86,10 +87,9 @@
             [
                 { index: 0, ID: -1, Title: '首页' },
                 @{ int i = 1;}
-                @foreach (PostStack item in PostStackSet)
+                @foreach (Post Post in PostSet)
                 {
-                    var Post = item.Peek;
-                    <text>{ index:@(i++) , ID:@Post.ID, Title:'@Html.Raw(Post.Title)' },</text>
+                    <text>{ index:@(i++) , ID:@Post.PostID, Title:'@Html.Raw(Post.Title)' },</text>
                 }
             ]
         },
