@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <Compile Include=".pilipala\.api\Guest.cs" />
-    <Compile Include=".pilipala\.api\System.cs" />
     <Compile Include=".pilipala\.event\Event.cs" />
     <Compile Include=".pilipala\.plugin\Plugin.cs" />
     <Compile Include=".pilipala\Theme.cs" />
@@ -20,14 +19,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.22.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="5.0.1" />
+    <Content Include=".pilipala\.plugin\config.json" />
+    <Content Include=".pilipala\.plugin\LightningLink\LightningLink.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".pilipala\.plugin\LightningLink\LightningLink.dll" />
+    <None Include=".pilipala\config.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.25.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="5.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
-    <PackageReference Include="MySql.Data" Version="8.0.22" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="MySql.Data" Version="8.0.26" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
   <ItemGroup>

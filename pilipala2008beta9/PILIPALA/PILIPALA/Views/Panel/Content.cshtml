@@ -6,27 +6,28 @@
 
 @using PILIPALA.Utils;
 @using WaterLibrary.pilipala.Entity;
+@{ PostRecord Post = ViewBag.Post; }
 
 <div class="Card M bE-black bRds">
     <div class="contain bRds">
 
-        @Html.Raw(ViewBag.Post.Cover)
+        @Html.Raw(Post.Cover)
 
-        @if (ViewBag.Post.Title != "")
+        @if (Post.Title != "")
         {
-            <div class="Title">@ViewBag.Post.Title</div>
+            <div class="Title">@Post.Title</div>
         }
-        @if (ViewBag.Post.Summary != "")
+        @if (Post.Summary != "")
         {
-            <div class="Summary">@ViewBag.Post.Summary</div>
+            <div class="Summary">@Post.Summary</div>
         }
 
         @*状态信息输出*@
-        @if (ViewBag.Post.Mode == "scheduled")
+        @if (Post.Mode == PostRecord.ModeState.scheduled)
         {
             <div class="SchedulTip bSha"><div class="con">计划中的项目：此文章将会于近期更新。</div></div>
         }
-        @if (ViewBag.Post.Mode == "archived")
+        @if (Post.Mode == PostRecord.ModeState.archived)
         {
             <div class="ArchivTip bSha"><div class="con">此文章已归档：不受维护但仍具参考价值的内容。</div></div>
         }
@@ -36,17 +37,19 @@
             <div class="con"></div>
         </div>
 
-        <div class="Content markdown-body">@Html.Raw(ViewBag.Post.HtmlContent())</div>
+        <div class="Content markdown-body">@Html.Raw(Post.HtmlContent())</div>
 
         @*上下文章按钮*@
         <div>
-            @if (ViewBag.NextID != -1)
+            @{ PostStack NextPost = ViewBag.NextPost;}
+            @{ PostStack PrevPost = ViewBag.PrevPost;}
+            @if (NextPost != null)
             {
-                <div class="nxtBtn L bRds cur" onclick="up();showPost(@ViewBag.NextID)">@(ViewBag.NextTitle)</div>
+                <div class="nxtBtn L bRds cur" onclick="up();showPost(@NextPost.ID)">@NextPost.Peek.Title</div>
             }
-            @if (ViewBag.PrevID != -1)
+            @if (PrevPost != null)
             {
-                <div class="pvsBtn R bRds cur" onclick="up();showPost(@ViewBag.PrevID)">@(ViewBag.PrevTitle)</div>
+                <div class="pvsBtn R bRds cur" onclick="up();showPost(@PrevPost.ID)">@PrevPost.Peek.Title</div>
             }
         </div>
     </div>
@@ -61,25 +64,25 @@
 </div>
 
 <div class="CoBox M bE-white">
-    <span class="text_auth L">由 @ViewBag.Post.User 最后编辑于 @(Convert.ToString(ViewBag.Post.LCT.Year).Substring(2, 2) + "-" + ViewBag.Post.LCT.Month + "-" + ViewBag.Post.LCT.Day)</span>
-    <span title="MD5签名 : @ViewBag.Post.MD5()" class="text_mId R">@ViewBag.Post.MD5(7)</span>
+    <span class="text_auth L">由 @Post.User 最后编辑于 @(Convert.ToString(Post.LCT.Year).Substring(2, 2) + "-" + Post.LCT.Month + "-" + Post.LCT.Day)</span>
+    <span title="MD5签名 : @Post.MD5()" class="text_mId R">@Post.MD5(7)</span>
 
     <div class="AtBox bRds-b">
-        <div class="Date">创建于@(Convert.ToString(ViewBag.Post.CT.Year) + "-" + ViewBag.Post.CT.Month + "-" + ViewBag.Post.CT.Day)</div>
-        <div class="UVCount">@ViewBag.Post.UVCount</div>
-        <div class="CommentCount cur">@ViewBag.Post.PropertyContainer["CommentCount"]</div>
-        <div class="StarCount cur" onclick="refre_StarCount(@ViewBag.ID)">@ViewBag.Post.StarCount</div>
-        <div class="Time">@Formatter.CN_Week(ViewBag.Post.CT)</div>
+        <div class="Date">创建于@(Convert.ToString(Post.CT.Year) + "-" + Post.CT.Month + "-" + Post.CT.Day)</div>
+        <div class="UVCount">@Post.UVCount</div>
+        <div class="CommentCount cur">@Post.PropertyContainer["CommentCount"]</div>
+        <div class="StarCount cur" onclick="refre_StarCount(@ViewBag.ID)">@Post.StarCount</div>
+        <div class="Time">@Formatter.CN_Week(Post.CT)</div>
 
-        @if (ViewBag.Post.ArchiveName != "")
+        @if (Post.ArchiveName != "")
         {
             @*归档不为空时输出*@
-            <div class="Archiv">@ViewBag.Post.ArchiveName</div>
+            <div class="Archiv">@Post.ArchiveName</div>
         }
-        @if (ViewBag.Post.Label != "")
+        @if (Post.Label != "")
         {
             @*标签不为空时输出*@
-            foreach (string el in ViewBag.Post.LabelList())
+            foreach (string el in Post.LabelList())
             {
                 <div class="Label">@el</div>
             }
@@ -89,7 +92,8 @@
 
 @*CommentLake模块，测试性功能*@
 <div>
-    @if (ViewBag.CommentList.Count == 0)
+    @{ CommentRecordSet CommentRecordSet = ViewBag.CommentRecordSet;}
+    @if (CommentRecordSet.Count == 0)
     {
         <div class="CommentTip bE-white">
             <div class="con">评论尚无，快来吃个螃蟹！</div>
@@ -98,22 +102,22 @@
     else
     {
         <div class="CommentList M bE-white bRds">
-            @foreach (Comment Comment in ViewBag.CommentList)
+            @foreach (CommentRecord CommentRecord in CommentRecordSet)
             {
                 <div class="Box bSha" onmouseover="CommentList_Over(this)" onmouseleave="CommentList_Leave(this)">
-                    @if (Comment.HEAD == 0)
+                    @if (CommentRecord.HEAD == 0)
                     {
-                        <div class="Name">@Comment.User</div>
+                        <div class="Name">@CommentRecord.User</div>
                     }
                     else
                     {
                         @*存在回复*@
-                        foreach (Comment temp in ViewBag.CommentList)
+                        foreach (CommentRecord temp in CommentRecordSet)
                         {
-                            if (temp.CommentID == Comment.HEAD)
+                            if (temp.CommentID == CommentRecord.HEAD)
                             {
                                 <div class="Name">
-                                    @(Comment.User)(回复)
+                                    @(CommentRecord.User)(回复)
                                     <span class="ReplyLogo"></span>
                                     <span class="ReplyFloor">@(temp.Floor)F</span>@temp.User
                                 </div>
@@ -122,10 +126,10 @@
                         }
                     }
 
-                    <div class="Floor cur bSha" data-f="@Comment.Floor" data-id="@Comment.CommentID" onclick="CommentBox.doReply(this)">@Comment.Floor</div>
-                    <div class="Email">@Comment.Email</div>
-                    <div class="Time">@(Convert.ToString(Comment.Time.Year).Substring(2, 2) + "-" + Comment.Time.Month + "-" + Comment.Time.Day) | @(Comment.Time.Hour + ":" + Comment.Time.Minute)</div>
-                    <div class="Content">@Comment.Content</div>
+                    <div class="Floor cur bSha" data-f="@CommentRecord.Floor" data-id="@CommentRecord.CommentID" onclick="CommentBox.doReply(this)">@CommentRecord.Floor</div>
+                    <div class="Email">@CommentRecord.Email</div>
+                    <div class="Time">@(Convert.ToString(CommentRecord.Time.Year).Substring(2, 2) + "-" + CommentRecord.Time.Month + "-" + CommentRecord.Time.Day) | @(CommentRecord.Time.Hour + ":" + CommentRecord.Time.Minute)</div>
+                    <div class="Content">@CommentRecord.Content</div>
                 </div>
             }
         </div>
