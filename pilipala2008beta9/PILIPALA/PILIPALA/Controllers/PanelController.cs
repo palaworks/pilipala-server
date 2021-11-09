@@ -1,11 +1,12 @@
-﻿using System.Linq;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 using WaterLibrary.Utils;
 using WaterLibrary.pilipala.Entity;
 using WaterLibrary.pilipala.Component;
-
 
 namespace PILIPALA.Controllers
 {
@@ -15,6 +16,7 @@ namespace PILIPALA.Controllers
     public class PanelController : Controller
     {
         private Reader Reader;
+        private Writer Writer;
         private Counter Counter;
         private CommentLake CommentLake;
         private ThemeHandler ThemeHandler;
@@ -24,6 +26,7 @@ namespace PILIPALA.Controllers
         public PanelController(ComponentFactory compoFty, ThemeHandler ThemeHandler, PluginManager pluginManager)
         {
             Reader = compoFty.GenReader(Reader.ReadMode.CleanRead);
+            Writer = compoFty.GenWriter();
             Counter = compoFty.GenCounter();
             CommentLake = compoFty.GenCommentLake();
 
@@ -40,27 +43,24 @@ namespace PILIPALA.Controllers
                 return ConvertH.ListToString(archive, '|');
             }
 
-            var PostSet置顶 = new PostStackSet();
-            foreach (PostStack item in Reader.GetPostStacks(PostProp.ArchiveName, REGEXP("ToppedArchive")))
+            var PostSet置顶 = new PostSet();
+            foreach (Post el in Reader.GetPost(PostProp.ArchiveName, REGEXP("ToppedArchive")))
             {
-                var el = item.Peek;
-                el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount((int)el.ID));
+                el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 el.Cover = ContentProcessPipeline(el.Cover);//ll plugin
                 el.Content = ContentProcessPipeline(el.Content);//ll plugin 
-                PostSet置顶.Add(item);
+                PostSet置顶.Add(el);
             }
 
             ViewBag.置顶文章 = PostSet置顶;
 
-            var PostSet其他 = new PostStackSet();
-            var temop = Reader.GetPostStacks(PostProp.ArchiveName, REGEXP("DefaultArchive"));
-            foreach (PostStack item in temop)
+            var PostSet其他 = new PostSet();
+            foreach (Post el in Reader.GetPost(PostProp.ArchiveName, REGEXP("DefaultArchive")))
             {
-                var el = item.Peek;
-                el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount((int)el.ID));
+                el.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(el.PostID));
                 el.Cover = ContentProcessPipeline(el.Cover);//ll plugin
                 el.Content = ContentProcessPipeline(el.Content);//ll plugin 
-                PostSet其他.Add(item);
+                PostSet其他.Add(el);
             }
             ViewBag.其他文章 = PostSet其他;
 
@@ -86,31 +86,23 @@ namespace PILIPALA.Controllers
 
             ViewBag.ID = ID;//请求ID
 
-            var PostStack = new PostStack((uint)ID);
+            var Post = Reader.GetPost(ID);
 
-            PostStack.Peek.Cover = ContentProcessPipeline(PostStack.Peek.Cover);//ll plugin
-            PostStack.Peek.Content = ContentProcessPipeline(PostStack.Peek.Content);//ll plugin 
+            Post.Cover = ContentProcessPipeline(Post.Cover);//ll plugin
+            Post.Content = ContentProcessPipeline(Post.Content);//ll plugin 
 
-            ViewBag.Post = PostStack.Peek; //文章数据
+            ViewBag.Post = Post; //文章数据
             ViewBag.Post.PropertyContainer.Add("CommentCount", CommentLake.GetCommentCount(ID));//添加评论计数，可优化
 
 
-            ViewBag.CommentRecordSet = CommentLake.GetComments(ID);//评论数据
+            ViewBag.CommentList = CommentLake.GetComments(ID);//评论数据
 
+            ViewBag.PrevID = Reader.Smaller(ID, PostProp.PostID, REGEXP(), PostProp.ArchiveName);
+            ViewBag.PrevTitle = Reader.GetPostProp(ViewBag.PrevID, PostProp.Title);
 
-            var PrevPost = new PostStack((uint)ID);
-            do
-            {
-                PrevPost--;
-            } while (PrevPost != null && PrevPost.Peek.Mode == PostRecord.ModeState.hidden);
-            ViewBag.PrevPost = PrevPost;
+            ViewBag.NextID = Reader.Bigger(ID, PostProp.PostID, REGEXP(), PostProp.ArchiveName);
+            ViewBag.NextTitle = Reader.GetPostProp(ViewBag.NextID, PostProp.Title);
 
-            var NextPost = new PostStack((uint)ID);
-            do
-            {
-                NextPost++;
-            } while (NextPost != null && NextPost.Peek.Mode == PostRecord.ModeState.hidden);
-            ViewBag.NextPost = NextPost;
 
 
             if (ajax == false)

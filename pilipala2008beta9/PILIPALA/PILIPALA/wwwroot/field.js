@@ -17,9 +17,7 @@ var showPost = throttle(function (ID, push = true) {
                 history.pushState(state, '', '/' + (ID == -1 ? "" : ID));
             }
 
-            if (ID != -1) {
-                refre_UVCount(ID);/* 刷新UVCount计数 */
-            }
+            refre_UVCount(ID);/* 刷新UVCount计数 */
 
             const span = new Date() - clock;
             if (span < 1000) {
