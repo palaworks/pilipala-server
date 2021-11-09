@@ -62,7 +62,7 @@
     /* 滑到底部查看壁纸 */
     $(window).scroll(throttle(function () {
         let opacity = document.getElementById('column_bottom').getBoundingClientRect().top / 320;
-        if (opacity < 2) {
+        if (opacity < 6) {
             document.getElementById('fixed').style.opacity = opacity;
             document.getElementById('NavCol').style.opacity = opacity;
             document.getElementById('CardCol').style.opacity = opacity;
