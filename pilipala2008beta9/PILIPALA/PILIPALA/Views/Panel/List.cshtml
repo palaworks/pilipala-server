@@ -8,38 +8,37 @@
 
 
 <!-- 置顶文章输出 -->
-@foreach (PostStack item in ViewBag.置顶文章)
+@foreach (PostRecord post in ViewBag.置顶文章)
 {
-    var Post = item.Peek;
-    if (Post.Type == PostRecord.TypeState.unset)
+    if (post.Type == PostRecord.TypeState.unset)
     {
         <div class="Card M bE-black bRds">
 
-            <div onclick="up();showPost(@Post.ID)" class="contain cur">
+            <div onclick="up();showPost(@post.ID)" class="contain cur">
                 <!-- 前置样式 -->
-                @Html.Raw(Post.Cover)
-                <div class="Title">@Post.Title</div>
-                <div class="Summary">@Post.TrySummary(() => Post.TextContent(80))</div>
+                @Html.Raw(post.Cover)
+                <div class="Title">@post.Title</div>
+                <div class="Summary">@post.TrySummary(() => post.TextContent(80))</div>
             </div>
 
             <div class="AtBox bRds-b">
-                <div class="Date">@Formatter.CN_TimeSummary(Post.CT, x => Convert.ToString(Post.CT.Year) + "-" + Post.CT.Month + "-" + Post.CT.Day)</div>
-                <div class="UVCount">@Post.UVCount</div>
-                <div class="CommentCount">@Post.PropertyContainer["CommentCount"]</div>
-                <div class="StarCount">@Post.StarCount</div>
+                <div class="Date">@Formatter.CN_TimeSummary(post.CT, x => Convert.ToString(post.CT.Year) + "-" + post.CT.Month + "-" + post.CT.Day)</div>
+                <div class="UVCount">@post.UVCount</div>
+                <div class="CommentCount">@post.PropertyContainer["CommentCount"]</div>
+                <div class="StarCount">@post.StarCount</div>
             </div>
 
         </div>
     }
-    else if (Post.Type == PostRecord.TypeState.note)
+    else if (post.Type == PostRecord.TypeState.note)
     {
         <div class="Card M bE-black bRds">
-            <div onclick="up();showPost(@Post.ID)" class="contain cur bRds">
+            <div onclick="up();showPost(@post.ID)" class="contain cur bRds">
                 <!-- 前置样式 -->
-                @Html.Raw(Post.Cover)
+                @Html.Raw(post.Cover)
 
                 <div class="NoteContent bRds markdown-body">
-                    @Html.Raw(Post.HtmlContent())
+                    @Html.Raw(post.HtmlContent())
                 </div>
             </div>
         </div>
@@ -47,38 +46,36 @@
 }
 
 
-
 <!-- 其他文章输出 -->
-@foreach (PostStack item in ViewBag.其他文章)
+@foreach (PostRecord post in ViewBag.其他文章)
 {
-    var Post = item.Peek;
-    if (Post.Type == PostRecord.TypeState.unset)
+    if (post.Type == PostRecord.TypeState.unset)
     {
         <div class="Card M bE-black bRds">
 
-            <div onclick="up();showPost(@Post.ID)" class="contain cur">
+            <div onclick="up();showPost(@post.ID)" class="contain cur">
                 <!-- 前置样式 -->
-                @Html.Raw(Post.Cover)
-                <div class="Title">@Post.Title</div>
-                <div class="Summary">@Post.TrySummary(() => Post.TextContent(80))</div>
+                @Html.Raw(post.Cover)
+                <div class="Title">@post.Title</div>
+                <div class="Summary">@post.TrySummary(() => post.TextContent(80))</div>
             </div>
             <div class="AtBox bRds-b">
-                <div class="Date">@Formatter.CN_TimeSummary(Post.CT, x => Convert.ToString(Post.CT.Year) + "-" + Post.CT.Month + "-" + Post.CT.Day)</div>
-                <div class="UVCount">@Post.UVCount</div>
-                <div class="CommentCount">@Post.PropertyContainer["CommentCount"]</div>
-                <div class="StarCount">@Post.StarCount</div>
+                <div class="Date">@Formatter.CN_TimeSummary(post.CT, x => Convert.ToString(post.CT.Year) + "-" + post.CT.Month + "-" + post.CT.Day)</div>
+                <div class="UVCount">@post.UVCount</div>
+                <div class="CommentCount">@post.PropertyContainer["CommentCount"]</div>
+                <div class="StarCount">@post.StarCount</div>
             </div>
 
         </div>
     }
-    else if (Post.Type == PostRecord.TypeState.note)
+    else if (post.Type == PostRecord.TypeState.note)
     {
         <div class="Card M bE-black bRds">
-            <div class="contain cur bRds" onclick="up();showPost(@Post.ID)">
+            <div class="contain cur bRds" onclick="up();showPost(@post.ID)">
                 <!-- 前置样式 -->
-                @Html.Raw(Post.Cover)
+                @Html.Raw(post.Cover)
                 <div class="NoteContent bRds markdown-body">
-                    @Html.Raw(Post.HtmlContent())
+                    @Html.Raw(post.HtmlContent())
                 </div>
             </div>
         </div>
