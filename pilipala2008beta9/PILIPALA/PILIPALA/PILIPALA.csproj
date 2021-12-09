@@ -42,7 +42,7 @@
 
   <ItemGroup>
     <Reference Include="WaterLibrary">
-      <HintPath>..\..\WaterLibrary.dll</HintPath>
+      <HintPath>..\..\..\..\WaterLibrary\1.1.7 - Yuki\1.1.7.0\WaterLibrary\bin\Debug\net5.0\WaterLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
 
