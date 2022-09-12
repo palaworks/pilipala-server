@@ -1,58 +1,49 @@
-# compiled
-*.class
+# Compiled source #
 *.com
+*.class
 *.dll
 *.exe
-*.obj
-*.so
 *.o
-*.a
+*.so
 
-# package
+# Packages #
+#*.7z
 *.dmg
+*.gz
 *.iso
 *.jar
 *.rar
 *.tar
 *.zip
-*.7z
-*.gz
 
-# log
+# Logs and databases #
 *.log
 
-# os
-System Volume Information
-.Spotlight-V100
-$Recycle.Bin
-.Trash-1000
-ehthumbs.db
-.DS_Store?
+# OS generated files #
 .DS_Store
-Thumbs.db
-.Trashes
+.DS_Store?
 ._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# node
-dist_electron
+# Node
+/dist
+/dist_electron
 node_modules
-dist
 
-# editor
-.gradle
-.vscode
+# Editor directories and files
 .idea
+.vscode
 .vs
 
-# local env
-.env.*.local
+# local env files
 .env.local
+.env.*.local
 
-# cmake
-cmake-build-debug-coverage
-cmake-build-debug
+# project
 
-# build
-build
+Mailssage.json
 bin
 obj
