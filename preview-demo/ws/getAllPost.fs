@@ -15,27 +15,29 @@ type getAllPost() =
     override self.OnMessage e =
         Console.WriteLine $"getAllPost from client:{e.Data}"
 
-        let arr =
-            user.GetReadablePost().foldl
-            <| fun acc (x: Post) ->
-                $"""{{
-                    "Id": {x.Id},
-                    "Title":"{x.Title.unwrap ()}",
-                    "Body":{x.Body.unwrap().serializeToJson().json},
-                    "CreateTime":"{x.CreateTime.unwrap ()}",
-                    "ModifyTime":"{x.ModifyTime.unwrap ()}",
-                    "CoverUrl":null,
-                    "Summary":null,
-                    "ViewCount":12384,
-                    "Comments":[],
-                    "CanComment":{x.CanComment.ToString().ToLower()},
-                    "IsArchive":false,
-                    "IsSchedule":false,
-                    "Topics":[]
-                }}"""
-                :: acc
-            <| []
+        let json =
+            user.GetReadablePost().foldr
+            <| fun (x: Post) acc ->
+                let x =
+                    $"""{{
+                        "Id": {x.Id},
+                        "Title":"{x.Title.unwrap ()}",
+                        "Body":{x.Body.unwrap().serializeToJson().json},
+                        "CreateTime":"{x.CreateTime.unwrap ()}",
+                        "ModifyTime":"{x.ModifyTime.unwrap ()}",
+                        "CoverUrl":null,
+                        "Summary":null,
+                        "ViewCount":12384,
+                        "Comments":[],
+                        "CanComment":{x.CanComment.ToString().ToLower()},
+                        "IsArchive":false,
+                        "IsSchedule":false,
+                        "Topics":[]
+                    }}"""
 
-        let json = arr.serializeToJson().json
+                $",{x}{acc}"
+            <| "]"
+            |> fun s -> $"[{s.Substring(1)}"
+
         Console.WriteLine(json)
         self.Send(json)
