@@ -11,24 +11,33 @@ type getPost() =
     override self.OnMessage e =
         Console.WriteLine $"getPost from client:{e.Data}"
 
-        let post =
+        let x =
             user.GetPost(Int64.Parse e.Data).unwrap ()
 
         let json =
             $"""{{
-                "Id": {post.Id},
-                "Title":"{post.Title.unwrap ()}",
-                "Body":{post.Body.unwrap().serializeToJson().json},
-                "CreateTime":"{post.CreateTime.unwrap ()}",
-                "ModifyTime":"{post.ModifyTime.unwrap ()}",
-                "CoverUrl":null,
-                "Summary":null,
-                "ViewCount":12384,
+                "Id": {x.Id},
+                "Title":"{x.Title.unwrap ()}",
+                "Body":{x.Body.unwrap().serializeToJson().json},
+                "CreateTime":"{x.CreateTime.unwrap ()}",
+                "ModifyTime":"{x.ModifyTime.unwrap ()}",
+                "CoverUrl":{x.["CoverUrl"].unwrap().unwrapOr (fun _ -> "null")},
+                "Summary":{x.["CoverUrl"].unwrap().unwrapOr (fun _ -> "null")},
+                "ViewCount":{x.["CoverUrl"].unwrap().unwrapOr (fun _ -> "0")},
                 "Comments":[],
-                "CanComment":{post.CanComment.ToString().ToLower()},
-                "IsArchive":false,
-                "IsSchedule":false,
-                "Topics":[]
+                "CanComment":{x.CanComment.ToString().ToLower()},
+                "IsArchive":{x.["CoverUrl"]
+                                 .unwrap()
+                                 .fmap(fun x -> x.ToString().ToLower())
+                                 .unwrapOr (fun _ -> "false")},
+                "IsSchedule":{x.["CoverUrl"]
+                                  .unwrap()
+                                  .fmap(fun x -> x.ToString().ToLower())
+                                  .unwrapOr (fun _ -> "false")},
+                "Topics":{x.["CoverUrl"]
+                              .unwrap()
+                              .fmap(fun x -> x.ToString().ToLower())
+                              .unwrapOr (fun _ -> "false")}
             }}"""
 
         Console.WriteLine(json)

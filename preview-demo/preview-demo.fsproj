@@ -34,6 +34,9 @@
       <Reference Include="pilipala.util">
         <HintPath>..\..\pilipala-sdk\pilipala.util\bin\Debug\net6.0\pilipala.util.dll</HintPath>
       </Reference>
+      <Reference Include="Summarizer">
+        <HintPath>..\..\pilipala.plugin\Summarizer\bin\Debug\net6.0\Summarizer.dll</HintPath>
+      </Reference>
       <Reference Include="websocket-sharp">
         <HintPath>..\..\websocket-sharp\websocket-sharp\bin\Release\net6.0\websocket-sharp.dll</HintPath>
       </Reference>
