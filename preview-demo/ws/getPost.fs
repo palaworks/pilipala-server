@@ -23,6 +23,10 @@ type getPost() =
                 "ModifyTime":"{x.ModifyTime.unwrap ()}",
                 "CoverUrl":{x.["CoverUrl"].unwrap().unwrapOr (fun _ -> "null")},
                 "Summary":{x.["CoverUrl"].unwrap().unwrapOr (fun _ -> "null")},
+                "IsGeneratedSummary":{x.["IsGeneratedSummary"]
+                                          .unwrap()
+                                          .fmap(fun b -> b.ToString().ToLower())
+                                          .unwrapOr (fun _ -> "false")},
                 "ViewCount":{x.["CoverUrl"].unwrap().unwrapOr (fun _ -> "0")},
                 "Comments":[],
                 "CanComment":{x.CanComment.ToString().ToLower()},
