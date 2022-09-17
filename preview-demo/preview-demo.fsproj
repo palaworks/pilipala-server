@@ -13,41 +13,51 @@
         <Compile Include="ws\getAllPost.fs" />
         <Compile Include="ws\getPost.fs" />
         <Compile Include="Program.fs" />
+        <ContentWithTargetPath Include="plugin/**">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <TargetPath>plugin/%(RecursiveDir)/%(Filename)%(Extension)</TargetPath>
+        </ContentWithTargetPath>
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="Cacher">
-        <HintPath>..\..\pilipala.plugin\Cacher\bin\Debug\net6.0\Cacher.dll</HintPath>
-      </Reference>
-      <Reference Include="fsharper">
-        <HintPath>..\..\fsharper\bin\Debug\net6.0\fsharper.dll</HintPath>
-      </Reference>
-      <Reference Include="Markdown">
-        <HintPath>..\..\pilipala.plugin\Markdown\bin\Debug\net6.0\Markdown.dll</HintPath>
-      </Reference>
-      <Reference Include="pilipala-frame">
-        <HintPath>..\..\pilipala-sdk\pilipala-frame\bin\Debug\net6.0\pilipala-frame.dll</HintPath>
-      </Reference>
-      <Reference Include="pilipala-kernel">
-        <HintPath>..\..\pilipala-kernel\pilipala-kernel\bin\Debug\net6.0\pilipala-kernel.dll</HintPath>
-      </Reference>
-      <Reference Include="pilipala.util">
-        <HintPath>..\..\pilipala-sdk\pilipala.util\bin\Debug\net6.0\pilipala.util.dll</HintPath>
-      </Reference>
-      <Reference Include="Summarizer">
-        <HintPath>..\..\pilipala.plugin\Summarizer\bin\Debug\net6.0\Summarizer.dll</HintPath>
-      </Reference>
-      <Reference Include="websocket-sharp">
-        <HintPath>..\..\websocket-sharp\websocket-sharp\bin\Release\net6.0\websocket-sharp.dll</HintPath>
-      </Reference>
+        <Reference Include="Cacher">
+            <HintPath>..\..\pilipala.plugin\Cacher\bin\Debug\net6.0\Cacher.dll</HintPath>
+        </Reference>
+        <Reference Include="fsharper">
+            <HintPath>..\..\fsharper\bin\Debug\net6.0\fsharper.dll</HintPath>
+        </Reference>
+        <Reference Include="Markdown">
+            <HintPath>..\..\pilipala.plugin\Markdown\bin\Debug\net6.0\Markdown.dll</HintPath>
+        </Reference>
+        <Reference Include="pilipala-frame">
+            <HintPath>..\..\pilipala-sdk\pilipala-frame\bin\Debug\net6.0\pilipala-frame.dll</HintPath>
+        </Reference>
+        <Reference Include="pilipala-kernel">
+            <HintPath>..\..\pilipala-kernel\pilipala-kernel\bin\Debug\net6.0\pilipala-kernel.dll</HintPath>
+        </Reference>
+        <Reference Include="pilipala.util">
+            <HintPath>..\..\pilipala-sdk\pilipala.util\bin\Debug\net6.0\pilipala.util.dll</HintPath>
+        </Reference>
+        <Reference Include="PostCover">
+          <HintPath>..\..\pilipala.plugin\PostCover\bin\Debug\net6.0\PostCover.dll</HintPath>
+        </Reference>
+        <Reference Include="Summarizer">
+            <HintPath>..\..\pilipala.plugin\Summarizer\bin\Debug\net6.0\Summarizer.dll</HintPath>
+        </Reference>
+        <Reference Include="Topics">
+          <HintPath>..\..\pilipala.plugin\Topics\bin\Debug\net6.0\Topics.dll</HintPath>
+        </Reference>
+        <Reference Include="websocket-sharp">
+            <HintPath>..\..\websocket-sharp\websocket-sharp\bin\Release\net6.0\websocket-sharp.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-      <PackageReference Include="Markdig" Version="0.30.2" />
-      <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0-preview.7.22375.6" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-      <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+        <PackageReference Include="Markdig" Version="0.30.2" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0-preview.7.22375.6" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
     </ItemGroup>
 
 </Project>

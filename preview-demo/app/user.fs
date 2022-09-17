@@ -10,8 +10,10 @@ let App () =
         .make()
         .useDb(getDbCfg ())
         .usePlugin<Markdown>()
+        .usePlugin<PostCover>()
+        .usePlugin<Topics>()
         .usePlugin<Summarizer>()
-        .usePlugin<Cacher>()
+        //.usePlugin<Cacher>()
         .useLoggerProvider(new FileLoggerProvider("./pilipala.log"))
         .build ()
 

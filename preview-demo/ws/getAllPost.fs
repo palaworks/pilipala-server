@@ -50,11 +50,18 @@ type getAllPost() =
                         "ModifyTime":"{post.ModifyTime.unwrap().ToIso8601()}",
                         "CoverUrl":{post.["CoverUrl"]
                                         .unwrap()
+                                        .unwrap()
+                                        .coerce<Option'<string>>()
+                                        .fmap(fun s -> $"\"{s}\"")
                                         .unwrapOr (fun _ -> "null")},
                         "Summary":{post.["Summary"]
                                        .unwrap()
                                        .fmap(fun s -> s.serializeToJson().json)
                                        .unwrapOr (fun _ -> "null")},
+                        "IsGeneratedSummary":{post.["IsGeneratedSummary"]
+                                                  .unwrap()
+                                                  .fmap(fun b -> b.ToString().ToLower())
+                                                  .unwrapOr (fun _ -> "false")},
                         "ViewCount":{post.["ViewCount"]
                                          .unwrap()
                                          .unwrapOr (fun _ -> "0")},
@@ -62,21 +69,19 @@ type getAllPost() =
                         "CanComment":{post.CanComment.ToString().ToLower()},
                         "IsArchive":{post.["IsArchive"]
                                          .unwrap()
-                                         .fmap(fun x -> post.ToString().ToLower())
+                                         .fmap(fun b -> b.ToString().ToLower())
                                          .unwrapOr (fun _ -> "false")},
                         "IsSchedule":{post.["IsSchedule"]
                                           .unwrap()
-                                          .fmap(fun x -> post.ToString().ToLower())
+                                          .fmap(fun b -> b.ToString().ToLower())
                                           .unwrapOr (fun _ -> "false")},
-                        "Topics":{post.["Topics"]
-                                      .unwrap()
-                                      .fmap(fun x -> post.ToString().ToLower())
-                                      .unwrapOr (fun _ -> "false")}
+                        "Topics":{post.["Topics"].unwrap().unwrapOr(fun _ -> [||])
+                                      .serializeToJson()
+                                      .json}
                     }}"""
 
                 $",{json}{acc}"
             <| "]"
             |> fun s -> $"[{s.Substring(1)}"
 
-        Console.WriteLine(json)
         self.Send(json)
