@@ -41,6 +41,9 @@
         <Reference Include="PostCover">
           <HintPath>..\..\pilipala.plugin\PostCover\bin\Debug\net6.0\PostCover.dll</HintPath>
         </Reference>
+        <Reference Include="PostStatus">
+          <HintPath>..\..\pilipala.plugin\PostStatus\bin\Debug\net6.0\PostStatus.dll</HintPath>
+        </Reference>
         <Reference Include="Summarizer">
             <HintPath>..\..\pilipala.plugin\Summarizer\bin\Debug\net6.0\Summarizer.dll</HintPath>
         </Reference>

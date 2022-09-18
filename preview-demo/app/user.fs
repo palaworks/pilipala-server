@@ -11,6 +11,7 @@ let App () =
         .useDb(getDbCfg ())
         .usePlugin<Markdown>()
         .usePlugin<PostCover>()
+        .usePlugin<PostStatus>()
         .usePlugin<Topics>()
         .usePlugin<Summarizer>()
         //.usePlugin<Cacher>()
