@@ -18,15 +18,27 @@ type getPost() =
         let post =
             user.GetPost(Int64.Parse e.Data).unwrap ()
 
-        let comments =
-            post.Comments.unwrap().foldr
-            <| fun (comment: Comment) acc ->
+        let rec getRecursiveComments (comment: Comment) =
+            match comment.Comments.unwrap().toList () with
+            | [] -> []
+            | cs ->
+                cs.foldl
+                <| fun acc c -> acc @ (comment.Id, c) :: getRecursiveComments c
+                <| []
+
+        let comments_json =
+            (post.Comments.unwrap().foldl
+             <| fun acc c -> acc @ (post.Id, c) :: getRecursiveComments c
+             <| []
+             |> List.sortBy (fun x -> x.snd().CreateTime |> unwrap))
+                .foldr
+            <| fun (replyTo, comment: Comment) acc ->
                 let json =
                     $"""{{
                         "Id":{comment.Id},
                         "User":"{comment.UserId.unwrap ()}",
                         "Body":{comment.Body.unwrap().serializeToJson().json},
-                        "ReplyTo":{post.Id},
+                        "ReplyTo":{replyTo},
                         "SiteUrl":"https://www.thaumy.cn",
                         "AvatarUrl":"/src/assets/comment_user_avatars/kurumi.jpg",
                         "CreateTime":"{comment.CreateTime.unwrap().ToIso8601()}"
@@ -50,7 +62,7 @@ type getPost() =
                         "CoverUrl":{post.["CoverUrl"]
                                         .unwrap()
                                         .unwrap()
-                                        .coerce<Option'<string>>()
+                                        .cast<Option'<string>>()
                                         .fmap(fun s -> $"\"{s}\"")
                                         .unwrapOr (fun _ -> "null")},
                         "Summary":{post.["Summary"]
@@ -64,20 +76,19 @@ type getPost() =
                         "ViewCount":{post.["ViewCount"]
                                          .unwrap()
                                          .unwrapOr (fun _ -> "0")},
-                        "Comments":{comments},
+                        "Comments":{comments_json},
                         "CanComment":{post.CanComment.ToString().ToLower()},
-                        "IsArchive":{post.["IsArchive"]
-                                         .unwrap()
-                                         .fmap(fun b -> b.ToString().ToLower())
-                                         .unwrapOr (fun _ -> "false")},
-                        "IsSchedule":{post.["IsSchedule"]
+                        "IsArchived":{post.["IsArchived"]
                                           .unwrap()
                                           .fmap(fun b -> b.ToString().ToLower())
                                           .unwrapOr (fun _ -> "false")},
+                        "IsScheduled":{post.["IsScheduled"]
+                                           .unwrap()
+                                           .fmap(fun b -> b.ToString().ToLower())
+                                           .unwrapOr (fun _ -> "false")},
                         "Topics":{post.["Topics"].unwrap().unwrapOr(fun _ -> [||])
                                       .serializeToJson()
                                       .json}
                     }}"""
 
-        Console.WriteLine(json)
         self.Send(json)
