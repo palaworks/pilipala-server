@@ -13,11 +13,13 @@ let App () =
         .usePlugin<PostCover>()
         .usePlugin<PostStatus>()
         .usePlugin<Topics>()
+        .usePlugin<ViewCount>()
         .usePlugin<Summarizer>()
-        //.usePlugin<Cacher>()
-        .useLoggerProvider(new FileLoggerProvider("./pilipala.log"))
+        .usePlugin<Cacher>()
+        .useLoggerProvider(
+            new FileLoggerProvider("./pilipala.log")
+        )
         .build ()
 
 //Thaumy
-let user =
-    App().UserLogin("Thaumy", "thaumy12384").unwrap ()
+let user = App().UserLogin("Thaumy", "thaumy12384").unwrap ()

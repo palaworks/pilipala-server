@@ -10,8 +10,11 @@
         <Compile Include="app\cfg.fs" />
         <Compile Include="app\user.fs" />
         <Compile Include="ws\server.fs" />
+        <Compile Include="ws\getAllPostId.fs" />
         <Compile Include="ws\getAllPost.fs" />
         <Compile Include="ws\getPost.fs" />
+        <Compile Include="ws\getNextPost.fs" />
+        <Compile Include="ws\getPrevPost.fs" />
         <Compile Include="Program.fs" />
         <ContentWithTargetPath Include="plugin/**">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -49,6 +52,9 @@
         </Reference>
         <Reference Include="Topics">
           <HintPath>..\..\pilipala.plugin\Topics\bin\Debug\net6.0\Topics.dll</HintPath>
+        </Reference>
+        <Reference Include="ViewCount">
+          <HintPath>..\..\pilipala.plugin\ViewCount\bin\Debug\net6.0\ViewCount.dll</HintPath>
         </Reference>
         <Reference Include="websocket-sharp">
             <HintPath>..\..\websocket-sharp\websocket-sharp\bin\Release\net6.0\websocket-sharp.dll</HintPath>
