@@ -15,11 +15,11 @@ let App () =
         .usePlugin<Topics>()
         .usePlugin<ViewCount>()
         .usePlugin<Summarizer>()
+        .usePlugin<PartialOrder>()
         .usePlugin<Cacher>()
-        .useLoggerProvider(
-            new FileLoggerProvider("./pilipala.log")
-        )
+        .useLoggerProvider(new FileLoggerProvider("./pilipala.log"))
         .build ()
 
 //Thaumy
-let user = App().UserLogin("Thaumy", "thaumy12384").unwrap ()
+let user =
+    App().UserLogin("Thaumy", "thaumy12384").unwrap ()
