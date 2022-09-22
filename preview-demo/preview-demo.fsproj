@@ -56,6 +56,9 @@
         <Reference Include="Topics">
             <HintPath>..\..\pilipala.plugin\Topics\bin\Debug\net6.0\Topics.dll</HintPath>
         </Reference>
+        <Reference Include="UserName">
+          <HintPath>..\..\pilipala.plugin\UserName\bin\Debug\net6.0\UserName.dll</HintPath>
+        </Reference>
         <Reference Include="ViewCount">
             <HintPath>..\..\pilipala.plugin\ViewCount\bin\Debug\net6.0\ViewCount.dll</HintPath>
         </Reference>
