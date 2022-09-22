@@ -17,9 +17,12 @@ let App () =
         .usePlugin<Summarizer>()
         .usePlugin<PartialOrder>()
         .usePlugin<UserName>()
+        .usePlugin<UserAvatarUrl>()
+        .usePlugin<UserSiteUrl>()
         .usePlugin<Cacher>()
         .useLoggerProvider(new FileLoggerProvider("./pilipala.log"))
         .build ()
 
 //Thaumy
-let user = App().UserLogin("Thaumy", "thaumy12384").unwrap ()
+let user =
+    App().UserLogin("Thaumy", "thaumy12384").unwrap ()

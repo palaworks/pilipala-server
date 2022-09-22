@@ -32,13 +32,17 @@ type Post with
                 let json =
                     $"""{{
                         "Id":{comment.Id},
-                        "User":"{comment.["UserName"]
-                                     .unwrap()
-                                     .unwrapOr (fun _ -> comment.UserId)}",
+                        "User":"{comment.UserName.unwrapOr (fun _ -> comment.UserId.ToString())}",
                         "Body":{comment.Body.unwrap().serializeToJson().json},
                         "ReplyTo":{replyTo},
-                        "SiteUrl":"https://www.thaumy.cn",
-                        "AvatarUrl":"/src/assets/comment_user_avatars/kurumi.jpg",
+                        "SiteUrl":{comment.["UserSiteUrl"].unwrap().unwrap().cast<Option'<string>>()
+                                       .unwrapOr(fun _ -> "null")
+                                       .serializeToJson()
+                                       .json},
+                        "AvatarUrl":{comment.["UserAvatarUrl"].unwrap().unwrap().cast<Option'<string>>()
+                                         .unwrapOr(fun _ -> "null")
+                                         .serializeToJson()
+                                         .json},
                         "CreateTime":"{comment.CreateTime.unwrap().ToIso8601()}"
                     }}"""
 
