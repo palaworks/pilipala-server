@@ -32,7 +32,9 @@ type Post with
                 let json =
                     $"""{{
                         "Id":{comment.Id},
-                        "User":"{comment.UserId.unwrap ()}",
+                        "User":"{comment.["UserName"]
+                                     .unwrap()
+                                     .unwrapOr (fun _ -> comment.UserId)}",
                         "Body":{comment.Body.unwrap().serializeToJson().json},
                         "ReplyTo":{replyTo},
                         "SiteUrl":"https://www.thaumy.cn",
