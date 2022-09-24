@@ -4,6 +4,7 @@ open System
 open app.user
 open fsharper.op
 open fsharper.typ
+open fsharper.alias
 open fsharper.op.Foldable
 open pilipala.container.post
 open pilipala.container.comment
@@ -35,14 +36,18 @@ type Post with
                         "User":"{comment.UserName.unwrapOr (fun _ -> comment.UserId.ToString())}",
                         "Body":{comment.Body.unwrap().serializeToJson().json},
                         "ReplyTo":{replyTo},
-                        "SiteUrl":{comment.["UserSiteUrl"].unwrap().unwrap().cast<Option'<string>>()
-                                       .unwrapOr(fun _ -> "null")
-                                       .serializeToJson()
-                                       .json},
-                        "AvatarUrl":{comment.["UserAvatarUrl"].unwrap().unwrap().cast<Option'<string>>()
-                                         .unwrapOr(fun _ -> "null")
-                                         .serializeToJson()
-                                         .json},
+                        "SiteUrl":{comment.["UserSiteUrl"]
+                                       .unwrap()
+                                       .unwrap()
+                                       .cast<Option'<string>>()
+                                       .fmap(fun url -> url.serializeToJson().json)
+                                       .unwrapOr (fun _ -> "null")},
+                        "AvatarUrl":{comment.["UserAvatarUrl"]
+                                         .unwrap()
+                                         .unwrap()
+                                         .cast<Option'<string>>()
+                                         .fmap(fun url -> url.serializeToJson().json)
+                                         .unwrapOr (fun _ -> "null")},
                         "CreateTime":"{comment.CreateTime.unwrap().ToIso8601()}"
                     }}"""
 
@@ -64,7 +69,7 @@ type Post with
                                     .unwrap()
                                     .unwrap()
                                     .cast<Option'<string>>()
-                                    .fmap(fun s -> $"\"{s}\"")
+                                    .fmap(fun url -> url.serializeToJson().json)
                                     .unwrapOr (fun _ -> "null")},
                     "Summary":{post.["Summary"]
                                    .unwrap()
@@ -89,7 +94,19 @@ type Post with
                                        .unwrapOr (fun _ -> "false")},
                     "Topics":{post.["Topics"].unwrap().unwrapOr(fun _ -> [||])
                                   .serializeToJson()
-                                  .json}
+                                  .json},
+                    "PrevId":{post.["PredId"]
+                                  .unwrap()
+                                  .unwrap()
+                                  .cast<Option'<obj>>()
+                                  .fmap(fun id -> id.cast<i64>().ToString())
+                                  .unwrapOr (fun _ -> "null")},
+                    "NextId":{post.["SuccId"]
+                                  .unwrap()
+                                  .unwrap()
+                                  .cast<Option'<obj>>()
+                                  .fmap(fun id -> id.cast<i64>().ToString())
+                                  .unwrapOr (fun _ -> "null")}
                 }}"""
 
 type getPost() =
