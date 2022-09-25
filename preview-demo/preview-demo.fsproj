@@ -10,11 +10,12 @@
         <Compile Include="app\cfg.fs" />
         <Compile Include="app\user.fs" />
         <Compile Include="ws\server.fs" />
-        <Compile Include="ws\getAllPostId.fs" />
-        <Compile Include="ws\getAllPost.fs" />
-        <Compile Include="ws\getPost.fs" />
-        <Compile Include="ws\getPrevPost.fs" />
-        <Compile Include="ws\getNextPost.fs" />
+        <Compile Include="ws\post\helper.fs" />
+        <Compile Include="ws\post\getAllPostId.fs" />
+        <Compile Include="ws\post\getPost.fs" />
+        <Compile Include="ws\post\getPrevPost.fs" />
+        <Compile Include="ws\post\getNextPost.fs" />
+        <Compile Include="ws\comment\sendComment.fs" />
         <Compile Include="Program.fs" />
         <ContentWithTargetPath Include="plugin/**">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>

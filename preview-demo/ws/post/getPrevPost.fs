@@ -1,4 +1,4 @@
-module ws.getPrevPost
+module ws.post.getPrevPost
 
 open System
 open app.user

@@ -1,4 +1,4 @@
-module ws.getNextPost
+module ws.post.getNextPost
 
 open System
 open app.user

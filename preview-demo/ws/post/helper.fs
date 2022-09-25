@@ -1,4 +1,4 @@
-module ws.getPost
+module ws.post.helper
 
 open System
 open app.user
@@ -15,7 +15,8 @@ type CommentJson =
     { Id: i64
       User: string
       Body: string
-      ReplyTo: i64
+      Binding: i64
+      IsReply: bool
       SiteUrl: string
       AvatarUrl: string
       CreateTime: string }
@@ -46,20 +47,23 @@ type Post with
             | [] -> []
             | cs ->
                 cs.foldl
-                <| fun acc c -> acc @ (comment.Id, c) :: getRecursiveComments c
+                <| fun acc c ->
+                    acc
+                    @ (comment.Id, false, c) :: getRecursiveComments c
                 <| []
 
         let comments =
             (post.Comments.unwrap().foldl
-             <| fun acc c -> acc @ (post.Id, c) :: getRecursiveComments c
+             <| fun acc c -> acc @ (post.Id, true, c) :: getRecursiveComments c
              <| []
-             |> List.sortBy (fun x -> x.snd().CreateTime |> unwrap))
+             |> List.sortBy (fun (_, _, c) -> c.CreateTime |> unwrap))
                 .foldr
-            <| fun (replyTo, comment: Comment) acc ->
+            <| fun (replyTo, isReply, comment: Comment) acc ->
                 { Id = comment.Id
                   User = comment.UserName.unwrapOr (fun _ -> comment.UserId.ToString())
                   Body = comment.Body.unwrap ()
-                  ReplyTo = replyTo
+                  Binding = replyTo
+                  IsReply = isReply
                   SiteUrl =
                     comment.["UserSiteUrl"]
                         .unwrap()
@@ -135,17 +139,3 @@ type Post with
                 .unwrapOr (fun _ -> -1) }
             .serializeToJson()
             .json
-
-
-type getPost() =
-    inherit WebSocketBehavior()
-
-    override self.OnMessage e =
-        Console.WriteLine $"getPost from client:{e.Data}"
-
-        let post =
-            user.GetPost(Int64.Parse e.Data).unwrap ()
-
-        let json = post.encodeToJson ()
-
-        self.Send(json)
