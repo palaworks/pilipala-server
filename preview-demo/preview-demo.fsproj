@@ -15,7 +15,7 @@
         <Compile Include="ws\post\getPost.fs" />
         <Compile Include="ws\post\getPrevPost.fs" />
         <Compile Include="ws\post\getNextPost.fs" />
-        <Compile Include="ws\comment\sendComment.fs" />
+        <Compile Include="ws\comment\createComment.fs" />
         <Compile Include="Program.fs" />
         <ContentWithTargetPath Include="plugin/**">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
