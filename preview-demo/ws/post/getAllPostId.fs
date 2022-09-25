@@ -1,4 +1,4 @@
-module ws.getAllPostId
+module ws.post.getAllPostId
 
 open System
 open app.user
