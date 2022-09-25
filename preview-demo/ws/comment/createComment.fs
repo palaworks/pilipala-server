@@ -1,4 +1,4 @@
-module ws.comment.sendComment
+module ws.comment.createComment
 
 open System
 open app.user
@@ -11,7 +11,7 @@ open fsharper.op.Foldable
 open ws.post.helper
 open WebSocketSharp.Server
 
-type sendComment() =
+type createComment() =
     inherit WebSocketBehavior()
 
     member private self.send(data: string) = self.Send data
@@ -29,9 +29,9 @@ type sendComment() =
 
         if json.IsReply then
             anonymous
-                .GetPost(json.Binding)
-                .fmap(fun post ->
-                    post
+                .GetComment(json.Binding)
+                .fmap(fun comment ->
+                    comment
                         .NewComment(json.Body)
                         .fmap(fun comment ->
                             { Id = comment.Id
@@ -56,12 +56,13 @@ type sendComment() =
                                 .json)
                         .unwrapOr (fun _ -> ""))
                 .unwrapOr (fun _ -> "")
+            |> effect Console.WriteLine
             |> self.send
         else
             anonymous
-                .GetComment(json.Binding)
-                .fmap(fun comment ->
-                    comment
+                .GetPost(json.Binding)
+                .fmap(fun post ->
+                    post
                         .NewComment(json.Body)
                         .fmap(fun comment ->
                             { Id = comment.Id
@@ -86,4 +87,5 @@ type sendComment() =
                                 .json)
                         .unwrapOr (fun _ -> ""))
                 .unwrapOr (fun _ -> "")
+            |> effect Console.WriteLine
             |> self.send

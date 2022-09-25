@@ -49,12 +49,12 @@ type Post with
                 cs.foldl
                 <| fun acc c ->
                     acc
-                    @ (comment.Id, false, c) :: getRecursiveComments c
+                    @ (comment.Id, true, c) :: getRecursiveComments c
                 <| []
 
         let comments =
             (post.Comments.unwrap().foldl
-             <| fun acc c -> acc @ (post.Id, true, c) :: getRecursiveComments c
+             <| fun acc c -> acc @ (post.Id, false, c) :: getRecursiveComments c
              <| []
              |> List.sortBy (fun (_, _, c) -> c.CreateTime |> unwrap))
                 .foldr

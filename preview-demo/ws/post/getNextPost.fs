@@ -9,7 +9,7 @@ open fsharper.op.Foldable
 open pilipala.container.comment
 open pilipala.util.text
 open WebSocketSharp.Server
-open getPost
+open helper
 
 
 type getNextPost() =
@@ -42,7 +42,7 @@ type getNextPost() =
 
         let json =
             prev_post
-            |> fmap (fun x -> x.encodeToJson ())
+            |> fmap (fun post -> post.encodeToJson ())
             |> unwrapOr
             <| always ""
 
