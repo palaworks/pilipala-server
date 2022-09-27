@@ -14,7 +14,9 @@ type Cfg =
       pwd: string
       db_name: string
       db_user: string
-      db_pwd: string }
+      db_pwd: string
+      cert_pem_path: string
+      cert_key_path: string }
 
 let cfg =
     { json = readFile "./config/config.json" }
@@ -25,7 +27,7 @@ let getDbCfg () =
         {| host = "localhost"
            port = 5432us
            usr = cfg.db_user
-           pwd = cfg.pwd
+           pwd = cfg.db_pwd
            using = cfg.db_name |}
       pooling = {| size = 32us; sync = 180us |}
       map =
