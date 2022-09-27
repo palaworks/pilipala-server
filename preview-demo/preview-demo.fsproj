@@ -21,6 +21,10 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <TargetPath>plugin/%(RecursiveDir)/%(Filename)%(Extension)</TargetPath>
         </ContentWithTargetPath>
+        <ContentWithTargetPath Include="config/**">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <TargetPath>config/%(RecursiveDir)/%(Filename)%(Extension)</TargetPath>
+        </ContentWithTargetPath>
     </ItemGroup>
 
     <ItemGroup>

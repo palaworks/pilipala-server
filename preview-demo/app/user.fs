@@ -25,4 +25,4 @@ let App () =
 
 //Thaumy
 let user =
-    App().UserLogin("Thaumy", "thaumy12384").unwrap ()
+    App().UserLogin(cfg.user, cfg.pwd).unwrap ()
