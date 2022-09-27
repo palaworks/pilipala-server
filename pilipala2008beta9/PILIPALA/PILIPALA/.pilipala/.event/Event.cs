@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace PILIPALA.Event
 {
+    /*
     public class Event
     {
         public delegate void BeforeEvent();
@@ -57,4 +58,5 @@ namespace PILIPALA.Event
             public event AfterEvent DeleteComment;
         }
     }
+    */
 }

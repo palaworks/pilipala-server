@@ -32,7 +32,7 @@ namespace PILIPALA.Controllers
         {
             string REGEXP(string s)
             {
-                /* 读取主题配置文件并取得要在本页展示的文章归档 */
+                //读取主题配置文件并取得要在本页展示的文章归档
                 var archive = ThemeHandler.Config["Pannel"][s].ToList();
                 return ConvertH.ListToString(archive, '|');
             }
@@ -76,12 +76,14 @@ namespace PILIPALA.Controllers
 
         public ActionResult Content(int ID, bool ajax)
         {
+            /*
             string REGEXP(string s = "DefaultArchive")
             {
-                /* 读取主题配置文件并取得要在本页展示的文章归档 */
+                //读取主题配置文件并取得要在本页展示的文章归档
                 var archive = ThemeHandler.Config["Pannel"][s].ToList();
                 return ConvertH.ListToString(archive, '|');
             }
+            */
 
             ViewBag.ID = ID; //请求ID
 

@@ -1,9 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 using System;
 using System.IO;
-
 using WaterLibrary.pilipala;
 using WaterLibrary.pilipala.Component;
 
@@ -13,7 +11,7 @@ namespace PILIPALA
     using PILIPALA.Theme;
     using PILIPALA.Models;
     using PILIPALA.pilipala.plugin;
-    
+
 
     public partial class Startup
     {
@@ -24,7 +22,8 @@ namespace PILIPALA
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime.
+        // Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
@@ -38,38 +37,35 @@ namespace PILIPALA
                 options.Cookie.IsEssential = true;
             });
 
-            //ÅäÖÃ¼¯
-            var AppSettings = Configuration.GetSection("AppSettings");//Ö÷½Úµã
-            var ThemeSection = AppSettings.GetSection("Theme");//Ö÷ÌâÐÅÏ¢½Úµã
-            var UserSection = AppSettings.GetSection("User");//ÓÃ»§ÐÅÏ¢½Úµã
-            //ÓÃ»§Ä£ÐÍ×¢Èë
-            services.AddTransient(x => new UserModel()
+            //ï¿½ï¿½ï¿½Ã¼ï¿½
+            var AppSettings = Configuration.GetSection("AppSettings"); //ï¿½ï¿½ï¿½Úµï¿½
+            var ThemeSection = AppSettings.GetSection("Theme"); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Úµï¿½
+            var UserSection = AppSettings.GetSection("User"); //ï¿½Ã»ï¿½ï¿½ï¿½Ï¢ï¿½Úµï¿½
+            //ï¿½Ã»ï¿½Ä£ï¿½ï¿½×¢ï¿½ï¿½
+            services.AddTransient(x => new UserModel
             {
                 Account = UserSection.GetSection("Account").Value,
                 PWD = UserSection.GetSection("PWD").Value
             });
-            //Ö÷Ìâ¹ÜÀíÆ÷×¢Èë
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½
             services.AddTransient(x => new ThemeHandler(new ThemeConfigModel()
             {
                 Path = ThemeSection.GetSection("Path").Value,
             }));
 
-            PiliPala.INIT(File.ReadAllText(@".pilipala/config.yml", System.Text.Encoding.UTF8));//ÄÚºËµ¥Àý³õÊ¼»¯
+            PiliPala.INIT(File.ReadAllText(@".pilipala/config.yml", System.Text.Encoding.UTF8)); //ï¿½ÚºËµï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 
             var fac = new ComponentFactory();
 
-            //²å¼þ¹ÜÀíÆ÷×¢Èë
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½
             services.AddTransient(x => new PluginManager(fac));
-            //×é¼þ¹¤³§×¢Èë
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½
             services.AddTransient(x => fac);
 
             services.AddCors(options =>
             {
                 options.AddPolicy("DefaultPolicy",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin();
-                    });
+                    builder => { builder.AllowAnyOrigin(); });
             });
         }
     }
