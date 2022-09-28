@@ -15,6 +15,7 @@ type Cfg =
       db_name: string
       db_user: string
       db_pwd: string
+      enable_wss: bool
       cert_pem_path: string
       cert_key_path: string }
 
