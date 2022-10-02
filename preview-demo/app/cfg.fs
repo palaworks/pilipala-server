@@ -21,7 +21,8 @@ type Cfg =
 
 let cfg =
     { json = readFile "./config/config.json" }
-        .deserializeTo<Cfg> ()
+        .deserializeTo<Cfg>()
+        .unwrap ()
 
 let getDbCfg () =
     { connection =
