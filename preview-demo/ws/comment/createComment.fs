@@ -25,7 +25,7 @@ type createComment() =
                 .unwrap ()
 
         let json: CommentJson =
-            { json = e.Data }.deserializeTo ()
+            { json = e.Data }.deserializeTo().unwrap ()
 
         if json.IsReply then
             anonymous
