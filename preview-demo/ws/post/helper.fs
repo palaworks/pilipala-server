@@ -54,88 +54,118 @@ type Post with
 
         let comments =
             (post.Comments.unwrap().foldl
-             <| fun acc c -> acc @ (post.Id, false, c) :: getRecursiveComments c
+             <| fun acc c ->
+                 acc
+                 @ (post.Id, false, c) :: getRecursiveComments c
              <| []
              |> List.sortBy (fun (_, _, c) -> c.CreateTime |> unwrap))
                 .foldr
             <| fun (replyTo, isReply, comment: Comment) acc ->
+                let user =
+                    comment.["UserName"]
+                        .unwrap() //Opt<obj>
+                        .fmap(cast) //Opt<str>
+                        .unwrapOr (fun _ -> comment.UserId.ToString())
+
+                let siteUrl =
+                    comment.["UserSiteUrl"]
+                        .unwrap() //Opt<Opt<obj>>
+                        .fmap(fun x -> x.cast<Option'<string>> ())
+                        .bind(id)
+                        .unwrapOr (fun _ -> null)
+
+                let avatarUrl =
+                    comment.["UserAvatarUrl"]
+                        .unwrap() //Opt<Opt<obj>>
+                        .fmap(fun x -> x.cast<Option'<string>> ())
+                        .bind(id)
+                        .unwrapOr (fun _ -> null)
+
                 { Id = comment.Id
-                  User = comment.UserName.unwrapOr (fun _ -> comment.UserId.ToString())
+                  User = user
                   Body = comment.Body.unwrap ()
                   Binding = replyTo
                   IsReply = isReply
-                  SiteUrl =
-                    comment.["UserSiteUrl"]
-                        .unwrap()
-                        .unwrap()
-                        .cast<Option'<string>>()
-                        .unwrapOr (fun _ -> null)
-                  AvatarUrl =
-                    comment.["UserAvatarUrl"]
-                        .unwrap()
-                        .unwrap()
-                        .cast<Option'<string>>()
-                        .unwrapOr (fun _ -> null)
+                  SiteUrl = siteUrl
+                  AvatarUrl = avatarUrl
                   CreateTime = comment.CreateTime.unwrap().ToIso8601() }
                 :: acc
             <| []
+
+        let coverUrl =
+            post.["CoverUrl"]
+                .unwrap() //Opt<Opt<obj>>
+                .fmap(cast) //Opt<Opt<str>>
+                .bind(id) //Opt<str>
+                .unwrapOr (fun _ -> null)
+
+        let summary =
+            post.["Summary"]
+                .unwrap() //Opt<obj>
+                .fmap(cast) //Opt<str>
+                .unwrapOr (fun _ -> null)
+
+        let isGeneratedSummary =
+            post.["IsGeneratedSummary"]
+                .unwrap() //Opt<obj>
+                .fmap(cast) //Opt<bool>
+                .unwrapOr (fun _ -> false)
+
+        let viewCount =
+            post.["ViewCount"]
+                .unwrap() //Opt<obj>
+                .fmap(cast) //Opt<u32>
+                .unwrapOr (fun _ -> 0u)
+
+        let isArchived =
+            post.["IsArchived"]
+                .unwrap() //Opt<obj>
+                .fmap(cast) //Opt<bool>
+                .unwrapOr (fun _ -> false)
+
+        let isScheduled =
+            post.["IsScheduled"]
+                .unwrap() //Opt<obj>
+                .fmap(cast) //Opt<bool>
+                .unwrapOr (fun _ -> false)
+
+        let topics =
+            post.["Topics"]
+                .unwrap() //Opt<obj>
+                .fmap(cast) //Opt<[str]>
+                .unwrapOr (fun _ -> [||])
+
+        let predId =
+            post.["PredId"]
+                .unwrap() //Opt<obj>
+                .fmap(cast) //Opt<Opt<obj>>
+                .bind(id) //Opt<obj>
+                .fmap(fun id -> id.cast<i64> ()) //Opt<i64>
+                .unwrapOr (fun _ -> -1)
+
+        let succId =
+            post.["SuccId"]
+                .unwrap() //Opt<obj>
+                .fmap(cast) //Opt<Opt<obj>>
+                .bind(id) //Opt<obj>
+                .fmap(fun id -> id.cast<i64> ()) //Opt<i64>
+                .unwrapOr (fun _ -> -1)
 
         { Id = post.Id
           Title = post.Title.unwrap ()
           Body = post.Body.unwrap ()
           CreateTime = post.CreateTime.unwrap().ToIso8601()
           ModifyTime = post.ModifyTime.unwrap().ToIso8601()
-          CoverUrl =
-            post.["CoverUrl"]
-                .unwrap()
-                .unwrap()
-                .cast<Option'<string>>()
-                .unwrapOr (fun _ -> null)
-          Summary =
-            post.["Summary"]
-                .unwrap()
-                .fmap(cast)
-                .unwrapOr (fun _ -> null)
-          IsGeneratedSummary =
-            post.["IsGeneratedSummary"]
-                .unwrap()
-                .fmap(cast)
-                .unwrapOr (fun _ -> false)
-          ViewCount =
-            post.["ViewCount"]
-                .unwrap()
-                .fmap(cast)
-                .unwrapOr (fun _ -> 0u)
+          CoverUrl = coverUrl
+          Summary = summary
+          IsGeneratedSummary = isGeneratedSummary
+          ViewCount = viewCount
           Comments = comments.toArray ()
           CanComment = post.CanComment
-          IsArchived =
-            post.["IsArchived"]
-                .unwrap()
-                .fmap(cast)
-                .unwrapOr (fun _ -> false)
-          IsScheduled =
-            post.["IsScheduled"]
-                .unwrap()
-                .fmap(cast)
-                .unwrapOr (fun _ -> false)
-          Topics =
-            post.["Topics"]
-                .unwrap()
-                .fmap(cast)
-                .unwrapOr (fun _ -> [||])
-          PrevId =
-            post.["PredId"]
-                .unwrap()
-                .unwrap()
-                .cast<Option'<obj>>()
-                .fmap(fun id -> id.cast<i64> ())
-                .unwrapOr (fun _ -> -1)
-          NextId =
-            post.["SuccId"]
-                .unwrap()
-                .unwrap()
-                .cast<Option'<obj>>()
-                .fmap(fun id -> id.cast<i64> ())
-                .unwrapOr (fun _ -> -1) }
+          IsArchived = isArchived
+          IsScheduled = isScheduled
+          Topics = topics
+          PrevId = predId
+          NextId = succId }
             .serializeToJson()
             .json
