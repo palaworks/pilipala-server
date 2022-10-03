@@ -1,7 +1,7 @@
 {
   "user": "Thaumy",
   "pwd": "thaumy12384",
-  "db_name": "pilipala",
+  "db_name": "pilipala_next",
   "db_user": "postgres",
   "db_pwd": "65a1561425f744e2b541303f628963f8",
   "enable_wss": false,
