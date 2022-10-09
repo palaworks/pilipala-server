@@ -21,7 +21,7 @@ type getPost() =
         Console.WriteLine $"getPost from client:{e.Data}"
 
         user.GetPost(Int64.Parse e.Data)
-        |> fmap (fun post -> post.encodeToJson ())
+        |> fmap (fun post -> post.encodeToJson().serializeToJson().json)
         |> unwrapOr
         <| (fun _ -> "")
         |> self.send
