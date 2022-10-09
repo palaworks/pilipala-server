@@ -1,4 +1,4 @@
-module ws.post.getPosts
+module ws.post.getBatchPost
 
 open System
 open System.Collections.Generic
@@ -13,22 +13,27 @@ open pilipala.util.text
 open WebSocketSharp.Server
 open ws.post.helper
 
-type getPost() =
+type getBatchPost() =
     inherit WebSocketBehavior()
 
     member private self.send(data: string) = self.Send data
 
     override self.OnMessage e =
-        Console.WriteLine $"getPosts from client:{e.Data}"
+        Console.WriteLine $"getBatchPost from client:{e.Data}"
 
         { json = e.Data }
-            .deserializeTo<List<i64>>()
+            .deserializeTo<List<string>>()
             .fmap(fun list ->
                 list.foldl
                 <| fun (acc: List<_>) post_id ->
-                    user.GetPost(post_id) |> ifCanUnwrap <| acc.Add
+                    user
+                        .GetPost(Int64.Parse(post_id))
+                        .fmap (fun post -> post.encodeToJson ())
+                    |> ifCanUnwrap
+                    <| acc.Add
+
                     acc
-                <| List<Post>())
+                <| List<_>())
             .fmap (fun list -> list.serializeToJson().json)
         |> unwrapOr
         <| (fun _ -> "")

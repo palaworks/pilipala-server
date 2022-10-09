@@ -12,8 +12,8 @@
         <Compile Include="ws\server.fs" />
         <Compile Include="ws\post\helper.fs" />
         <Compile Include="ws\post\getAllPostId.fs" />
+        <Compile Include="ws\post\getBatchPost.fs" />
         <Compile Include="ws\post\getPost.fs" />
-        <Compile Include="ws\post\getPosts.fs" />
         <Compile Include="ws\post\getPrevPost.fs" />
         <Compile Include="ws\post\getNextPost.fs" />
         <Compile Include="ws\comment\createComment.fs" />

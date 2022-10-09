@@ -42,7 +42,7 @@ type getNextPost() =
 
         let json =
             prev_post
-            |> fmap (fun post -> post.encodeToJson ())
+            |> fmap (fun post -> post.encodeToJson().serializeToJson().json)
             |> unwrapOr
             <| always ""
 

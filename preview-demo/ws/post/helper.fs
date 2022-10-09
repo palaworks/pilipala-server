@@ -167,5 +167,3 @@ type Post with
           Topics = topics
           PrevId = predId
           NextId = succId }
-            .serializeToJson()
-            .json
