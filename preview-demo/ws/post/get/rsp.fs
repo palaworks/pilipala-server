@@ -1,15 +1,12 @@
-module ws.post.helper
+namespace ws.api.post.get
 
-open System
-open app.user
+open fsharper.alias
 open fsharper.op
 open fsharper.typ
-open fsharper.alias
 open fsharper.op.Foldable
 open pilipala.container.post
 open pilipala.container.comment
 open pilipala.util.text
-open WebSocketSharp.Server
 
 type CommentJson =
     { Id: i64
@@ -21,7 +18,7 @@ type CommentJson =
       AvatarUrl: string
       CreateTime: string }
 
-type PostJson =
+type Rsp =
     { Id: i64
       Title: string
       Body: string
@@ -39,9 +36,7 @@ type PostJson =
       PrevId: i64
       NextId: i64 }
 
-type Post with
-    member post.encodeToJson() =
-
+    static member fromPost(post: Post) =
         let rec getRecursiveComments (comment: Comment) =
             match comment.Comments.unwrap().toList () with
             | [] -> []
