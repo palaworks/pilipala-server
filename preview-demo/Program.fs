@@ -1,23 +1,21 @@
 ﻿open System
+open WebSocketSharp.Server
 open fsharper.typ
 open fsharper.op.Async
+open ws.api
 open ws.server
-open ws.post.getPost
-open ws.post.getBatchPost
-open ws.post.getAllPostId
-open ws.post.getPrevPost
-open ws.post.getNextPost
-open ws.comment.createComment
+open ws.helper
+open ws.helper.ext
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.DependencyInjection
 open System.Threading.Tasks
 
-wsServer.AddWebSocketService<getPost>("/get_post")
-wsServer.AddWebSocketService<getBatchPost>("/get_batch_post")
-wsServer.AddWebSocketService<getAllPostId>("/get_all_post_id")
-wsServer.AddWebSocketService<getPrevPost>("/get_prev_post")
-wsServer.AddWebSocketService<getNextPost>("/get_next_post")
-wsServer.AddWebSocketService<createComment>("/create_comment")
+wsServer.AddWebSocketService("/post/get", post.get.Handler().toWsBehavior)
+wsServer.AddWebSocketService("/post/get_all", post.get_all.Handler().toWsBehavior)
+wsServer.AddWebSocketService("/post/get_prev", post.get_prev.Handler().toWsBehavior)
+wsServer.AddWebSocketService("/post/get_next", post.get_next.Handler().toWsBehavior)
+wsServer.AddWebSocketService("/post/get_batch", post.get.Handler().toWsBehavior)
+wsServer.AddWebSocketService("/comment/create", comment.create.Handler().toWsBehavior)
 
 type Worker() =
     inherit BackgroundService()

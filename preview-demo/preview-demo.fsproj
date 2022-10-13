@@ -9,14 +9,26 @@
     <ItemGroup>
         <Compile Include="app\cfg.fs" />
         <Compile Include="app\user.fs" />
+        <Compile Include="ws\helper.fs" />
         <Compile Include="ws\server.fs" />
-        <Compile Include="ws\post\helper.fs" />
-        <Compile Include="ws\post\getAllPostId.fs" />
-        <Compile Include="ws\post\getBatchPost.fs" />
-        <Compile Include="ws\post\getPost.fs" />
-        <Compile Include="ws\post\getPrevPost.fs" />
-        <Compile Include="ws\post\getNextPost.fs" />
-        <Compile Include="ws\comment\createComment.fs" />
+        <Compile Include="ws\post\get\req.fs" />
+        <Compile Include="ws\post\get\rsp.fs" />
+        <Compile Include="ws\post\get\handler.fs" />
+        <Compile Include="ws\post\get_prev\req.fs" />
+        <Compile Include="ws\post\get_prev\rsp.fs" />
+        <Compile Include="ws\post\get_prev\handler.fs" />
+        <Compile Include="ws\post\get_next\req.fs" />
+        <Compile Include="ws\post\get_next\rsp.fs" />
+        <Compile Include="ws\post\get_next\handler.fs" />
+        <Compile Include="ws\post\get_all\req.fs" />
+        <Compile Include="ws\post\get_all\rsp.fs" />
+        <Compile Include="ws\post\get_all\handler.fs" />
+        <Compile Include="ws\post\get_batch\req.fs" />
+        <Compile Include="ws\post\get_batch\rsp.fs" />
+        <Compile Include="ws\post\get_batch\handler.fs" />
+        <Compile Include="ws\comment\create\req.fs" />
+        <Compile Include="ws\comment\create\rsp.fs" />
+        <Compile Include="ws\comment\create\handler.fs" />
         <Compile Include="Program.fs" />
         <ContentWithTargetPath Include="plugin/**">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -42,7 +54,7 @@
             <HintPath>..\..\pilipala-sdk\pilipala.util\bin\Debug\net6.0\pilipala.util.dll</HintPath>
         </Reference>
         <Reference Include="websocket-sharp">
-            <HintPath>..\..\websocket-sharp\websocket-sharp\bin\Release\net6.0\websocket-sharp.dll</HintPath>
+          <HintPath>..\..\websocket-sharp\websocket-sharp\bin\Release\net6.0\websocket-sharp.dll</HintPath>
         </Reference>
     </ItemGroup>
 

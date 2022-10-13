@@ -1,11 +1,9 @@
 module ws.server
 
-open System
 open System.Security.Cryptography.X509Certificates
 open WebSocketSharp.Server
 open app
 open cfg
-open pilipala.util.io
 
 let wsServer =
     if cfg.enable_wss then
