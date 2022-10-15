@@ -1,5 +1,6 @@
 namespace ws.api.post.get
 
+open ws
 open fsharper.alias
 open fsharper.op
 open fsharper.typ
@@ -7,16 +8,7 @@ open fsharper.op.Foldable
 open pilipala.container.post
 open pilipala.container.comment
 open pilipala.util.text
-
-type CommentJson =
-    { Id: i64
-      User: string
-      Body: string
-      Binding: i64
-      IsReply: bool
-      SiteUrl: string
-      AvatarUrl: string
-      CreateTime: string }
+open ws.api.comment.create
 
 type Rsp =
     { Id: i64
@@ -28,7 +20,7 @@ type Rsp =
       Summary: string
       IsGeneratedSummary: bool
       ViewCount: u32
-      Comments: CommentJson array
+      Comments: api.comment.create.Rsp array
       CanComment: bool
       IsArchived: bool
       IsScheduled: bool
@@ -76,14 +68,7 @@ type Rsp =
                         .bind(id)
                         .unwrapOr (fun _ -> null)
 
-                { Id = comment.Id
-                  User = user
-                  Body = comment.Body.unwrap ()
-                  Binding = replyTo
-                  IsReply = isReply
-                  SiteUrl = siteUrl
-                  AvatarUrl = avatarUrl
-                  CreateTime = comment.CreateTime.unwrap().ToIso8601() }
+                Rsp.fromComment (comment, comment.Id, isReply)
                 :: acc
             <| []
 
