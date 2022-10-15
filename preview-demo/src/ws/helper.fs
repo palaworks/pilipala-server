@@ -31,24 +31,28 @@ module ext =
                     $"recv {typeof<'h>.FullName} req:\n{e.Data}"
                     |> Console.WriteLine
 
-                    let api_req =
-                        Some(JsonConvert.DeserializeObject<ApiRequest<_>> e.Data)
-                    //{ json = e.Data }.deserializeTo<ApiRequest<_>> ()
+                    let opt_api_req =
+                        { json = e.Data }.deserializeTo<ApiRequest<_>> ()
+                    //Some(JsonConvert.DeserializeObject<ApiRequest<_>> e.Data)
 
                     let result =
-                        match api_req with
-                        | Some x -> self.handle x.Data
+                        match opt_api_req with
+                        | Some api_req -> self.handle api_req.Data
                         | None -> Err "Invalid api request"
 
                     let api_rsp =
                         match result with
                         | Ok x ->
-                            { Seq = api_req.unwrap().Seq
+                            { Seq = opt_api_req.unwrap().Seq
                               Ok = true
                               Msg = "Success"
                               Data = x }
                         | Err msg ->
-                            { Seq = -1
+                            { Seq =
+                                //TODO 不优雅
+                                match opt_api_req with
+                                | Some api_req -> api_req.Seq
+                                | None -> -1
                               Ok = false
                               Msg = msg
                               Data = Unchecked.defaultof<'rsp> }
