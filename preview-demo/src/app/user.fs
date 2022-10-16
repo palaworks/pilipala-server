@@ -25,4 +25,4 @@ let App () =
 
 //Thaumy
 let user =
-    App().UserLogin(cfg.user, cfg.pwd).unwrap ()
+    App().UserLogin(cfg.pl_user, cfg.pl_pwd).unwrap ()

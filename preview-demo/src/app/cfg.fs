@@ -7,17 +7,19 @@ open pilipala.container.comment
 open pilipala.plugin
 open pilipala.util.io
 open pilipala.util.hash
+open fsharper.alias
 open pilipala.util.text
 
 type Cfg =
-    { user: string
-      pwd: string
+    { pl_user: string
+      pl_pwd: string
       db_name: string
       db_user: string
       db_pwd: string
-      enable_wss: bool
-      cert_pem_path: string
-      cert_key_path: string }
+      ws_public_port: i32
+      ws_local_port: i32
+      ws_cert_pem_path: string
+      ws_cert_key_path: string }
 
 let cfg =
     { json = readFile "./config/config.json" }
