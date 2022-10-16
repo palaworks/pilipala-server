@@ -1,21 +1,23 @@
 module ws.server
 
+open System.Net
 open System.Security.Cryptography.X509Certificates
 open WebSocketSharp.Server
 open app
 open cfg
 
-let wsServer =
-    if cfg.enable_wss then
-        let x = WebSocketServer(8080, true)
+let wsLocalServer =
+    WebSocketServer(IPAddress.Any, cfg.ws_local_port, false)
 
-        let pem_path = cfg.cert_pem_path
-        let key_path = cfg.cert_key_path
+let wsPublicServer =
+    let x =
+        WebSocketServer(IPAddress.Any, cfg.ws_public_port, true)
 
-        let X509cert =
-            X509Certificate2.CreateFromPemFile(pem_path, key_path)
+    let pem_path = cfg.ws_cert_pem_path
+    let key_path = cfg.ws_cert_key_path
 
-        x.SslConfiguration.ServerCertificate <- X509cert
-        x
-    else
-        WebSocketServer("ws://localhost:8080")
+    let X509cert =
+        X509Certificate2.CreateFromPemFile(pem_path, key_path)
+
+    x.SslConfiguration.ServerCertificate <- X509cert
+    x
