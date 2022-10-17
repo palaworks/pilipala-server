@@ -16,8 +16,9 @@ type Cfg =
       db_name: string
       db_user: string
       db_pwd: string
-      ws_public_port: i32
       ws_local_port: i32
+      ws_public_port: i32
+      ws_public_ssl_enable: bool
       ws_cert_pem_path: string
       ws_cert_key_path: string }
 

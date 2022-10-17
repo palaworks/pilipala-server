@@ -6,6 +6,7 @@
   "db_pwd": "65a1561425f744e2b541303f628963f8",
   "ws_local_port": 8080,
   "ws_public_port": 8081,
+  "ws_public_ssl_enable": false,
   "ws_cert_pem_path": "/home/thaumy/Downloads/next.thaumy.cn.pem",
   "ws_cert_key_path": "/home/thaumy/Downloads/next.thaumy.cn.key"
 }
