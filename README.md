@@ -1,3 +1,7 @@
-# pilipala preview demo
+# pilipala-server
 
-新内核测试及实验性部署分支，同时也是[测试版THAUMY的博客](https://next.thaumy.cn)的实际部署。
+一个基于pilipala kernel开发的博客服务器
+
+## 关于预览分支
+
+当前分支包含所有计划加入稳定分支的特性或功能，也用于技术测试。
