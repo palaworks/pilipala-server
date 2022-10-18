@@ -19,6 +19,7 @@ let App () =
         .usePlugin("./plugin/UserName")
         .usePlugin("./plugin/UserAvatarUrl")
         .usePlugin("./plugin/UserSiteUrl")
+        .usePlugin("./plugin/Pinned")
         .usePlugin("./plugin/Cacher")
         .useLoggerProvider(new FileLoggerProvider("./pilipala.log"))
         .build ()
