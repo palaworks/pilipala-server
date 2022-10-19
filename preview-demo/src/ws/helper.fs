@@ -61,3 +61,8 @@ module ext =
                     |> Console.WriteLine
 
                     b.Send(api_rsp.serializeToJson().json) }
+
+    type WebSocketServer with
+        member self.addService(path, f: unit -> WebSocketBehavior) =
+            self.AddWebSocketService(path, f)
+            self
