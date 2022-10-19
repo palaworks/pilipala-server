@@ -10,21 +10,25 @@ open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.DependencyInjection
 open System.Threading.Tasks
 
-wsLocalServer.AddWebSocketService("/post/get", post.get.Handler().toWsBehavior)
-wsLocalServer.AddWebSocketService("/post/get_all", post.get_all.Handler().toWsBehavior)
-wsLocalServer.AddWebSocketService("/post/get_prev", post.get_prev.Handler().toWsBehavior)
-wsLocalServer.AddWebSocketService("/post/get_next", post.get_next.Handler().toWsBehavior)
-wsLocalServer.AddWebSocketService("/post/get_batch", post.get_batch.Handler().toWsBehavior)
-wsLocalServer.AddWebSocketService("/post/get_all_id", post.get_all_id.Handler().toWsBehavior)
-wsLocalServer.AddWebSocketService("/comment/create", comment.create.Handler().toWsBehavior)
+wsLocalServer
+    .addService("/post/get", post.get.Handler().toWsBehavior)
+    .addService("/post/get_all", post.get_all.Handler().toWsBehavior)
+    .addService("/post/get_prev", post.get_prev.Handler().toWsBehavior)
+    .addService("/post/get_next", post.get_next.Handler().toWsBehavior)
+    .addService("/post/get_batch", post.get_batch.Handler().toWsBehavior)
+    .addService("/post/get_all_id", post.get_all_id.Handler().toWsBehavior)
+    .addService ("/comment/create", comment.create.Handler().toWsBehavior)
+|> ignore
 
-wsPublicServer.AddWebSocketService("/post/get", post.get.Handler().toWsBehavior)
-wsPublicServer.AddWebSocketService("/post/get_all", post.get_all.Handler().toWsBehavior)
-wsPublicServer.AddWebSocketService("/post/get_prev", post.get_prev.Handler().toWsBehavior)
-wsPublicServer.AddWebSocketService("/post/get_next", post.get_next.Handler().toWsBehavior)
-wsPublicServer.AddWebSocketService("/post/get_batch", post.get_batch.Handler().toWsBehavior)
-wsPublicServer.AddWebSocketService("/post/get_all_id", post.get_all_id.Handler().toWsBehavior)
-wsPublicServer.AddWebSocketService("/comment/create", comment.create.Handler().toWsBehavior)
+wsPublicServer
+    .addService("/post/get", post.get.Handler().toWsBehavior)
+    .addService("/post/get_all", post.get_all.Handler().toWsBehavior)
+    .addService("/post/get_prev", post.get_prev.Handler().toWsBehavior)
+    .addService("/post/get_next", post.get_next.Handler().toWsBehavior)
+    .addService("/post/get_batch", post.get_batch.Handler().toWsBehavior)
+    .addService("/post/get_all_id", post.get_all_id.Handler().toWsBehavior)
+    .addService ("/comment/create", comment.create.Handler().toWsBehavior)
+|> ignore
 
 type Worker() =
     inherit BackgroundService()
