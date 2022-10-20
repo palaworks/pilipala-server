@@ -14,7 +14,7 @@ type Handler() =
         override self.handle req =
 
             let arr =
-                let all = user.GetReadablePost()
+                let all = pl_display_user.GetReadablePost()
 
                 let pinned, other =
                     all.foldr

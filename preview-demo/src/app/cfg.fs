@@ -11,8 +11,10 @@ open fsharper.alias
 open pilipala.util.text
 
 type Cfg =
-    { pl_user: string
-      pl_pwd: string
+    { pl_display_user: string
+      pl_display_pwd: string
+      pl_comment_user: string
+      pl_comment_pwd: string
       db_name: string
       db_user: string
       db_pwd: string

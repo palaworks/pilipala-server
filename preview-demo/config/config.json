@@ -1,6 +1,8 @@
 {
-  "pl_user": "Thaumy",
-  "pl_pwd": "thaumy12384",
+  "pl_display_user": "pl_display",
+  "pl_display_pwd": "display12384",
+  "pl_comment_user": "Anonymous",
+  "pl_comment_pwd": "anonymous12384",
   "db_name": "pilipala_next",
   "db_user": "postgres",
   "db_pwd": "65a1561425f744e2b541303f628963f8",
