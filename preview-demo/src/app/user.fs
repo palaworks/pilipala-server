@@ -24,6 +24,16 @@ let App () =
         .useLoggerProvider(new FileLoggerProvider("./pilipala.log"))
         .build ()
 
-//Thaumy
-let user =
-    App().UserLogin(cfg.pl_user, cfg.pl_pwd).unwrap ()
+//TODO caseless username
+
+//Display
+let pl_display_user =
+    App()
+        .UserLogin(cfg.pl_comment_user, cfg.pl_comment_pwd)
+        .unwrap ()
+
+//Anonymous
+let pl_comment_user =
+    App()
+        .UserLogin(cfg.pl_comment_user, cfg.pl_comment_pwd)
+        .unwrap ()

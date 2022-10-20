@@ -11,7 +11,7 @@ type Handler() =
 
         override self.handle req =
 
-            user.GetPost(req.CurrentId).bind
+            pl_display_user.GetPost(req.CurrentId).bind
             <| fun post ->
                 post.["SuccId"].bind
                 <| fun opt_opt_id ->
@@ -23,4 +23,4 @@ type Handler() =
                     |> fun optId ->
                         match optId with
                         | None -> Err "No post available"
-                        | Some id -> (user.GetPost id) |> fmap Rsp.fromPost
+                        | Some id -> (pl_display_user.GetPost id) |> fmap Rsp.fromPost

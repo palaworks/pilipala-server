@@ -13,7 +13,7 @@ type Handler() =
             let arr =
                 req.Ids.foldr
                 <| fun id acc ->
-                    match user.GetPost(id) with
+                    match pl_display_user.GetPost(id) with
                     | Ok post -> ws.api.post.get.Rsp.fromPost post :: acc
                     | _ -> acc
                 <| []

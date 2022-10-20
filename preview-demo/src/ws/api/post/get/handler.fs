@@ -12,4 +12,4 @@ type Handler() =
 
         override self.handle req =
 
-            user.GetPost(req.Id).fmap Rsp.fromPost
+            pl_display_user.GetPost(req.Id).fmap Rsp.fromPost
