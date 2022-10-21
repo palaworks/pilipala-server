@@ -47,29 +47,7 @@ type Rsp =
              <| []
              |> List.sortBy (fun (_, _, c) -> c.CreateTime |> unwrap))
                 .foldr
-            <| fun (replyTo, isReply, comment: Comment) acc ->
-                let user =
-                    comment.["UserName"]
-                        .unwrap() //Opt<obj>
-                        .fmap(cast) //Opt<str>
-                        .unwrapOr (fun _ -> comment.UserId.ToString())
-
-                let siteUrl =
-                    comment.["UserSiteUrl"]
-                        .unwrap() //Opt<Opt<obj>>
-                        .fmap(fun x -> x.cast<Option'<string>> ())
-                        .bind(id)
-                        .unwrapOr (fun _ -> null)
-
-                let avatarUrl =
-                    comment.["UserAvatarUrl"]
-                        .unwrap() //Opt<Opt<obj>>
-                        .fmap(fun x -> x.cast<Option'<string>> ())
-                        .bind(id)
-                        .unwrapOr (fun _ -> null)
-
-                Rsp.fromComment (comment, comment.Id, isReply)
-                :: acc
+            <| fun (replyTo, isReply, comment: Comment) acc -> Rsp.fromComment (comment, replyTo, isReply) :: acc
             <| []
 
         let coverUrl =
