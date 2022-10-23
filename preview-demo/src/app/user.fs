@@ -1,26 +1,19 @@
 module app.user
 
+open System
 open pilipala.builder
 open pilipala.plugin
 open NReco.Logging.File
+open fsharper.op
+open fsharper.op.Foldable
+open fsharper.typ
 open app.cfg
 
 let App () =
     Builder
         .make()
         .useDb(getDbCfg ())
-        .usePlugin("./plugin/Markdown")
-        .usePlugin("./plugin/PostCover")
-        .usePlugin("./plugin/PostStatus")
-        .usePlugin("./plugin/Topics")
-        .usePlugin("./plugin/ViewCount")
-        .usePlugin("./plugin/Summarizer")
-        .usePlugin("./plugin/PartialOrder")
-        .usePlugin("./plugin/UserName")
-        .usePlugin("./plugin/UserAvatarUrl")
-        .usePlugin("./plugin/UserSiteUrl")
-        .usePlugin("./plugin/Pinned")
-        .usePlugin("./plugin/Cacher")
+        .apply(cfg.plugins.foldl <| fun b -> b.usePlugin)
         .useLoggerProvider(new FileLoggerProvider("./pilipala.log"))
         .build ()
 

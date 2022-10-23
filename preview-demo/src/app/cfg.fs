@@ -18,6 +18,7 @@ type Cfg =
       db_name: string
       db_user: string
       db_pwd: string
+      plugins: string array
       ws_local_port: i32
       ws_public_port: i32
       ws_public_ssl_enable: bool
