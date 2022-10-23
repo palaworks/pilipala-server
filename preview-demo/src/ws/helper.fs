@@ -57,7 +57,11 @@ module ext =
                               Msg = msg
                               Data = Unchecked.defaultof<'rsp> }
 
+                    (*
                     $"send {typeof<'h>.FullName} rsp:\n{api_rsp.serializeToJson().json}"
+                    |> Console.WriteLine*)
+
+                    $"sent {typeof<'h>.FullName} rsp"
                     |> Console.WriteLine
 
                     b.Send(api_rsp.serializeToJson().json) }
