@@ -39,6 +39,20 @@ type Worker() =
             wsPublicServer.Start()
         |> Task.RunAsTask
 
+(*
+    "./plugin/Markdown",
+    "./plugin/PostCover",
+    "./plugin/PostStatus",
+    "./plugin/Topics",
+    "./plugin/ViewCount",
+    "./plugin/Summarizer",
+    "./plugin/PartialOrder",
+    "./plugin/UserName",
+    "./plugin/UserAvatarUrl",
+    "./plugin/UserSiteUrl",
+    "./plugin/Pinned",
+    "./plugin/Cacher"
+*)
 Host
     .CreateDefaultBuilder()
     .ConfigureServices(fun ctx services -> services.AddHostedService<Worker>() |> ignore)

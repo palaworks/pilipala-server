@@ -2,7 +2,6 @@ namespace ws.helper
 
 open System
 open pilipala.util.text
-open Newtonsoft.Json
 open WebSocketSharp.Server
 open fsharper.op
 open fsharper.typ
@@ -37,8 +36,8 @@ module ext =
 
                     let result =
                         match opt_api_req with
-                        | Some api_req -> self.handle api_req.Data
-                        | None -> Err "Invalid api request"
+                        | Ok api_req -> self.handle api_req.Data
+                        | _ -> Err "Invalid api request"
 
                     let api_rsp =
                         match result with
@@ -51,8 +50,8 @@ module ext =
                             { Seq =
                                 //TODO 不优雅
                                 match opt_api_req with
-                                | Some api_req -> api_req.Seq
-                                | None -> -1
+                                | Ok api_req -> api_req.Seq
+                                | _ -> -1
                               Ok = false
                               Msg = msg
                               Data = Unchecked.defaultof<'rsp> }

@@ -18,21 +18,31 @@ type Rsp =
       CreateTime: DateTime }
 
     static member fromComment(comment: Comment, binding: i64, isReply: bool) =
+        let UserName =
+            comment.["UserName"]
+                .unwrap() //Opt<obj>
+                .fmap(cast) //Opt<str>
+                .unwrapOr (fun _ -> comment.UserId.ToString())
+
+        let UserSiteUrl =
+            comment.["UserSiteUrl"]
+                .unwrap() //Opt<Opt<obj>>
+                .fmap(cast) //Opt<Opt<str>>
+                .bind(id) //Opt<str>
+                .unwrapOr (fun _ -> null)
+
+        let UserAvatarUrl =
+            comment.["UserAvatarUrl"]
+                .unwrap() //Opt<Opt<obj>>
+                .fmap(cast) //Opt<Opt<str>>
+                .bind(id) //Opt<str>
+                .unwrapOr (fun _ -> null)
+
         { Id = comment.Id
-          UserName = comment.UserName.unwrapOr (fun _ -> comment.UserId.ToString())
+          UserName = UserName
           Body = comment.Body.unwrap ()
           Binding = binding
           IsReply = isReply
-          UserSiteUrl =
-            comment.["UserSiteUrl"]
-                .unwrap()
-                .unwrap()
-                .cast<Option'<string>>()
-                .unwrapOr (fun _ -> null)
-          UserAvatarUrl =
-            comment.["UserAvatarUrl"]
-                .unwrap()
-                .unwrap()
-                .cast<Option'<string>>()
-                .unwrapOr (fun _ -> null)
+          UserSiteUrl = UserSiteUrl
+          UserAvatarUrl = UserAvatarUrl
           CreateTime = comment.CreateTime.unwrap () }
