@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>DbManaged</name></assembly>
+<members>
+<member name="P:DbManaged.DbConnMsg.db">
+<summary>
+ 数据库名
+</summary>
+</member>
+<member name="P:DbManaged.DbConnMsg.pwd">
+<summary>
+ 密码
+</summary>
+</member>
+<member name="P:DbManaged.DbConnMsg.usr">
+<summary>
+ 用户名
+</summary>
+</member>
+<member name="P:DbManaged.DbConnMsg.port">
+<summary>
+ 端口
+</summary>
+</member>
+<member name="P:DbManaged.DbConnMsg.host">
+<summary>
+ 主机（数据源）
+</summary>
+</member>
+<member name="M:DbManaged.IDbConnPool.recycleConnAsync(System.Data.Common.DbConnection)">
+<summary>
+ 异步回收数据库连接
+</summary>
+</member>
+<member name="P:DbManaged.IDbConnPool.size">
+<summary>
+ 连接池的当前大小（连接数）
+</summary>
+</member>
+<member name="P:DbManaged.IDbConnPool.pressure">
+<summary>
+ 池压力系数
+ 池瞬时压力越大，该系数越接近1，反之接近0
+</summary>
+</member>
+<member name="P:DbManaged.IDbConnPool.occupancy">
+<summary>
+ 池占用率
+ 池冗余量越大，该系数越接近1，反之接近0
+</summary>
+</member>
+<member name="M:DbManaged.IDbConnPool.fetchConnAsync">
+<summary>
+ 异步获取数据库连接
+</summary>
+</member>
+<member name="M:DbManaged.IDbConnPool.fetchConn">
+<summary>
+ 获取数据库连接
+</summary>
+</member>
+<member name="T:DbManaged.IDbConnPool">
+<summary>
+ 数据库连接池
+</summary>
+</member>
+<member name="F:DbManaged.DbConnPool.freeConnsAddAsync">
+<summary>
+ 添加到空闲连接表
+</summary>
+</member>
+<member name="F:DbManaged.DbConnPool.busyConns">
+<summary>
+ 忙碌连接表
+</summary>
+</member>
+<member name="F:DbManaged.DbConnPool.freeConns">
+<summary>
+ 空闲连接表
+</summary>
+</member>
+<member name="F:DbManaged.DbConnPool.connStr">
+<summary>
+ 连接字符串
+</summary>
+</member>
+<member name="M:DbManaged.DbConnPool.fetchConnAsync">
+<summary>
+ 异步从连接池取用连接
+</summary>
+</member>
+<member name="M:DbManaged.DbConnPool.fetchConn">
+<summary>
+ 从连接池取用连接
+</summary>
+</member>
+<member name="M:DbManaged.DbConnPool.Dispose">
+<summary>
+ 注销后不应进行新的查询
+</summary>
+</member>
+<member name="T:DbManaged.DbConnPool">
+<summary>
+ PgSql数据库连接池
+ 对于不同的数据库，连接建立成本有所差异，应通过调节比例系数来达到最佳池性能平衡
+ d为销毁连接系数，n为新建连接系数，min为最小连接数，max为最大连接数
+</summary>
+</member>
+<member name="M:DbManaged.IDbManaged.queueQuery``1(Microsoft.FSharp.Core.FSharpFunc{System.Data.Common.DbConnection,``0})">
+<summary>
+ 队列化托管查询任务，以平衡负载
+ 当查询任务不需要立即执行，且对执行顺序敏感时适用
+</summary>
+</member>
+<member name="M:DbManaged.IDbManaged.normalizeSql(System.String)">
+<summary>
+ 将私有格式sql规范化到标准sql
+ 多用于统一参数化查询格式
+</summary>
+</member>
+<member name="M:DbManaged.IDbManaged.forceLeftQueuedQuery">
+<summary>
+ 强制执行队列中剩余的查询
+</summary>
+</member>
+<member name="M:DbManaged.IDbManaged.forceLeftDelayedQuery">
+<summary>
+ 强制执行延迟集合中剩余的查询
+</summary>
+</member>
+<member name="M:DbManaged.IDbManaged.delayQuery``1(Microsoft.FSharp.Core.FSharpFunc{System.Data.Common.DbConnection,``0})">
+<summary>
+ 延迟查询任务，以平衡负载
+ 当查询任务不需要立即执行，且对执行顺序不敏感时适用
+</summary>
+</member>
+<member name="T:DbManaged.IDbManaged">
+<summary>
+ PgSql数据库管理器
+</summary>
+</member>
+<member name="M:DbManaged.ext_DataTable.getRowFrom``1(System.Data.DataTable,System.String,``0)">
+<summary>
+ 从DataTable中取出第一个 whereKey 等于 whereKeyVal 的行
+</summary>
+</member>
+<member name="M:DbManaged.ext_DataTable.getColFromByIndex(System.Data.DataTable,System.UInt32)">
+<summary>
+ 从DataTable中取出指定列
+</summary>
+</member>
+<member name="M:DbManaged.ext_DataTable.getColFromByKey(System.Data.DataTable,System.String)">
+<summary>
+ 从DataTable中取出指定列
+</summary>
+</member>
+<member name="M:DbManaged.ext_DataTable.getFstValFrom(System.Data.DataTable)">
+<summary>
+ 从DataTable中取出第一个值
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbConnection.DbConnection.hostTransaction``1(System.Data.Common.DbConnection,Microsoft.FSharp.Core.FSharpFunc{System.Data.Common.DbTransaction,``0})">
+<summary>
+ 托管一个 DbTransaction, 并以其为参数执行闭包 f
+ 闭包执行完成后该 DbTransaction 会被销毁
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbConnection.DbConnection.useTransaction``1(System.Data.Common.DbConnection,Microsoft.FSharp.Core.FSharpFunc{System.Data.Common.DbTransaction,``0})">
+<summary>
+ 创建一个 DbTransaction, 并以其为参数执行闭包 f
+ DbTransaction 需手动销毁
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbConnection.DbConnection.hostCommand``1(System.Data.Common.DbConnection,Microsoft.FSharp.Core.FSharpFunc{System.Data.Common.DbCommand,``0})">
+<summary>
+ 托管一个 DbCommand, 并以其为参数执行闭包 f
+ 闭包执行完成后该 DbCommand 会被销毁
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbConnection.DbConnection.useCommand``1(System.Data.Common.DbConnection,Microsoft.FSharp.Core.FSharpFunc{System.Data.Common.DbCommand,``0})">
+<summary>
+ 生成一个 DbCommand, 并以其为参数执行闭包 f
+ DbCommand 需要手动销毁
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstColAsync(System.Data.Common.DbCommand,System.String)">
+<summary>
+ 异步参数化查询到第一行
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstColAsync``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 异步查询到第一列
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstCol(System.Data.Common.DbCommand,System.String)">
+<summary>
+ 查询到第一列
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstCol``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 参数化查询到第一列
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstRowAsync(System.Data.Common.DbCommand,System.String)">
+<summary>
+ 异步查询到第一行
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstRowAsync``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 异步参数化查询到第一行
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstRow(System.Data.Common.DbCommand,System.String)">
+<summary>
+ 查询到第一行
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstRow``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 参数化查询到第一行
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstValAsync(System.Data.Common.DbCommand,System.String)">
+<summary>
+ 异步查询到第一个值
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstValAsync``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 异步参数化查询到第一个值
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstVal(System.Data.Common.DbCommand,System.String)">
+<summary>
+ 查询到第一个值
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.getFstVal``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 参数化查询到第一个值
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.queryAsync(System.Data.Common.DbCommand,System.String)">
+<summary>
+ 异步执行任意参数化查询
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.queryAsync``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 异步执行任意查询
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.query(System.Data.Common.DbCommand,System.String)">
+<summary>
+ 执行任意查询
+ 返回的闭包用于检测受影响的行数，当断言成立时闭包会提交事务并返回受影响的行数
+ 低级操作：查询执行完成后应注意注销该连接以避免连接泄漏
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.query``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 执行任意参数化查询
+ 返回的闭包用于检测受影响的行数，当断言成立时闭包会提交事务并返回受影响的行数
+ 低级操作：查询执行完成后应注意注销该连接以避免连接泄漏
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.selectAsync(System.Data.Common.DbCommand,System.String)">
+<summary>
+ 异步查询到表
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.selectAsync``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 参数化查询到表
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.select(System.Data.Common.DbCommand,System.String)">
+<summary>
+ 查询到表
+</summary>
+</member>
+<member name="M:DbManaged.ext_DbCommand.select``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 参数化查询到表
+</summary>
+</member>
+<member name="M:DbManaged.ext_IDbConnPool.IDbConnPool.hostConnectionAsync``1(DbManaged.IDbConnPool,Microsoft.FSharp.Core.FSharpFunc{System.Data.Common.DbConnection,``0})">
+<summary>
+ TODO exp async api
+ 异步托管数据库连接
+</summary>
+</member>
+<member name="M:DbManaged.ext_IDbConnPool.IDbConnPool.useConnectionAsync``1(DbManaged.IDbConnPool,Microsoft.FSharp.Core.FSharpFunc{System.Data.Common.DbConnection,``0})">
+<summary>
+ TODO exp async api
+ 异步使用数据库连接
+</summary>
+</member>
+<member name="M:DbManaged.ext_IDbConnPool.IDbConnPool.hostConnection``1(DbManaged.IDbConnPool,Microsoft.FSharp.Core.FSharpFunc{System.Data.Common.DbConnection,``0})">
+<summary>
+ 托管一个数据库连接, 并以其为参数执行闭包 f
+ 闭包执行完成后该连接会被自动回收
+</summary>
+</member>
+<member name="M:DbManaged.ext_IDbConnPool.IDbConnPool.useConnection``1(DbManaged.IDbConnPool,Microsoft.FSharp.Core.FSharpFunc{System.Data.Common.DbConnection,``0})">
+<summary>
+ 创建一个数据库连接, 并以其为参数执行闭包 f
+ 该连接的回收权交由闭包 f
+</summary>
+</member>
+<member name="T:DbManaged.PgSql.PgSqlManaged">
+<summary>
+ PgSql数据库管理器
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.getFstRowAsync``1(System.Data.Common.DbCommand,System.String,System.String,``0)">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.getFstRow``1(System.Data.Common.DbCommand,System.String,System.String,``0)">
+<summary>
+ 参数化查询到第一行
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.getFstValAsync``1(System.Data.Common.DbCommand,System.String,System.String,System.String,``0)">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.getFstVal``1(System.Data.Common.DbCommand,System.String,System.String,System.String,``0)">
+<summary>
+ 参数化查询到第一个值
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.deleteAsync``1(System.Data.Common.DbCommand,System.String,System.String,``0)">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.delete``1(System.Data.Common.DbCommand,System.String,System.String,``0)">
+<summary>
+ 删除 table 中 whereKey 等于 whereKeyVal 的行
+ 返回的闭包用于检测受影响的行数，当断言成立时闭包会提交事务并返回受影响的行数
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.insertAsync``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.insert``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 在 table 中插入一行
+ 返回的闭包用于检测受影响的行数，当断言成立时闭包会提交事务并返回受影响的行数
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.updateAsync``1(System.Data.Common.DbCommand,System.String,System.String,``0,``0)">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.updateAsync``2(System.Data.Common.DbCommand,System.String,System.Tuple{System.String,``0},System.Tuple{System.String,``1})">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.update``1(System.Data.Common.DbCommand,System.String,System.String,``0,``0)">
+<summary>
+ 将 table 中 key 等于 oldValue 的行的 key 更新为 newValue
+ 返回的闭包用于检测受影响的行数，当断言成立时闭包会提交事务并返回受影响的行数
+</summary>
+</member>
+<member name="M:DbManaged.PgSql.ext_DbCommand.update``2(System.Data.Common.DbCommand,System.String,System.Tuple{System.String,``0},System.Tuple{System.String,``1})">
+<summary>
+ 将 table 中 whereKey 等于 whereKeyVal 的行的 setKey 更新为 setKeyVal
+ 返回的闭包用于检测受影响的行数，当断言成立时闭包会提交事务并返回受影响的行数
+</summary>
+</member>
+<member name="T:DbManaged.MySql.MySqlManaged">
+<summary>
+ MySql数据库管理器
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.getFstRowAsync``1(System.Data.Common.DbCommand,System.String,System.String,``0)">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.getFstRow``1(System.Data.Common.DbCommand,System.String,System.String,``0)">
+<summary>
+ 参数化查询到第一行
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.getFstValAsync``1(System.Data.Common.DbCommand,System.String,System.String,System.String,``0)">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.getFstVal``1(System.Data.Common.DbCommand,System.String,System.String,System.String,``0)">
+<summary>
+ 参数化查询到第一个值
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.deleteAsync``1(System.Data.Common.DbCommand,System.String,System.String,``0)">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.delete``1(System.Data.Common.DbCommand,System.String,System.String,``0)">
+<summary>
+ 删除 table 中 whereKey 等于 whereKeyVal 的行
+ 返回的闭包用于检测受影响的行数，当断言成立时闭包会提交事务并返回受影响的行数
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.insertAsync``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.insert``1(System.Data.Common.DbCommand,System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,``0}})">
+<summary>
+ 在 table 中插入一行
+ 返回的闭包用于检测受影响的行数，当断言成立时闭包会提交事务并返回受影响的行数
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.updateAsync``1(System.Data.Common.DbCommand,System.String,System.String,``0,``0)">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.updateAsync``2(System.Data.Common.DbCommand,System.String,System.Tuple{System.String,``0},System.Tuple{System.String,``1})">
+<summary>
+ TODO exp async api
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.update``1(System.Data.Common.DbCommand,System.String,System.String,``0,``0)">
+<summary>
+ 将 table 中 key 等于 oldValue 的行的 key 更新为 newValue
+ 返回的闭包用于检测受影响的行数，当断言成立时闭包会提交事务并返回受影响的行数
+</summary>
+</member>
+<member name="M:DbManaged.MySql.ext_DbCommand.update``2(System.Data.Common.DbCommand,System.String,System.Tuple{System.String,``0},System.Tuple{System.String,``1})">
+<summary>
+ 将 table 中 whereKey 等于 whereKeyVal 的行的 setKey 更新为 setKeyVal
+ 返回的闭包用于检测受影响的行数，当断言成立时闭包会提交事务并返回受影响的行数
+</summary>
+</member>
+</members>
+</doc>

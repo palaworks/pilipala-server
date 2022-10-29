@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>fsharper</name></assembly>
+<members>
+<member name="M:fsharper.op.Eq.valEq``1(``0,``0)">
+<summary>
+ 值相等性
+</summary>
+</member>
+<member name="M:fsharper.op.Eq.refEq``2(``0,``1)">
+<summary>
+ 引用相等性
+</summary>
+</member>
+<member name="M:fsharper.op.Debug.debugLog``1(Microsoft.FSharp.Core.FSharpFunc{``0,System.String},``0)">
+<summary>
+ 打印对程序员友好对格式
+ 通常这类API使用递归+反射实现，会带来一定的性能损失。
+</summary>
+</member>
+<member name="M:fsharper.op.Debug.debug``1(Microsoft.FSharp.Core.FSharpFunc{``0,System.String},``0)">
+<summary>
+ 对程序员友好的格式
+ 通常这类API使用递归+反射实现，会带来一定的性能损失。
+</summary>
+</member>
+<member name="M:fsharper.op.Monad.op_GreaterGreaterEquals``3(Microsoft.FSharp.Core.FSharpFunc{``0,Microsoft.FSharp.Core.FSharpFunc{Microsoft.FSharp.Core.FSharpFunc{``1,``2},``2}},``0,Microsoft.FSharp.Core.FSharpFunc{``1,``2})">
+<summary>
+ bind
+</summary>
+</member>
+<member name="M:fsharper.op.Reflect.fn.fullNameOf``1">
+<summary>
+ 获取类型的全名
+</summary>
+</member>
+<member name="M:fsharper.op.Reflect.fn.hasAttr``2">
+<summary>
+ 是否具有特性
+</summary>
+</member>
+<member name="M:fsharper.op.Functor.op_LessPercentGreater``4(Microsoft.FSharp.Core.FSharpFunc{``2,Microsoft.FSharp.Core.FSharpFunc{Microsoft.FSharp.Core.FSharpFunc{``0,``1},``3}},Microsoft.FSharp.Core.FSharpFunc{``0,``1},``2)">
+<summary>
+ fmap
+</summary>
+</member>
+<member name="M:fsharper.op.Applicative.op_LessMultiplyGreater``3(Microsoft.FSharp.Core.FSharpFunc{``0,Microsoft.FSharp.Core.FSharpFunc{``1,``2}},``0,``1)">
+<summary>
+ ap
+</summary>
+</member>
+<member name="M:fsharper.typ.Proc.fn.always``2(``0,``1)">
+<summary>
+ aka const
+</summary>
+</member>
+<member name="M:fsharper.typ.Array.fn.get``1(System.UInt32,``0[])">
+<summary>
+ 未检测索引超出
+</summary>
+</member>
+<member name="T:fsharper.typ.LazyCons">
+<summary>
+惰性求值序对
+</summary>
+</member>
+</members>
+</doc>

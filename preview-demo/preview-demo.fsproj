@@ -44,33 +44,19 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="fsharper">
-            <HintPath>..\..\fsharper\bin\Debug\net6.0\fsharper.dll</HintPath>
-        </Reference>
-        <Reference Include="pilipala-frame">
-            <HintPath>..\..\pilipala-sdk\pilipala-frame\bin\Debug\net6.0\pilipala-frame.dll</HintPath>
-        </Reference>
-        <Reference Include="pilipala-kernel">
-            <HintPath>..\..\pilipala-kernel\pilipala-kernel\bin\Debug\net6.0\pilipala-kernel.dll</HintPath>
-        </Reference>
-        <Reference Include="pilipala.util">
-            <HintPath>..\..\pilipala-sdk\pilipala.util\bin\Debug\net6.0\pilipala.util.dll</HintPath>
-        </Reference>
-        <Reference Include="websocket-sharp">
-          <HintPath>..\..\websocket-sharp\websocket-sharp\bin\Release\net6.0\websocket-sharp.dll</HintPath>
-        </Reference>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+        <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
+        <PackageReference Update="FSharp.Core" Version="6.0.6" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-        <PackageReference Include="Markdig" Version="0.30.2" />
-        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0-preview.7.22375.6" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-        <PackageReference Include="Npgsql" Version="7.0.0-rc.1" />
-        <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
-        <PackageReference Include="System.Runtime.Caching" Version="6.0.0" />
+      <ProjectReference Include="..\..\DbManaged\DbManaged.fsproj" />
+      <ProjectReference Include="..\..\fsharper\fsharper.fsproj" />
+      <ProjectReference Include="..\..\pilipala-kernel\pilipala-kernel\pilipala-kernel.fsproj" />
+      <ProjectReference Include="..\..\pilipala-sdk\pilipala-frame\pilipala-frame.fsproj" />
+      <ProjectReference Include="..\..\pilipala-sdk\pilipala.util\pilipala.util.fsproj" />
+      <ProjectReference Include="..\..\websocket-sharp\websocket-sharp\websocket-sharp.csproj" />
     </ItemGroup>
 
 </Project>
