@@ -12,6 +12,7 @@
           "FSharp.Core": "6.0.6",
           "fsharper": "1.0.0",
           "pilipala-frame": "1.0.0",
+          "pilipala.data.db-ext": "1.0.0",
           "pilipala.util": "1.0.0"
         },
         "runtime": {

@@ -8,30 +8,6 @@
 
     <ItemGroup>
         <Compile Include="src\app\cfg.fs" />
-        <Compile Include="src\app\user.fs" />
-        <Compile Include="src\ws\helper.fs" />
-        <Compile Include="src\ws\server.fs" />
-        <Compile Include="src\ws\api\comment\create\req.fs" />
-        <Compile Include="src\ws\api\comment\create\rsp.fs" />
-        <Compile Include="src\ws\api\comment\create\handler.fs" />
-        <Compile Include="src\ws\api\post\get\req.fs" />
-        <Compile Include="src\ws\api\post\get\rsp.fs" />
-        <Compile Include="src\ws\api\post\get\handler.fs" />
-        <Compile Include="src\ws\api\post\get_prev\req.fs" />
-        <Compile Include="src\ws\api\post\get_prev\rsp.fs" />
-        <Compile Include="src\ws\api\post\get_prev\handler.fs" />
-        <Compile Include="src\ws\api\post\get_next\req.fs" />
-        <Compile Include="src\ws\api\post\get_next\rsp.fs" />
-        <Compile Include="src\ws\api\post\get_next\handler.fs" />
-        <Compile Include="src\ws\api\post\get_all\req.fs" />
-        <Compile Include="src\ws\api\post\get_all\rsp.fs" />
-        <Compile Include="src\ws\api\post\get_all\handler.fs" />
-        <Compile Include="src\ws\api\post\get_batch\req.fs" />
-        <Compile Include="src\ws\api\post\get_batch\rsp.fs" />
-        <Compile Include="src\ws\api\post\get_batch\handler.fs" />
-        <Compile Include="src\ws\api\post\get_all_id\req.fs" />
-        <Compile Include="src\ws\api\post\get_all_id\rsp.fs" />
-        <Compile Include="src\ws\api\post\get_all_id\handler.fs" />
         <Compile Include="Program.fs" />
         <ContentWithTargetPath Include="plugin/**">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -55,6 +31,7 @@
       <ProjectReference Include="..\..\fsharper\fsharper.fsproj" />
       <ProjectReference Include="..\..\pilipala-kernel\pilipala-kernel\pilipala-kernel.fsproj" />
       <ProjectReference Include="..\..\pilipala-sdk\pilipala-frame\pilipala-frame.fsproj" />
+      <ProjectReference Include="..\..\pilipala-sdk\pilipala.data.db-ext\pilipala.data.db-ext.fsproj" />
       <ProjectReference Include="..\..\pilipala-sdk\pilipala.util\pilipala.util.fsproj" />
       <ProjectReference Include="..\..\websocket-sharp\websocket-sharp\websocket-sharp.csproj" />
     </ItemGroup>
