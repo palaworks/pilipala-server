@@ -1,0 +1,11 @@
+{
+  "pl_display_user": "pl_display",
+  "pl_display_pwd": "display12384",
+  "pl_comment_user": "Anonymous",
+  "pl_comment_pwd": "anonymous12384",
+  "ws_local_port": 8080,
+  "ws_public_port": 8081,
+  "ws_public_enable_ssl": false,
+  "ws_cert_pem_path": "/home/thaumy/Downloads/next.thaumy.cn.pem",
+  "ws_cert_key_path": "/home/thaumy/Downloads/next.thaumy.cn.key"
+}
