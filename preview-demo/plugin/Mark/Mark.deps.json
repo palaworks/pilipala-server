@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "Pinned/1.0.0": {
+      "Mark/1.0.0": {
         "dependencies": {
           "FSharp.Core": "6.0.6",
           "fsharper": "1.0.0",
@@ -14,7 +14,7 @@
           "pilipala.util": "1.0.0"
         },
         "runtime": {
-          "Pinned.dll": {}
+          "Mark.dll": {}
         }
       },
       "BCrypt.Net-Next/4.0.3": {},
@@ -74,7 +74,7 @@
     }
   },
   "libraries": {
-    "Pinned/1.0.0": {
+    "Mark/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

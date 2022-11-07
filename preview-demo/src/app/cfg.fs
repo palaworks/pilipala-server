@@ -17,7 +17,6 @@ let cfg =
         .deserializeTo<Cfg>()
         .unwrap ()
 
-
 let getDbCfg () =
     { connection =
         {| host = "localhost"

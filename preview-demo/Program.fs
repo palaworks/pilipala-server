@@ -23,7 +23,7 @@ type Worker() =
             .make()
             .useDb(getDbCfg ())
             .apply(cfg.plugins.foldl <| fun b -> b.usePlugin)
-            .useLoggerProvider(new FileLoggerProvider("./pilipala.log"))
+            .useLoggerProvider(new FileLoggerProvider("./log/pilipala.log"))
             .build ()
         |> ignore
 

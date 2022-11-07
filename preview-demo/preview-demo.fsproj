@@ -22,8 +22,8 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-        <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
         <PackageReference Update="FSharp.Core" Version="6.0.6" />
+        <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
     </ItemGroup>
 
     <ItemGroup>
