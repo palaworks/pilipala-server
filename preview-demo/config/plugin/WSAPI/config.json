@@ -5,7 +5,7 @@
   "pl_comment_pwd": "anonymous12384",
   "ws_local_port": 8080,
   "ws_public_port": 8081,
-  "ws_public_enable_ssl": false,
+  "ws_public_enable_ssl": true,
   "ws_cert_pem_path": "/home/thaumy/Downloads/next.thaumy.cn.pem",
   "ws_cert_key_path": "/home/thaumy/Downloads/next.thaumy.cn.key",
   "enable_api_response_detail_logging": false
