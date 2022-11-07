@@ -7,5 +7,6 @@
   "ws_public_port": 8081,
   "ws_public_enable_ssl": false,
   "ws_cert_pem_path": "/home/thaumy/Downloads/next.thaumy.cn.pem",
-  "ws_cert_key_path": "/home/thaumy/Downloads/next.thaumy.cn.key"
+  "ws_cert_key_path": "/home/thaumy/Downloads/next.thaumy.cn.key",
+  "enable_api_response_detail_logging": false
 }

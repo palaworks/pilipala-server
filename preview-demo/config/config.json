@@ -10,7 +10,7 @@
     "./plugin/UserName",
     "./plugin/UserAvatarUrl",
     "./plugin/UserSiteUrl",
-    "./plugin/Pinned",
+    "./plugin/Mark",
     "./plugin/Cacher",
     "./plugin/WSAPI"
   ],
