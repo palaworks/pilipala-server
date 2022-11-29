@@ -1,0 +1,7 @@
+{
+    "smtp_host": "smtp.mailgun.org",
+    "smtp_port": 233,
+    "sender_email": "postmaster@example.mailgun.org",
+    "sender_email_pwd": "example_pwd",
+    "receiver_email": "example@email.com"
+}
