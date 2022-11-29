@@ -15,7 +15,7 @@
     "./plugin/EmailNotifier",
     "./plugin/WSAPI"
   ],
-  "db_name": "pilipala_next",
-  "db_user": "postgres",
-  "db_pwd": "65a1561425f744e2b541303f628963f8"
+  "db_name": "example_db_name",
+  "db_user": "example_db_user",
+  "db_pwd": "example_db_pwd"
 }
