@@ -43,7 +43,7 @@ node_modules
 .env.*.local
 
 # project
-
+preview-demo/plugin
 config
 bin
 obj
