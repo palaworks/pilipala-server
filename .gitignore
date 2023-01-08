@@ -45,3 +45,4 @@ node_modules
 # project
 bin
 obj
+*.sln.DotSettings.user
