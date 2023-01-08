@@ -27,13 +27,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\DbManaged\DbManaged.fsproj" />
-      <ProjectReference Include="..\..\fsharper\fsharper.fsproj" />
-      <ProjectReference Include="..\..\pilipala-kernel\pilipala-kernel\pilipala-kernel.fsproj" />
-      <ProjectReference Include="..\..\pilipala-sdk\pilipala-frame\pilipala-frame.fsproj" />
-      <ProjectReference Include="..\..\pilipala-sdk\pilipala.data.db-ext\pilipala.data.db-ext.fsproj" />
-      <ProjectReference Include="..\..\pilipala-sdk\pilipala.util\pilipala.util.fsproj" />
-      <ProjectReference Include="..\..\websocket-sharp\websocket-sharp\websocket-sharp.csproj" />
+      <ProjectReference Include="..\DbManaged\DbManaged.fsproj" />
+      <ProjectReference Include="..\fsharper\fsharper.fsproj" />
+      <ProjectReference Include="..\pilipala-kernel\pilipala-kernel\pilipala-kernel.fsproj" />
+      <ProjectReference Include="..\pilipala-sdk\pilipala-frame\pilipala-frame.fsproj" />
+      <ProjectReference Include="..\pilipala-sdk\pilipala.data.db-ext\pilipala.data.db-ext.fsproj" />
+      <ProjectReference Include="..\pilipala-sdk\pilipala.util\pilipala.util.fsproj" />
+      <ProjectReference Include="..\websocket-sharp\websocket-sharp\websocket-sharp.csproj" />
     </ItemGroup>
 
     <ItemGroup>
