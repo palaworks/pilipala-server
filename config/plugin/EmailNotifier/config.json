@@ -1,0 +1,7 @@
+{
+    "smtp_host": "smtp.mailgun.org",
+    "smtp_port": 587,
+    "sender_email": "postmaster@sandbox6831fbbb93f1423e99e7fac1423604c8.mailgun.org",
+    "sender_email_pwd": "7a171a13159eec640c13c56822d1d878-18e06deb-627a6c37",
+    "receiver_email": "thaumy@outlook.com"
+}
