@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "preview-demo", "preview-demo.fsproj", "{A74FCEBF-8030-4326-B5F3-938BA9E182C1}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "pilipala-kernel", "..\pilipala-kernel\pilipala-kernel\pilipala-kernel.fsproj", "{2BDB3541-FEB9-4C9C-B1A9-0C5F038C5C1F}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "pilipala-kernel", "..\pilipala-kernel\pilipala-kernel.fsproj", "{2BDB3541-FEB9-4C9C-B1A9-0C5F038C5C1F}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "pilipala.util", "..\pilipala-sdk\pilipala.util\pilipala.util.fsproj", "{B7E3339C-1337-43EC-B73F-BE2857C2EA32}"
 EndProject

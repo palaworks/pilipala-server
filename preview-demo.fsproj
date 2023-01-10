@@ -7,8 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="src\app\cfg.fs" />
-        <Compile Include="Program.fs" />
+        <Compile Include="main.fs" />
+        <Compile Include="src\cfg\plugin.fs" />
+        <Compile Include="src\cfg\database.fs" />
+        <Compile Include="src\cfg\cfg.fs" />
+        <Compile Include="src\host\worker.fs" />
+        <Compile Include="src\host\host.fs" />
         <ContentWithTargetPath Include="plugin/**">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <TargetPath>plugin/%(RecursiveDir)/%(Filename)%(Extension)</TargetPath>
@@ -29,7 +33,7 @@
     <ItemGroup>
       <ProjectReference Include="..\DbManaged\DbManaged.fsproj" />
       <ProjectReference Include="..\fsharper\fsharper.fsproj" />
-      <ProjectReference Include="..\pilipala-kernel\pilipala-kernel\pilipala-kernel.fsproj" />
+      <ProjectReference Include="..\pilipala-kernel\pilipala-kernel.fsproj" />
       <ProjectReference Include="..\pilipala-sdk\pilipala-frame\pilipala-frame.fsproj" />
       <ProjectReference Include="..\pilipala-sdk\pilipala.data.db-ext\pilipala.data.db-ext.fsproj" />
       <ProjectReference Include="..\pilipala-sdk\pilipala.util\pilipala.util.fsproj" />

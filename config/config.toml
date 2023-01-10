@@ -1,0 +1,33 @@
+[plugin]
+# loading order: from top to bottom
+paths = [
+    "./plugin/Markdown",
+    "./plugin/PostCover",
+    "./plugin/PostStatus",
+    "./plugin/Topics",
+    "./plugin/ViewCount",
+    "./plugin/Summarizer",
+    "./plugin/PartialOrder",
+    "./plugin/UserName",
+    "./plugin/UserAvatarUrl",
+    "./plugin/UserSiteUrl",
+    "./plugin/Mark",
+    "./plugin/Cacher",
+    "./plugin/EmailNotifier",
+    "./plugin/WsApi",
+]
+
+[database.connection]
+host = "localhost"
+port = 5432
+user = "postgres"
+password = "65a1561425f744e2b541303f628963f8"
+
+[database.definition]
+name = "pilipala_next"
+table_user = "public.user"
+table_post = "public.post"
+table_comment = "public.comment"
+
+[database.performance]
+pooling = 30
