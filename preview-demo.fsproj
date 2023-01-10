@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="main.fs" />
         <Compile Include="src\cfg\plugin.fs" />
         <Compile Include="src\cfg\database.fs" />
         <Compile Include="src\cfg\cfg.fs" />
         <Compile Include="src\host\worker.fs" />
         <Compile Include="src\host\host.fs" />
+        <Compile Include="src\main.fs" />
         <ContentWithTargetPath Include="plugin/**">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <TargetPath>plugin/%(RecursiveDir)/%(Filename)%(Extension)</TargetPath>
