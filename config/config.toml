@@ -31,3 +31,6 @@ table_comment = "public.comment"
 
 [database.performance]
 pooling = 30
+
+[logging]
+output_path = "./log/pilipala.log"

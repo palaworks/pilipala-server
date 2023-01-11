@@ -21,7 +21,7 @@ let main _ =
             cfg.plugin.paths.foldl <| fun b -> b.usePlugin
         )
             .useLoggerProvider(
-            new FileLoggerProvider("./log/pilipala.log")
+            new FileLoggerProvider(cfg.logging.path)
         )
             .build
         .> ignore
