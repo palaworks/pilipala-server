@@ -41,8 +41,4 @@
       <ProjectReference Include="..\websocket-sharp\websocket-sharp\websocket-sharp.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="config\plugin\EmailNotifier" />
-    </ItemGroup>
-
 </Project>
