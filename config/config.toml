@@ -15,6 +15,7 @@ paths = [
     "./plugin/Cacher",
     "./plugin/EmailNotifier",
     "./plugin/WsApi",
+    "./plugin/GrpcApi",
 ]
 
 [database.connection]
