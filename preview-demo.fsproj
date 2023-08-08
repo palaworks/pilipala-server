@@ -25,20 +25,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-        <PackageReference Update="FSharp.Core" Version="7.0.0" />
+        <PackageReference Update="FSharp.Core" Version="7.0.300" />
         <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DbManaged\DbManaged.fsproj" />
-      <ProjectReference Include="..\fsharper\fsharper.fsproj" />
       <ProjectReference Include="..\pilipala-kernel\pilipala-kernel.fsproj" />
       <ProjectReference Include="..\pilipala-sdk\pilipala-frame\pilipala-frame.fsproj" />
       <ProjectReference Include="..\pilipala-sdk\pilipala.data.db-ext\pilipala.data.db-ext.fsproj" />
       <ProjectReference Include="..\pilipala-sdk\pilipala.util\pilipala.util.fsproj" />
-      <ProjectReference Include="..\websocket-sharp\websocket-sharp\websocket-sharp.csproj" />
     </ItemGroup>
 
 </Project>
