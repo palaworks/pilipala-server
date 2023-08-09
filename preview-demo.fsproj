@@ -7,8 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="src\app\cfg.fs" />
-        <Compile Include="Program.fs" />
+        <Compile Include="src\cfg\plugin.fs" />
+        <Compile Include="src\cfg\database.fs" />
+        <Compile Include="src\cfg\logging.fs" />
+        <Compile Include="src\cfg\cfg.fs" />
+        <Compile Include="src\host\worker.fs" />
+        <Compile Include="src\host\host.fs" />
+        <Compile Include="src\main.fs" />
         <ContentWithTargetPath Include="plugin/**">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <TargetPath>plugin/%(RecursiveDir)/%(Filename)%(Extension)</TargetPath>
@@ -20,24 +25,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-        <PackageReference Update="FSharp.Core" Version="7.0.0" />
+        <PackageReference Update="FSharp.Core" Version="7.0.300" />
         <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DbManaged\DbManaged.fsproj" />
-      <ProjectReference Include="..\fsharper\fsharper.fsproj" />
-      <ProjectReference Include="..\pilipala-kernel\pilipala-kernel\pilipala-kernel.fsproj" />
+      <ProjectReference Include="..\pilipala-kernel\pilipala-kernel.fsproj" />
       <ProjectReference Include="..\pilipala-sdk\pilipala-frame\pilipala-frame.fsproj" />
       <ProjectReference Include="..\pilipala-sdk\pilipala.data.db-ext\pilipala.data.db-ext.fsproj" />
       <ProjectReference Include="..\pilipala-sdk\pilipala.util\pilipala.util.fsproj" />
-      <ProjectReference Include="..\websocket-sharp\websocket-sharp\websocket-sharp.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="config\plugin\EmailNotifier" />
     </ItemGroup>
 
 </Project>

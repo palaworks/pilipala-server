@@ -2,19 +2,17 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "preview-demo", "preview-demo.fsproj", "{A74FCEBF-8030-4326-B5F3-938BA9E182C1}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "pilipala-kernel", "..\pilipala-kernel\pilipala-kernel\pilipala-kernel.fsproj", "{2BDB3541-FEB9-4C9C-B1A9-0C5F038C5C1F}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "pilipala-kernel", "..\pilipala-kernel\pilipala-kernel.fsproj", "{2BDB3541-FEB9-4C9C-B1A9-0C5F038C5C1F}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "pilipala.util", "..\pilipala-sdk\pilipala.util\pilipala.util.fsproj", "{B7E3339C-1337-43EC-B73F-BE2857C2EA32}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "pilipala-frame", "..\pilipala-sdk\pilipala-frame\pilipala-frame.fsproj", "{C6C8B9B3-096F-497B-A23D-706F063B0C4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "websocket-sharp", "..\websocket-sharp\websocket-sharp\websocket-sharp.csproj", "{0B56E090-2E94-4893-9D3D-D480EF6943D9}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsharper", "..\fsharper\fsharper.fsproj", "{AFB40B34-27B6-4C8F-A83A-FD5A6300098D}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DbManaged", "..\DbManaged\DbManaged.fsproj", "{E0AAD725-E8FA-41F9-A416-7CF785064027}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "pilipala.data.db-ext", "..\pilipala-sdk\pilipala.data.db-ext\pilipala.data.db-ext.fsproj", "{9AD30FF6-4282-40B7-A212-A7BCCAC9BB31}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DbManaged", "..\..\thaumy\DbManaged\DbManaged.fsproj", "{025804A9-CDCE-4ECC-9723-593752BF24F2}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsharper", "..\..\thaumy\fsharper\fsharper.fsproj", "{213AADA0-B370-421E-95AB-53EB623A0C7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,21 +36,17 @@ Global
 		{C6C8B9B3-096F-497B-A23D-706F063B0C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6C8B9B3-096F-497B-A23D-706F063B0C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6C8B9B3-096F-497B-A23D-706F063B0C4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B56E090-2E94-4893-9D3D-D480EF6943D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B56E090-2E94-4893-9D3D-D480EF6943D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B56E090-2E94-4893-9D3D-D480EF6943D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B56E090-2E94-4893-9D3D-D480EF6943D9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFB40B34-27B6-4C8F-A83A-FD5A6300098D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFB40B34-27B6-4C8F-A83A-FD5A6300098D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFB40B34-27B6-4C8F-A83A-FD5A6300098D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFB40B34-27B6-4C8F-A83A-FD5A6300098D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0AAD725-E8FA-41F9-A416-7CF785064027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0AAD725-E8FA-41F9-A416-7CF785064027}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0AAD725-E8FA-41F9-A416-7CF785064027}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0AAD725-E8FA-41F9-A416-7CF785064027}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9AD30FF6-4282-40B7-A212-A7BCCAC9BB31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9AD30FF6-4282-40B7-A212-A7BCCAC9BB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AD30FF6-4282-40B7-A212-A7BCCAC9BB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AD30FF6-4282-40B7-A212-A7BCCAC9BB31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{025804A9-CDCE-4ECC-9723-593752BF24F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{025804A9-CDCE-4ECC-9723-593752BF24F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{025804A9-CDCE-4ECC-9723-593752BF24F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{025804A9-CDCE-4ECC-9723-593752BF24F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{213AADA0-B370-421E-95AB-53EB623A0C7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{213AADA0-B370-421E-95AB-53EB623A0C7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{213AADA0-B370-421E-95AB-53EB623A0C7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{213AADA0-B370-421E-95AB-53EB623A0C7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

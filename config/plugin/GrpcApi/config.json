@@ -1,0 +1,8 @@
+{
+	"host": "localhost",
+	"port": 40040,
+	"enable_ssl": false,
+	"root_cert_path": "/home/thaumy/Downloads/cert/next.thaumy.cn.root.crt",
+	"pem_cert_chain_path": "/home/thaumy/Downloads/cert/next.thaumy.cn.chain.pem",
+	"pem_private_key_path": "/home/thaumy/Downloads/cert/next.thaumy.cn.private.key"
+}
